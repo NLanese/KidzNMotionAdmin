@@ -11,10 +11,18 @@ const typeDefs = gql`
     firstName: String
     lastName: String
   }
+  # ---------------------------------------- END SCHEMAS ----------------------------------------
 
   type Query {
     getUser: User
   }
+
+  # ---------------------------------------- END QUERY ----------------------------------------
+  type Mutation {
+    devCreateUser: User
+  }
+  # ---------------------------------------- END MUTATIONS ----------------------------------------
+  
 
 `;
 

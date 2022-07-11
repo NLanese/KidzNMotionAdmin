@@ -13,7 +13,7 @@ const apolloServer = new ApolloServer({
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
   context: ({ req }) => {
     // TODO ADD AUTHORIZATOIN CONTEXT HERE FROM USER JWT TOKEN
-    console.log(req.headers);
+    // console.log(req.headers);
     const token = req.headers.authorization || "";
 
     const user = {};

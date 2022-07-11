@@ -1,5 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+import prisma from "@utils/prismaDB"
 
 export default {
   Query: {
