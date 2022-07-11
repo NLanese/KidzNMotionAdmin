@@ -1,22 +1,33 @@
-import prisma from "@utils/prismaDB"
+import prisma from "@utils/prismaDB";
+var CryptoJS = require("crypto-js");
 
 export default {
-    Mutation:{
-        devCreateUser: async (_, { }) => {
-            console.log("hi")
-            const userObject = await prisma.user.findUnique({
-                where: {
-                  id: "de4e057c-1ea5-40db-a408-a3c8ffc7be69",
-                },
-                select: {
-                  id: true,
-                  email: true,
-                  name: true,
-                  firstName: true,
-                  lastName: true,
-                },
-              });
-              return userObject;
-        }
-    }
-}
+  Mutation: {
+    devCreateUser: async (_, { password }) => {
+      try {
+
+        // Encrypt the user password
+        const encryptedPassword = CryptoJS.AES.encrypt(
+          password,
+          process.env.PASSWORD_SECRET_KEY
+        ).toString();
+
+        // Create the dev user object
+        const userObject = await prisma.user.create({
+          data: {
+            email: Math.random().toString() + "@cleancult.com",
+            firstName: "Zachary",
+            lastName: "Bedrosian",
+            password: encryptedPassword,
+          },
+        });
+
+        return userObject;
+
+      } catch (error) {
+        
+        throw new Error(error);
+      }
+    },
+  },
+};

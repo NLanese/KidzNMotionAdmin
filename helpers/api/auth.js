@@ -4,21 +4,22 @@ const prisma = new PrismaClient();
 import { changeTimeZone } from "@helpers/common";
 
 export const handleAuth = async (res, clientToken) => {
-  // Decrypte the client side token
+  
+  // Decrypt the client side token
   let bytes = CryptoJS.AES.decrypt(clientToken, process.env.JWT_SECRET_KEY);
   let decryptedJWTToken = bytes.toString(CryptoJS.enc.Utf8);
 
   // Get the list of potential tokens
-  const potentialTokens = await prisma.jWTToken.findMany({
+  const potentialJWTTokens = await prisma.jWTToken.findMany({
     where: {
-      encryptedToken: decryptedJWTToken,
+      token: decryptedJWTToken,
       active: true,
     },
   });
 
   // Loop through tokens to ensure exact match
   let userJWTToken = null;
-  potentialTokens.map((tokenObject) => {
+  potentialJWTTokens.map((tokenObject) => {
     if (tokenObject.encryptedToken === decryptedJWTToken) {
       userJWTToken = tokenObject;
     }

@@ -9,11 +9,28 @@ datasource db {
   referentialIntegrity = "prisma"
 }
 
+model JWTToken {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  token     String?
+  user      User?    @relation(fields: [userId], references: [userId])
+  userId    String?
+  active    Boolean
+}
+
+model LoginAttempts {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [userId])
+  userId    String?
+}
+
 model User {
-  id        String  @id @default(uuid())
-  email     String  @unique
-  password  String
-  name      String?
-  firstName String?
-  lastName  String?
+  userId       String          @id @default(uuid())
+  email        String          @unique
+  firstName    String?
+  lastName     String?
+  password     String
+  jwtTokens    JWTToken[]
+  loginAttemps LoginAttempts[]
 }

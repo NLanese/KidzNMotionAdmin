@@ -18,6 +18,7 @@
     "apollo-link-http": "^1.5.17",
     "apollo-server": "^3.10.0",
     "apollo-server-core": "^3.10.0",
+    "apollo-server-errors": "^3.3.1",
     "apollo-server-micro": "^3.10.0",
     "axios": "^0.21.4",
     "crypto-js": "^4.1.1",

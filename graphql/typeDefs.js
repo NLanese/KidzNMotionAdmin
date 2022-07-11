@@ -5,20 +5,30 @@ const typeDefs = gql`
   scalar JSON
 
   type User {
-    id: ID
+    userId: ID
     email: String
     name: String
     firstName: String
     lastName: String
   }
+
+  type UserPayLoad {
+    token:String
+    user:User
+  }
   
   # ---------------------------------------- END SCHEMAS ----------------------------------------
   type Query {
+    #### USER QUERIES ####     
     getUser: User
+    ##########################
   }
   # ---------------------------------------- END QUERY ----------------------------------------
   type Mutation {
-    devCreateUser: User
+    #### USER MUTATIONS ####     
+    devCreateUser(password: String!): User
+    loginUser(email: String!, password: String!): UserPayLoad
+    ##########################
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------
 
