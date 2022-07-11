@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import ContentCard from "@common/content/ContentCard";
 import { NextSeo } from "next-seo";
-import PageHeader from "@common/PageHeader";
 import BasicLink from "@common/BasicLink";
 
 const PrivacyPolicyWrapper = styled.div`
@@ -32,7 +31,7 @@ function PrivacyPolicy() {
         <BasicLink href="/">
           <img alt="Kids In Motion Logo" src="/logos/LogoSVG.svg" />
         </BasicLink>
-        <PageHeader title="Privacy Policy" />
+ 
         <ContentCard>
          
         </ContentCard>
