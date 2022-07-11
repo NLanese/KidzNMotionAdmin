@@ -1,6 +1,6 @@
 {
-    "short_name": "Tom App",
-    "name": "Tom App",
+    "short_name": "Kids In Motion",
+    "name": "Kids In Motion",
     "icons": [
         {
             "src": "/pwa/72.png",
@@ -44,8 +44,8 @@
         }
     ],
     "background_color": "#f6f6f7",
-    "theme_color": "#f6f6f7",
+    "theme_color": "#10ac84",
     "orientation": "portrait",
-    "start_url": "https://dashboard.thetomapp.com/",
+    "start_url": "https://dashboard.kidsinmotion.com/",
     "display": "standalone"
 }

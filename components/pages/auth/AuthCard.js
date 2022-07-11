@@ -36,7 +36,7 @@ const AuthCard = ({ children, title, subTitle, pageTitle }) => {
     <LoginCard>
       <NextSeo title={pageTitle} />
       <Logo>
-        <img alt="Tom App Logo" src="/logos/LogoSVG.svg" />
+        <img alt="Kids In Motion Logo" src="/logos/LogoRect.png" />
       </Logo>
       <Title level={3}>{title}</Title>
       <Text type="secondary" style={{ marginBottom: "20px", display: "block" }}>

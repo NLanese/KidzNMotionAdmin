@@ -61,8 +61,6 @@ function LoadingLayout({ children }) {
     <>
       <LoadingBackground />
       <LoadingWrapper>
-        <img src="/logos/LogoWhiteSVG.svg" alt="logo" />
-        <br />
         <Spin spinning={true} size="large" />
       </LoadingWrapper>
     </>

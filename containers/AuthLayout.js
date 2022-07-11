@@ -15,8 +15,8 @@ const AuthFormBackground = styled.div`
 
   background-image: linear-gradient(
       to bottom,
-      rgba(0, 0, 0, 0.85),
-      rgba(0, 0, 0, 0.83)
+      rgba(0, 0, 0, 0.65),
+      rgba(0, 0, 0, 0.63)
     ),
     url("/backgrounds/authBackground.jpg");
   background-repeat: no-repeat;

@@ -62,7 +62,7 @@ export default class CustomDocument extends Document {
             href="/logos/LogoSquare.png"
           /> 
           <meta name="theme-color" content="#f6f6f7" />
-          <meta name="apple-mobile-web-app-title" content="Tom App" />
+          <meta name="apple-mobile-web-app-title" content="Kids In Motion" />
           <meta name="msapplication-TileColor" content="#f6f6f7" />
         </Head>
         <body>

@@ -18,7 +18,7 @@ function Logo() {
   return (
     <LogoWrapper>
       <BasicLink href='/'>
-        <img alt="Tom App Logo" src="/logos/LogoSVG.svg" />
+        <img alt="Kids In Motion Logo" src="/logos/LogoSVG.svg" />
       </BasicLink>
     </LogoWrapper>
   );

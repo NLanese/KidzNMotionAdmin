@@ -30,7 +30,7 @@ function PrivacyPolicy() {
       <NextSeo title="Privacy Policy" />
       <PrivacyPolicyInnerWrapper>
         <BasicLink href="/">
-          <img alt="Tom App Logo" src="/logos/LogoSVG.svg" />
+          <img alt="Kids In Motion Logo" src="/logos/LogoSVG.svg" />
         </BasicLink>
         <PageHeader title="Privacy Policy" />
         <ContentCard>
