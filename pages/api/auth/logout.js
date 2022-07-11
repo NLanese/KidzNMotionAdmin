@@ -1,4 +1,4 @@
-import { handleAuth } from "@helpers/auth";
+import { handleAuth } from "@helpers/api/auth";
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
