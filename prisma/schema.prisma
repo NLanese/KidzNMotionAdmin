@@ -8,3 +8,11 @@ datasource db {
   url                  = env("DATABASE_URL")
   referentialIntegrity = "prisma"
 }
+
+model User {
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  name      String?
+  firstName String?
+  lastName  String?
+}
