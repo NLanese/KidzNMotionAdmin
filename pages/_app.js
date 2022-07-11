@@ -44,7 +44,7 @@ class MyApp extends App {
         </Head>
         <ThemeProvider theme={theme}>
           <>
-            <DefaultSeo title="Home" titleTemplate="%s  | TOM" />
+            <DefaultSeo title="Home" titleTemplate="%s  | Kids In Motion" />
             <NextNprogress
               color="#2d4499"
               options={{ showSpinner: false }}

@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import SideMenu from "@components/navigation/SideMenu";
-import TopMenu from "@components/navigation/TopMenu";
 import { useRecoilState } from "recoil";
 import { userState } from "@atoms";
 
@@ -9,7 +7,6 @@ import { withRouter } from "next/router";
 import AuthLayout from "./AuthLayout";
 import LoadingLayout from "./LoadingLayout";
 
-import { OWNER_REFRESH, MANAGER_REFRESH } from "@graphql/operations";
 import { useMutation } from "@apollo/client";
 
 const LayoutWrapper = styled.div`
@@ -40,9 +37,6 @@ const ChildrenContentWrapper = styled.div`
 function Layout({ children, router }) {
   const [user, setUser] = useRecoilState(userState);
 
-  // MUTATIONS
-  const [ownerRefresh, {}] = useMutation(OWNER_REFRESH);
-  const [managerRefresh, {}] = useMutation(MANAGER_REFRESH);
 
   const observeAuth = async () => {
     const token = localStorage.getItem("token");
@@ -104,9 +98,9 @@ function Layout({ children, router }) {
       {user && !user.loading ? (
         <>
         {console.log(user)}
-          <TopMenu router={router} user={user} />
+          {/* <TopMenu router={router} user={user} /> */}
           <MainContentWrapper id="mainContent">
-            <SideMenu user={user} />
+            {/* <SideMenu user={user} /> */}
             <ChildrenContentWrapper>{children}</ChildrenContentWrapper>
           </MainContentWrapper>
         </>
