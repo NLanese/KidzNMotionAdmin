@@ -7,5 +7,8 @@ export default {
     Query: {
         ...userResolvers.Query,
     },
+    Mutation: {
+        ...userResolvers.Mutation,
+    },
     JSON: GraphQLJSON,
 }
