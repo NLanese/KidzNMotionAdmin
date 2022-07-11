@@ -1,25 +1,8 @@
-import { gql, ApolloServer } from "apollo-server-micro";
+import { ApolloServer } from "apollo-server-micro";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 
-const typeDefs = gql`
-  type User {
-    id: ID
-  }
-
-  type Query {
-    getUser: User
-  }
-`;
-
-const resolvers = {
-  Query: {
-    getUser: () => {
-      return {
-        id: "Foo",
-      };
-    },
-  },
-};
+import typeDefs from "@graphql/typeDefs"
+import resolvers from "@graphql/resolvers"
 
 const apolloServer = new ApolloServer({
   typeDefs,
