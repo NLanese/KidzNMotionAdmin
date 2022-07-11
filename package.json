@@ -16,6 +16,7 @@
     "@sentry/nextjs": "^6.17.3",
     "antd": "^4.21.0",
     "apollo-link-http": "^1.5.17",
+    "apollo-server-core": "^3.10.0",
     "apollo-server-micro": "^3.10.0",
     "axios": "^0.21.4",
     "crypto-js": "^4.1.1",
