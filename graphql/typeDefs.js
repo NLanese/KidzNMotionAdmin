@@ -28,6 +28,7 @@ const typeDefs = gql`
     #### USER MUTATIONS ####     
     devCreateUser(password: String!): User
     loginUser(email: String!, password: String!): UserPayLoad
+    logoutUser: String
     ##########################
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------

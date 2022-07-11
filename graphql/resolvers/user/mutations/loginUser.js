@@ -20,7 +20,7 @@ export default {
             email: true,
             password: true,
             firstName: true,
-            lastName: true
+            lastName: true,
           },
         });
 
@@ -94,8 +94,7 @@ export default {
             process.env.JWT_SECRET_KEY
           ).toString();
 
-          // res.status(200).json({ token: clientToken });
-
+          // Return token and truncated user object
           return { token: clientToken, user: userToLogin };
         } else {
           await prisma.loginAttempts.create({
@@ -111,8 +110,6 @@ export default {
 
           throw new UserInputError("Email/Password are incorrect.");
         }
-
-
       } catch (error) {
         throw new Error(error);
       }

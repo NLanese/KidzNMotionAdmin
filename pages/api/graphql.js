@@ -1,6 +1,8 @@
 import { ApolloServer } from "apollo-server-micro";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 
+import { handleAuth } from "@helpers/api/auth";
+
 import typeDefs from "@graphql/typeDefs";
 import resolvers from "@graphql/resolvers";
 
@@ -11,13 +13,14 @@ const apolloServer = new ApolloServer({
   introspection: true,
   playground: true,
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
-  context: ({ req }) => {
-    // TODO ADD AUTHORIZATOIN CONTEXT HERE FROM USER JWT TOKEN
-    // console.log(req.headers);
-    const token = req.headers.authorization || "";
+  context: async ({ req }) => {
+    
+    // Takes in the athorization token and trys to retreive the user object if valid
+    const token = req.headers.authorization;
 
-    const user = {};
-
+    // Get the user object from the JWT token
+    const user = await handleAuth(token);
+    
     // Add the user to the context
     return { user };
   },
