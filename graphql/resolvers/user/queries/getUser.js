@@ -1,5 +1,5 @@
 import prisma from "@utils/prismaDB";
-import { defaultTypeResolver } from "graphql";
+import { UserInputError } from "apollo-server-errors";
 
 export default {
   Query: {

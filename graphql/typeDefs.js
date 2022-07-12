@@ -101,6 +101,7 @@ const typeDefs = gql`
   type Message {
     id: ID
     content: String
+    createdAt: Date
     sentAt: JSON
     sentBy: JSON
     chatRoom: ChatRoom
@@ -110,7 +111,11 @@ const typeDefs = gql`
   type Query {
     #### USER QUERIES ####
     getUser: User
-    ##########################
+    #########################
+
+    #### CHATROOM QUERIES ####
+    getUserChatRooms: [ChatRoom]
+    #########################
   }
   # ---------------------------------------- END QUERY ----------------------------------------
   type Mutation {

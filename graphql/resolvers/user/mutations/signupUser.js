@@ -180,7 +180,6 @@ export default {
 
         // TODO SEND WELCOME EMAIL
 
-        
         // Create the client string
         const jwtTokenString = makeRandomString(60);
 
