@@ -123,7 +123,16 @@ const typeDefs = gql`
       firstName: String!
       lastName: String!
       role: String!
-      
+
+      childFirstName: String
+      childLastName: String
+      childDateOfBirth: Date
+
+      organizationName: String
+      organizationType: String
+      phoneNumber: String
+
+      organizationInviteKey: String
     ): UserPayLoad
     logoutUser: String
     ##########################
