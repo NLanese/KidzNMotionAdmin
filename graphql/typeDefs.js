@@ -115,6 +115,7 @@ const typeDefs = gql`
 
     #### CHATROOM QUERIES ####
     getUserChatRooms: [ChatRoom]
+    getChatFromId(id: ID): ChatRoom
     #########################
   }
   # ---------------------------------------- END QUERY ----------------------------------------
