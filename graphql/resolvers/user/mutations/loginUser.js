@@ -21,8 +21,10 @@ export default {
             password: true,
             firstName: true,
             lastName: true,
+            role: true
           },
         });
+
 
         // Loop through to find user
         let userToLogin = null;
@@ -82,7 +84,7 @@ export default {
               createdAt: changeTimeZone(new Date(), "America/New_York"),
               user: {
                 connect: {
-                  userId: userToLogin.id,
+                  id: userToLogin.id,
                 },
               },
             },
@@ -95,13 +97,19 @@ export default {
           ).toString();
 
           // Return token and truncated user object
-          return { token: clientToken, user: userToLogin };
+          return { token: clientToken, user: {
+            role: userToLogin.role,
+            id: userToLogin.id,
+            firstName: userToLogin.firstName,
+            lastName: userToLogin.lastName,
+            email: userToLogin.email
+          } };
         } else {
           await prisma.loginAttempts.create({
             data: {
               user: {
                 connect: {
-                  userId: userToLogin.id,
+                  id: userToLogin.id,
                 },
               },
               createdAt: changeTimeZone(new Date(), "America/New_York"),

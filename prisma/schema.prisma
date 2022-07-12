@@ -49,30 +49,40 @@ model User {
   dateOfBirth       DateTime?
   phoneNumber       String?
 
-  // Have children be the refreecnce
+  children   User[]  @relation("children")
+  guardian   User?   @relation("children", fields: [guardianId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  guardianId String? @map("guardianId")
 
+  childCarePlan   childCarePlan[]    @relation("child")
+  patientCarePlans childCarePlan[]    @relation("therapist")
+  organizations   OrganizationUser[]
+
+  chatRooms Chatroom[]
 }
 
 model OrganizationUser {
-  id String @id @default(uuid())
-  active Boolean @default(false)
-  // Hav ethis be any usr
+  id             String        @id @default(uuid())
+  active         Boolean       @default(false)
+  createdAt      DateTime      @default(now())
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?
+  user           User?         @relation(fields: [userId], references: [id])
+  userId         String?
+
 }
 
-// THERAPIST INVITE LINK
-// ORGANITION INVIET LINK
-
 model Organization {
-  id                   String            @id @default(uuid())
-  createdAt            DateTime          @default(now())
-  organizationType     ORGANIZATION_TYPE @default(SCHOOL)
+  id                   String             @id @default(uuid())
+  createdAt            DateTime           @default(now())
+  organizationType     ORGANIZATION_TYPE  @default(SCHOOL)
   phoneNumber          String?
   name                 String?
   stripeSubscriptionID String?
   subscriptionStatus   String?
-  active               Boolean           @default(true)
-  owner                User              @relation(fields: [ownerId], references: [id])
-  ownerId              String            @unique
+  active               Boolean            @default(true)
+  owner                User               @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ownerId              String             @unique
+  organizationUsers    OrganizationUser[]
 }
 
 enum Role {
@@ -85,4 +95,73 @@ enum Role {
 enum ORGANIZATION_TYPE {
   SCHOOL
   PRACTICE
+}
+
+model childCarePlan {
+  id      String  @id @default(uuid())
+  child   User?   @relation("child", fields: [childId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  childId String?
+
+  therapist   User?   @relation("therapist", fields: [therapistId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  therapistId String?
+
+  level             Int   @default(1)
+  allVideoStatus    Json?
+  weeklyVideoStatus Json?
+
+  assignments Assignment[]
+}
+
+model Assignment {
+  id              String         @id @default(uuid())
+  title           String
+  date            String
+  description     String
+  childCarePlan   childCarePlan? @relation(fields: [childCarePlanId], references: [id])
+  childCarePlanId String?
+  videos          Video[]
+}
+
+model Video {
+  id           String      @id @default(uuid())
+  contentfulID String
+  medals       Medal[]
+  assignment   Assignment? @relation(fields: [assignmentId], references: [id])
+  assignmentId String?
+}
+
+enum MEDAL_LEVEL {
+  BLUE
+  BRONZE
+  SILVEr
+  GOLD
+}
+
+model Medal {
+  id          String @id @default(uuid())
+  title       String
+  image       String @default("Default")
+  description String
+
+  level MEDAL_LEVEL @default(BLUE)
+
+  video   Video?  @relation(fields: [videoId], references: [id])
+  videoId String?
+}
+
+model Chatroom {
+  id       String    @id @default(uuid())
+  users    User[]
+  messages Message[]
+}
+
+model Message {
+
+  id      String @id @default(uuid())
+  content String
+  sentAt  Json
+  sentBy  Json
+
+  chatroomId String
+  chatroom   Chatroom @relation(fields: [chatroomId], references: [id])
 }

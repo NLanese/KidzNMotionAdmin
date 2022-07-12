@@ -10,6 +10,7 @@ const typeDefs = gql`
     name: String
     firstName: String
     lastName: String
+    role: String
   }
 
   type UserPayLoad {
