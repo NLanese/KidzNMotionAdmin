@@ -20,7 +20,7 @@ const typeDefs = gql`
     children: [User]
     guardian: User
     ownedOrganization: Organization
-    organizations: [Organization]
+    organizations: [OrganizationUser]
     chatRooms: [ChatRoom]
 
     childCarePlans: [ChildCarePlan]
@@ -56,7 +56,7 @@ const typeDefs = gql`
     active: Boolean
     allVideoStatus: JSON
     weeklyVideoStatus: JSON
-    assignments:  Assignment
+    assignments:  [Assignment]
   }
 
   type Assignment {
@@ -95,20 +95,21 @@ const typeDefs = gql`
     id: ID
     users: [User]
     messages: [Message]
+    active: Boolean
   }
 
   type Message {
     id: ID
     content: String
     sentAt: JSON
-    sendBy: JSON
+    sentBy: JSON
     chatRoom: ChatRoom
   }
   
   # ---------------------------------------- END SCHEMAS ----------------------------------------
   type Query {
     #### USER QUERIES ####     
-    getUser: User
+    dynamicGetUser: User
     ##########################
   }
   # ---------------------------------------- END QUERY ----------------------------------------

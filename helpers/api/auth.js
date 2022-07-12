@@ -65,6 +65,7 @@ export const handleAuth = async (clientToken) => {
         email: true,
         firstName: true,
         lastName: true,
+        role: true
       },
     });
     userObject.tokenId = userJWTToken.id;

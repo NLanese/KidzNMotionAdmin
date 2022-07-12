@@ -155,6 +155,7 @@ model Chatroom {
   id       String    @id @default(uuid())
   users    User[]
   messages Message[]
+  active    Boolean
 }
 
 model Message {
