@@ -3,11 +3,11 @@ import prisma from "@utils/prismaDB"
 export default {
   Query: {
     getUser: async (_, {}, context) => {
-      console.log(context)
-
+      if (!context.user) throw new UserInputError("Login required");
+        
       const userObject = await prisma.user.findUnique({
         where: {
-          id: "de4e057c-1ea5-40db-a408-a3c8ffc7be69",
+          id: context.user.id,
         },
         select: {
           id: true,
