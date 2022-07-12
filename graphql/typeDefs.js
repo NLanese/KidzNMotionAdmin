@@ -51,7 +51,7 @@ const typeDefs = gql`
   type ChildCarePlan {
     id: ID
     child: User
-    tharapist: User
+    therapist: User
     level: Int
     active: Boolean
     allVideoStatus: JSON

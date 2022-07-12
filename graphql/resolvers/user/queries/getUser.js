@@ -15,7 +15,11 @@ export default {
           chatRooms: true,
           children: {
               include: {
-                childCarePlans: true 
+                childCarePlans: {
+                  include: {
+                    therapist: true
+                  }
+                } 
               }
           },
       }
