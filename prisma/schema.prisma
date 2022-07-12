@@ -48,19 +48,12 @@ model User {
   active            Boolean            @default(true)
   dateOfBirth       DateTime?
   phoneNumber       String?
-
-  // Have children be the refreecnce
-
 }
 
 model OrganizationUser {
-  id String @id @default(uuid())
+  id     String  @id @default(uuid())
   active Boolean @default(false)
-  // Hav ethis be any usr
 }
-
-// THERAPIST INVITE LINK
-// ORGANITION INVIET LINK
 
 model Organization {
   id                   String            @id @default(uuid())
