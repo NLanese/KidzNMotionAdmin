@@ -58,10 +58,10 @@ export const handleAuth = async (clientToken) => {
     // Get the user object and return into the apollo context
     const userObject = await prisma.user.findUnique({
       where: {
-        userId: userJWTToken.userId,
+        id: userJWTToken.userId,
       },
       select: {
-        userId: true,
+        id: true,
         email: true,
         firstName: true,
         lastName: true,

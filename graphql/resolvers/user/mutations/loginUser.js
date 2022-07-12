@@ -16,7 +16,7 @@ export default {
             },
           },
           select: {
-            userId: true,
+            id: true,
             email: true,
             password: true,
             firstName: true,
@@ -69,7 +69,7 @@ export default {
           // Remove all old jwt tokens
           await prisma.jWTToken.deleteMany({
             where: {
-              userId: userToLogin.userId,
+              userId: userToLogin.id,
               active: false,
             },
           });
@@ -82,7 +82,7 @@ export default {
               createdAt: changeTimeZone(new Date(), "America/New_York"),
               user: {
                 connect: {
-                  userId: userToLogin.userId,
+                  userId: userToLogin.id,
                 },
               },
             },
@@ -101,7 +101,7 @@ export default {
             data: {
               user: {
                 connect: {
-                  userId: userToLogin.userId,
+                  userId: userToLogin.id,
                 },
               },
               createdAt: changeTimeZone(new Date(), "America/New_York"),

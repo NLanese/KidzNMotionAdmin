@@ -9,7 +9,7 @@ export default {
         
         await prisma.jWTToken.deleteMany({
           where: {
-            userId: context.user.userId,
+            userId: context.user.id,
           },
         });
 

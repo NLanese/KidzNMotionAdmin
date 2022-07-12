@@ -5,7 +5,7 @@ const typeDefs = gql`
   scalar JSON
 
   type User {
-    userId: ID
+    id: ID
     email: String
     name: String
     firstName: String

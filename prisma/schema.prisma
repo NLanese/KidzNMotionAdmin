@@ -13,7 +13,7 @@ model JWTToken {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   token     String?
-  user      User?    @relation(fields: [userId], references: [userId])
+  user      User?    @relation(fields: [userId], references: [id])
   userId    String?
   active    Boolean
 }
@@ -21,16 +21,77 @@ model JWTToken {
 model LoginAttempts {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  user      User?    @relation(fields: [userId], references: [userId])
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+}
+
+model PasswordResetKey {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  active    Boolean
+  user      User?    @relation(fields: [userId], references: [id])
   userId    String?
 }
 
 model User {
-  userId       String          @id @default(uuid())
-  email        String          @unique
-  firstName    String?
-  lastName     String?
-  password     String
-  jwtTokens    JWTToken[]
-  loginAttemps LoginAttempts[]
+  id                String             @id @default(uuid())
+  email             String             @unique
+  firstName         String?
+  lastName          String?
+  password          String
+  role              Role               @default(GUARDIAN)
+  jwtTokens         JWTToken[]
+  loginAttemps      LoginAttempts[]
+  children          Child[]
+  createdAt         DateTime           @default(now())
+  therapistProfile  TherapistProfile?
+  passwordResetKeys PasswordResetKey[]
+  ownedOrganization Organization?
+  active            Boolean            @default(true)
+}
+
+model Child {
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  firstName   String?
+  lastName    String?
+  guardian    User?     @relation(fields: [guardianId], references: [id])
+  guardianId  String?
+  dateOfBirth DateTime?
+  active      Boolean   @default(true)
+}
+
+model TherapistProfile {
+  id        String   @id @default(uuid())
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @unique
+}
+
+model OrganizationUser {
+  id String @id @default(uuid())
+}
+
+model Organization {
+  id                   String            @id @default(uuid())
+  createdAt            DateTime          @default(now())
+  organizationType     ORGANIZATION_TYPE @default(SCHOOL)
+  name                 String?
+  stripeSubscriptionID String?
+  subscriptionStatus   String?
+  active               Boolean           @default(true)
+  owner                User              @relation(fields: [ownerId], references: [id])
+  ownerId              String            @unique
+}
+
+enum Role {
+  GUARDIAN
+  THERAPIST
+  SCHOOL_ADMIN
+}
+
+enum ORGANIZATION_TYPE {
+  SCHOOL
+  PRACTICE
 }

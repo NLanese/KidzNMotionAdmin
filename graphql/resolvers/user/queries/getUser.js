@@ -7,10 +7,10 @@ export default {
 
       const userObject = await prisma.user.findUnique({
         where: {
-          userId: "de4e057c-1ea5-40db-a408-a3c8ffc7be69",
+          id: "de4e057c-1ea5-40db-a408-a3c8ffc7be69",
         },
         select: {
-          userId: true,
+          id: true,
           email: true,
           name: true,
           firstName: true,
