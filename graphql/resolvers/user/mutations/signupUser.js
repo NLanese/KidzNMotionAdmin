@@ -68,43 +68,49 @@ export default {
           password,
           process.env.PASSWORD_SECRET_KEY
         ).toString();
-        
 
         // Validate required fields for each user role
-        let missingFields = ""
+        let missingFields = "";
         if (role === "GUARDIAN") {
-            if (!childFirstName) {
-                missingFields += "childFirstName, "
-            } 
-            if (!childLastName) {
-                missingFields += "childLastName, "
-            } 
-            if (!childDateOfBirth) {
-                missingFields += "childDateOfBirth, "
-            } 
-            if (missingFields.length >= 1) {
-                throw new UserInputError(`Missing required fields for Guardian: ${missingFields}`);
-            }
+          if (!childFirstName) {
+            missingFields += "childFirstName, ";
+          }
+          if (!childLastName) {
+            missingFields += "childLastName, ";
+          }
+          if (!childDateOfBirth) {
+            missingFields += "childDateOfBirth, ";
+          }
+          if (missingFields.length >= 1) {
+            throw new UserInputError(
+              `Missing required fields for Guardian: ${missingFields}`
+            );
+          }
         } else if (role === "THERAPIST" || role === "SCHOOL_ADMIN") {
-            let isInvited = false;
-            
-            if (organizationInviteKey) {
-                isInvited = true;
+          let isInvited = false;
+
+          // When we add organization invites, will remove
+          // if (organizationInviteKey) {
+          //     isInvited = true;
+          // }
+
+          // If they were not invited to another organization
+          if (!isInvited) {
+            if (!organizationName) {
+              missingFields += "organizationName, ";
             }
-            
-            // If they were not invited to another organization
-            if (!isInvited) {
-                if (!organizationName) {
-                    missingFields += "organizationName, "
-                } 
-                if (!phoneNumber) {
-                    missingFields += "phoneNumber, "
-                } 
-                if (missingFields.length >= 1) {
-                    throw new UserInputError(`Missing required fields for Therapist / School Admin: (${missingFields}) or organizationInviteKey`);
-                }
+            if (!phoneNumber) {
+              missingFields += "phoneNumber, ";
             }
-        } 
+            if (missingFields.length >= 1) {
+              throw new UserInputError(
+                `Missing required fields for Therapist / School Admin: (${missingFields}) or organizationInviteKey`
+              );
+            }
+          }
+        }
+
+        // Create the base user
         let baseUser = await prisma.user.create({
           data: {
             email: email,
@@ -117,11 +123,64 @@ export default {
 
         // Create the role specific values
         if (role === "GUARDIAN") {
-            // Create the child for the guardian account
-            
+          // Create the child for the guardian account
+          await prisma.user.create({
+            data: {
+              email: makeRandomString(60) + "@kidsinmotion.com",
+              password: makeRandomString(60),
+              role: "CHILD",
+              firstName: childFirstName,
+              lastName: childLastName,
+              dateOfBirth: childDateOfBirth,
+              guardian: {
+                connect: {
+                  id: baseUser.id,
+                },
+              },
+            },
+          });
+
+          // If organization invite link - add them to the organization as an organization user
+          // TODO
+        } else if (role === "THERAPIST" || role == "SCHOOL_ADMIN") {
+          // Create the organization for the therapist
+          let baseOrganization = await prisma.organization.create({
+            data: {
+              organizationType: role === "THERAPIST" ? "PRACTICE" : "SCHOOL",
+              owner: {
+                connect: {
+                  id: baseUser.id,
+                },
+              },
+              name: organizationName,
+              phoneNumber: phoneNumber,
+            },
+          });
+
+          // Add them as the initial organization user
+          await prisma.organizationUser.create({
+            data: {
+              active: true,
+              user: {
+                connect: {
+                  id: baseUser.id,
+                },
+              },
+              organization: {
+                connect: {
+                  id: baseOrganization.id,
+                },
+              },
+            },
+          });
+
+          // If organization invite link - add them to the organization as an organization user
+          // TODO
         }
 
+        // TODO SEND WELCOME EMAIL
 
+        
         // Create the client string
         const jwtTokenString = makeRandomString(60);
 
@@ -148,7 +207,7 @@ export default {
         // Return the user object and jwt token for login
         return {
           user: baseUser,
-          token: clientToken
+          token: clientToken,
         };
       } catch (error) {
         throw new Error(error);
