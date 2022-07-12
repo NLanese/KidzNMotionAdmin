@@ -16,7 +16,7 @@ const typeDefs = gql`
 
     dateOfBirth: Date
     phoneNumber: String
-    
+
     children: [User]
     guardian: User
     ownedOrganization: Organization
@@ -56,7 +56,7 @@ const typeDefs = gql`
     active: Boolean
     allVideoStatus: JSON
     weeklyVideoStatus: JSON
-    assignments:  [Assignment]
+    assignments: [Assignment]
   }
 
   type Assignment {
@@ -87,8 +87,8 @@ const typeDefs = gql`
   }
 
   type UserPayLoad {
-    token:String
-    user:User
+    token: String
+    user: User
   }
 
   type ChatRoom {
@@ -105,24 +105,30 @@ const typeDefs = gql`
     sentBy: JSON
     chatRoom: ChatRoom
   }
-  
+
   # ---------------------------------------- END SCHEMAS ----------------------------------------
   type Query {
-    #### USER QUERIES ####     
+    #### USER QUERIES ####
     getUser: User
     ##########################
   }
   # ---------------------------------------- END QUERY ----------------------------------------
   type Mutation {
-    #### USER MUTATIONS ####     
+    #### USER MUTATIONS ####
     devCreateUser(password: String!): User
     loginUser(email: String!, password: String!): UserPayLoad
-    signUpUser: UserPayLoad
+    signUpUser(
+      email: String!
+      password: String!
+      firstName: String!
+      lastName: String!
+      role: String!
+      
+    ): UserPayLoad
     logoutUser: String
     ##########################
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------
-
 `;
 
 export default typeDefs;

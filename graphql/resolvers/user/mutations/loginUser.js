@@ -21,11 +21,9 @@ export default {
             password: true,
             firstName: true,
             lastName: true,
-            role: true
+            role: true,
           },
         });
-
- 
 
         // Loop through to find user
         let userToLogin = null;
@@ -42,7 +40,9 @@ export default {
 
         // If the user is a child return cannot long
         if (userToLogin.role === "CHILD") {
-          throw new UserInputError("Only guardians can sign in for their children");
+          throw new UserInputError(
+            "Only guardians can sign in for their children"
+          );
         }
 
         // Check the users login attemps and the last one
@@ -103,13 +103,16 @@ export default {
           ).toString();
 
           // Return token and truncated user object
-          return { token: clientToken, user: {
-            role: userToLogin.role,
-            id: userToLogin.id,
-            firstName: userToLogin.firstName,
-            lastName: userToLogin.lastName,
-            email: userToLogin.email
-          } };
+          return {
+            token: clientToken,
+            user: {
+              role: userToLogin.role,
+              id: userToLogin.id,
+              firstName: userToLogin.firstName,
+              lastName: userToLogin.lastName,
+              email: userToLogin.email,
+            },
+          };
         } else {
           await prisma.loginAttempts.create({
             data: {
