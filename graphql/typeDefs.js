@@ -109,7 +109,7 @@ const typeDefs = gql`
   # ---------------------------------------- END SCHEMAS ----------------------------------------
   type Query {
     #### USER QUERIES ####     
-    dynamicGetUser: User
+    getUser: User
     ##########################
   }
   # ---------------------------------------- END QUERY ----------------------------------------
@@ -117,6 +117,7 @@ const typeDefs = gql`
     #### USER MUTATIONS ####     
     devCreateUser(password: String!): User
     loginUser(email: String!, password: String!): UserPayLoad
+    signUpUser: UserPayLoad
     logoutUser: String
     ##########################
   }

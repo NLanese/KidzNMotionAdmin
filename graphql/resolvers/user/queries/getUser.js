@@ -3,7 +3,7 @@ import { defaultTypeResolver } from "graphql";
 
 export default {
   Query: {
-    dynamicGetUser: async (_, {}, context) => {
+    getUser: async (_, {}, context) => {
       if (!context.user) throw new UserInputError("Login required");
 
       // Check the user status and then determine what fields we will allow
