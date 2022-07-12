@@ -44,7 +44,6 @@ model User {
   loginAttemps      LoginAttempts[]
   createdAt         DateTime           @default(now())
   passwordResetKeys PasswordResetKey[]
-  ownedOrganization Organization?
   active            Boolean            @default(true)
   dateOfBirth       DateTime?
   phoneNumber       String?
@@ -53,9 +52,10 @@ model User {
   guardian   User?   @relation("children", fields: [guardianId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   guardianId String? @map("guardianId")
 
-  childCarePlan   childCarePlan[]    @relation("child")
-  patientCarePlans childCarePlan[]    @relation("therapist")
-  organizations   OrganizationUser[]
+  ownedOrganization Organization?
+  childCarePlans    ChildCarePlan[]    @relation("child")
+  patientCarePlans  ChildCarePlan[]    @relation("therapist")
+  organizations     OrganizationUser[]
 
   chatRooms Chatroom[]
 }
@@ -68,7 +68,6 @@ model OrganizationUser {
   organizationId String?
   user           User?         @relation(fields: [userId], references: [id])
   userId         String?
-
 }
 
 model Organization {
@@ -97,7 +96,7 @@ enum ORGANIZATION_TYPE {
   PRACTICE
 }
 
-model childCarePlan {
+model ChildCarePlan {
   id      String  @id @default(uuid())
   child   User?   @relation("child", fields: [childId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   childId String?
@@ -105,19 +104,22 @@ model childCarePlan {
   therapist   User?   @relation("therapist", fields: [therapistId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   therapistId String?
 
-  level             Int   @default(1)
+  level             Int     @default(1)
   allVideoStatus    Json?
   weeklyVideoStatus Json?
+  active            Boolean @default(true)
 
   assignments Assignment[]
 }
 
 model Assignment {
   id              String         @id @default(uuid())
+  createdAt       DateTime       @default(now())
+  dateStart       String
+  dateDue         String
   title           String
-  date            String
   description     String
-  childCarePlan   childCarePlan? @relation(fields: [childCarePlanId], references: [id])
+  childCarePlan   ChildCarePlan? @relation(fields: [childCarePlanId], references: [id])
   childCarePlanId String?
   videos          Video[]
 }
@@ -133,7 +135,7 @@ model Video {
 enum MEDAL_LEVEL {
   BLUE
   BRONZE
-  SILVEr
+  SILVER
   GOLD
 }
 
@@ -163,5 +165,5 @@ model Message {
   sentBy  Json
 
   chatroomId String
-  chatroom   Chatroom @relation(fields: [chatroomId], references: [id])
+  chatRoom   Chatroom @relation(fields: [chatroomId], references: [id])
 }

@@ -11,11 +11,98 @@ const typeDefs = gql`
     firstName: String
     lastName: String
     role: String
+    createdAt: Date
+    active: Boolean
+
+    dateOfBirth: Date
+    phoneNumber: String
+    
+    children: [User]
+    guardian: User
+    ownedOrganization: Organization
+    organizations: [Organization]
+    chatRooms: [ChatRoom]
+
+    childCarePlans: [ChildCarePlan]
+    patientCarePlans: [ChildCarePlan]
+  }
+
+  type OrganizationUser {
+    id: ID
+    active: Boolean
+    createdAt: Date
+    organization: Organization
+    user: User
+  }
+
+  type Organization {
+    id: ID
+    createdAt: Date
+    organizationType: String
+    phoneNumber: String
+    name: String
+    stripeSubscriptionID: String
+    subscriptionStatus: String
+    active: Boolean
+    owner: User
+    organizationUsers: [OrganizationUser]
+  }
+
+  type ChildCarePlan {
+    id: ID
+    child: User
+    tharapist: User
+    level: Int
+    active: Boolean
+    allVideoStatus: JSON
+    weeklyVideoStatus: JSON
+    assignments:  Assignment
+  }
+
+  type Assignment {
+    id: ID
+    createdAt: Date
+    dateStart: Date
+    dateDue: Date
+    title: String
+    description: String
+    childCarePlan: ChildCarePlan
+    videos: [Video]
+  }
+
+  type Video {
+    id: ID
+    contentfulID: String
+    medals: [Medal]
+    assignment: Assignment
+  }
+
+  type Medal {
+    id: ID
+    title: String
+    image: String
+    description: String
+    level: String
+    video: Video
   }
 
   type UserPayLoad {
     token:String
     user:User
+  }
+
+  type ChatRoom {
+    id: ID
+    users: [User]
+    messages: [Message]
+  }
+
+  type Message {
+    id: ID
+    content: String
+    sentAt: JSON
+    sendBy: JSON
+    chatRoom: ChatRoom
   }
   
   # ---------------------------------------- END SCHEMAS ----------------------------------------

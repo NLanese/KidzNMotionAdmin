@@ -25,6 +25,7 @@ export default {
           },
         });
 
+ 
 
         // Loop through to find user
         let userToLogin = null;
@@ -37,6 +38,11 @@ export default {
         // If no user can be found with this email address, return an error
         if (!userToLogin) {
           throw new UserInputError("Email/Password are incorrect.");
+        }
+
+        // If the user is a child return cannot long
+        if (userToLogin.role === "CHILD") {
+          throw new UserInputError("Only guardians can sign in for their children");
         }
 
         // Check the users login attemps and the last one
