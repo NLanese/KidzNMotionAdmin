@@ -42,41 +42,31 @@ model User {
   role              Role               @default(GUARDIAN)
   jwtTokens         JWTToken[]
   loginAttemps      LoginAttempts[]
-  children          Child[]
   createdAt         DateTime           @default(now())
-  therapistProfile  TherapistProfile?
   passwordResetKeys PasswordResetKey[]
   ownedOrganization Organization?
   active            Boolean            @default(true)
-}
+  dateOfBirth       DateTime?
+  phoneNumber       String?
 
-model Child {
-  id          String    @id @default(uuid())
-  createdAt   DateTime  @default(now())
-  firstName   String?
-  lastName    String?
-  guardian    User?     @relation(fields: [guardianId], references: [id])
-  guardianId  String?
-  dateOfBirth DateTime?
-  active      Boolean   @default(true)
-}
+  // Have children be the refreecnce
 
-model TherapistProfile {
-  id        String   @id @default(uuid())
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String   @unique
 }
 
 model OrganizationUser {
   id String @id @default(uuid())
+  active Boolean @default(false)
+  // Hav ethis be any usr
 }
+
+// THERAPIST INVITE LINK
+// ORGANITION INVIET LINK
 
 model Organization {
   id                   String            @id @default(uuid())
   createdAt            DateTime          @default(now())
   organizationType     ORGANIZATION_TYPE @default(SCHOOL)
+  phoneNumber          String?
   name                 String?
   stripeSubscriptionID String?
   subscriptionStatus   String?
@@ -86,6 +76,7 @@ model Organization {
 }
 
 enum Role {
+  CHILD
   GUARDIAN
   THERAPIST
   SCHOOL_ADMIN
