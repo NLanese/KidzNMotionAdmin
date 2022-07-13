@@ -34,19 +34,27 @@ model PasswordResetKey {
 }
 
 model User {
+
+  // Basic Info //
   id                String             @id @default(uuid())
   email             String             @unique
   firstName         String?
   lastName          String?
   password          String
+  phoneNumber       String?
   role              Role               @default(GUARDIAN)
+  ////////////////
+
+  // Security //
   jwtTokens         JWTToken[]
   loginAttemps      LoginAttempts[]
   createdAt         DateTime           @default(now())
   passwordResetKeys PasswordResetKey[]
   active            Boolean            @default(true)
-  dateOfBirth       DateTime?
-  phoneNumber       String?
+  //////////////
+
+  dateOfBirth       String?
+  
   children          User[]             @relation("children")
   guardian          User?              @relation("children", fields: [guardianId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   guardianId        String?
@@ -137,7 +145,7 @@ model Message {
   content    String
   sentAt     Json
   sentBy     Json
-  createdAt  DateTime @default(now())
+  createdAt  String 
   chatroomId String
   chatRoom   Chatroom @relation(fields: [chatroomId], references: [id])
 }
