@@ -3,7 +3,8 @@ import { UserInputError } from "apollo-server-errors";
 
 export default {
   Query: {
-    getChatFromId: async (_, {id}, context) => {
+    getChatFromId: async (_, { id }, context) => {
+
       if (!context.user) throw new UserInputError("Login required");
 
       let chatRooms = await prisma.user.findUnique({
@@ -14,7 +15,7 @@ export default {
           chatRooms: {
             where: {
               active: true,
-              id: id // query the user chats by the param ID
+              id: id, // query the user chats by the param ID
             },
             select: {
               id: true,
@@ -38,7 +39,7 @@ export default {
           },
         },
       });
-      
+
       return chatRooms.chatRooms[0];
     },
   },
