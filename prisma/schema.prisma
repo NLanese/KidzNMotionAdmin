@@ -38,10 +38,13 @@ model User {
   // Basic Info //
   id                String             @id @default(uuid())
   email             String             @unique
+  username          String             @unique
   firstName         String?
   lastName          String?
+  title             String?
   password          String
   phoneNumber       String?
+  dateOfBirth       String?
   role              Role               @default(GUARDIAN)
   ////////////////
 
@@ -53,16 +56,20 @@ model User {
   active            Boolean            @default(true)
   //////////////
 
-  dateOfBirth       String?
   
+  // Connections //
   children          User[]             @relation("children")
-  guardian          User?              @relation("children", fields: [guardianId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   guardianId        String?
+  guardian          User?              @relation("children", fields: [guardianId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
   ownedOrganization Organization?
+
   childCarePlans    ChildCarePlan[]    @relation("child")
   patientCarePlans  ChildCarePlan[]    @relation("therapist")
+
   organizations     OrganizationUser[]
   chatRooms         Chatroom[]
+  /////////////////
 }
 
 model OrganizationUser {
@@ -105,10 +112,11 @@ model ChildCarePlan {
 model Assignment {
   id              String         @id @default(uuid())
   createdAt       DateTime       @default(now())
-  dateStart       String
+  dateStart       String?
   dateDue         String
   title           String
   description     String
+
   childCarePlan   ChildCarePlan? @relation(fields: [childCarePlanId], references: [id])
   childCarePlanId String?
   videos          Video[]
@@ -117,6 +125,7 @@ model Assignment {
 model Video {
   id           String      @id @default(uuid())
   contentfulID String
+
   medals       Medal[]
   assignment   Assignment? @relation(fields: [assignmentId], references: [id])
   assignmentId String?
@@ -127,6 +136,7 @@ model Medal {
   title       String
   image       String      @default("Default")
   description String
+
   level       MEDAL_LEVEL @default(BLUE)
   video       Video?      @relation(fields: [videoId], references: [id])
   videoId     String?
@@ -134,8 +144,10 @@ model Medal {
 
 model Chatroom {
   id        String    @id @default(uuid())
+
   users     User[]
   messages  Message[]
+  
   active    Boolean   @default(true)
   createdAt DateTime  @default(now())
 }
