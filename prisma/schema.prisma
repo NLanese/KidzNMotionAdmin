@@ -34,7 +34,6 @@ model PasswordResetKey {
 }
 
 model User {
-
   // Basic Info //
   id                String             @id @default(uuid())
   email             String             @unique
@@ -44,9 +43,19 @@ model User {
   title             String?
   password          String
   phoneNumber       String?
-  dateOfBirth       String?
   role              Role               @default(GUARDIAN)
   ////////////////
+
+  // Parent / Child Specific //
+  dateOfBirth       String?
+  colorSettings     String              @default("Orange")
+  ////////////////////////////
+
+  // Therapist Specific //
+  msgNotifications         Boolean        @default(false)
+  missedDateNotifications  Boolean        @default(false)
+  appointmentNotifications Boolean        @default(true)
+  ////////////////////////
 
   // Security //
   jwtTokens         JWTToken[]
@@ -147,7 +156,7 @@ model Chatroom {
 
   users     User[]
   messages  Message[]
-  
+
   active    Boolean   @default(true)
   createdAt DateTime  @default(now())
 }
