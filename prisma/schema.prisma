@@ -37,7 +37,7 @@ model User {
   // Basic Info //
   id                String             @id @default(uuid())
   email             String             @unique
-  username          String             @unique
+  username          String?            @unique
   firstName         String?
   lastName          String?
   title             String?

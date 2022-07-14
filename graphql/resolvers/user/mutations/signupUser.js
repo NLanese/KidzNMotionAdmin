@@ -14,11 +14,12 @@ export default {
         firstName,
         lastName,
         role,
-
         // Guardian required
+
         childFirstName,
         childLastName,
         childDateOfBirth,
+        username,
 
         // School Admin / Therapist Practice required
         organizationName,
@@ -29,6 +30,7 @@ export default {
       },
       context
     ) => {
+      console.log("Hit")
       try {
         if (context.user) throw new UserInputError("Already logged in");
 
@@ -115,6 +117,7 @@ export default {
           data: {
             email: email,
             password: encryptedPassword,
+            username: username,
             role: role,
             firstName: firstName,
             lastName: lastName,
@@ -209,6 +212,7 @@ export default {
           token: clientToken,
         };
       } catch (error) {
+        console.log(error)
         throw new Error(error);
       }
     },
