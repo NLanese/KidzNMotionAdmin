@@ -6,15 +6,13 @@ var CryptoJS = require("crypto-js");
 
 export default {
   Mutation: {
-    loginUser: async (_, { email, password }) => {
-
+    loginUser: async (_, { username, password }) => {
+      let email = username
       try {
         // Retrieve the users that match the email address
         let potentialUsers = await prisma.user.findMany({
           where: {
-            email: {
-              contains: email,
-            },
+            email: email
           },
           select: {
             id: true,
@@ -34,19 +32,18 @@ export default {
         if (!potentialUsers || potentialUsers.length === 0){
           potentialUsers = await prisma.user.findMany({
             where: {
-              username: {
-                contains: email
-              }
+              username: email
             },
-            select: {
-
-            }
           })
         }
 
         // Loop through to find user
         let userToLogin = null;
         potentialUsers.map((userObject) => {
+          console.log(userObject)
+          if (!userObject){
+            return
+          }
           if (userObject.email.toLowerCase() === email.toLowerCase()) {
             userToLogin = userObject;
           }
@@ -147,6 +144,7 @@ export default {
           throw new UserInputError("Email/Password are incorrect.");
         }
       } catch (error) {
+        console.log(error)
         throw new Error(error);
       }
     },

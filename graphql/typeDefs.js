@@ -135,7 +135,7 @@ const typeDefs = gql`
   type Mutation {
     #### USER MUTATIONS ####
     devCreateUser(password: String!): User
-    loginUser(email: String!, password: String!): UserPayLoad
+    loginUser(username: String!, password: String!): UserPayLoad
     signUpUser(
       email: String!
       username: String,
