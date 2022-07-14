@@ -134,7 +134,7 @@ export default {
               role: "CHILD",
               firstName: childFirstName,
               lastName: childLastName,
-              dateOfBirth: childDateOfBirth,
+              childDateOfBirth: childDateOfBirth,
               guardian: {
                 connect: {
                   id: baseUser.id,

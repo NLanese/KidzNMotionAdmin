@@ -29,7 +29,7 @@ export default {
                 id: true,
                 firstName: true,
                 lastName: true,
-                dateOfBirth: true,
+                childDateOfBirth: true,
                 childCarePlans: {
                   where: {
                     active: true,

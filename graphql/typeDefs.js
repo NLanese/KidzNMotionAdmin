@@ -16,7 +16,7 @@ const typeDefs = gql`
     role: String
     createdAt: Date
 
-    dateOfBirth: Date
+    childDateOfBirth: Date
     colorSettings: String
 
     msgNotifications: Boolean

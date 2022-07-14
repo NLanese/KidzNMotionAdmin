@@ -26,7 +26,7 @@ export default {
             password: true,
             phoneNumber: true,
             role: true,
-            dateOfBirth: true,
+            childDateOfBirth: true,
             colorSettings: true,    
           },
         });
