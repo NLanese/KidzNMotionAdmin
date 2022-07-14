@@ -7,31 +7,44 @@ const typeDefs = gql`
   type User {
     id: ID
     email: String
-    name: String
+    username: String
     firstName: String
     lastName: String
+    title: String
+    password: String
+    phoneNumber: String
     role: String
     createdAt: Date
-    active: Boolean
 
     dateOfBirth: Date
-    phoneNumber: String
+    colorSettings: String
+
+    msgNotifications: Boolean
+    missedDateNotifications: Boolean
+    appointmentNotifications: Boolean
 
     children: [User]
+    guardianId: String
     guardian: User
+
     ownedOrganization: Organization
-    organizations: [OrganizationUser]
-    chatRooms: [ChatRoom]
 
     childCarePlans: [ChildCarePlan]
     patientCarePlans: [ChildCarePlan]
+
+    organizations: [OrganizationUser]
+    chatRooms: [ChatRoom]
   }
 
   type OrganizationUser {
     id: ID
     active: Boolean
     createdAt: Date
+
+    organizationId: String
     organization: Organization
+
+    userId: String
     user: User
   }
 

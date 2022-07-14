@@ -7,9 +7,10 @@ var CryptoJS = require("crypto-js");
 export default {
   Mutation: {
     loginUser: async (_, { email, password }) => {
+
       try {
         // Retrieve the users that match the email address
-        const potentialUsers = await prisma.user.findMany({
+        let potentialUsers = await prisma.user.findMany({
           where: {
             email: {
               contains: email,
@@ -18,12 +19,30 @@ export default {
           select: {
             id: true,
             email: true,
-            password: true,
+            username: true,
             firstName: true,
             lastName: true,
+            title: true,
+            password: true,
+            phoneNumber: true,
             role: true,
+            dateOfBirth: true,
+            colorSettings: true,    
           },
         });
+
+        if (!potentialUsers || potentialUsers.length === 0){
+          potentialUsers = await prisma.user.findMany({
+            where: {
+              username: {
+                contains: email
+              }
+            },
+            select: {
+
+            }
+          })
+        }
 
         // Loop through to find user
         let userToLogin = null;

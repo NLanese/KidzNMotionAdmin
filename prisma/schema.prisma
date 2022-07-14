@@ -38,12 +38,13 @@ model User {
   id                String             @id @default(uuid())
   email             String             @unique
   username          String             @unique
-  password          String
-  childModePassword String?
   firstName         String?
   lastName          String?
+  title             String?
+  password          String
   phoneNumber       String?
   role              Role               @default(GUARDIAN)
+  createdAt         DateTime           @default(now())
   ////////////////
 
   // Parent / Child Specific //
@@ -52,7 +53,6 @@ model User {
   ////////////////////////////
 
   // Therapist Specific //
-  title             String?
   msgNotifications         Boolean        @default(false)
   missedDateNotifications  Boolean        @default(false)
   appointmentNotifications Boolean        @default(true)
@@ -61,7 +61,6 @@ model User {
   // Security //
   jwtTokens         JWTToken[]
   loginAttemps      LoginAttempts[]
-  createdAt         DateTime           @default(now())
   passwordResetKeys PasswordResetKey[]
   active            Boolean            @default(true)
   //////////////
@@ -97,7 +96,7 @@ model Organization {
   createdAt            DateTime           @default(now())
   organizationType     ORGANIZATION_TYPE  @default(SCHOOL)
   phoneNumber          String?
-  name                 String
+  name                 String?
   stripeSubscriptionID String?
   subscriptionStatus   String?
   active               Boolean            @default(true)
