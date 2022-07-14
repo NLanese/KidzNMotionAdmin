@@ -48,7 +48,7 @@ model User {
   ////////////////
 
   // Parent / Child Specific //
-  dateOfBirth       String?
+  childDateOfBirth       String?
   colorSettings     String              @default("Orange")
   ////////////////////////////
 

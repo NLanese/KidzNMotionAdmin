@@ -138,23 +138,23 @@ const typeDefs = gql`
     loginUser(email: String!, password: String!): UserPayLoad
     signUpUser(
       email: String!
-      # username: String,
-      # password: String!
+      username: String,
+      password: String!
       firstName: String!
       lastName: String!
       phoneNumber: String
       role: String!
 
-      # childFirstName: String
-      # childLastName: String
-      # childDateOfBirth: Date
+      childFirstName: String
+      childLastName: String
+      childDateOfBirth: String
 
-      # title: String
+      title: String
 
-      # organizationName: String
-      # organizationType: String
+      organizationName: String
+      organizationType: String
 
-      # organizationInviteKey: String
+      organizationInviteKey: String
     ): UserPayLoad
     logoutUser: String
     ##########################
