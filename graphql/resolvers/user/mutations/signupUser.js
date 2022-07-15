@@ -30,7 +30,6 @@ export default {
       },
       context
     ) => {
-      console.log("Hit")
       try {
         if (context.user) throw new UserInputError("Already logged in");
 
@@ -59,9 +58,9 @@ export default {
         if (
           role !== "GUARDIAN" &&
           role !== "THERAPIST" &&
-          role !== "SCHOOL_ADMIN"
+          role !== "ADMIN"
         ) {
-          throw new UserInputError("Role does not exists.");
+          throw new UserInputError("Role does not exist.");
         }
 
         // Create base user then add on extras
