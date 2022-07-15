@@ -7,10 +7,9 @@ var CryptoJS = require("crypto-js");
 export default {
   Mutation: {
     loginUser: async (_, { username, password }) => {
+
       let email = username
       try {
-
-
         // Retrieve the users that match the email address
         let potentialUsers = await prisma.user.findMany({
           where: {
@@ -112,16 +111,14 @@ export default {
           ).toString();
 
           // Return token and truncated user object
-          return {
-            token: clientToken,
-            user: {
-              role: userToLogin.role,
-              id: userToLogin.id,
-              firstName: userToLogin.firstName,
-              lastName: userToLogin.lastName,
-              email: userToLogin.email,
-            },
-          };
+          try{
+            return {
+              token: clientToken,
+              user: userToLogin,
+            };
+          } catch (err){
+            console.log(err)
+          }
         } else {
           await prisma.loginAttempts.create({
             data: {
