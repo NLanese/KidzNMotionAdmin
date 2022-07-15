@@ -9,26 +9,17 @@ export default {
     loginUser: async (_, { username, password }) => {
       let email = username
       try {
+
+
         // Retrieve the users that match the email address
         let potentialUsers = await prisma.user.findMany({
           where: {
             email: email
           },
-          select: {
-            id: true,
-            email: true,
-            username: true,
-            firstName: true,
-            lastName: true,
-            title: true,
-            password: true,
-            phoneNumber: true,
-            role: true,
-            childDateOfBirth: true,
-            colorSettings: true,    
-          },
         });
 
+
+        // If there was no user with the email, looks for one with the username
         if (!potentialUsers || potentialUsers.length === 0){
           potentialUsers = await prisma.user.findMany({
             where: {
@@ -40,12 +31,14 @@ export default {
         // Loop through to find user
         let userToLogin = null;
         potentialUsers.map((userObject) => {
-          console.log(userObject)
           if (!userObject){
             return
           }
           if (userObject.email.toLowerCase() === email.toLowerCase()) {
             userToLogin = userObject;
+          }
+          else if (userObject.username === email){
+            userToLogin = userObject
           }
         });
 
