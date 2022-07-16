@@ -60,6 +60,8 @@ const USER_SIGN_UP = gql`
     $childLastName: String
     $childDateOfBirth: String
 
+    $organizationName: String
+
   ) {
     signUpUser(
       email: $email
@@ -72,6 +74,8 @@ const USER_SIGN_UP = gql`
       childFirstName: $childFirstName
       childLastName: $childLastName
       childDateOfBirth: $childDateOfBirth
+
+      organizationName: $organizationName
     ) {
       token
     }

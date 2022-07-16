@@ -59,6 +59,9 @@ function UserSignUpForm({ role, initialValues }) {
         childFirstName: formValues.childFirstName,
         childLastName: formValues.childLastName,
         childDateOfBirth: formValues.childDateOfBirth,
+
+        // ADMIN or THERAPIST
+        organizationName: formValues.organizationName
       },
     })
       .then(async (resolved) => {
@@ -146,7 +149,12 @@ function UserSignUpForm({ role, initialValues }) {
             if (!values.childDateOfBirth) {
               errors.childDateOfBirth = "Required";
             }
+          } else {
+            if (!values.organizationName) {
+              errors.organizationName = "Required";
+            }
           }
+          
 
           return errors;
         }}
