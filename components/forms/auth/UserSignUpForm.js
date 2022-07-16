@@ -1,28 +1,25 @@
 import React, { useState } from "react";
 import { Form, Field } from "react-final-form";
-import { PlainTextField } from "@fields";
-import { Col, Row, Button, message, Divider, Spin } from "antd";
+import { PlainTextField, DateField } from "@fields";
+import { Col, Row, Button, message, Divider, Spin, DatePicker } from "antd";
 import { emailIsValid, normalizePhone, passwordIsValid } from "@helpers/forms";
-import { makeRandomString } from "@helpers/common";
+
+import { useSetRecoilState } from "recoil";
+import { userState } from "@atoms";
 
 import PasswordValidation from "@forms/addons/PasswordValidation";
 
-import { MANAGER_SIGN_UP, OWNER_SIGN_UP } from "@graphql/operations";
-import { COMPANY_PREFERENCES_INITIAL_VALUES } from "@constants/forms";
-import { convertCompanyPreferenceFormToGraphQL } from "@helpers/companyPreferences";
+import { USER_SIGN_UP, GET_USER } from "@graphql/operations";
 
 import { useMutation } from "@apollo/client";
-import { CREATE_COMPANY_PREFERENCES } from "@graphql/operations";
+import client from "@utils/apolloClient";
 
-function UserSignUpForm({ type, initialValues }) {
+function UserSignUpForm({ role, initialValues }) {
   const [redirectLogin, setRedirectLogin] = useState(false);
+  const setUser = useSetRecoilState(userState);
 
   // Mutations
-  const [managerSignUp, {}] = useMutation(MANAGER_SIGN_UP);
-  const [ownerSignUp, {}] = useMutation(OWNER_SIGN_UP);
-  const [createCompanyPreferences, {}] = useMutation(
-    CREATE_COMPANY_PREFERENCES
-  );
+  const [signUpUser, {}] = useMutation(USER_SIGN_UP);
 
   const handleSignUpSuccess = async (userData) => {
     message.success("Successfully signed up");
@@ -30,37 +27,7 @@ function UserSignUpForm({ type, initialValues }) {
     // Set the form spinner
     setRedirectLogin(true);
 
-    if (userData.role === "OWNER") {
-      // Need to create the intial DSP informatino for the user to track subscriptino on first load
-      let copiedInitialDSPValues = {};
-      Object.assign(copiedInitialDSPValues, COMPANY_PREFERENCES_INITIAL_VALUES);
-
-      // Assign the intital values
-      copiedInitialDSPValues.companyDetails.name = makeRandomString(8);
-      copiedInitialDSPValues.companyDetails.shortcode = makeRandomString(8);
-      copiedInitialDSPValues.companyDetails.timeZone = "EST";
-
-      // Set token into local stoate
-      localStorage.setItem("token", userData.token);
-      localStorage.setItem("role", userData.role);
-
-      // Convert the values to graphql
-      copiedInitialDSPValues = convertCompanyPreferenceFormToGraphQL(
-        copiedInitialDSPValues
-      );
-
-      // Assign trial status
-      copiedInitialDSPValues.variables.accountStanding = "Trial";
-
-      // Create the intital DSP
-      await createCompanyPreferences(copiedInitialDSPValues)
-        .then(async (resolved) => {})
-        .catch((error) => {});
-    } else {
-      // Set token into local stoate
-      localStorage.setItem("token", userData.token);
-      localStorage.setItem("role", userData.role);
-    }
+    localStorage.setItem("token", userData.token);
 
     // Push to site
     window.location = "/";
@@ -68,7 +35,7 @@ function UserSignUpForm({ type, initialValues }) {
 
   const handleSignUpFail = (error) => {
     error = `${error}`;
-    if (error.includes("mail is already")) {
+    if (error.includes("already")) {
       message.error("This email is already in use");
     } else if (error.includes("owner does")) {
       message.error("This owner does not exist");
@@ -77,41 +44,47 @@ function UserSignUpForm({ type, initialValues }) {
     }
   };
 
+
   const handleSignUp = async (formValues) => {
-    if (type === "MANAGER") {
-      await managerSignUp({
-        variables: {
-          email: formValues.email,
-          password: formValues.password,
-          phoneNumber: formValues.phoneNumber,
-          firstname: formValues.firstName,
-          lastname: formValues.lastName,
-          signupToken: formValues.signupToken,
-        },
+    await signUpUser({
+      variables: {
+        email: formValues.email,
+        password: formValues.password,
+        firstName: formValues.firstName,
+        lastName: formValues.lastName,
+        role: role,
+        phoneNumber: formValues.phoneNumber,
+
+        // GUARDIAN
+        childFirstName: formValues.childFirstName,
+        childLastName: formValues.childLastName,
+        childDateOfBirth: formValues.childDateOfBirth,
+      },
+    })
+      .then(async (resolved) => {
+        message.success("Successfully Signed Up");
+
+        // Set the form spinner
+        setRedirectLogin(true);
+
+        // // Set token into local stoate
+        localStorage.setItem("token", resolved.data.signUpUser.token);
+
+        // Get the full user object and set that to state
+        await client
+          .query({
+            query: GET_USER,
+          })
+          .then(async (resolved) => {
+            setUser(resolved.data.getUser);
+          })
+          .catch((error) => {
+            message.error("Sorry, there was an error getting this information");
+          });
       })
-        .then(async (resolved) => {
-          await handleSignUpSuccess(resolved.data.managerSignUp);
-        })
-        .catch((error) => {
-          handleSignUpFail(error);
-        });
-    } else {
-      await ownerSignUp({
-        variables: {
-          email: formValues.email,
-          password: formValues.password,
-          phoneNumber: formValues.phoneNumber,
-          firstname: formValues.firstName,
-          lastname: formValues.lastName,
-        },
-      })
-        .then(async (resolved) => {
-          await handleSignUpSuccess(resolved.data.ownerSignUp);
-        })
-        .catch((error) => {
-          handleSignUpFail(error);
-        });
-    }
+      .catch((error) => {
+        handleSignUpFail(error);
+      });
   };
 
   return (
@@ -127,6 +100,8 @@ function UserSignUpForm({ type, initialValues }) {
         }}
         validate={(values) => {
           const errors = {};
+
+          // REQUIRED ALL ROLES
           if (!values.firstName) {
             errors.firstName = "Required";
           }
@@ -143,11 +118,6 @@ function UserSignUpForm({ type, initialValues }) {
               errors.email = "Email is not valid";
             }
           }
-          if (type === "MANAGER") {
-            if (!values.signupToken) {
-              errors.signupToken = "Required";
-            }
-          }
           if (!values.password) {
             errors.password = "Required";
           } else {
@@ -155,13 +125,26 @@ function UserSignUpForm({ type, initialValues }) {
               errors.password = "Required";
             }
           }
-
           if (!values.confirmPassword) {
             errors.confirmPassword = "Required";
           }
           if (values.password && values.confirmPassword) {
             if (values.password !== values.confirmPassword) {
               errors.confirmPassword = "Your passwords do not match";
+            }
+          }
+
+          // GUARDIAN REQUIRED FIELDS
+          if (role === "GUARDIAN") {
+
+            if (!values.childFirstName) {
+              errors.childFirstName = "Required";
+            }
+            if (!values.childLastName) {
+              errors.childLastName = "Required";
+            }
+            if (!values.childDateOfBirth) {
+              errors.childDateOfBirth = "Required";
             }
           }
 
@@ -183,11 +166,11 @@ function UserSignUpForm({ type, initialValues }) {
               });
             }}
           >
-            <legend>Manager Sign Up Form</legend>
+            <legend>Sign Up Form</legend>
             <Row gutter={16}>
               <Col xs={24} md={12}>
                 <Field
-                  label="First Name"
+                  label="Your First Name"
                   name="firstName"
                   htmlType="text"
                   component={PlainTextField}
@@ -198,7 +181,7 @@ function UserSignUpForm({ type, initialValues }) {
               </Col>
               <Col xs={24} md={12}>
                 <Field
-                  label="Last Name"
+                  label="Your Last Name"
                   name="lastName"
                   htmlType="text"
                   component={PlainTextField}
@@ -258,17 +241,68 @@ function UserSignUpForm({ type, initialValues }) {
                   hideErrorText={false}
                 />
               </Col>
-              {type === "MANAGER" && (
+
+              {role === "GUARDIAN" && (
+                <>
+                  <Divider />
+                  <Col xs={24} md={12}>
+                    <Field
+                      label="Child First Name"
+                      name="childFirstName"
+                      htmlType="text"
+                      component={PlainTextField}
+                      required={true}
+                      size={"large"}
+                      hideErrorText={false}
+                    />
+                  </Col>
+                  <Col xs={24} md={12}>
+                    <Field
+                      label="Child Last Name"
+                      name="childLastName"
+                      htmlType="text"
+                      component={PlainTextField}
+                      required={true}
+                      size={"large"}
+                      hideErrorText={false}
+                    />
+                  </Col>
+                  <Col xs={24} md={24}>
+                    <Field
+                      label="Child Date Of Birth"
+                      name="childDateOfBirth"
+                      htmlType="text"
+                      component={DateField}
+                      required={true}
+                      size={"large"}
+                      hideErrorText={false}
+                    />
+                  </Col>
+                </>
+              )}
+
+              {(role === "ADMIN" || role === "THERAPIST") && (
                 <>
                   <Divider style={{ margin: "2px 0px 10px" }} />
                   <Col xs={24} md={24}>
                     <Field
-                      name="signupToken"
+                      label="Orgnization Name"
+                      name="organizationName"
+                      htmlType="text"
+                      component={PlainTextField}
+                      required={true}
+                      size={"large"}
+                      hideErrorText={false}
+                    />
+                  </Col>
+                  <Col xs={24} md={24}>
+                    <Field
+                      name="organizationInviteKey"
                       component={PlainTextField}
                       htmlType="text"
-                      label="Organization Sign Up Token"
+                      label="Organization Invite Token"
                       size="large"
-                      required={true}
+                      required={false}
                       autoComplete="password"
                       hideErrorText={false}
                     />
@@ -285,7 +319,7 @@ function UserSignUpForm({ type, initialValues }) {
               size={"large"}
               disabled={invalid || pristine}
             >
-              {type === "MANAGER" ? "Sign Up" : "Sign Up"}
+              Sign Up
             </Button>
           </form>
         )}

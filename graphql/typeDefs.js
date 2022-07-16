@@ -142,8 +142,8 @@ const typeDefs = gql`
       password: String!
       firstName: String!
       lastName: String!
-      phoneNumber: String
       role: String!
+      phoneNumber: String
 
       childFirstName: String
       childLastName: String

@@ -36,87 +36,53 @@ const REQUEST_PASSWORD_RESET = gql`
   mutation Mutation($email: String!) {
     requestResetPassword(email: $email)
   }
-`; 
+`;
 
 const RESET_PASSWORD_FROM_KEY = gql`
-  mutation Mutation(
-    $password: String!
-    $resetPasswordKeyID: String!
-  ) {
+  mutation Mutation($password: String!, $resetPasswordKeyID: String!) {
     resetPasswordFromKey(
       password: $password
       resetPasswordKeyID: $resetPasswordKeyID
     )
   }
-`; 
+`;
 
-
-
-const OWNER_SIGN_UP = gql`
-  mutation OwnerSignUp(
+const USER_SIGN_UP = gql`
+  mutation signUpUser(
     $email: String!
     $password: String!
-    $firstname: String!
-    $lastname: String!
+    $firstName: String!
+    $lastName: String!
     $phoneNumber: String!
+    $role: String!
+    
+    $childFirstName: String
+    $childLastName: String
+    $childDateOfBirth: String
+
   ) {
-    ownerSignUp(
+    signUpUser(
       email: $email
       password: $password
-      firstname: $firstname
-      lastname: $lastname
+      firstName: $firstName
+      lastName: $lastName
       phoneNumber: $phoneNumber
+      role: $role
+
+      childFirstName: $childFirstName
+      childLastName: $childLastName
+      childDateOfBirth: $childDateOfBirth
     ) {
-      id
-      role
-      signUpToken
       token
-      firstname
-      lastname
-      email
     }
   }
 `;
-const MANAGER_SIGN_UP = gql`
-  mutation Mutation(
-    $email: String!
-    $password: String!
-    $firstname: String!
-    $lastname: String!
-    $phoneNumber: String!
-    $signupToken: String!
-  ) {
-    managerSignUp(
-      email: $email
-      password: $password
-      firstname: $firstname
-      lastname: $lastname
-      phoneNumber: $phoneNumber
-      signupToken: $signupToken
-    ) {
-      id
-      role
-      token
-      firstname
-      lastname
-      email
-    }
-  }
-`; 
-
-
-
-
-
-
 
 export {
   // Sign Up / Sign In
   LOGIN_USER,
   GET_USER,
-  MANAGER_SIGN_UP,
-  OWNER_SIGN_UP,
+  USER_SIGN_UP,
   REQUEST_PASSWORD_RESET,
   RESET_PASSWORD_FROM_KEY,
-
 };
