@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Form, Field } from "react-final-form";
 import { PlainTextField } from "@fields";
 import { Col, Row, Button, Spin, message } from "antd";
-import { waitForSeconds } from "@helpers/common";
 
 import { passwordIsValid } from "@helpers/forms";
 
@@ -11,13 +10,13 @@ import PasswordValidation from "@forms/addons/PasswordValidation";
 import Router from "next/router";
 
 import { useMutation } from "@apollo/client";
-import { RESET_PASSWORD } from "@graphql/operations";
+import { RESET_PASSWORD_FROM_KEY } from "@graphql/operations";
 
 
 function PasswordResetFromKeyForm() {
   const [redirectLoading, setRedirectLoading] = useState(false);
 
-  const [restPassword] = useMutation(RESET_PASSWORD);
+  const [restPasswordFromKey] = useMutation(RESET_PASSWORD_FROM_KEY);
 
 
   const handlePasswordResetRequest = async (formValues) => {
@@ -28,10 +27,10 @@ function PasswordResetFromKeyForm() {
     const resetKey = urlSearchParams.get("key");
 
 
-    await restPassword({
+    await restPasswordFromKey({
       variables: {
         password: formValues.password,
-        token: resetKey
+        resetPasswordKeyID: resetKey
       },
     })
       .then(async (resolved) => {

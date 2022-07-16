@@ -158,6 +158,7 @@ const typeDefs = gql`
     ): UserPayLoad
     logoutUser: String
     requestResetPassword(email: String!): Boolean
+    resetPasswordFromKey(password: String!, resetPasswordKeyID: String!): Boolean
     ##########################
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------

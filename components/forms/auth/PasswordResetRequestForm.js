@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Form, Field } from "react-final-form";
 import { PlainTextField } from "@fields";
-import { Col, Row, Button, Result } from "antd";
+import { Col, Row, Button, Result, message } from "antd";
 import { emailIsValid } from "@helpers/forms";
-import { waitForSeconds } from "@helpers/common";
+
 
 import { useMutation } from "@apollo/client";
 import { REQUEST_PASSWORD_RESET } from "@graphql/operations";
@@ -24,7 +24,7 @@ function PasswordResetRequestForm() {
         setRequestSent(true);
       })
       .catch((error) => {
-        alert("Sorry, there was an error requesting this password update");
+        message.error("Sorry, there was an error requesting this password update");
       });
   };
 

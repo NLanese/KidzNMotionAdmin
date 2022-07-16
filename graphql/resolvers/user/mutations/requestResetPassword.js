@@ -51,14 +51,14 @@ export default {
       });
       
       const msg = {
-        to: 'zacharybedrosian@gmail.com', // Change to your recipient
+        to: userResetingPassword.email, // Change to your recipient
         from: 'test@em8453.getfreelaundry.com', // Change to your verified sender
         subject: 'Kids In Motion Password Reset',
         text: 'and easy to do anywhere, even with Node.js',
         html: `
             <p>Please click the link below to reset your password</p>
             <br />
-            <a href=${"https://kids-in-motion.vercel.app/authentication/password-reset-key?key=" + resetPasswordKey.id}>${"https://kids-in-motion.vercel.app/authentication/password-reset-key?key=" + resetPasswordKey.id}</a>
+            <a href=${"https://kids-in-motion.vercel.app/authentication/reset-password-from-key?key=" + resetPasswordKey.id}>${"https://kids-in-motion.vercel.app/authentication/reset-password-from-key?key=" + resetPasswordKey.id}</a>
             <br />
             <strong>If you did not request this password reset, you can ignore this message</strong>
         `,

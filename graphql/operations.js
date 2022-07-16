@@ -32,6 +32,26 @@ const GET_USER = gql`
   }
 `;
 
+const REQUEST_PASSWORD_RESET = gql`
+  mutation Mutation($email: String!) {
+    requestResetPassword(email: $email)
+  }
+`; 
+
+const RESET_PASSWORD_FROM_KEY = gql`
+  mutation Mutation(
+    $password: String!
+    $resetPasswordKeyID: String!
+  ) {
+    resetPasswordFromKey(
+      password: $password
+      resetPasswordKeyID: $resetPasswordKeyID
+    )
+  }
+`; 
+
+
+
 const OWNER_SIGN_UP = gql`
   mutation OwnerSignUp(
     $email: String!
@@ -85,23 +105,8 @@ const MANAGER_SIGN_UP = gql`
 `; 
 
 
-const REQUEST_PASSWORD_RESET = gql`
-  mutation Mutation($email: String!) {
-    dynamicForgotPassword(email: $email)
-  }
-`; 
 
-const RESET_PASSWORD = gql`
-  mutation Mutation(
-    $password: String!
-    $token: String!
-  ) {
-    dynamicResetPassword(
-      password: $password
-      token: $token
-    )
-  }
-`; 
+
 
 
 
@@ -112,6 +117,6 @@ export {
   MANAGER_SIGN_UP,
   OWNER_SIGN_UP,
   REQUEST_PASSWORD_RESET,
-  RESET_PASSWORD,
+  RESET_PASSWORD_FROM_KEY,
 
 };
