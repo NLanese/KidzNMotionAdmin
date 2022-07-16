@@ -40,9 +40,8 @@ function LoginForm() {
           .then(async (resolved) => {
             console.log(resolved)
             setUser(resolved.data.getUser)
-            // Push to site
-            // MIGHT be needed
-            window.location = "/";
+
+            
           })
           .catch((error) => {
             message.error("Sorry, there was an error getting this information");
@@ -56,7 +55,6 @@ function LoginForm() {
 
   useEffect(() => {
     localStorage.removeItem("token");
-    localStorage.removeItem("role");
   }, []);
 
   return (

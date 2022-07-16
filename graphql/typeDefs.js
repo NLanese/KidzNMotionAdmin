@@ -157,6 +157,7 @@ const typeDefs = gql`
       organizationInviteKey: String
     ): UserPayLoad
     logoutUser: String
+    requestResetPassword(email: String!): Boolean
     ##########################
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------

@@ -6,8 +6,10 @@ import { userState } from "@atoms";
 import { withRouter } from "next/router";
 import AuthLayout from "./AuthLayout";
 import LoadingLayout from "./LoadingLayout";
+import { message } from "antd";
 
-import { useMutation } from "@apollo/client";
+import {  GET_USER } from "@graphql/operations";
+import client from "@utils/apolloClient";
 
 const LayoutWrapper = styled.div`
   width: 100%;
@@ -42,33 +44,18 @@ function Layout({ children, router }) {
     const token = localStorage.getItem("token");
 
     if (token) {
-      if (localStorage.getItem("role") === "OWNER") {
-        await ownerRefresh({
-          variables: {
-            role: "OWNER",
-            token: localStorage.getItem("token"),
-          },
-        })
-          .then(async (resolved) => {
-            setUser(resolved.data.refreshOwner);
-          })
-          .catch((error) => {
-            setUser(null);
-          });
-      } else {
-        await managerRefresh({
-          variables: {
-            role: "MANAGER",
-            token: localStorage.getItem("token"),
-          },
-        })
-          .then(async (resolved) => {
-            setUser(resolved.data.refreshManager);
-          })
-          .catch((error) => {
-            setUser(null);
-          });
-      }
+      await client
+      .query({
+        query: GET_USER,
+      })
+      .then(async (resolved) => {
+        setUser(resolved.data.getUser)
+      })
+      .catch((error) => {
+        setUser(null);
+        message.error("Sorry, there was an error getting this information");
+      });
+
     } else {
       setUser(null);
     }
