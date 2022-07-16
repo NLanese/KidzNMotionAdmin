@@ -87,7 +87,7 @@ export default {
               `Missing required fields for Guardian: ${missingFields}`
             );
           }
-        } else if (role === "THERAPIST" || role === "SCHOOL_ADMIN") {
+        } else if (role === "THERAPIST" || role === "ADMIN") {
           let isInvited = false;
 
           // When we add organization invites, will remove
@@ -144,7 +144,7 @@ export default {
 
           // If organization invite link - add them to the organization as an organization user
           // TODO
-        } else if (role === "THERAPIST" || role == "SCHOOL_ADMIN") {
+        } else if (role === "THERAPIST" || role == "ADMIN") {
           // Create the organization for the therapist
           let baseOrganization = await prisma.organization.create({
             data: {

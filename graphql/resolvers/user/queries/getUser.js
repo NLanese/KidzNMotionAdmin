@@ -176,7 +176,7 @@ export default {
             },
           },
         });
-      } else if (context.user.role === "SCHOOL_ADMIN") {
+      } else if (context.user.role === "ADMIN") {
         userObject = await prisma.user.findUnique({
           where: {
             id: context.user.id,

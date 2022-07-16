@@ -5,25 +5,33 @@ import { gql } from "@apollo/client";
 ///     Landing Page      ///
 ///                       ///
 /////////////////////////////
-const DYNAMIC_SIGN_IN = gql`
-  mutation Mutation($email: String!, $password: String!) {
-    dynamicSignIn(email: $email, password: $password) {
-      id
-      role
+const LOGIN_USER = gql`
+  mutation Mutation($username: String!, $password: String!) {
+    loginUser(username: $username, password: $password) {
       token
-      firstname
-      signUpToken
-      lastname
+    }
+  }
+`;
+
+const GET_USER = gql`
+  query Query {
+    getUser {
+      id
+      firstName
+      lastName
+      role
       email
-      dsp {
+      phoneNumber
+      children {
         id
-        paid
-        createdAt
-        accountStanding
+        firstName
+        lastName
+        childDateOfBirth
       }
     }
   }
 `;
+
 const OWNER_SIGN_UP = gql`
   mutation OwnerSignUp(
     $email: String!
@@ -99,7 +107,8 @@ const RESET_PASSWORD = gql`
 
 export {
   // Sign Up / Sign In
-  DYNAMIC_SIGN_IN,
+  LOGIN_USER,
+  GET_USER,
   MANAGER_SIGN_UP,
   OWNER_SIGN_UP,
   REQUEST_PASSWORD_RESET,
