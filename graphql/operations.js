@@ -17,11 +17,30 @@ const GET_USER = gql`
   query Query {
     getUser {
       id
+      email
+      username
       firstName
       lastName
-      role
-      email
+      title
       phoneNumber
+      role
+      createdAt
+
+      msgNotifications
+      missedDateNotifications
+      appointmentNotifications
+
+      ownedOrganization {
+        id
+        createdAt
+        organizationType
+        phoneNumber
+        name
+        stripeSubscriptionID
+        subscriptionStatus
+        active
+      }
+
       children {
         id
         firstName
@@ -55,13 +74,10 @@ const USER_SIGN_UP = gql`
     $lastName: String!
     $phoneNumber: String!
     $role: String!
-    
     $childFirstName: String
     $childLastName: String
     $childDateOfBirth: String
-
     $organizationName: String
-
   ) {
     signUpUser(
       email: $email

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import { userState } from "@atoms";
+import TopMenu from "@components/navigation/TopMenu";
 
 import { withRouter } from "next/router";
 import AuthLayout from "./AuthLayout";
@@ -49,6 +50,7 @@ function Layout({ children, router }) {
         query: GET_USER,
       })
       .then(async (resolved) => {
+        console.log(resolved.data.getUser)
         setUser(resolved.data.getUser)
       })
       .catch((error) => {
@@ -84,8 +86,7 @@ function Layout({ children, router }) {
     <LayoutWrapper>
       {user && !user.loading ? (
         <>
-        {console.log(user)}
-          {/* <TopMenu router={router} user={user} /> */}
+          <TopMenu router={router} user={user} />
           <MainContentWrapper id="mainContent">
             {/* <SideMenu user={user} /> */}
             <ChildrenContentWrapper>{children}</ChildrenContentWrapper>

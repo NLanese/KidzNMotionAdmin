@@ -110,17 +110,11 @@ function GetStarted() {
     }
   };
 
-  const renderSubTitle = () => {
-    if (!role) {
-        return "Select Your Account Type"
-    }
-  }
 
   return (
     <AuthCard
       title={renderPageTitle()}
       pageTitle={renderPageTitle()}
-      subTitle={renderSubTitle()}
     >
       <>
         {renderAccountTypeForm()}
