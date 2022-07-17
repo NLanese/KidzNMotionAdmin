@@ -310,7 +310,7 @@ function Billing() {
                       </SubscriptionIcon>
                       <Space direction="vertical" size={3}>
                         <Text style={{ fontWeight: "600" }}>
-                          Tom Navigation Pro Plan
+                          Kids In Motion Plan
                         </Text>
                         <Text type="secondary">
                           ${billingInformation.bills.planTotal / 100}.00 every{" "}

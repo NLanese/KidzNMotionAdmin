@@ -46,7 +46,7 @@ class MyApp extends App {
           <>
             <DefaultSeo title="Home" titleTemplate="%s  | Kids In Motion" />
             <NextNprogress
-              color="#10ac84"
+              color="#ffbe76"
               options={{ showSpinner: false }}
               startPosition={0.3}
               stopDelayMs={0}

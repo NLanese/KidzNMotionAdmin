@@ -43,8 +43,8 @@
             "type": "image/png"
         }
     ],
-    "background_color": "#f6f6f7",
-    "theme_color": "#10ac84",
+    "background_color": "#ffbe76",
+    "theme_color": "#ffbe76",
     "orientation": "portrait",
     "start_url": "https://dashboard.kidsinmotion.com/",
     "display": "standalone"

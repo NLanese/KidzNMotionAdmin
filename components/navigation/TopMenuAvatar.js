@@ -117,7 +117,7 @@ function TopMenuAvatar() {
         <AvatarDetails>
           {user.firstName && user.lastName && (
             <Avatar
-              style={{ backgroundColor: "#10ac84", fontSize: "16px" }}
+              style={{ backgroundColor: "#f0932b", fontSize: "16px" }}
               size={33}
             >
               {user.firstName[0]}

@@ -1,9 +1,9 @@
 // Base Theme Styles
 const theme = {
     colors: {
-        primary: "#10ac84",
+        primary: "#f0932b",
         lightPrimary: "#badc58",
-        darkPrimary: "#10ac84",
+        darkPrimary: "#f0932b",
         backgroundColor: "#f6f6f7",
         secondaryBackgroundColor: "#f1f2f3",
         danger: "#c0392b"

@@ -41,7 +41,6 @@ function LoginForm() {
             console.log(resolved)
             setUser(resolved.data.getUser)
 
-            
           })
           .catch((error) => {
             message.error("Sorry, there was an error getting this information");
