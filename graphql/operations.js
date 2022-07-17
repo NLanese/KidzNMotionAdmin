@@ -36,6 +36,7 @@ const GET_USER = gql`
         organizationType
         phoneNumber
         name
+        name
         stripeSubscriptionID
         subscriptionStatus
         active

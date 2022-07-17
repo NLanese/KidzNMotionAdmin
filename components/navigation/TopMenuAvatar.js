@@ -7,6 +7,7 @@ import { capitalizeFirstLetter } from "@helpers/common";
 import { ExclamationCircleOutlined, SyncOutlined } from "@ant-design/icons";
 import NakedButton from "@common/NakedButton";
 import { Avatar, Typography, Dropdown, Menu, message, Tag, Space } from "antd";
+import { getCheckoutURL } from "@helpers/billing";
 
 const { Title } = Typography;
 
@@ -56,19 +57,46 @@ function TopMenuAvatar() {
   };
 
 
+  const renderFreeTrialTag = () => {
+    if (!user.ownedOrganization) return;
+ 
+    
+    if (!user.ownedOrganization.stripeSubscriptionID) {
+      let daysLeft = parseInt(
+        16 -
+          (new Date().getTime() - new Date(user.ownedOrganization.createdAt).getTime()) /
+            (1000 * 3600 * 24)
+      );
+      return (
+        <NakedButton onClick={() => checkout()}>
+          <Tag
+            style={{ fontWeight: 600 }}
+            icon={
+              loading ? <SyncOutlined spin /> : <ExclamationCircleOutlined />
+            }
+            color="processing"
+            size="large"
+          >
+            {daysLeft} Days Left On Trial (Activate)
+          </Tag>
+        </NakedButton>
+      );
+    }
+  };
+
   const checkout = async () => {
     setLoading(true);
-    const session = ""
+    const session = await getCheckoutURL();
     if (!session) {
       setLoading(false)
     } else {
       window.location = session.checkoutURL;
     }
   };
-
   console.log(user)
   return (
     <Space>
+      {renderFreeTrialTag()}
       <Dropdown
         overlay={
           <Menu

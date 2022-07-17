@@ -139,6 +139,7 @@ export default {
               select: {
                 id: true,
                 createdAt: true,
+                name: true,
                 phoneNumber: true,
                 organizationType: true,
                 stripeSubscriptionID: true,
@@ -192,6 +193,7 @@ export default {
               select: {
                 id: true,
                 createdAt: true,
+                name: true,
                 phoneNumber: true,
                 organizationType: true,
                 stripeSubscriptionID: true,

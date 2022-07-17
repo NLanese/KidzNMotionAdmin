@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import { userState } from "@atoms";
 import TopMenu from "@components/navigation/TopMenu";
+import SideMenu from "@components/navigation/SideMenu";
 
 import { withRouter } from "next/router";
 import AuthLayout from "./AuthLayout";
@@ -88,7 +89,7 @@ function Layout({ children, router }) {
         <>
           <TopMenu router={router} user={user} />
           <MainContentWrapper id="mainContent">
-            {/* <SideMenu user={user} /> */}
+            <SideMenu user={user} />
             <ChildrenContentWrapper>{children}</ChildrenContentWrapper>
           </MainContentWrapper>
         </>
