@@ -97,7 +97,7 @@ function Billing() {
 
   const updatePaymentStatus = async (sessionID) => {
     await updateOrganizationSubscription(sessionID)
-       
+    window.location = "/account/billing"
   };
 
   useEffect(() => {
@@ -107,6 +107,8 @@ function Billing() {
     const sessionResult = urlSearchParams.get("success");
 
     if (sessionResult === "true") {
+      setLoading(true);
+      setOnFreeTrial(false);
       updatePaymentStatus(sessionID);
     }
   }, []);

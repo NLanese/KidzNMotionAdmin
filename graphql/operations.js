@@ -99,6 +99,23 @@ const USER_SIGN_UP = gql`
   }
 `;
 
+
+const EDIT_ORGANIZATION_SETTINGS = gql`
+  mutation editOrganizationSettings(
+    $name: String!
+    $phoneNumber: String!
+  ) {
+    editOrganizationSettings(
+      name: $name
+      phoneNumber: $phoneNumber
+    ) {
+      id
+    }
+  }
+`;
+
+
+
 export {
   // Sign Up / Sign In
   LOGIN_USER,
@@ -106,4 +123,6 @@ export {
   USER_SIGN_UP,
   REQUEST_PASSWORD_RESET,
   RESET_PASSWORD_FROM_KEY,
+  // Organization
+  EDIT_ORGANIZATION_SETTINGS
 };

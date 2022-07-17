@@ -6,7 +6,7 @@ export const getCheckoutURL = async () => {
     method: "post",
     url: "/api/billing/get-checkout-url",
     data: {
-      host: window.location.protocol + "//" + window.location.host + "/" + window.location.pathname,
+      host: window.location.protocol + "//" + window.location.host + "/account/billing",
     },
   })
     .then(({ data }) => {

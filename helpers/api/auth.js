@@ -64,6 +64,11 @@ export const handleAuth = async (clientToken) => {
           firstName: true,
           lastName: true,
           role: true,
+          ownedOrganization: {
+            select: {
+              id: true
+            }
+          }
         },
       });
       userObject.tokenId = userJWTToken.id;

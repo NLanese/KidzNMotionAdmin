@@ -7,7 +7,7 @@ import { normalizePhone } from "@helpers/forms";
 const CompanyDetailsFormChunk = () => {
   return (
     <Row gutter={16}>
-      <Col xs={24} md={8}>
+      <Col xs={24} md={12}>
         <Field
           name="name"
           component={PlainTextField}
@@ -18,7 +18,7 @@ const CompanyDetailsFormChunk = () => {
           required={true}
         />
       </Col>
-      <Col xs={24} md={8}>
+      <Col xs={24} md={12}>
         <Field
           name="phoneNumber"
           component={PlainTextField}

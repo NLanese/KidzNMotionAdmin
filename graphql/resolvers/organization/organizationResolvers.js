@@ -1,7 +1,7 @@
 import GraphQLJSON from 'graphql-type-json';
 
 // ORGANIZATION MUTATIONS
-import editOrganizationSettings from './queries/editOrganizationSettings.js';
+import editOrganizationSettings from './mutations/editOrganizationSettings.js';
 
 export default {
     Mutation: {
