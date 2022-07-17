@@ -77,8 +77,8 @@ function Billing() {
   const [billingInformation, setBillingInformation] = useState(null);
 
 
-  const fetchAndSetBillingInformation = async (stripeSubscriptionID) => {
-    const billingInformation = await getBillingInformation(stripeSubscriptionID);
+  const fetchAndSetBillingInformation = async () => {
+    const billingInformation = await getBillingInformation();
     setBillingInformation(billingInformation);
   };
 
@@ -90,7 +90,7 @@ function Billing() {
     // ALL FOR DEVELOPMENT PURPOSES
     if (user.ownedOrganization && user.ownedOrganization.stripeSubscriptionID) {
       setOnFreeTrial(false);
-      fetchAndSetBillingInformation(user.ownedOrganization.stripeSubscriptionID);
+      fetchAndSetBillingInformation();
       return;
     }
   }, []);

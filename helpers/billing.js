@@ -29,7 +29,7 @@ export const updateOrganizationSubscription = async (stripeSessionID) => {
     },
   })
     .then(({ data }) => {
-      window.location = "/account/billing?activated=true";
+      // window.location = "/account/billing?activated=true";
     })
     .catch(({ response }) => {
       return null;
@@ -44,7 +44,7 @@ export const getBillingInformation = async (stripeCustomerID) => {
     url: "/api/billing/get-billing-information",
     data: {
       host: window.location.protocol + "//" + window.location.host + "/account/billing",
-      sessionID: stripeCustomerID,
+      token: localStorage.getItem("token"),
     },
   })
     .then(({ data }) => {

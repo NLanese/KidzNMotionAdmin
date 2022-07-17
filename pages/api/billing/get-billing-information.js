@@ -1,16 +1,39 @@
+import { handleAuth } from "@helpers/api/auth";
+import prisma from "@utils/prismaDB";
+
 export default async function handler(req, res) {
   const body = req.body;
 
   const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
-  const sessionID = body.sessionID;
+  const userToken = body.token;
   const returnUrl = body.host;
 
-  // Retrive the stripe session id (DEV ONLY)
-  const session = await stripe.checkout.sessions.retrieve(sessionID);
+  // Get the user object
+  const user = await handleAuth(userToken);
+  if (!user) {
+    res.status(404).json({});
+  }
+
+  const fullUserObject = await prisma.user.findUnique({
+    where: {
+      id: user.id,
+    },
+    select: {
+      ownedOrganization: {
+        select: {
+          stripeSubscriptionID: true,
+        },
+      },
+    },
+  });
+
+  if (!fullUserObject.ownedOrganization) {
+    res.status(404).json({});
+  }
 
   // GEt the customer object from
-  const customer = await stripe.customers.retrieve(session.customer, {
+  const customer = await stripe.customers.retrieve(fullUserObject.ownedOrganization.stripeSubscriptionID, {
     expand: ["subscriptions", "sources"],
   });
 
@@ -36,7 +59,7 @@ export default async function handler(req, res) {
   invoices.data.map((stripeInvoiceObject) => {
     invoiceObjects.push({
       amount: stripeInvoiceObject.amount_paid,
-      created: new Date(stripeInvoiceObject.created  * 1000),
+      created: new Date(stripeInvoiceObject.created * 1000),
       status: stripeInvoiceObject.status,
       invoiceURL: stripeInvoiceObject.hosted_invoice_url,
     });
@@ -45,7 +68,7 @@ export default async function handler(req, res) {
 
   let response = {
     sessionURL: portalSession.url,
-    paymentMethod:subscription.default_payment_method.card,
+    paymentMethod: subscription.default_payment_method.card,
     subscription: {
       id: subscription.id,
       status: subscription.status,
