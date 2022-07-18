@@ -2,10 +2,11 @@ import React, { useState } from "react";
 
 
 import styled from "styled-components";
-import { Table, Tag, Input } from "antd";
+import { Table, Tag, Typography } from "antd";
 import BasicLink from "@common/BasicLink";
 import { EditOutlined } from "@ant-design/icons";
-import { SearchOutlined } from "@ant-design/icons";
+
+const { Text } = Typography;
 
 const UserTableWrapper = styled.div`
   position: relative;
@@ -24,106 +25,55 @@ const UserTableWrapper = styled.div`
 `;
 
 function OrganizationUserTable({organizationUsers}) {
-  const [search, setSearch] = useState(null);
-
+  
 
   const convertUserData = () => {
     let assetTableSource = [];
     if (!organizationUsers) {
       return assetTableSource;
     }
-    organizationUsers.map((assetObject) => {
-      let assetFilter = false;
-      if (search) {
-        if (
-          assetObject.name &&
-          assetObject.name.toLowerCase().includes(search.toLowerCase())
-        ) {
-          assetFilter = true;
-        }
 
-        if (
-          assetObject.type &&
-          assetObject.type.toLowerCase().includes(search.toLowerCase())
-        ) {
-          assetFilter = true;
-        }
-
-        if (
-          assetObject.name &&
-          assetObject.name.toLowerCase().includes(search.toLowerCase())
-        ) {
-          assetFilter = true;
-        }
-      } else {
-        assetFilter = true;
-      }
-
-      if (assetFilter) {
-        assetTableSource.push({
-          id: assetObject.id,
-          name: assetObject.name,
-          type: assetObject.type,
-          number: assetObject.number,
-        });
-      }
-      return assetObject;
-    });
-    return assetTableSource;
-  };
-
-  const filterUsers = (searchInput) => {
-    if (searchInput === "") {
-      setSearch(null);
-    } else {
-      setSearch(searchInput);
-    }
-  };
-
-  const getTypeFilters = () => {
-    const assetsTypes = [...new Set(assets.map(item => item.type))];
-    let assetFilters = []
-    assetsTypes.map(assetType => assetFilters.push({text: assetType, value: assetType}))
-    return assetFilters;
+    return organizationUsers
+ 
   };
 
   const columns = [
     {
-      title: "Asset Name",
+      title: "Name",
       dataIndex: "name",
       key: "name",
       width: 45,
       render: (text, record, index) => (
         <BasicLink
           key={index}
-          href={`/assets/list?id=${record.id}&edit=true`}
+          href={`/users/manage?id=${record.id}`}
           shallow={true}
         >
-          {record.name}
+          {record.user.firstName} {record.user.lastName}
         </BasicLink>
       ),
       sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
-      title: "Asset Type",
-      dataIndex: "type",
-      key: "type",
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
       width: 30,
       render: (text, record, index) => (
         <span>
-          <Tag>{record.type}</Tag>
+          <Tag>{record.user.role}</Tag>
         </span>
       ),
-      onFilter: (value, record) => record.type.indexOf(value) === 0,
       sorter: (a, b) => a.type.localeCompare(b.type),
-      filters: getTypeFilters(),
     },
     {
-      title: "Asset Number / VIN",
-      dataIndex: "number",
-      key: "number",
+      title: "Email",
+      dataIndex: "user.email",
+      key: "user.email",
       width: 30,
-      sorter: (a, b) => (a.number && b.number) ? a.number.localeCompare(b.number) : false,
+      render: (text, record, index) => (
+        <Text>{record.user.email}</Text>
+      )
     },
 
     {
@@ -135,7 +85,7 @@ function OrganizationUserTable({organizationUsers}) {
       render: (text, record, index) => (
         <BasicLink
           key={record.id}
-          href={`/assets/list?id=${record.id}&edit=true`}
+          href={`/users/manage?id=${record.id}&edit=true`}
           shallow={true}
         >
           Edit <EditOutlined />
@@ -146,16 +96,7 @@ function OrganizationUserTable({organizationUsers}) {
 
   return (
     <UserTableWrapper>
-      <Input
-        placeholder="Filter users"
-        size="large"
-        allowClear
-        onChange={(event) => filterUsers(event.target.value)}
-        prefix={<SearchOutlined />}
-        style={{
-          width: 300,
-        }}
-      />
+  
       <Table
         dataSource={convertUserData()}
         bordered={false}
@@ -164,7 +105,7 @@ function OrganizationUserTable({organizationUsers}) {
         columns={columns}
         rowKey="id"
         pagination={{
-          pageSize: search ? 1000 : 25,
+          pageSize: 25,
           pageSizeOptions: [],
           position: ["bottomRight"],
         }}

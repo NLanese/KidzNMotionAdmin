@@ -31,7 +31,7 @@ function ManageUsers() {
       Router.push("/");
     }
   }, []);
-
+  
   return (
     <IndexWrapper>
       <NextSeo title="Manage Users" />
@@ -41,9 +41,9 @@ function ManageUsers() {
         createTitle="Invite Users"
       />
       <ContentCard modifiers={["tightPadding"]}>
-        {/* <OrganizationUserTable
+        <OrganizationUserTable
           organizationUsers={user.ownedOrganization.organizationUsers}
-        /> */}
+        />
       </ContentCard>
     </IndexWrapper>
   );

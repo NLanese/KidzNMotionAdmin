@@ -40,6 +40,17 @@ const GET_USER = gql`
         stripeSubscriptionID
         subscriptionStatus
         active
+        organizationUsers {
+          id
+          active
+          user {
+            id
+            role
+            firstName
+            lastName
+            email
+          }
+        }
       }
 
       children {

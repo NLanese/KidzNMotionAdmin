@@ -154,7 +154,8 @@ export default {
                         id: true,
                         role: true,
                         firstName: true,
-                        lastName: true
+                        lastName: true,
+                        email: true
                       }
                     }
                   }
@@ -208,7 +209,8 @@ export default {
                         id: true,
                         role: true,
                         firstName: true,
-                        lastName: true
+                        lastName: true,
+                        email: true
                       }
                     }
                   }
