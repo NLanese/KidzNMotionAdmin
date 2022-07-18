@@ -7,32 +7,17 @@ export default {
         email,
         firstName,
         lastName,
-        phoneNumber
+        phoneNumber,
+        id
     }, context) => {
       if (!context.user) throw new UserInputError("Login required");
 
       // Check for conflicting user
-      let potentialUsers = await prisma.user.findMany({
+      let user = await prisma.user.findUnique({
         where: {
-          email: email,
-        },
-        select: {
-          email: true,
+          id: id,
         },
       });
-
-      let conflict = null;
-      potentialUsers.map((userObject) => {
-        if (userObject.email.toLowerCase() === email.toLowerCase()) {
-          if (userObject.email !== context.user.email) {
-            conflict = userObject;
-          }
-        }
-      });
-
-      if (conflict) {
-        throw new UserInputError("Email already exists.");
-      }
 
       await prisma.user.update({
         where: {

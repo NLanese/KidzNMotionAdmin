@@ -97,9 +97,9 @@ export default {
 
           // If they were not invited to another organization
           if (!isInvited) {
-            if (!organizationName) {
-              missingFields += "organizationName, ";
-            }
+            // if (!organizationName) {
+            //   missingFields += "organizationName, ";
+            // }
             if (!phoneNumber) {
               missingFields += "phoneNumber, ";
             }
