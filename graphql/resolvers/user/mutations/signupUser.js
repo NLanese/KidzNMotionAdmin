@@ -100,9 +100,9 @@ export default {
             // if (!organizationName) {
             //   missingFields += "organizationName, ";
             // }
-            if (!phoneNumber) {
-              missingFields += "phoneNumber, ";
-            }
+            // if (!phoneNumber) {
+            //   missingFields += "phoneNumber, ";
+            // }
             if (missingFields.length >= 1) {
               throw new UserInputError(
                 `Missing required fields for Therapist / School Admin: (${missingFields}) or organizationInviteKey`
