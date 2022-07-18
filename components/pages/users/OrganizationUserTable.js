@@ -76,22 +76,22 @@ function OrganizationUserTable({organizationUsers}) {
       )
     },
 
-    {
-      title: "Action",
-      dataIndex: "action",
-      key: "action",
-      fixed: "right",
-      width: 30,
-      render: (text, record, index) => (
-        <BasicLink
-          key={record.id}
-          href={`/users/manage?id=${record.id}&edit=true`}
-          shallow={true}
-        >
-          Edit <EditOutlined />
-        </BasicLink>
-      ),
-    },
+    // {
+    //   title: "Action",
+    //   dataIndex: "action",
+    //   key: "action",
+    //   fixed: "right",
+    //   width: 30,
+    //   render: (text, record, index) => (
+    //     <BasicLink
+    //       key={record.id}
+    //       href={`/users/manage?id=${record.id}&edit=true`}
+    //       shallow={true}
+    //     >
+    //       Edit <EditOutlined />
+    //     </BasicLink>
+    //   ),
+    // },
   ];
 
   return (

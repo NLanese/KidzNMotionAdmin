@@ -142,6 +142,19 @@ const EDIT_ORGANIZATION_SETTINGS = gql`
 `;
 
 
+const INVITE_USER = gql`
+  mutation Mutation(
+    $email: String!
+    $role: String!
+  ) {
+    inviteOrganizationUser(
+      email: $email
+      role: $role
+    )
+  }
+`;
+
+
 
 export {
   // Sign Up / Sign In
@@ -153,5 +166,6 @@ export {
   EDIT_USER,
   // Organization
   EDIT_ORGANIZATION_SETTINGS,
+  INVITE_USER
   
 };

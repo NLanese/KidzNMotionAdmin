@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import { NextSeo } from "next-seo";
 import PageHeader from "@common/PageHeader";
 import ContentCard from "@common/content/ContentCard";
 import OrganizationUserTable from "@pages/users/OrganizationUserTable";
+import InviteUserDrawer from "@pages/users/InviteUserDrawer";
+
+import { withRouter } from "next/router";
 
 import { userState } from "@atoms";
 import { useRecoilState } from "recoil";
@@ -23,7 +26,7 @@ const IndexWrapper = styled.div`
   }
 `;
 
-function ManageUsers() {
+function ManageUsers({ router }) {
   const [user, setUser] = useRecoilState(userState);
 
   useEffect(() => {
@@ -31,7 +34,7 @@ function ManageUsers() {
       Router.push("/");
     }
   }, []);
-  
+
   return (
     <IndexWrapper>
       <NextSeo title="Manage Users" />
@@ -44,9 +47,10 @@ function ManageUsers() {
         <OrganizationUserTable
           organizationUsers={user.ownedOrganization.organizationUsers}
         />
+        <InviteUserDrawer inviteUserDrawerOpen={router.query.invite} />
       </ContentCard>
     </IndexWrapper>
   );
 }
 
-export default ManageUsers;
+export default withRouter(ManageUsers);
