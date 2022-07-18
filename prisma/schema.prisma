@@ -33,29 +33,40 @@ model PasswordResetKey {
   userId    String?
 }
 
+model OrganizationInviteKey {
+  id             String        @id @default(uuid())
+  createdAt      DateTime      @default(now())
+  active         Boolean       @default(true)
+  user           User?         @relation(fields: [userId], references: [id])
+  userId         String?
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?
+  role           Role          @default(GUARDIAN)
+}
+
 model User {
   // Basic Info //
-  id                String             @id @default(uuid())
-  email             String             @unique
-  username          String?            @unique
-  firstName         String?
-  lastName          String?
-  title             String?
-  password          String
-  phoneNumber       String?
-  role              Role               @default(GUARDIAN)
-  createdAt         DateTime           @default(now())
+  id          String   @id @default(uuid())
+  email       String   @unique
+  username    String?  @unique
+  firstName   String?
+  lastName    String?
+  title       String?
+  password    String
+  phoneNumber String?
+  role        Role     @default(GUARDIAN)
+  createdAt   DateTime @default(now())
   ////////////////
 
   // Parent / Child Specific //
-  childDateOfBirth       String?
-  colorSettings     String              @default("Orange")
+  childDateOfBirth String?
+  colorSettings    String  @default("Orange")
   ////////////////////////////
 
   // Therapist Specific //
-  msgNotifications         Boolean        @default(false)
-  missedDateNotifications  Boolean        @default(false)
-  appointmentNotifications Boolean        @default(true)
+  msgNotifications         Boolean @default(false)
+  missedDateNotifications  Boolean @default(false)
+  appointmentNotifications Boolean @default(true)
   ////////////////////////
 
   // Security //
@@ -65,19 +76,21 @@ model User {
   active            Boolean            @default(true)
   //////////////
 
-  
+
   // Connections //
-  children          User[]             @relation("children")
-  guardianId        String?
-  guardian          User?              @relation("children", fields: [guardianId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  children   User[]  @relation("children")
+  guardianId String?
+  guardian   User?   @relation("children", fields: [guardianId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   ownedOrganization Organization?
 
-  childCarePlans    ChildCarePlan[]    @relation("child")
-  patientCarePlans  ChildCarePlan[]    @relation("therapist")
+  childCarePlans   ChildCarePlan[] @relation("child")
+  patientCarePlans ChildCarePlan[] @relation("therapist")
 
-  organizations     OrganizationUser[]
-  chatRooms         Chatroom[]
+  organizations OrganizationUser[]
+  chatRooms     Chatroom[]
+
+  organizationInviteKeys OrganizationInviteKey[]
   /////////////////
 }
 
@@ -92,17 +105,18 @@ model OrganizationUser {
 }
 
 model Organization {
-  id                   String             @id @default(uuid())
-  createdAt            DateTime           @default(now())
-  organizationType     ORGANIZATION_TYPE  @default(SCHOOL)
-  phoneNumber          String?
-  name                 String?
-  stripeSubscriptionID String?
-  subscriptionStatus   String?
-  active               Boolean            @default(true)
-  owner                User               @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  ownerId              String             @unique
-  organizationUsers    OrganizationUser[]
+  id                     String                  @id @default(uuid())
+  createdAt              DateTime                @default(now())
+  organizationType       ORGANIZATION_TYPE       @default(SCHOOL)
+  phoneNumber            String?
+  name                   String?
+  stripeSubscriptionID   String?
+  subscriptionStatus     String?
+  active                 Boolean                 @default(true)
+  owner                  User                    @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ownerId                String                  @unique
+  organizationUsers      OrganizationUser[]
+  organizationInviteKeys OrganizationInviteKey[]
 }
 
 model ChildCarePlan {
@@ -119,12 +133,12 @@ model ChildCarePlan {
 }
 
 model Assignment {
-  id              String         @id @default(uuid())
-  createdAt       DateTime       @default(now())
-  dateStart       String?
-  dateDue         String
-  title           String
-  description     String
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  dateStart   String?
+  dateDue     String
+  title       String
+  description String
 
   childCarePlan   ChildCarePlan? @relation(fields: [childCarePlanId], references: [id])
   childCarePlanId String?
@@ -132,7 +146,7 @@ model Assignment {
 }
 
 model Video {
-  id           String      @id @default(uuid())
+  id           String @id @default(uuid())
   contentfulID String
 
   medals       Medal[]
@@ -141,24 +155,24 @@ model Video {
 }
 
 model Medal {
-  id          String      @id @default(uuid())
+  id          String @id @default(uuid())
   title       String
-  image       String      @default("Default")
+  image       String @default("Default")
   description String
 
-  level       MEDAL_LEVEL @default(BLUE)
-  video       Video?      @relation(fields: [videoId], references: [id])
-  videoId     String?
+  level   MEDAL_LEVEL @default(BLUE)
+  video   Video?      @relation(fields: [videoId], references: [id])
+  videoId String?
 }
 
 model Chatroom {
-  id        String    @id @default(uuid())
+  id String @id @default(uuid())
 
-  users     User[]
-  messages  Message[]
+  users    User[]
+  messages Message[]
 
-  active    Boolean   @default(true)
-  createdAt DateTime  @default(now())
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
 }
 
 model Message {
@@ -166,7 +180,7 @@ model Message {
   content    String
   sentAt     Json
   sentBy     Json
-  createdAt  String 
+  createdAt  String
   chatroomId String
   chatRoom   Chatroom @relation(fields: [chatroomId], references: [id])
 }

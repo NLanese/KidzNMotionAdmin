@@ -168,6 +168,7 @@ const typeDefs = gql`
 
     #### ORGANIZATION MUTATIONS ####
     editOrganizationSettings(name: String!, phoneNumber: String!): User
+    inviteOrganizationUser(email: String!, role: String!): Boolean
     ##########################
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------

@@ -54,7 +54,7 @@ export default {
         to: userResetingPassword.email, // Change to your recipient
         from: 'test@em8453.getfreelaundry.com', // Change to your verified sender
         subject: 'Kids In Motion Password Reset',
-        text: 'and easy to do anywhere, even with Node.js',
+       
         html: `
             <p>Please click the link below to reset your password</p>
             <br />
@@ -63,7 +63,7 @@ export default {
             <strong>If you did not request this password reset, you can ignore this message</strong>
         `,
       }
-      sgMail
+      await sgMail
         .send(msg)
         .then(() => {
           console.log('Email sent')

@@ -66,7 +66,8 @@ export const handleAuth = async (clientToken) => {
           role: true,
           ownedOrganization: {
             select: {
-              id: true
+              id: true,
+              name: true
             }
           }
         },
