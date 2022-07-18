@@ -185,17 +185,19 @@ export default {
         // #endregion
 
         // If there is an organization invite key then add them to the organization
-        let organizationInvite = await prisma.organizationInviteKey.findMany({
-          where: {
-            id: organizationInviteKey,
-            active: true,
-          },
-          select: {
-            organizationId: true,
-          },
-        });
+        let organizationInvite;
+        if (organizationInviteKey) {
+          organizationInvite = await prisma.organizationInviteKey.findMany({
+            where: {
+              id: organizationInviteKey,
+              active: true,
+            },
+            select: {
+              organizationId: true,
+            },
+          });
+        }
         
-        console.log(organizationInvite)
         if (organizationInvite && organizationInvite[0]) {
           await prisma.organizationUser.create({
             data: {
