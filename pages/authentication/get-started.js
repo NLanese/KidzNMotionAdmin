@@ -7,9 +7,9 @@ import AuthCard from "@components/pages/auth/AuthCard";
 import UserSignUpForm from "@forms/auth/UserSignUpForm";
 
 function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-  
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function SelectAccountType() {
   return (
     <>
@@ -57,12 +57,21 @@ function SelectAccountType() {
 function GetStarted() {
   const urlSearchParams = new URLSearchParams(window.location.search);
   const role = urlSearchParams.get("role");
+  const key = urlSearchParams.get("key");
 
   const renderAccountTypeForm = () => {
     if (!role) {
       return <SelectAccountType />;
     } else {
-      return <UserSignUpForm role={role}/>;
+      return (
+        <UserSignUpForm
+          role={role}
+          initialValues={{
+            organizationInviteKey: key,
+          }}
+          organizationInviteKey={key}
+        />
+      );
     }
   };
 
@@ -110,12 +119,8 @@ function GetStarted() {
     }
   };
 
-
   return (
-    <AuthCard
-      title={renderPageTitle()}
-      pageTitle={renderPageTitle()}
-    >
+    <AuthCard title={renderPageTitle()} pageTitle={renderPageTitle()}>
       <>
         {renderAccountTypeForm()}
         {renderBackLink()}

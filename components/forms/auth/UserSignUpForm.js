@@ -14,7 +14,7 @@ import { USER_SIGN_UP, GET_USER } from "@graphql/operations";
 import { useMutation } from "@apollo/client";
 import client from "@utils/apolloClient";
 
-function UserSignUpForm({ role, initialValues }) {
+function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
   const [redirectLogin, setRedirectLogin] = useState(false);
   const setUser = useSetRecoilState(userState);
 
@@ -44,7 +44,6 @@ function UserSignUpForm({ role, initialValues }) {
     }
   };
 
-
   const handleSignUp = async (formValues) => {
     await signUpUser({
       variables: {
@@ -54,6 +53,7 @@ function UserSignUpForm({ role, initialValues }) {
         lastName: formValues.lastName,
         role: role,
         phoneNumber: formValues.phoneNumber,
+        organizationInviteKey: formValues.organizationInviteKey,
 
         // GUARDIAN
         childFirstName: formValues.childFirstName,
@@ -61,7 +61,7 @@ function UserSignUpForm({ role, initialValues }) {
         childDateOfBirth: formValues.childDateOfBirth,
 
         // ADMIN or THERAPIST
-        organizationName: formValues.organizationName
+        organizationName: formValues.organizationName,
       },
     })
       .then(async (resolved) => {
@@ -139,7 +139,6 @@ function UserSignUpForm({ role, initialValues }) {
 
           // GUARDIAN REQUIRED FIELDS
           if (role === "GUARDIAN") {
-
             if (!values.childFirstName) {
               errors.childFirstName = "Required";
             }
@@ -149,12 +148,7 @@ function UserSignUpForm({ role, initialValues }) {
             if (!values.childDateOfBirth) {
               errors.childDateOfBirth = "Required";
             }
-          } else {
-            if (!values.organizationName) {
-              errors.organizationName = "Required";
-            }
-          }
-          
+          } 
 
           return errors;
         }}
@@ -292,31 +286,32 @@ function UserSignUpForm({ role, initialValues }) {
               {(role === "ADMIN" || role === "THERAPIST") && (
                 <>
                   <Divider style={{ margin: "2px 0px 10px" }} />
-                  <Col xs={24} md={24}>
-                    <Field
-                      label="Orgnization Name"
-                      name="organizationName"
-                      htmlType="text"
-                      component={PlainTextField}
-                      required={true}
-                      size={"large"}
-                      hideErrorText={false}
-                    />
-                  </Col>
-                  <Col xs={24} md={24}>
-                    <Field
-                      name="organizationInviteKey"
-                      component={PlainTextField}
-                      htmlType="text"
-                      label="Organization Invite Token"
-                      size="large"
-                      required={false}
-                      autoComplete="password"
-                      hideErrorText={false}
-                    />
-                  </Col>
+                  {(!organizationInviteKey) && (
+                    <Col xs={24} md={24}>
+                      <Field
+                        label="Orgnization Name"
+                        name="organizationName"
+                        htmlType="text"
+                        component={PlainTextField}
+                        required={true}
+                        size={"large"}
+                        hideErrorText={false}
+                      />
+                    </Col>
+                  )}
                 </>
               )}
+              <Col xs={24} md={24}>
+                <Field
+                  name="organizationInviteKey"
+                  component={PlainTextField}
+                  htmlType="text"
+                  label="Organization Invite Token"
+                  size="large"
+                  required={false}
+                  hideErrorText={false}
+                />
+              </Col>
             </Row>
 
             <Button

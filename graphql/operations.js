@@ -90,6 +90,7 @@ const USER_SIGN_UP = gql`
     $childLastName: String
     $childDateOfBirth: String
     $organizationName: String
+    $organizationInviteKey: String
   ) {
     signUpUser(
       email: $email
@@ -104,6 +105,7 @@ const USER_SIGN_UP = gql`
       childDateOfBirth: $childDateOfBirth
 
       organizationName: $organizationName
+      organizationInviteKey: $organizationInviteKey
     ) {
       token
     }

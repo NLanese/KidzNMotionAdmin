@@ -3,12 +3,17 @@ import { Form, Field } from "react-final-form";
 import { PlainTextField, SelectField } from "@fields";
 import { Col, Row, Button, message, Spin } from "antd";
 
+import { userState } from "@atoms";
+import { useRecoilState } from "recoil";
+
 import { useMutation } from "@apollo/client";
-import { INVITE_USER } from "@graphql/operations";
+import { INVITE_USER, GET_USER } from "@graphql/operations";
+import client from "@utils/apolloClient";
 
 import Router from "next/router";
 
 function InviteUserForm() {
+  const [user, setUser] = useRecoilState(userState);
 
   // Mutations
   const [inviteUser, {}] = useMutation(INVITE_USER);
@@ -22,7 +27,20 @@ function InviteUserForm() {
     })
       .then(async (resolved) => {
         message.success("Successfully Invited User");
-        Router.push("/users/manage")
+        Router.push("/users/manage");
+
+        // Get the full user object and set that to state
+        await client
+          .query({
+            query: GET_USER,
+            fetchPolicy: "network-only",
+          })
+          .then(async (resolved) => {
+            setUser(resolved.data.getUser);
+          })
+          .catch((error) => {
+            message.error("Sorry, there was an error getting this information");
+          });
       })
       .catch((error) => {
         message.error(error.message);
@@ -61,7 +79,9 @@ function InviteUserForm() {
         }) => (
           <form
             onSubmit={(event) => {
-              handleSubmit(event).then((event) => {});
+              handleSubmit(event).then((event) => {
+                form.mutators.setValue("email", "");
+              });
             }}
           >
             <legend>Invite User Form</legend>

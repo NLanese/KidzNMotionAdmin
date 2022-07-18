@@ -14,6 +14,7 @@ import {
   TableOutlined,
   BulbOutlined,
   MessageOutlined,
+  UserOutlined,
   HomeOutlined,
   CloseOutlined,
 } from "@ant-design/icons";
@@ -178,7 +179,6 @@ function SideMenu({ router, user }) {
           <Menu.Item
             onClick={() => pushLink("/users/manage")}
             key="/users/manage"
-            
             icon={<TeamOutlined style={{ fontSize: "20px" }} />}
           >
             Manage Users
@@ -205,15 +205,16 @@ function SideMenu({ router, user }) {
               >
                 Billing & Subscription
               </Menu.Item>
-              <Menu.Item
-                key={"/account/profile-settings"}
-                onClick={() => pushLink("/account/profile-settings")}
-              >
-                Profile Settings
-              </Menu.Item>
             </>
           </Menu.SubMenu>
         )}
+        <Menu.Item
+          key={"/account/profile-settings"}
+          onClick={() => pushLink("/account/profile-settings")}
+          icon={<UserOutlined style={{ fontSize: "20px" }} />}
+        >
+          Profile Settings
+        </Menu.Item>
       </StyledMenu>
       <Divider />
       <Typography

@@ -30,7 +30,9 @@ export default {
       },
       context
     ) => {
+
       try {
+        // #region Check User Conflicts
         if (context.user) throw new UserInputError("Already logged in");
 
         // Check for conflicting user
@@ -54,12 +56,11 @@ export default {
           throw new UserInputError("Email already exists.");
         }
 
+        // #endregion
+
+        // #region Check For Missing Fields / Incorrect Input
         // Ensure that the role is not of a child
-        if (
-          role !== "GUARDIAN" &&
-          role !== "THERAPIST" &&
-          role !== "ADMIN"
-        ) {
+        if (role !== "GUARDIAN" && role !== "THERAPIST" && role !== "ADMIN") {
           throw new UserInputError("Role does not exist.");
         }
 
@@ -110,7 +111,9 @@ export default {
             }
           }
         }
+        // #endregion
 
+        // #region Create the User & required information
         // Create the base user
         let baseUser = await prisma.user.create({
           data: {
@@ -145,21 +148,55 @@ export default {
           // If organization invite link - add them to the organization as an organization user
           // TODO
         } else if (role === "THERAPIST" || role == "ADMIN") {
-          // Create the organization for the therapist
-          let baseOrganization = await prisma.organization.create({
-            data: {
-              organizationType: role === "THERAPIST" ? "PRACTICE" : "SCHOOL",
-              owner: {
-                connect: {
-                  id: baseUser.id,
+          // If they were not invited and do not have an invite link then create their own organization
+          if (!organizationInviteKey) {
+            // Create the organization for the therapist
+            let baseOrganization = await prisma.organization.create({
+              data: {
+                organizationType: role === "THERAPIST" ? "PRACTICE" : "SCHOOL",
+                owner: {
+                  connect: {
+                    id: baseUser.id,
+                  },
+                },
+                name: organizationName,
+                phoneNumber: phoneNumber,
+              },
+            });
+
+            // Add them as the initial organization user
+            await prisma.organizationUser.create({
+              data: {
+                active: true,
+                user: {
+                  connect: {
+                    id: baseUser.id,
+                  },
+                },
+                organization: {
+                  connect: {
+                    id: baseOrganization.id,
+                  },
                 },
               },
-              name: organizationName,
-              phoneNumber: phoneNumber,
-            },
-          });
+            });
+          }
+        }
+        // #endregion
 
-          // Add them as the initial organization user
+        // If there is an organization invite key then add them to the organization
+        let organizationInvite = await prisma.organizationInviteKey.findMany({
+          where: {
+            id: organizationInviteKey,
+            active: true,
+          },
+          select: {
+            organizationId: true,
+          },
+        });
+        
+        console.log(organizationInvite)
+        if (organizationInvite && organizationInvite[0]) {
           await prisma.organizationUser.create({
             data: {
               active: true,
@@ -170,18 +207,23 @@ export default {
               },
               organization: {
                 connect: {
-                  id: baseOrganization.id,
+                  id: organizationInvite[0].organizationId,
                 },
               },
             },
           });
 
-          // If organization invite link - add them to the organization as an organization user
-          // TODO
+          await prisma.organizationInviteKey.update({
+            where: {
+              id: organizationInviteKey,
+            },
+            data: {
+              active: false,
+            },
+          });
         }
 
-        // TODO SEND WELCOME EMAIL
-
+        // #region Create JWT Token
         // Create the client string
         const jwtTokenString = makeRandomString(60);
 
@@ -204,6 +246,7 @@ export default {
           jwtTokenString,
           process.env.JWT_SECRET_KEY
         ).toString();
+        // #endregion
 
         // Return the user object and jwt token for login
         return {
@@ -211,7 +254,7 @@ export default {
           token: clientToken,
         };
       } catch (error) {
-        console.log(error)
+        console.log(error);
         throw new Error(error);
       }
     },
