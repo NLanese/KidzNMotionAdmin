@@ -4,13 +4,13 @@ import { message } from "antd";
 
 import { NextSeo } from "next-seo";
 import PageHeader from "@common/PageHeader";
-import MainOrganizationSettingsForm from "@forms/organizationSettings/MainOrganizationSettingsForm";
+import MainOrganizationSettingsForm from "@forms/profileSettings/MainOrganizationSettingsForm";
 
 import { userState } from "@atoms";
 import { useRecoilState } from "recoil";
 
 import { useMutation } from "@apollo/client";
-import { EDIT_ORGANIZATION_SETTINGS, GET_USER } from "@graphql/operations";
+import { EDIT_USER, GET_USER } from "@graphql/operations";
 import client from "@utils/apolloClient";
 
 const IndexWrapper = styled.div`
@@ -30,17 +30,17 @@ function ProfileSettings() {
   const [user, setUser] = useRecoilState(userState);
 
   // Mutations
-  const [editOrganizationSettings, {}] = useMutation(
-    EDIT_ORGANIZATION_SETTINGS
+  const [editUser, {}] = useMutation(
+    EDIT_USER
   );
 
-  const submitOrganizationSettings = async (formValues) => {
-    await editOrganizationSettings({
+  const submitUserProfile = async (formValues) => {
+    await editUser({
       variables: {
         firstName: formValues.firstName,
         lastName: formValues.lastName,
         phoneNumber: formValues.phoneNumber,
-        email: formValues.email
+        email: formValues.email,
       },
     })
       .then(async (resolved) => {
@@ -70,7 +70,7 @@ function ProfileSettings() {
       <PageHeader title="Profile Settings" />
       <MainOrganizationSettingsForm
         initialValues={user}
-        submitOrganizationSettings={submitOrganizationSettings}
+        submitOrganizationSettings={submitUserProfile}
       />
     </IndexWrapper>
   );

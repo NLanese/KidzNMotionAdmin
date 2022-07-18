@@ -99,6 +99,22 @@ const USER_SIGN_UP = gql`
   }
 `;
 
+const EDIT_USER = gql`
+  mutation Mutation(
+    $email: String!
+    $firstName: String!
+    $lastName: String!
+    $phoneNumber: String!
+  ) {
+    editUser(
+      email: $email
+      firstName: $firstName
+      lastName: $lastName
+      phoneNumber: $phoneNumber
+    )
+  }
+`;
+
 
 const EDIT_ORGANIZATION_SETTINGS = gql`
   mutation editOrganizationSettings(
@@ -123,6 +139,8 @@ export {
   USER_SIGN_UP,
   REQUEST_PASSWORD_RESET,
   RESET_PASSWORD_FROM_KEY,
+  EDIT_USER,
   // Organization
-  EDIT_ORGANIZATION_SETTINGS
+  EDIT_ORGANIZATION_SETTINGS,
+  
 };

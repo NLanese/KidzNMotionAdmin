@@ -10,6 +10,7 @@ import loginUser from './mutations/loginUser.js';
 import logoutUser from './mutations/logoutUser.js';
 import requestResetPassword from './mutations/requestResetPassword.js';
 import resetPasswordFromKey from './mutations/resetPasswordFromKey.js';
+import editUser from './mutations/editUser.js';
 
 export default {
     Query: {
@@ -24,6 +25,7 @@ export default {
         ...signUpUser.Mutation,
         ...requestResetPassword.Mutation,
         ...resetPasswordFromKey.Mutation,
+        ...editUser.Mutation,
     },
     JSON: GraphQLJSON,
 }

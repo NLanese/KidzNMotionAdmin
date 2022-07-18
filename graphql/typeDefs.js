@@ -159,10 +159,15 @@ const typeDefs = gql`
     logoutUser: String
     requestResetPassword(email: String!): Boolean
     resetPasswordFromKey(password: String!, resetPasswordKeyID: String!): Boolean
+    editUser(
+      email: String!, 
+      firstName: String!,
+      lastName: String!,
+      phoneNumber: String!,
+    ): Boolean
 
     #### ORGANIZATION MUTATIONS ####
     editOrganizationSettings(name: String!, phoneNumber: String!): User
-
     ##########################
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------
