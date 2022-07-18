@@ -50,8 +50,10 @@ function ProfileSettings() {
         await client
           .query({
             query: GET_USER,
+            fetchPolicy: 'network-only'
           })
           .then(async (resolved) => {
+            console.clear()
             console.log(resolved);
             setUser(resolved.data.getUser);
           })
