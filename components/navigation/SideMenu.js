@@ -204,8 +204,8 @@ function SideMenu({ router, user }) {
                 Billing & Subscription
               </Menu.Item>
               <Menu.Item
-                key={"/account/profile-setting"}
-                onClick={() => pushLink("/account/profile-setting")}
+                key={"/account/profile-settings"}
+                onClick={() => pushLink("/account/profile-settings")}
               >
                 Profile Settings
               </Menu.Item>
