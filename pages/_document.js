@@ -59,10 +59,10 @@ export default class CustomDocument extends Document {
           <link
             rel="icon"
             type="image/x-icon"
-            href="/logos/LogoSquare.png"
+            href="/logos/favicon.png"
           /> 
           <meta name="theme-color" content="#f6f6f7" />
-          <meta name="apple-mobile-web-app-title" content="Kids In Motion" />
+          <meta name="apple-mobile-web-app-title" content="Kidz-N-Motion" />
           <meta name="msapplication-TileColor" content="#f6f6f7" />
         </Head>
         <body>

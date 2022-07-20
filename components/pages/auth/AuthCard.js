@@ -27,7 +27,7 @@ const Logo = styled.div`
   margin-bottom: 10px;
   padding: 15px 0px;
   & img {
-    width: 84px;
+    width: 80px;
   }
 `;
 
@@ -36,7 +36,7 @@ const AuthCard = ({ children, title, subTitle, pageTitle }) => {
     <LoginCard>
       <NextSeo title={pageTitle} />
       <Logo>
-        <img alt="Kids In Motion Logo" src="/logos/LogoRect.png" />
+        <img alt="Kidz-N-Motion Logo" src="/logos/Main.png" />
       </Logo>
       <Title level={3}>{title}</Title>
       <Text type="secondary" style={{ marginBottom: "20px", display: "block" }}>
