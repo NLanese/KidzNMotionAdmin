@@ -94,7 +94,7 @@ export default {
         const msg = {
           to: email, // Change to your recipient
           from: "test@em8453.getfreelaundry.com", // Change to your verified sender
-          subject: "Kids In Motion Account Invite",
+          subject: "Kidz-N-Motion Account Invite",
           html: `
                 <p>You have been invited to join ${context.user.firstName} ${context.user.lastName}'s organization: ${context.user.ownedOrganization.name}. Click the link below to sign up:</p>
                 <br />

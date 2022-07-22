@@ -11,6 +11,7 @@ const LogoWrapper = styled.div`
 
   & img {
     width: 65px;
+    height: 65px;
   }
 `;
 
@@ -18,7 +19,7 @@ function Logo() {
   return (
     <LogoWrapper>
       <BasicLink href='/'>
-        <img alt="Kids In Motion Logo" src="/logos/LogoSVG.svg" />
+        <img alt="Kidz-N-Motion Logo" src="/logos/Main.png" />
       </BasicLink>
     </LogoWrapper>
   );

@@ -53,7 +53,7 @@ export default {
       const msg = {
         to: userResetingPassword.email, // Change to your recipient
         from: 'test@em8453.getfreelaundry.com', // Change to your verified sender
-        subject: 'Kids In Motion Password Reset',
+        subject: 'Kidz-N-Motion Password Reset',
        
         html: `
             <p>Please click the link below to reset your password</p>

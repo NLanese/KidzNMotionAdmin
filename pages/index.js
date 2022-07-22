@@ -37,14 +37,14 @@ function Index() {
 
   return (
     <IndexWrapper>
-      <PageHeader title="Welcome To Kids In Motion " />
+      <PageHeader title="Welcome To Kidz-N-Motion " />
       <Row gutter={[16, 3]}>
      
         <Col xs={24} sm={24}>
           <ContentCard>
             <Space direction="vertical">
               <Title style={{ margin: "0px" }} level={5}>
-                <InfoCircleOutlined /> Learn how to make the most out of Kids In Motion
+                <InfoCircleOutlined /> Learn how to make the most out of Kidz-N-Motion
               </Title>
               <Text>
                 We’ve got dozens of free and tutorials for all features or

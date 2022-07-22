@@ -7,7 +7,7 @@ import AuthCard from "@components/pages/auth/AuthCard";
 
 function Login() {
   return (
-    <AuthCard pageTitle="Login" title="Login" subTitle="Continue to Kids In Motion">
+    <AuthCard pageTitle="Login" title="Login" subTitle="Continue to Kidz-N-Motion">
       <>
         <LoginForm />
         <BasicLink href="/authentication/request-password-reset">
@@ -25,7 +25,7 @@ function Login() {
         </BasicLink>
         <Divider style={{ margin: "15px" }} />
         <Text type="secondary">
-          Don't have a Kids In Motion account?{" "}
+          Don't have a Kidz-N-Motion account?{" "}
           <BasicLink href="/authentication/get-started">
             <span style={{ textDecoration: "underline" }}>Get Started</span>
           </BasicLink>
