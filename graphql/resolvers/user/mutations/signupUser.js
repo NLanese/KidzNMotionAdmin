@@ -20,7 +20,6 @@ export default {
         childLastName,
         childDateOfBirth,
         username,
-        level,
 
         // School Admin / Therapist Practice required
         organizationName,
