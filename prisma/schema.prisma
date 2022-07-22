@@ -51,9 +51,9 @@ model User {
   username    String?  @unique
   firstName   String?
   lastName    String?
-  title       String?
   password    String
   phoneNumber String?
+  profilePic  String?
   role        Role     @default(GUARDIAN)
   createdAt   DateTime @default(now())
   ////////////////
@@ -64,6 +64,7 @@ model User {
   ////////////////////////////
 
   // Therapist Specific //
+  title                    String?
   msgNotifications         Boolean @default(false)
   missedDateNotifications  Boolean @default(false)
   appointmentNotifications Boolean @default(true)

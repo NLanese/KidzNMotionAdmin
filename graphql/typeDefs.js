@@ -13,6 +13,7 @@ const typeDefs = gql`
     title: String
     password: String
     phoneNumber: String
+    profilePic: String
     role: String
     createdAt: Date
 
