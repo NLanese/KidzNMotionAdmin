@@ -14,12 +14,13 @@ export default {
         firstName,
         lastName,
         role,
-        // Guardian required
 
+        // Guardian required
         childFirstName,
         childLastName,
         childDateOfBirth,
         username,
+        level,
 
         // School Admin / Therapist Practice required
         organizationName,
