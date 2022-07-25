@@ -65,6 +65,7 @@ const typeDefs = gql`
   type ChildCarePlan {
     id: ID
     child: User
+    childId: String
     therapist: User
     level: Int
     active: Boolean
@@ -157,9 +158,13 @@ const typeDefs = gql`
 
       organizationInviteKey: String
     ): UserPayLoad
+
     logoutUser: String
+
     requestResetPassword(email: String!): Boolean
+
     resetPasswordFromKey(password: String!, resetPasswordKeyID: String!): Boolean
+
     editUser(
       email: String, 
       firstName: String,
