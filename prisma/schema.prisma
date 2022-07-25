@@ -130,6 +130,11 @@ model ChildCarePlan {
   allVideoStatus    Json?
   weeklyVideoStatus Json?
   active            Boolean      @default(true)
+
+  accessSettings Boolean
+  accessMessages Boolean
+  leaveApp Boolean
+
   assignments       Assignment[]
 }
 

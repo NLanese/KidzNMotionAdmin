@@ -72,6 +72,10 @@ const typeDefs = gql`
     allVideoStatus: JSON
     weeklyVideoStatus: JSON
     assignments: [Assignment]
+
+    accessSettings: Boolean
+    accessMessages: Boolean
+    leaveApp: Boolean
   }
 
   type Assignment {
