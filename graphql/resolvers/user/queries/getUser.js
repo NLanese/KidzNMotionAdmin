@@ -28,6 +28,9 @@ export default {
               select: {
                 id: true,
                 firstName: true,
+                accessMessages: true,
+                accessSettings: true,
+                leaveApp: true,
                 lastName: true,
                 childDateOfBirth: true,
                 childCarePlans: {

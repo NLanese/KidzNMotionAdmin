@@ -74,6 +74,12 @@ model User {
   muteAllAssignments       Boolean @default(false)
   ////////////////////////
 
+  // Child Security Settings //
+  accessSettings Boolean @default(false)
+  accessMessages Boolean @default(false)
+  leaveApp Boolean @default(false)
+  ////////////////////////
+
   // Security //
   jwtTokens         JWTToken[]
   loginAttemps      LoginAttempts[]
@@ -135,9 +141,7 @@ model ChildCarePlan {
   weeklyVideoStatus Json?
   active            Boolean      @default(true)
 
-  accessSettings Boolean
-  accessMessages Boolean
-  leaveApp Boolean
+
 
   assignments       Assignment[]
 }

@@ -35,6 +35,10 @@ const typeDefs = gql`
 
     organizations: [OrganizationUser]
     chatRooms: [ChatRoom]
+
+    accessSettings: Boolean
+    accessMessages: Boolean
+    leaveApp: Boolean
   }
 
   type OrganizationUser {
@@ -73,9 +77,7 @@ const typeDefs = gql`
     weeklyVideoStatus: JSON
     assignments: [Assignment]
 
-    accessSettings: Boolean
-    accessMessages: Boolean
-    leaveApp: Boolean
+
   }
 
   type Assignment {
@@ -182,6 +184,15 @@ const typeDefs = gql`
     editOrganizationSettings(name: String!, phoneNumber: String!): User
     inviteOrganizationUser(email: String!, role: String!): Boolean
     ##########################
+    
+    #### ORGANIZATION MUTATIONS ####
+    editChildSettings(
+      childUserID: String!
+      leaveApp: Boolean
+      accessMessages: Boolean
+      accessSettings: Boolean
+    ): Boolean
+    #################################
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------
 `;
