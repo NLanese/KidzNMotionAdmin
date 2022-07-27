@@ -46,8 +46,6 @@ export default {
         },
       });
 
-      console.log(childUser)
-
       return true;
     },
   },

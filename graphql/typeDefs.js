@@ -185,12 +185,21 @@ const typeDefs = gql`
     inviteOrganizationUser(email: String!, role: String!): Boolean
     ##########################
     
-    #### ORGANIZATION MUTATIONS ####
+    #### GUARDIAN MUTATIONS ####
     editChildSettings(
       childUserID: String!
-      leaveApp: Boolean
-      accessMessages: Boolean
-      accessSettings: Boolean
+      leaveApp: Boolean!
+      accessMessages: Boolean!
+      accessSettings: Boolean!
+    ): Boolean
+    #################################
+
+    #### THERAPIST MUTATIONS ####
+    editNotificationSettings(
+      patientUserID: String
+      muteMessageNotifications: Boolean!
+      muteAssignmentNotifications: Boolean!
+
     ): Boolean
     #################################
   }
