@@ -174,6 +174,8 @@ const typeDefs = gql`
       firstName: String,
       lastName: String,
       phoneNumber: String,
+      title: String,
+      username: String
     ): Boolean
 
     #### ORGANIZATION MUTATIONS ####

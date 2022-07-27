@@ -8,7 +8,10 @@ export default {
         firstName,
         lastName,
         phoneNumber,
+        title,
+        username, 
     }, context) => {
+
       if (!context.user) throw new UserInputError("Login required");
 
       // Get conflicting user
@@ -32,6 +35,31 @@ export default {
       if (emailAlreadyTaken) {
         throw new UserInputError("Email already exists.");
       }
+
+      if (emailAlreadyTaken) {
+        throw new UserInputError("Email already exists.");
+      }
+
+      let conflictingUsers2 = await prisma.user.findMany({
+        where: {
+          username: username
+        },
+        select: {
+         id: true
+        },
+      });
+
+
+      let usernameTaken = false;
+      conflictingUsers2.map((userObject) => {
+        if (userObject.id !== context.user.id) {
+          usernameTaken = true;
+        }
+      })
+
+      if (usernameTaken) {
+        throw new UserInputError("Username is taken.");
+      }
       
       await prisma.user.update({
         where: {
@@ -42,6 +70,8 @@ export default {
           lastName: lastName,
           email: email,
           phoneNumber: phoneNumber,
+          title: title,
+          username: username
         },
       });
 

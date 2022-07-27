@@ -61,6 +61,8 @@ model User {
   // Parent / Child Specific //
   childDateOfBirth String?
   colorSettings    String  @default("Orange")
+  messagesMuted    Boolean @default(false)
+  assignMuted      Boolean @default(false)
   ////////////////////////////
 
   // Therapist Specific //
@@ -68,6 +70,8 @@ model User {
   msgNotifications         Boolean @default(false)
   missedDateNotifications  Boolean @default(false)
   appointmentNotifications Boolean @default(true)
+  muteAllMessages          Boolean @default(false)
+  muteAllAssignments       Boolean @default(false)
   ////////////////////////
 
   // Security //
