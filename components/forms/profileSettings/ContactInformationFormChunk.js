@@ -52,6 +52,17 @@ const ContactInformationFormChunk = () => {
           required={true}
         />
       </Col>
+      <Col xs={24} md={12}>
+        <Field
+          name="title"
+          component={PlainTextField}
+          htmlType="text"
+          label="Title"
+          placeholder=""
+          size={"large"}
+          required={false}
+        />
+      </Col>
     </Row>
   );
 };

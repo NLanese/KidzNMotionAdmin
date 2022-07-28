@@ -36,10 +36,6 @@ export default {
         throw new UserInputError("Email already exists.");
       }
 
-      if (emailAlreadyTaken) {
-        throw new UserInputError("Email already exists.");
-      }
-
       let conflictingUsers2 = await prisma.user.findMany({
         where: {
           username: username
@@ -50,16 +46,7 @@ export default {
       });
 
 
-      let usernameTaken = false;
-      conflictingUsers2.map((userObject) => {
-        if (userObject.id !== context.user.id) {
-          usernameTaken = true;
-        }
-      })
 
-      if (usernameTaken) {
-        throw new UserInputError("Username is taken.");
-      }
       
       await prisma.user.update({
         where: {

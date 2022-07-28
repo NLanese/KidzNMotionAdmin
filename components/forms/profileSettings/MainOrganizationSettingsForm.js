@@ -39,6 +39,7 @@ function MainOrganizationSettingsForm({
 
   const handleCreateCompanyPreferences = async (formValues) => {
     setFormLoading(true);
+    formValues.username = formValues.email
     await submitOrganizationSettings(formValues);
     setFormLoading(false);
   };

@@ -120,12 +120,16 @@ const EDIT_USER = gql`
     $firstName: String!
     $lastName: String!
     $phoneNumber: String!
+    $username: String!
+    $title: String
   ) {
     editUser(
       email: $email
       firstName: $firstName
       lastName: $lastName
       phoneNumber: $phoneNumber
+      username: $username
+      title: $title
     )
   }
 `;

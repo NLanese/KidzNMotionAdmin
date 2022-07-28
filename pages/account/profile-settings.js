@@ -41,6 +41,8 @@ function ProfileSettings() {
         lastName: formValues.lastName,
         phoneNumber: formValues.phoneNumber,
         email: formValues.email,
+        username: formValues.username,
+        title: formValues.title,
       },
     })
       .then(async (resolved) => {
