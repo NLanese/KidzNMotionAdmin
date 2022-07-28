@@ -54,13 +54,14 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
         role: role,
         phoneNumber: formValues.phoneNumber,
         organizationInviteKey: formValues.organizationInviteKey,
-
+        
         // GUARDIAN
         childFirstName: formValues.childFirstName,
         childLastName: formValues.childLastName,
         childDateOfBirth: formValues.childDateOfBirth,
-
+        
         // ADMIN or THERAPIST
+        title: formValues.title,
         organizationName: formValues.organizationName,
       },
     })
@@ -149,6 +150,12 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
               errors.childDateOfBirth = "Required";
             }
           } 
+      
+          if (role === "THERAPIST") {
+            if (!values.title) {
+              errors.title = "Required";
+            }
+          } 
 
           return errors;
         }}
@@ -192,6 +199,19 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
                   hideErrorText={false}
                 />
               </Col>
+              {role === "THERAPIST" && (
+                  <Col xs={24} md={24}>
+                    <Field
+                      label="Title"
+                      name="title"
+                      htmlType="text"
+                      component={PlainTextField}
+                      required={true}
+                      size={"large"}
+                      hideErrorText={false}
+                    />
+                  </Col>
+                )}
               <Col xs={24} md={24}>
                 <Field
                   label="Your Email"

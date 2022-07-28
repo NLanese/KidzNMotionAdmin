@@ -24,12 +24,15 @@ export default {
         // School Admin / Therapist Practice required
         organizationName,
         phoneNumber,
+        title,
 
         // Organization Invite Key
         organizationInviteKey,
       },
       context
     ) => {
+
+      console.log(title)
 
       try {
         // #region Check User Conflicts
@@ -88,27 +91,14 @@ export default {
               `Missing required fields for Guardian: ${missingFields}`
             );
           }
-        } else if (role === "THERAPIST" || role === "ADMIN") {
-          let isInvited = false;
-
-          // When we add organization invites, will remove
-          // if (organizationInviteKey) {
-          //     isInvited = true;
-          // }
-
-          // If they were not invited to another organization
-          if (!isInvited) {
-            // if (!organizationName) {
-            //   missingFields += "organizationName, ";
-            // }
-            // if (!phoneNumber) {
-            //   missingFields += "phoneNumber, ";
-            // }
-            if (missingFields.length >= 1) {
-              throw new UserInputError(
-                `Missing required fields for Therapist / School Admin: (${missingFields}) or organizationInviteKey`
-              );
-            }
+        } else if (role === "THERAPIST") {
+          if (!title) {
+            missingFields += "title, ";
+          }
+          if (missingFields.length >= 1) {
+            throw new UserInputError(
+              `Missing required fields for Therapist: ${missingFields}`
+            );
           }
         }
         // #endregion
@@ -121,6 +111,7 @@ export default {
             password: encryptedPassword,
             username: username,
             role: role,
+            title: title,
             firstName: firstName,
             lastName: lastName,
           },

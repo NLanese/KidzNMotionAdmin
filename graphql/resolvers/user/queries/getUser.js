@@ -69,6 +69,7 @@ export default {
                       select: {
                         firstName: true,
                         lastName: true,
+                        title: true,
                         email: true,
                       },
                     },
@@ -99,6 +100,7 @@ export default {
           },
           select: {
             id: true,
+            title: true,
             firstName: true,
             lastName: true,
             role: true,
@@ -300,6 +302,7 @@ export default {
                     firstName: true,
                     lastName: true,
                     email: true,
+                    title: true
                   },
                 },
               },

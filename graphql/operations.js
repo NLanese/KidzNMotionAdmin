@@ -90,6 +90,7 @@ const USER_SIGN_UP = gql`
     $childLastName: String
     $childDateOfBirth: String
     $organizationName: String
+    $title: String
     $organizationInviteKey: String
   ) {
     signUpUser(
@@ -103,7 +104,8 @@ const USER_SIGN_UP = gql`
       childFirstName: $childFirstName
       childLastName: $childLastName
       childDateOfBirth: $childDateOfBirth
-
+      title: $title
+      
       organizationName: $organizationName
       organizationInviteKey: $organizationInviteKey
     ) {
