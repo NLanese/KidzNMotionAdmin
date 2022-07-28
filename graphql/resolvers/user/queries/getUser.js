@@ -250,7 +250,63 @@ export default {
             },
           },
         });
-      } else {
+      } else if  (context.user.role === "CHILD") {
+        userObject = await prisma.user.findUnique({
+          where: {
+            id: context.user.id,
+          },
+          select: {
+            id: true,
+            firstName: true,
+            accessMessages: true,
+            accessSettings: true,
+            leaveApp: true,
+            lastName: true,
+            childDateOfBirth: true,
+            childCarePlans: {
+              where: {
+                active: true,
+              },
+              select: {
+                id: true,
+                level: true,
+                allVideoStatus: true,
+                weeklyVideoStatus: true,
+                assignments: {
+                  select: {
+                    id: true,
+                    createdAt: true,
+                    dateStart: true,
+                    dateDue: true,
+                    description: true,
+                    videos: {
+                      select: {
+                        id: true,
+                        contentfulID: true,
+                        medals: {
+                          select: {
+                            id: true,
+                            image: true,
+                            description: true,
+                            level: true,
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+                therapist: {
+                  select: {
+                    firstName: true,
+                    lastName: true,
+                    email: true,
+                  },
+                },
+              },
+            },
+          },
+        });
+      }  else {
         return null;
       }
 

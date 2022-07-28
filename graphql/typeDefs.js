@@ -192,6 +192,10 @@ const typeDefs = gql`
       accessMessages: Boolean!
       accessSettings: Boolean!
     ): Boolean
+
+    swapToChildAccount(
+      childUserID: String!
+    ): UserPayLoad
     #################################
 
     #### THERAPIST MUTATIONS ####

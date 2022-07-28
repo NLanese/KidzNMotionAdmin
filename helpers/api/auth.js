@@ -74,8 +74,6 @@ export const handleAuth = async (clientToken) => {
       });
       userObject.tokenId = userJWTToken.id;
 
-      // Last check for chidl login
-      if (userObject.role === "CHILD") return null;
 
       return userObject;
     } else {
