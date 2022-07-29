@@ -26,11 +26,11 @@
     "dateformat": "^4.5.1",
     "dotenv-webpack": "^7.0.3",
     "final-form": "^4.20.7",
-    "graphql": "^16.5.0",
+    "graphql": "^15.0.0",
     "graphql-type-json": "^0.3.2",
     "micro": "^9.3.4",
     "moment": "^2.29.3",
-    "next": "^12.1.0",
+    "next": "^11.0.0",
     "next-plugin-antd-less": "^1.8.0",
     "next-seo": "^4.26.0",
     "nextjs-progressbar": "^0.0.11",
@@ -42,7 +42,7 @@
     "react-use": "^17.4.0",
     "recoil": "^0.4.1",
     "stripe": "^9.8.0",
-    "styled-components": "^5.3.1",
+    "styled-components": "^4.3.1",
     "styled-components-modifiers": "^1.2.5"
   },
   "devDependencies": {
