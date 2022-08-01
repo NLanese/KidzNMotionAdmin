@@ -162,10 +162,13 @@ model Assignment {
 model Video {
   id           String @id @default(uuid())
   contentfulID String
+  previewPic   String     // Client Side 
 
   medals       Medal[]
-  assignment   Assignment? @relation(fields: [assignmentId], references: [id])
-  assignmentId String?
+  assignments  Assignment[] 
+
+  title        String
+  description  String
 }
 
 model Medal {
