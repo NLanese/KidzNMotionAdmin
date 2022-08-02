@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
 import { makeRandomString, changeTimeZone } from "@helpers/common";
@@ -26,6 +27,8 @@ export default {
             },
           })
         }
+
+        console.log(potentialUsers)
 
         // Loop through to find user
         let userToLogin = null;

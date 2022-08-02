@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
 var CryptoJS = require("crypto-js");
@@ -36,6 +37,7 @@ export default {
 
       try {
         // #region Check User Conflicts
+        console.log(context.user)
         if (context.user) throw new UserInputError("Already logged in");
 
         // Check for conflicting user
