@@ -63,12 +63,12 @@ model User {
   colorSettings    String  @default("Orange")
   messagesMuted    Boolean @default(false)
   assignMuted      Boolean @default(false)
+  msgNotifications         Boolean @default(false)
+  missedDateNotifications  Boolean @default(false)
   ////////////////////////////
 
   // Therapist Specific //
   title                    String?
-  msgNotifications         Boolean @default(false)
-  missedDateNotifications  Boolean @default(false)
   appointmentNotifications Boolean @default(true)
   muteAllMessages          Boolean @default(false)
   muteAllAssignments       Boolean @default(false)
