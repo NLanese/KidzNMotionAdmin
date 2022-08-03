@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
 
