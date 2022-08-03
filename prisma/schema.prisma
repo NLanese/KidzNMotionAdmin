@@ -53,7 +53,7 @@ model User {
   lastName    String?
   password    String
   phoneNumber String?
-  profilePic  String?
+  profilePic  Json?
   role        Role     @default(GUARDIAN)
   createdAt   DateTime @default(now())
   ////////////////
