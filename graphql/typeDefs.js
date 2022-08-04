@@ -194,6 +194,11 @@ const typeDefs = gql`
       accessMessages: Boolean!
       accessSettings: Boolean!
     ): Boolean
+    
+    changeChildPassword(
+      childUserID: String!
+      childPassword: String!
+    ): Boolean
 
     addChild(
       childFirstName: String!

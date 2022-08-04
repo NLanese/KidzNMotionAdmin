@@ -7,10 +7,12 @@ export default {
   Mutation: {
     changeProfilePicture: async (_, { profilePic }, context) => {
       if (!context.user) throw new UserInputError("Login required");
-    
-      profilePic = JSON.stringify(profilePic)
-      profilePic = JSON.parse(profilePic)
-      
+
+      // Parse and stringigy the profile pic JSON
+      profilePic = JSON.stringify(profilePic);
+      profilePic = JSON.parse(profilePic);
+
+      // Update the user with the json object for the profile pic
       await prisma.user.update({
         where: {
           id: context.user.id,
@@ -20,9 +22,10 @@ export default {
         },
       });
 
-        let userObject = await getUserObject(context.user);
+      // Get the new user object
+      let userObject = await getUserObject(context.user);
 
-        return userObject; 
+      return userObject;
     },
   },
 };
