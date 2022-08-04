@@ -168,6 +168,8 @@ const typeDefs = gql`
     logoutUser: String
 
     requestResetPassword(email: String!): Boolean
+    
+    confirmPassword(password: String!): Boolean
 
     resetPasswordFromKey(password: String!, resetPasswordKeyID: String!): Boolean
 
