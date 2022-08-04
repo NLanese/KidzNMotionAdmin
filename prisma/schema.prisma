@@ -65,6 +65,7 @@ model User {
   assignMuted      Boolean @default(false)
   msgNotifications         Boolean @default(false)
   missedDateNotifications  Boolean @default(false)
+  solo Boolean @default(false)
   ////////////////////////////
 
   // Therapist Specific //

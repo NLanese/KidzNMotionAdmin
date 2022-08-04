@@ -13,7 +13,7 @@ const typeDefs = gql`
     title: String
     password: String
     phoneNumber: String
-    profilePic: String
+    profilePic: JSON
     role: String
     createdAt: Date
 
@@ -204,6 +204,10 @@ const typeDefs = gql`
     swapToChildAccount(
       childUserID: String!
     ): UserPayLoad
+
+    changeProfilePicture(
+      profilePic: JSON!
+    ): User
     #################################
 
     #### THERAPIST MUTATIONS ####

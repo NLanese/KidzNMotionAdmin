@@ -12,6 +12,7 @@ import requestResetPassword from './mutations/requestResetPassword.js';
 import resetPasswordFromKey from './mutations/resetPasswordFromKey.js';
 import editUser from './mutations/editUser.js';
 import confirmPassword from './mutations/confirmPassword.js';
+import changeProfilePicture from './mutations/changeProfilePicture.js';
 
 export default {
     Query: {
@@ -28,6 +29,7 @@ export default {
         ...resetPasswordFromKey.Mutation,
         ...editUser.Mutation,
         ...confirmPassword.Mutation,
+        ...changeProfilePicture.Mutation,
     },
     JSON: GraphQLJSON,
 }

@@ -98,6 +98,7 @@ export const getUserObject = async (user) => {
         role: true,
         email: true,
         phoneNumber: true,
+        profilePic: true,
         children: {
           where: {
             active: true,
@@ -183,6 +184,7 @@ export const getUserObject = async (user) => {
         role: true,
         email: true,
         phoneNumber: true,
+        profilePic: true,
         patientCarePlans: {
           where: {
             active: true,
@@ -272,6 +274,7 @@ export const getUserObject = async (user) => {
         role: true,
         email: true,
         phoneNumber: true,
+        profilePic: true,
         ownedOrganization: {
           select: {
             id: true,
@@ -342,6 +345,7 @@ export const getUserObject = async (user) => {
         leaveApp: true,
         lastName: true,
         childDateOfBirth: true,
+        profilePic: true,
         childCarePlans: {
           where: {
             active: true,

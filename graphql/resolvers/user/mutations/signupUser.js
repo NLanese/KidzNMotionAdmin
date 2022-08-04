@@ -32,12 +32,11 @@ export default {
       },
       context
     ) => {
-
-      console.log(title)
+      console.log(title);
 
       try {
         // #region Check User Conflicts
-        console.log(context.user)
+        console.log(context.user);
         if (context.user) throw new UserInputError("Already logged in");
 
         // Check for conflicting user
@@ -121,6 +120,18 @@ export default {
 
         // Create the role specific values
         if (role === "GUARDIAN") {
+          // The guardian is signing up without an organization invite key, mark their account as solo
+          if (!organizationInviteKey) {
+            await prisma.user.update({
+              where: {
+                id: baseUser.id,
+              },
+              data: {
+                solo: true,
+              },
+            });
+          }
+
           // Create the child for the guardian account
           await prisma.user.create({
             data: {
@@ -190,7 +201,7 @@ export default {
             },
           });
         }
-        
+
         if (organizationInvite && organizationInvite[0]) {
           await prisma.organizationUser.create({
             data: {
