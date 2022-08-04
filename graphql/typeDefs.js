@@ -193,6 +193,12 @@ const typeDefs = gql`
       accessSettings: Boolean!
     ): Boolean
 
+    addChild(
+      childFirstName: String!
+      childLastName: String!
+      childDateOfBirth: String!
+    ): User
+
     swapToChildAccount(
       childUserID: String!
     ): UserPayLoad
