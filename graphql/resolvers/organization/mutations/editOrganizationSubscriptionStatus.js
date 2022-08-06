@@ -3,7 +3,7 @@ import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
 export default {
   Mutation: {
-    editOrganizationSettings: async (_, { name, phoneNumber }, context) => {
+    editOrganizationSubscriptionStatus: async (_, { cancelled }, context) => {
       if (!context.user) throw new UserInputError("Login required");
 
       if (!context.user.ownedOrganization)
@@ -14,11 +14,10 @@ export default {
           id: context.user.ownedOrganization.id,
         },
         data: {
-          name: name,
-          phoneNumber: phoneNumber,
+          subscriptionStatus: cancelled ? "Cancelled" : "Active",
         },
       });
-      return {};
+      return true;
     },
   },
 };
