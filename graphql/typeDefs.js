@@ -23,6 +23,8 @@ const typeDefs = gql`
     msgNotifications: Boolean
     missedDateNotifications: Boolean
     appointmentNotifications: Boolean
+    muteAllMessages: Boolean
+    muteAllAssignments: Boolean
 
     children: [User]
     guardianId: String
@@ -213,11 +215,17 @@ const typeDefs = gql`
     changeProfilePicture(
       profilePic: JSON!
     ): User
+
+    editUserNotificationSettings(
+      muteMessageNotifications: Boolean!
+      muteAssignmentNotifications: Boolean!
+
+    ): User
     #################################
 
     #### THERAPIST MUTATIONS ####
     editNotificationSettings(
-      patientUserID: String
+      patientUserID: String!
       muteMessageNotifications: Boolean!
       muteAssignmentNotifications: Boolean!
 

@@ -99,6 +99,8 @@ export const getUserObject = async (user) => {
         email: true,
         phoneNumber: true,
         profilePic: true,
+        muteAllAssignments: true,
+        muteAllMessages: true,
         children: {
           where: {
             active: true,
@@ -185,6 +187,8 @@ export const getUserObject = async (user) => {
         email: true,
         phoneNumber: true,
         profilePic: true,
+        muteAllAssignments: true,
+        muteAllMessages: true,
         patientCarePlans: {
           where: {
             active: true,
@@ -275,6 +279,8 @@ export const getUserObject = async (user) => {
         email: true,
         phoneNumber: true,
         profilePic: true,
+        muteAllAssignments: true,
+        muteAllMessages: true,
         ownedOrganization: {
           select: {
             id: true,
@@ -346,6 +352,8 @@ export const getUserObject = async (user) => {
         lastName: true,
         childDateOfBirth: true,
         profilePic: true,
+        muteAllAssignments: true,
+        muteAllMessages: true,
         childCarePlans: {
           where: {
             active: true,

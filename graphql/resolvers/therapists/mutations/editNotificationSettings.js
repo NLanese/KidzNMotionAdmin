@@ -2,6 +2,7 @@
 import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
 
+// Used to to to edit the pateitn notification settings from the Thereapist
 export default {
   Mutation: {
     editNotificationSettings: async (
