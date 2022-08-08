@@ -67,11 +67,11 @@ export default {
           },
         });
 
-        if (loginAttempts.length >= 5) {
-          throw new UserInputError(
-            "You have reached your 5 try limit this hour. Please wait and try again."
-          );
-        }
+        // if (loginAttempts.length >= 5) {
+        //   throw new UserInputError(
+        //     "You have reached your 5 try limit this hour. Please wait and try again."
+        //   );
+        // }
 
         // Check the password against the password attempt
         let bytes = CryptoJS.AES.decrypt(

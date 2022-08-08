@@ -1332,9 +1332,9 @@
   "resolved" "https://registry.npmjs.org/@next/react-refresh-utils/-/react-refresh-utils-11.1.4.tgz"
   "version" "11.1.4"
 
-"@next/swc-darwin-x64@11.1.4":
-  "integrity" "sha512-5i9tOQNO8kawwggHvQUVR3a5KzIGaE2dw1g1kL//z/N840djvGseHrJSFEGdP1c35gM+dSGPpAKHmeBKrwHM8g=="
-  "resolved" "https://registry.npmjs.org/@next/swc-darwin-x64/-/swc-darwin-x64-11.1.4.tgz"
+"@next/swc-darwin-arm64@11.1.4":
+  "integrity" "sha512-jt8dMtIRWnJjRYLid6NWCxXzXdpr9VFT/vhDp8ioh+TtOR0UKPHMxei6R4GA3RqoyPEfFcSNmkG7OtyqCSxNIw=="
+  "resolved" "https://registry.npmjs.org/@next/swc-darwin-arm64/-/swc-darwin-arm64-11.1.4.tgz"
   "version" "11.1.4"
 
 "@node-rs/helper@1.2.1":
@@ -5599,7 +5599,7 @@
   "resolved" "https://registry.npmjs.org/next-seo/-/next-seo-4.29.0.tgz"
   "version" "4.29.0"
 
-"next@^10.0.8 || ^11.0 || ^12.0", "next@^11.0.0", "next@^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0", "next@^8.1.1-canary.54 || >=9.0.0", "next@>=10.2.0":
+"next@^10.0.8 || ^11.0 || ^12.0", "next@^11.1.4", "next@^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0", "next@^8.1.1-canary.54 || >=9.0.0", "next@>=10.2.0":
   "integrity" "sha512-GWQJrWYkfAKP8vmrzJcCfRSKv955Khyjqd5jipTcVKDGg+SH+NfjDMWFtCwArcQlHPvzisGu1ERLY0+Eoj7G+g=="
   "resolved" "https://registry.npmjs.org/next/-/next-11.1.4.tgz"
   "version" "11.1.4"
