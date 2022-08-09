@@ -120,6 +120,15 @@ const typeDefs = gql`
     user: User
   }
 
+  type VideoFile {
+    id: String
+    level: Int
+    title: String
+    description: String
+    videoURL: String
+    previewPictureURL: String
+  }
+
   type ChatRoom {
     id: ID
     users: [User]
@@ -151,6 +160,12 @@ const typeDefs = gql`
 
       getUserChatRooms: [ChatRoom]
       getChatFromId(id: ID): ChatRoom
+
+      #########################
+      #### VIDEO QUERIES ####
+      #########################
+  
+      getAllVideoFiles: [VideoFile]
   }
 
   # ---------------------------------------- END QUERY ----------------------------------------
@@ -256,17 +271,7 @@ const typeDefs = gql`
 
       ): Boolean
 
-    #########################
-    #### VIDEO MUTATIONS ####
-    #########################
 
-      addVideo(
-        contentfulID: String!,
-        previewPic: String,
-        title: String!,
-        description: String!,
-        kingWillySecret: String!
-      ): Video
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------
 `;

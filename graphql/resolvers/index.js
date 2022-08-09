@@ -6,11 +6,14 @@ import chatRoomResolvers from './chatrooms/chatRoomResolvers.js';
 import organizationResolvers from './organization/organizationResolvers.js';
 import guardianResolvers from './guardians/guardianResolvers.js';
 import therapistResolvers from './therapists/therapistResolvers.js';
+import videoResolvers from './videos/videoResolvers.js';
 
 export default {
     Query: {
         ...userResolvers.Query,
         ...chatRoomResolvers.Query,
+        ...videoResolvers.Query,
+        
     },
     Mutation: {
         ...userResolvers.Mutation,
