@@ -103,7 +103,7 @@ model User {
   chatRooms     Chatroom[]
 
   organizationInviteKeys OrganizationInviteKey[]
-  /////////////////
+  videos        Video[]
 }
 
 model OrganizationUser {
@@ -163,13 +163,17 @@ model Assignment {
 model Video {
   id           String @id @default(uuid())
   contentfulID String
-  previewPic   String     // Client Side 
+  previewPic   String @default("Default")    // Client Side 
 
-  medals       Medal[]
-  assignments  Assignment[] 
+  medals        Medal[]
+  assignments   Assignment[] 
+  users         User[]
 
   title        String
   description  String
+  level        Int
+
+
 }
 
 model Medal {

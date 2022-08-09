@@ -104,6 +104,8 @@ export default {
         }
         // #endregion
 
+        const allVideos = await prisma.video.findMany
+
         // #region Create the User & required information
         // Create the base user
         let baseUser = await prisma.user.create({

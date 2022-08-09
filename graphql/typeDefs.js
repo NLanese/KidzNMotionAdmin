@@ -96,8 +96,14 @@ const typeDefs = gql`
   type Video {
     id: ID
     contentfulID: String
+    previewPic: String
+
     medals: [Medal]
     assignment: Assignment
+    users: [User]
+
+    title: String
+    description: String
   }
 
   type Medal {
@@ -132,106 +138,135 @@ const typeDefs = gql`
 
   # ---------------------------------------- END SCHEMAS ----------------------------------------
   type Query {
-    #### USER QUERIES ####
-    getUser: User
-    #########################
 
+    ######################
+    #### USER QUERIES ####
+    ######################
+
+      getUser: User
+
+    ##########################
     #### CHATROOM QUERIES ####
-    getUserChatRooms: [ChatRoom]
-    getChatFromId(id: ID): ChatRoom
-    #########################
+    ##########################
+
+      getUserChatRooms: [ChatRoom]
+      getChatFromId(id: ID): ChatRoom
   }
+
   # ---------------------------------------- END QUERY ----------------------------------------
   type Mutation {
+
+    ########################
     #### USER MUTATIONS ####
-    devCreateUser(password: String!): User
-    loginUser(username: String!, password: String!): UserPayLoad
-    signUpUser(
-      email: String!
-      username: String,
-      password: String!
-      firstName: String!
-      lastName: String!
-      role: String!
-      phoneNumber: String
+    ########################
 
-      childFirstName: String
-      childLastName: String
-      childDateOfBirth: String
+      devCreateUser(password: String!): User
 
-      title: String
+      loginUser(username: String!, password: String!): UserPayLoad
 
-      organizationName: String
-      organizationType: String
+      signUpUser(
+        email: String!
+        username: String,
+        password: String!
+        firstName: String!
+        lastName: String!
+        role: String!
+        phoneNumber: String
+        childFirstName: String
+        childLastName: String
+        childDateOfBirth: String
+        title: String
+        organizationName: String
+        organizationType: String
+        organizationInviteKey: String
+      ): UserPayLoad
 
-      organizationInviteKey: String
-    ): UserPayLoad
+      logoutUser: String
 
-    logoutUser: String
-
-    requestResetPassword(email: String!): Boolean
+      requestResetPassword(email: String!): Boolean
     
-    confirmPassword(password: String!): Boolean
+      confirmPassword(password: String!): Boolean
 
-    resetPasswordFromKey(password: String!, resetPasswordKeyID: String!): Boolean
+      resetPasswordFromKey(password: String!, resetPasswordKeyID: String!): Boolean
 
-    editUser(
-      email: String, 
-      firstName: String,
-      lastName: String,
-      phoneNumber: String,
-      title: String,
-      username: String
-    ): Boolean
+      editUser(
+        email: String, 
+        firstName: String,
+        lastName: String,
+        phoneNumber: String,
+        title: String,
+        username: String
+      ): Boolean
 
+    ################################
     #### ORGANIZATION MUTATIONS ####
-    editOrganizationSettings(name: String!, phoneNumber: String!): User
-    inviteOrganizationUser(email: String!, role: String!): Boolean
-    editOrganizationSubscriptionStatus(cancelled: Boolean!): Boolean
-    ##########################
+    ################################
     
+      editOrganizationSettings(name: String!, phoneNumber: String!): User
+
+      inviteOrganizationUser(email: String!, role: String!): Boolean
+
+      editOrganizationSubscriptionStatus(cancelled: Boolean!): Boolean
+    
+
+    ############################
     #### GUARDIAN MUTATIONS ####
-    editChildSettings(
-      childUserID: String!
-      leaveApp: Boolean!
-      accessMessages: Boolean!
-      accessSettings: Boolean!
-    ): Boolean
-    
-    changeChildPassword(
-      childUserID: String!
-      childPassword: String!
-    ): Boolean
+    ############################
 
-    addChild(
-      childFirstName: String!
-      childLastName: String!
-      childDateOfBirth: String!
-    ): User
+      editChildSettings(
+        childUserID: String!
+        leaveApp: Boolean!
+        accessMessages: Boolean!
+        accessSettings: Boolean!
+      ): Boolean
+      
+      changeChildPassword(
+        childUserID: String!
+        childPassword: String!
+      ): Boolean
 
-    swapToChildAccount(
-      childUserID: String!
-    ): UserPayLoad
+      addChild(
+        childFirstName: String!
+        childLastName: String!
+        childDateOfBirth: String!
+      ): User
 
-    changeProfilePicture(
-      profilePic: JSON!
-    ): User
+      swapToChildAccount(
+        childUserID: String!
+      ): UserPayLoad
 
-    editUserNotificationSettings(
-      muteMessageNotifications: Boolean!
-      muteAssignmentNotifications: Boolean!
+      changeProfilePicture(
+        profilePic: JSON!
+      ): User
 
-    ): User
-    #################################
+      editUserNotificationSettings(
+        muteMessageNotifications: Boolean!
+        muteAssignmentNotifications: Boolean!
 
+      ): User
+
+    #############################
     #### THERAPIST MUTATIONS ####
-    editNotificationSettings(
-      patientUserID: String!
-      muteMessageNotifications: Boolean!
-      muteAssignmentNotifications: Boolean!
+    #############################
 
-    ): Boolean
-    #################################
+      editNotificationSettings(
+        patientUserID: String!
+        muteMessageNotifications: Boolean!
+        muteAssignmentNotifications: Boolean!
+
+      ): Boolean
+
+    #########################
+    #### VIDEO MUTATIONS ####
+    #########################
+
+      addVideo(
+        contentfulID: String!,
+        previewPic: String,
+        title: String!,
+        description: String!,
+        kingWillySecret: String!
+      ): Video
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------
 `;
