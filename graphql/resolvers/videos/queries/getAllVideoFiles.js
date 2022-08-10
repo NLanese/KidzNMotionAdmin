@@ -1,5 +1,3 @@
-import prisma from "@utils/prismaDB";
-import { UserInputError } from "apollo-server-errors";
 import VIDEOS from "@constants/videos";
 
 export default {

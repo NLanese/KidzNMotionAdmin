@@ -102,6 +102,7 @@ const typeDefs = gql`
     assignment: Assignment
     users: [User]
 
+    file: VideoFile
     title: String
     description: String
   }

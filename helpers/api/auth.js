@@ -1,6 +1,43 @@
 var CryptoJS = require("crypto-js");
 import { changeTimeZone } from "@helpers/common";
 import prisma from "@utils/prismaDB";
+import VIDEOS from "@constants/videos";
+
+const findPath = (ob, key) => {
+  const path = [];
+  const keyExists = (obj) => {
+    if (!obj || (typeof obj !== "object" && !Array.isArray(obj))) {
+      return false;
+    } else if (obj.hasOwnProperty(key)) {
+      return true;
+    } else if (Array.isArray(obj)) {
+      let parentKey = path.length ? path.pop() : "";
+
+      for (let i = 0; i < obj.length; i++) {
+        path.push(`${parentKey}[${i}]`);
+        const result = keyExists(obj[i], key);
+        if (result) {
+          return result;
+        }
+        path.pop();
+      }
+    } else {
+      for (const k in obj) {
+        path.push(k);
+        const result = keyExists(obj[k], key);
+        if (result) {
+          return result;
+        }
+        path.pop();
+      }
+    }
+    return false;
+  };
+
+  keyExists(ob);
+
+  return path.join(".");
+};
 
 export const handleAuth = async (clientToken) => {
   try {
@@ -84,8 +121,7 @@ export const handleAuth = async (clientToken) => {
 };
 
 export const getUserObject = async (user) => {
-
-  let userObject = {}
+  let userObject = {};
   if (user.role === "GUARDIAN") {
     userObject = await prisma.user.findUnique({
       where: {
@@ -401,5 +437,128 @@ export const getUserObject = async (user) => {
   } else {
     return null;
   }
-  return userObject
+
+  // THERAPIST
+  try {
+    // Loop through and add the video files into all requests
+    if (userObject.patientCarePlans) {
+      // Loop through patient care plans
+      for (
+        var patientCarePlanIndex = 0;
+        patientCarePlanIndex < userObject.patientCarePlans.length;
+        patientCarePlanIndex++
+      ) {
+        for (
+          var assignmentIndex = 0;
+          assignmentIndex <
+          userObject.patientCarePlans[patientCarePlanIndex].assignments.length;
+          assignmentIndex++
+        ) {
+          for (
+            var videoIndex = 0;
+            videoIndex <
+            userObject.patientCarePlans[patientCarePlanIndex].assignments[
+              assignmentIndex
+            ].videos.length;
+            videoIndex++
+          ) {
+            let videoObjectPath =
+              userObject.patientCarePlans[patientCarePlanIndex].assignments[
+                assignmentIndex
+              ].videos[videoIndex];
+            if (VIDEOS[videoObjectPath.contentfulID]) {
+              videoObjectPath.file = VIDEOS[videoObjectPath.contentfulID];
+            }
+          }
+        }
+      }
+    }
+  } catch {
+    console.log("");
+  }
+
+  // GUARDIAN
+  // Loop through and add the video files into all requests
+  try {
+    if (userObject.children) {
+      for (
+        var childIndex = 0;
+        childIndex < userObject.children.length;
+        childIndex++
+      ) {
+        for (
+          var childCarePlanIndex = 0;
+          childCarePlanIndex <
+          userObject.children[childIndex].childCarePlans.length;
+          childCarePlanIndex++
+        ) {
+          for (
+            var assignmentIndex = 0;
+            assignmentIndex <
+            userObject.children[childIndex].childCarePlans[childCarePlanIndex]
+              .assignments.length;
+            assignmentIndex++
+          ) {
+            for (
+              var videoIndex = 0;
+              videoIndex <
+              userObject.children[childIndex].childCarePlans[childCarePlanIndex]
+                .assignments[assignmentIndex].videos.length;
+              videoIndex++
+            ) {
+              let videoObjectPath =
+                userObject.children[childIndex].childCarePlans[
+                  childCarePlanIndex
+                ].assignments[assignmentIndex].videos[videoIndex];
+              if (VIDEOS[videoObjectPath.contentfulID]) {
+                videoObjectPath.file = VIDEOS[videoObjectPath.contentfulID];
+              }
+            }
+          }
+        }
+      }
+    }
+  } catch {
+    console.log("hi");
+  }
+
+  // CHILD
+  // Loop through and add the video files into all requests
+  try {
+    if (userObject.childCarePlans) {
+      for (
+        var childCarePlanIndex = 0;
+        childCarePlanIndex < userObject.childCarePlans.length;
+        childCarePlanIndex++
+      ) {
+        for (
+          var assignmentIndex = 0;
+          assignmentIndex <
+          userObject.childCarePlans[childCarePlanIndex].assignments.length;
+          assignmentIndex++
+        ) {
+          for (
+            var videoIndex = 0;
+            videoIndex <
+            userObject.childCarePlans[childCarePlanIndex].assignments[
+              assignmentIndex
+            ].videos.length;
+            videoIndex++
+          ) {
+            let videoObjectPath =
+              userObject.childCarePlans[childCarePlanIndex].assignments[
+                assignmentIndex
+              ].videos[videoIndex];
+            if (VIDEOS[videoObjectPath.contentfulID]) {
+              videoObjectPath.file = VIDEOS[videoObjectPath.contentfulID];
+            }
+          }
+        }
+      }
+    }
+  } catch {
+    console.log("hi");
+  }
+
+  return userObject;
 };
