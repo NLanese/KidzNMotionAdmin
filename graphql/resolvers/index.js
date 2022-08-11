@@ -19,7 +19,8 @@ export default {
         ...userResolvers.Mutation,
         ...organizationResolvers.Mutation,
         ...guardianResolvers.Mutation,
-        ...therapistResolvers.Mutation
+        ...therapistResolvers.Mutation,
+        ...chatRoomResolvers.Mutation,
     },
     JSON: GraphQLJSON,
 }

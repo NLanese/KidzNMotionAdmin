@@ -202,7 +202,7 @@ model Message {
   content    String
   sentAt     Json
   sentBy     Json
-  createdAt  String
+  createdAt  String 
   chatroomId String
   chatRoom   Chatroom @relation(fields: [chatroomId], references: [id])
 }

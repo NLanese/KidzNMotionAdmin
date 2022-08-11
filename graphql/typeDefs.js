@@ -96,15 +96,12 @@ const typeDefs = gql`
   type Video {
     id: ID
     contentfulID: String
-    previewPic: String
 
     medals: [Medal]
     assignment: Assignment
     users: [User]
 
     file: VideoFile
-    title: String
-    description: String
   }
 
   type Medal {
@@ -271,6 +268,18 @@ const typeDefs = gql`
         muteAssignmentNotifications: Boolean!
 
       ): Boolean
+
+    ############################
+    #### CHATROOM MUTATIONS ####
+    ############################
+    sendMessage(
+      content: String!
+      chatRoomID: String!
+    ): Boolean
+
+    createChatRoom(
+      otherParticipantID: String!
+    ): String
 
 
   }
