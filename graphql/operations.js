@@ -30,6 +30,23 @@ const GET_USER = gql`
       missedDateNotifications
       appointmentNotifications
 
+      patientCarePlans {
+        id
+        level
+        allVideoStatus
+        child {
+          id
+          firstName
+          lastName
+          guardian {
+            id
+            firstName
+            lastName
+            email
+          }
+        }
+      }
+
       ownedOrganization {
         id
         createdAt
@@ -40,6 +57,7 @@ const GET_USER = gql`
         stripeSubscriptionID
         subscriptionStatus
         active
+     
         organizationUsers {
           id
           active
@@ -163,6 +181,12 @@ const INVITE_USER = gql`
 `;
 
 
+const GET_USER_CHAT_ROOMS = gql`
+query Query {
+  getUserChatRooms {
+    id
+  }
+}`
 
 export {
   // Sign Up / Sign In
@@ -174,6 +198,8 @@ export {
   EDIT_USER,
   // Organization
   EDIT_ORGANIZATION_SETTINGS,
-  INVITE_USER
+  INVITE_USER,
+  // MESSAGING
+  GET_USER_CHAT_ROOMS
   
 };

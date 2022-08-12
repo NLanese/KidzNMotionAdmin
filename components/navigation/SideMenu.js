@@ -184,6 +184,13 @@ function SideMenu({ router, user }) {
             Manage Users
           </Menu.Item>
         )}
+         <Menu.Item
+            onClick={() => pushLink("/messaging")}
+            key="/messaging"
+            icon={<MessageOutlined style={{ fontSize: "20px" }} />}
+          >
+            Messaging
+          </Menu.Item>
         {user.ownedOrganization && (
           <Menu.SubMenu
             key={"/account"}

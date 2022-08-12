@@ -14,3 +14,11 @@ export const userState = atom({
 		loading: true
 	},
 });
+
+
+export const chatRoomState = atom({
+	key: 'chatRoomState',
+	default: {
+		loading: true
+	},
+});
