@@ -262,7 +262,7 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
 
     return possibleUserChats.map((possibleChatUser) => {
       return (
-        <div onClick={() => createNewChatRoom(possibleChatUser.id)}>
+        <div onClick={() => createNewChatRoom(possibleChatUser.id)} key={possibleChatUser.id}>
           <ChatRowContent
             chatRoomObject={{}}
             selectedChatRoom={{ id: "" }}
