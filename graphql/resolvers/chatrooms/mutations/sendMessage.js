@@ -32,6 +32,8 @@ export default {
           content: content,
           sentBy: {
             userID: context.user.id,
+            firstName: context.user.firstName,
+            lastName: context.user.lastName,
           },
           createdAt: new Date().toString(),
           sentAt: {

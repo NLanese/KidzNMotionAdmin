@@ -185,8 +185,52 @@ const GET_USER_CHAT_ROOMS = gql`
 query Query {
   getUserChatRooms {
     id
+    users {
+      id
+      firstName
+      lastName
+      role
+    }
   }
 }`
+
+const GET_CHAT_ROOM_BY_ID = gql`
+query Query(
+  $id: String!
+) {
+  getChatFromId (
+    id: $id
+  ) {
+    id
+    users {
+      id
+      firstName
+      lastName
+      role
+    }
+    messages {
+      createdAt
+      content
+      sentAt
+      sentBy
+    }
+  }
+}`
+
+
+const DYNAMIC_SEND_MESSAGE = gql`
+  mutation Mutation(
+    $content: String!
+    $chatRoomID: String!
+  ) {
+    sendMessage(
+      content: $content
+      chatRoomID: $chatRoomID
+    )
+  }
+`;
+
+
 
 export {
   // Sign Up / Sign In
@@ -200,6 +244,8 @@ export {
   EDIT_ORGANIZATION_SETTINGS,
   INVITE_USER,
   // MESSAGING
-  GET_USER_CHAT_ROOMS
+  GET_USER_CHAT_ROOMS,
+  GET_CHAT_ROOM_BY_ID,
+  DYNAMIC_SEND_MESSAGE
   
 };

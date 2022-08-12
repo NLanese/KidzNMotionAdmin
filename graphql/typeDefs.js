@@ -154,7 +154,7 @@ const typeDefs = gql`
     ##########################
 
     getUserChatRooms: [ChatRoom]
-    getChatFromId(id: ID): ChatRoom
+    getChatFromId(id: String): ChatRoom
 
     #########################
     #### VIDEO QUERIES ####
