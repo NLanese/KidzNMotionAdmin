@@ -32,11 +32,11 @@ export default {
       },
       context
     ) => {
-      console.log(title);
+      // console.log(title);
 
       try {
         // #region Check User Conflicts
-        console.log(context.user);
+        // console.log(context.user);
         if (context.user) throw new UserInputError("Already logged in");
 
         // Check for conflicting user
@@ -262,7 +262,7 @@ export default {
           token: clientToken,
         };
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         throw new Error(error);
       }
     },

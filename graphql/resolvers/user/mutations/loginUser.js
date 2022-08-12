@@ -28,7 +28,7 @@ export default {
           })
         }
 
-        console.log(potentialUsers)
+        // console.log(potentialUsers)
 
         // Loop through to find user
         let userToLogin = null;
@@ -120,7 +120,7 @@ export default {
               user: userToLogin,
             };
           } catch (err){
-            console.log(err)
+            // console.log(err)
           }
         } else {
           await prisma.loginAttempts.create({
@@ -137,7 +137,7 @@ export default {
           throw new UserInputError("Email/Password are incorrect.");
         }
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         throw new Error(error);
       }
     },

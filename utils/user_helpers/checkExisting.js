@@ -8,7 +8,7 @@ const checkExistingUserByEmail = async (userEmail) => {
     });
 
     if (existingUserEmail){
-        console.log(existingUserEmail)
+        // console.log(existingUserEmail)
         return true
     }
     else{

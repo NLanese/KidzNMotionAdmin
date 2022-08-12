@@ -35,7 +35,9 @@ function ChatMessages({ chatRoomObject, user }) {
       );
     }
     let today = null;
-    return chatRoomObject.messages.map((message) => {
+    let messages = chatRoomObject.messages;
+  
+    return messages.map((message) => {
       let displayMessagSentHeader = false;
       let messageSent = dateFormat(message.createdAt, "dddd (mm/dd)");
       if (today !== messageSent) {

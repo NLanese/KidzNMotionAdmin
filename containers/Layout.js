@@ -52,7 +52,7 @@ function Layout({ children, router }) {
         fetchPolicy: 'network-only'
       })
       .then(async (resolved) => {
-        console.log(resolved.data.getUser)
+        // console.log(resolved.data.getUser)
         setUser(resolved.data.getUser)
       })
       .catch((error) => {
@@ -70,7 +70,7 @@ function Layout({ children, router }) {
   }, []);
 
   useEffect(() => {
-    // console.log(user)
+    // // console.log(user)
   }, [user]);
 
   if (router.asPath.includes("auth")) {

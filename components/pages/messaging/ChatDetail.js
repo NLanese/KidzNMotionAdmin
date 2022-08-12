@@ -32,7 +32,7 @@ function ChatDetail({ selectedChatRoom }) {
           },
         })
         .then(async (resolved) => {
-          console.log(resolved);
+          // console.log(resolved);
           setChatRoomObject(resolved.data.getChatFromId);
         })
         .catch((error) => {

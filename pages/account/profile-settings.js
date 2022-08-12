@@ -56,7 +56,7 @@ function ProfileSettings() {
           })
           .then(async (resolved) => {
             console.clear()
-            console.log(resolved);
+            // console.log(resolved);
             setUser(resolved.data.getUser);
           })
           .catch((error) => {

@@ -101,7 +101,7 @@ function CreateChatRoom({ createChatOpen, setCreateChatOpen }) {
           "/messaging/?chat=" + resolved.data.dynamicCreateChatroom.id;
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         setCreateChatRoomLoading(false);
         message.error("Sorry, there was an error creating this chat room");
       });

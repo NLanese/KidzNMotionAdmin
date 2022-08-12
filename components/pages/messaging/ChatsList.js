@@ -160,7 +160,7 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
       )[0];
 
       console.clear()
-      console.log(selectedChatRoom)
+      // console.log(selectedChatRoom)
       return (
         <BasicLink
           key={chatRoomObject.id}

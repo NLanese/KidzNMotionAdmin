@@ -93,7 +93,7 @@ function TopMenuAvatar() {
       window.location = session.checkoutURL;
     }
   };
-  console.log(user)
+  // console.log(user)
   return (
     <Space>
       {renderFreeTrialTag()}

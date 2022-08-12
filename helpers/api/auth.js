@@ -520,7 +520,7 @@ export const getUserObject = async (user) => {
       }
     }
   } catch {
-    console.log("");
+    // console.log("");
   }
 
   // GUARDIAN
@@ -565,7 +565,7 @@ export const getUserObject = async (user) => {
       }
     }
   } catch {
-    console.log("hi");
+    // console.log("hi");
   }
 
   // CHILD
@@ -603,7 +603,7 @@ export const getUserObject = async (user) => {
       }
     }
   } catch {
-    console.log("hi");
+    // console.log("hi");
   }
 
   return userObject;

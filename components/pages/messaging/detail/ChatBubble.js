@@ -41,7 +41,7 @@ const ChatBubbleWrapper = styled.div`
 `;
 
 function ChatBubble({ message, user }) {
-  console.log(message)
+  // console.log(message)
   const userMessage = message.sentBy.userID === user.id;
 
   if (!userMessage) {

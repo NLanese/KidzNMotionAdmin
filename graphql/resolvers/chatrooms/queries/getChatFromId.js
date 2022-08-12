@@ -20,6 +20,9 @@ export default {
             select: {
               id: true,
               messages: {
+                orderBy: {
+                  createdAt: "asc",
+                },
                 select: {
                   createdAt: true,
                   content: true,
