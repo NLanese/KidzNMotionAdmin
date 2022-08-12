@@ -4,30 +4,26 @@ import styled from "styled-components";
 import {
   Avatar,
   Empty,
-  Select,
   Input,
   Button,
   Space,
   Typography,
-  Popover,
   Row,
   Col,
 } from "antd";
-import {
-  PlusOutlined,
-  SearchOutlined,
-  ArrowRightOutlined,
-} from "@ant-design/icons";
-var dateFormat = require("dateformat");
-const { Option } = Select;
+import { SearchOutlined, ArrowRightOutlined } from "@ant-design/icons";
+
 const { Text } = Typography;
 
 import { userState } from "@atoms";
 import { useRecoilValue } from "recoil";
 
-// import CreateChatRoom from "./CreateChatRoom";
+import { useMutation } from "@apollo/client";
+import { CREATE_CHAT_ROOM } from "@graphql/operations";
 
 import BasicLink from "@common/BasicLink";
+import Router from "next/router";
+import NakedButton from "@common/NakedButton";
 
 const ChatListWrapper = styled.div`
   max-height: 1000px;
@@ -79,52 +75,81 @@ const ChatRowItem = styled.div`
   }
 `;
 
+function ChatRowContent({ selectedChatRoom, chatRoomObject, otherUser }) {
+  return (
+    <ChatRowItem
+      active={selectedChatRoom && selectedChatRoom.id === chatRoomObject.id}
+    >
+      <Row justify="middle" align="middle">
+        <Col xs={18}>
+          <Space>
+            <Avatar
+              style={{ backgroundColor: "#f0932b", fontSize: "16px" }}
+              size={37}
+            >
+              {otherUser.firstName[0].toUpperCase()}.
+              {otherUser.lastName[1].toUpperCase()}.
+            </Avatar>
+            <Space direction="vertical" size={3}>
+              <Text strong>
+                {" "}
+                {otherUser.firstName} {otherUser.lastName}
+              </Text>
+              <Text type="secondary">{otherUser.role}</Text>
+            </Space>
+          </Space>
+        </Col>
+        <Col xs={6}>
+          <Text
+            style={{
+              float: "right",
+              textAlign: "right",
+              fontSize: "12px",
+            }}
+            type="secondary"
+          >
+            <ArrowRightOutlined />
+          </Text>
+        </Col>
+      </Row>
+    </ChatRowItem>
+  );
+}
+
 function ChatsList({ chatRooms, selectedChatRoom }) {
   let [search, setSearch] = useState(null);
   const user = useRecoilValue(userState);
-  let [createChatOpen, setCreateChatOpen] = useState(null);
-  let [chatTypeSearch, setChatTypeSearch] = useState("all");
+
+  // Mutations
+  const [createChatRoom, {}] = useMutation(CREATE_CHAT_ROOM);
 
   const renderChatRowItems = () => {
-    
     let filteredChatRooms = structuredClone(chatRooms);
 
     if (chatRooms.length === 0) {
       return (
         <div style={{ padding: "30px", textAlign: "center" }}>
           <Empty description="No chat rooms created yet" />
-          <br />
-          <BasicLink shallow={true} href="/messaging?create=true">
-            <Button type="primary" shape="round" size="large">
-              Create New Chat +
-            </Button>
-          </BasicLink>
         </div>
       );
     }
 
     if (search && search !== "") {
       filteredChatRooms = filteredChatRooms.filter((chatRoom) => {
-        
         let otherUser = chatRoom.users.filter(
           (userObject) => userObject.id !== user.id
         )[0];
 
         if (!otherUser) {
-
-          return
+          return;
         }
 
-        let otherUserName = otherUser.firstName + otherUser.lastName
+        let otherUserName = otherUser.firstName + otherUser.lastName;
         let shouldShow = false;
 
-        if (
-          otherUserName.toLowerCase().includes(search.toLowerCase())
-        ) {
+        if (otherUserName.toLowerCase().includes(search.toLowerCase())) {
           shouldShow = true;
         }
-
-
 
         return shouldShow;
       });
@@ -141,7 +166,6 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
             size="large"
             onClick={() => {
               setSearch("");
-              setChatTypeSearch("all");
             }}
           >
             Reset Filters
@@ -158,54 +182,93 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
       let otherUser = chatRoomObject.users.filter(
         (userObject) => userObject.id !== user.id
       )[0];
-
-      console.clear()
-      // console.log(selectedChatRoom)
       return (
         <BasicLink
           key={chatRoomObject.id}
           href={`/messaging?chat=${chatRoomObject.id}`}
           shallow={true}
         >
-          <ChatRowItem
-            active={
-              selectedChatRoom && selectedChatRoom.id === chatRoomObject.id
-            }
-          >
-            <Row justify="middle" align="middle">
-              <Col xs={18}>
-                <Space>
-                  <Avatar
-                    style={{ backgroundColor: "#f0932b", fontSize: "16px" }}
-                    size={37}
-                  >
-                    {otherUser.firstName[0].toUpperCase()}.
-                    {otherUser.lastName[1].toUpperCase()}.
-                  </Avatar>
-                  <Space direction="vertical" size={3}>
-                    <Text strong>
-                      {" "}
-                      {otherUser.firstName} {otherUser.lastName}
-                    </Text>
-                    <Text type="secondary">{otherUser.role}</Text>
-                  </Space>
-                </Space>
-              </Col>
-              <Col xs={6}>
-                <Text
-                  style={{
-                    float: "right",
-                    textAlign: "right",
-                    fontSize: "12px",
-                  }}
-                  type="secondary"
-                >
-                  <ArrowRightOutlined />
-                </Text>
-              </Col>
-            </Row>
-          </ChatRowItem>
+          <ChatRowContent
+            chatRoomObject={chatRoomObject}
+            selectedChatRoom={selectedChatRoom}
+            otherUser={otherUser}
+          />
         </BasicLink>
+      );
+    });
+  };
+
+  const createNewChatRoom = async (otherParticipantID) => {
+    await createChatRoom({
+      variables: {
+        otherParticipantID: otherParticipantID,
+      },
+    })
+      .then(async (resolved) => {
+        let newChatID = resolved.data.createChatRoom.id
+        window.location =
+          "/messaging/?chat=" + newChatID
+      })
+      .catch((error) => {
+        message.error(
+          "Sorry, there was an error opening this chat room"
+        );
+      });
+  };
+
+  const renderPossibleChats = () => {
+    // console.clear()
+    console.log(user);
+    let possibleUserChats = [];
+
+    if (user.role === "THERAPIST") {
+      user.patientCarePlans.map((patientCarePlan) => {
+        possibleUserChats.push({
+          id: patientCarePlan.child.id,
+          firstName: patientCarePlan.child.firstName,
+          lastName: patientCarePlan.child.lastName,
+          role: "CHILD",
+        });
+        possibleUserChats.push({
+          id: patientCarePlan.child.guardian.id,
+          firstName: patientCarePlan.child.guardian.firstName,
+          lastName: patientCarePlan.child.guardian.lastName,
+          role: "GUARDIAN",
+        });
+      });
+    } else if (user.role === "GUARDIAN") {
+      user.children.map((childObject) => {
+        childObject.childCarePlans.map((childCarePlanObject) => {
+          possibleUserChats.push({
+            id: childCarePlanObject.therapist.id,
+            firstName: childCarePlanObject.therapist.firstName,
+            lastName: childCarePlanObject.therapist.lastName,
+            role: "THERAPIST",
+          });
+        });
+      });
+    }
+
+    let existingChatRoomUserIds = [];
+    chatRooms.map((chatRoomObject) => {
+      chatRoomObject.users.map((userObject) => {
+        existingChatRoomUserIds.push(userObject.id);
+      });
+    });
+
+    possibleUserChats = possibleUserChats.filter((possibleChatUser) => {
+      return !existingChatRoomUserIds.includes(possibleChatUser.id);
+    });
+
+    return possibleUserChats.map((possibleChatUser) => {
+      return (
+        <div onClick={() => createNewChatRoom(possibleChatUser.id)}>
+          <ChatRowContent
+            chatRoomObject={{}}
+            selectedChatRoom={{ id: "" }}
+            otherUser={possibleChatUser}
+          />
+        </div>
       );
     });
   };
@@ -223,20 +286,9 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
           onChange={(event) => setSearch(event.target.value)}
           prefix={<SearchOutlined />}
         />
-        {user.role == "OWNER" && (
-          <Popover content={<span>Create New Chat Room</span>}>
-            <Button
-              shape="circle"
-              type="primary"
-              size="large"
-              onClick={() => setCreateChatOpen(true)}
-            >
-              <PlusOutlined />
-            </Button>
-          </Popover>
-        )}
       </ChatListHeader>
       {renderChatRowItems()}
+      {renderPossibleChats()}
     </ChatListWrapper>
   );
 }

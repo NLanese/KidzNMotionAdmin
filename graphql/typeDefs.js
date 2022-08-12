@@ -259,7 +259,7 @@ const typeDefs = gql`
     ############################
     sendMessage(content: String!, chatRoomID: String!): Boolean
 
-    createChatRoom(otherParticipantID: String!): String
+    createChatRoom(otherParticipantID: String!): ChatRoom
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------
 `;

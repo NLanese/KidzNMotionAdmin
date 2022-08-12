@@ -43,7 +43,7 @@ export default {
       });
 
       // Send the final chat room object in response
-      return newChatRoom.id;
+      return newChatRoom;
     },
   },
 };

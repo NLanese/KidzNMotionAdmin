@@ -57,7 +57,7 @@ const GET_USER = gql`
         stripeSubscriptionID
         subscriptionStatus
         active
-     
+
         organizationUsers {
           id
           active
@@ -123,7 +123,7 @@ const USER_SIGN_UP = gql`
       childLastName: $childLastName
       childDateOfBirth: $childDateOfBirth
       title: $title
-      
+
       organizationName: $organizationName
       organizationInviteKey: $organizationInviteKey
     ) {
@@ -152,85 +152,67 @@ const EDIT_USER = gql`
   }
 `;
 
-
 const EDIT_ORGANIZATION_SETTINGS = gql`
-  mutation editOrganizationSettings(
-    $name: String!
-    $phoneNumber: String!
-  ) {
-    editOrganizationSettings(
-      name: $name
-      phoneNumber: $phoneNumber
-    ) {
+  mutation editOrganizationSettings($name: String!, $phoneNumber: String!) {
+    editOrganizationSettings(name: $name, phoneNumber: $phoneNumber) {
       id
     }
   }
 `;
-
 
 const INVITE_USER = gql`
-  mutation Mutation(
-    $email: String!
-    $role: String!
-  ) {
-    inviteOrganizationUser(
-      email: $email
-      role: $role
-    )
+  mutation Mutation($email: String!, $role: String!) {
+    inviteOrganizationUser(email: $email, role: $role)
   }
 `;
-
 
 const GET_USER_CHAT_ROOMS = gql`
-query Query {
-  getUserChatRooms {
-    id
-    users {
+  query Query {
+    getUserChatRooms {
       id
-      firstName
-      lastName
-      role
+      users {
+        id
+        firstName
+        lastName
+        role
+      }
     }
-  }
-}`
-
-const GET_CHAT_ROOM_BY_ID = gql`
-query Query(
-  $id: String!
-) {
-  getChatFromId (
-    id: $id
-  ) {
-    id
-    users {
-      id
-      firstName
-      lastName
-      role
-    }
-    messages {
-      createdAt
-      content
-      sentAt
-      sentBy
-    }
-  }
-}`
-
-
-const DYNAMIC_SEND_MESSAGE = gql`
-  mutation Mutation(
-    $content: String!
-    $chatRoomID: String!
-  ) {
-    sendMessage(
-      content: $content
-      chatRoomID: $chatRoomID
-    )
   }
 `;
 
+const GET_CHAT_ROOM_BY_ID = gql`
+  query Query($id: String!) {
+    getChatFromId(id: $id) {
+      id
+      users {
+        id
+        firstName
+        lastName
+        role
+      }
+      messages {
+        createdAt
+        content
+        sentAt
+        sentBy
+      }
+    }
+  }
+`;
 
+const DYNAMIC_SEND_MESSAGE = gql`
+  mutation Mutation($content: String!, $chatRoomID: String!) {
+    sendMessage(content: $content, chatRoomID: $chatRoomID)
+  }
+`;
+
+const CREATE_CHAT_ROOM = gql`
+  mutation Mutation($otherParticipantID: String!) {
+    createChatRoom(otherParticipantID: $otherParticipantID) {
+      id
+    }
+  }
+`;
 
 export {
   // Sign Up / Sign In
@@ -246,6 +228,6 @@ export {
   // MESSAGING
   GET_USER_CHAT_ROOMS,
   GET_CHAT_ROOM_BY_ID,
-  DYNAMIC_SEND_MESSAGE
-  
+  DYNAMIC_SEND_MESSAGE,
+  CREATE_CHAT_ROOM
 };

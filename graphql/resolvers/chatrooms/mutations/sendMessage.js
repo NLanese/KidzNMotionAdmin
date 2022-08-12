@@ -21,9 +21,22 @@ export default {
         },
       });
 
+      
       // If not chat room exists, throw an error
       if (!chatRoom) {
         throw new UserInputError("Chat room does not exist");
+      }
+      
+      // Make sure the user is in the chat room before sending message
+      let inChatRoom = false
+      chatRoom.users.map((userObject) => {
+        if (userObject.id === context.user.id) {
+          inChatRoom = true
+        }
+      })
+      
+      if (!inChatRoom) {
+        throw new UserInputError("You have to be in chat room to send a message");
       }
 
       // Create the message and assign to the chatroom

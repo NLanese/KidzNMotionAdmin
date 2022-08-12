@@ -20,6 +20,8 @@ import client from "@utils/apolloClient";
 import ChatsList from "@pages/messaging/ChatsList";
 import ChatDetail from "@pages/messaging/ChatDetail";
 
+import Router from "next/router";
+
 const MessagingWrapper = styled.div`
   max-width: ${(props) => props.theme.contentSize.standard};
   margin: auto;
@@ -41,6 +43,15 @@ function Messaging({ router }) {
         })
         .then(async (resolved) => {
           setChatRooms(resolved.data.getUserChatRooms);
+          console.log(resolved)
+          if (!router.query.chat) {
+            if (resolved.data.getUserChatRooms[0]) {
+              Router.push("/messaging?chat=" + resolved.data.getUserChatRooms[0].id, null, {
+                shallow: true,
+              });
+            }
+          }
+          
         })
         .catch((error) => {
           setChatRooms(null);
@@ -83,9 +94,28 @@ function Messaging({ router }) {
           </Col>
           <Col xs={24} md={24} lg={13} xl={16}>
             <ContentCard modifiers={["noPadding"]}>
-              {selectedChatRoom && (
-                <ChatDetail selectedChatRoom={selectedChatRoom} />
-              )}
+              {
+                selectedChatRoom ? (
+                  <ChatDetail selectedChatRoom={selectedChatRoom} />
+                ) : (
+                  <>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                  </>
+                )
+              }
+              
             </ContentCard>
           </Col>
         </Row>
