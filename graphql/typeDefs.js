@@ -143,6 +143,7 @@ const typeDefs = gql`
 
   type MedalType {
     id: String
+    videoID: String
     level: String
     title: String
     pictureURL: String

@@ -17,6 +17,7 @@ export default {
           videoFilesArray.map((videoFileObject) => {
             allMedalTypes.push({
               id: `${videoFileObject.id}_${key}`,
+              videoID: videoFileObject.id,
               pictureURL: MEDAL_IMAGES[key],
               title: `${videoFileObject.title}`,
               level: key.toUpperCase()
