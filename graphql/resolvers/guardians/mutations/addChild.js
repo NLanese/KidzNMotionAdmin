@@ -11,6 +11,7 @@ export default {
       { 
         childFirstName,
         childLastName,
+        username,
         childDateOfBirth
        },
       context
@@ -18,6 +19,16 @@ export default {
       if (!context.user) throw new UserInputError("Login required");
       
       if (context.user.role !== "GUARDIAN") throw new UserInputError("Only guardians can add children");
+
+      let conflicting = prisma.user.findMany({
+        where: {
+          username: username
+        }
+      })
+
+      if (conflicting.length > 0){
+        throw new Error ("Username taken")
+      }
       
       // Create the child user
       // Create the child for the guardian account
@@ -28,6 +39,7 @@ export default {
           role: "CHILD",
           firstName: childFirstName,
           lastName: childLastName,
+          username: username,
           childDateOfBirth: childDateOfBirth,
           guardian: {
             connect: {

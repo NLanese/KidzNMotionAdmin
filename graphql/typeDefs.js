@@ -233,6 +233,7 @@ const typeDefs = gql`
     addChild(
       childFirstName: String!
       childLastName: String!
+      childUsername: String!
       childDateOfBirth: String!
     ): User
 
