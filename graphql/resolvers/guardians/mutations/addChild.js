@@ -11,7 +11,7 @@ export default {
       { 
         childFirstName,
         childLastName,
-        username,
+        childUsername,
         childDateOfBirth
        },
       context
@@ -22,7 +22,7 @@ export default {
 
       let conflicting = prisma.user.findMany({
         where: {
-          username: username
+          username: childUsername
         }
       })
 
