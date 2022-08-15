@@ -194,6 +194,7 @@ const VIDEOS = {
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644272/KidsInMotion/Bear_Crawl_1_hzeetg.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644280/KidsInMotion/bear_crawl_alfyyy.jpg",
+    id: "bear_crawl_left"
   },
   bear_crawl_right: {
     level: 2,

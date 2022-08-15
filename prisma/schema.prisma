@@ -181,7 +181,8 @@ model Medal {
   title       String
   image       String @default("Default")
   description String
-
+  createdAt   DateTime @default(now())
+  
   level   MEDAL_LEVEL @default(BLUE)
   video   Video?      @relation(fields: [videoId], references: [id])
   videoId String?

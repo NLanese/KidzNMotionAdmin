@@ -141,6 +141,14 @@ const typeDefs = gql`
     chatRoom: ChatRoom
   }
 
+  type MedalType {
+    id: String
+    videoID: String
+    level: String
+    title: String
+    pictureURL: String
+  }
+
   # ---------------------------------------- END SCHEMAS ----------------------------------------
   type Query {
     ######################
@@ -161,6 +169,13 @@ const typeDefs = gql`
     #########################
 
     getAllVideoFiles: [VideoFile]
+
+
+    #########################
+    #### MEDAL QUERIES ####
+    #########################
+
+    getAllMedalTypes: [MedalType]
   }
 
   # ---------------------------------------- END QUERY ----------------------------------------
