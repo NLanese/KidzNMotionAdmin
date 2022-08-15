@@ -174,7 +174,7 @@ const typeDefs = gql`
     #### MEDAL QUERIES ####
     #########################
 
-    getAllMedals: [MedalType]
+    getAllMedalTypes: [MedalType]
   }
 
   # ---------------------------------------- END QUERY ----------------------------------------

@@ -8,7 +8,7 @@ let MEDAL_IMAGES = {
 
 export default {
   Query: {
-    getAllMedals: async (_, {}, context) => {
+    getAllMedalTypes: async (_, {}, context) => {
       let videoFilesArray = Object.values(VIDEOS);
 
       let allMedalTypes = []
