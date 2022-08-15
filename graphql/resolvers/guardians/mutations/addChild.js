@@ -53,7 +53,10 @@ export default {
         throw new Error(err)
       });
 
-      let newChildUserObject = await getUserObject(newChild)
+      let newChildUserObject = await getUserObject({
+        id: newChild.id,
+        role: "CHILD"
+      })
       return newChildUserObject
     },
   },

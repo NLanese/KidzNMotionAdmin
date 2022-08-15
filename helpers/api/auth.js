@@ -438,6 +438,14 @@ export const getUserObject = async (user) => {
             level: true,
             allVideoStatus: true,
             weeklyVideoStatus: true,
+            therapist: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true
+              }
+            },
             assignments: {
               select: {
                 id: true,
@@ -445,14 +453,7 @@ export const getUserObject = async (user) => {
                 dateStart: true,
                 dateDue: true,
                 description: true,
-                therapist: {
-                  select: {
-                    id: true,
-                    firstName: true,
-                    lastName: true,
-                    email: true
-                  }
-                },
+               
                 videos: {
                   select: {
                     id: true,
