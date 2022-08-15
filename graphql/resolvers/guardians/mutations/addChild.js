@@ -39,7 +39,7 @@ export default {
           role: "CHILD",
           firstName: childFirstName,
           lastName: childLastName,
-          username: username,
+          username: childUsername,
           childDateOfBirth: childDateOfBirth,
           guardian: {
             connect: {
@@ -47,6 +47,10 @@ export default {
             },
           },
         },
+      })
+      .catch((err) => {
+        console.log(err)
+        throw new Error(err)
       });
 
       let newChildUserObject = await getUserObject(newChild)
