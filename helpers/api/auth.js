@@ -131,6 +131,7 @@ export const getUserObject = async (user) => {
         id: true,
         firstName: true,
         lastName: true,
+        username: true,
         role: true,
         email: true,
         phoneNumber: true,

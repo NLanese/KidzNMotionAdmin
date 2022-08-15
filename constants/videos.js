@@ -4,19 +4,19 @@ const VIDEOS = {
 
   step_up: {
     id: "step_up",
-    level: 0,
+    level: 1,
     title: "Step Up",
-    description: "",
+    description: "Get some sort of small stool or step-up bench for this exercise! Here, we will try to step up, first with our left foot and then our right, so we have both feet on the platform! Then, step down, left the right and do it again!",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1660088060/KidsInMotion/Step_up_x55ns8.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1660088060/KidsInMotion/Step_up_x55ns8.jpg",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335500/KidsInMotionThumbnails/Step_up_mojnud.png",
   },
   toe_walking: {
     id: "toe_walking",
-    level: 0,
+    level: 1,
     title: "Toe Walking",
-    description: "",
+    description: "Test your balance and your foot strength by completing the Toe Walking Video. Walk forward a few paces, and then back, while staying on your toes the whole time!",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1660088039/KidsInMotion/Toe_Walking_1_elf73j.mp4",
     previewPictureURL:
@@ -30,7 +30,7 @@ const VIDEOS = {
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1660088012/KidsInMotion/Toe_Touches_gcmi8m.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1660088012/KidsInMotion/Toe_Touches_gcmi8m.jpg",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660337045/KidsInMotionThumbnails/Toe_Touches_nl7gf4.png",
   },
   squat: {
     id: "squat",
@@ -40,7 +40,7 @@ const VIDEOS = {
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1660087992/KidsInMotion/Squat_mlysmo.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1660087992/KidsInMotion/Squat_mlysmo.jpg",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335504/KidsInMotionThumbnails/Squat_xqd8tv.png",
   },
   side_to_side: {
     id: "side_to_side",
@@ -50,7 +50,7 @@ const VIDEOS = {
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1660087967/KidsInMotion/side_to_side_mnhtba.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1660087967/KidsInMotion/side_to_side_mnhtba.jpg",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335518/KidsInMotionThumbnails/Jump_side_to_side_qotu9v.png",
   },
   rolling: {
     id: "rolling",
@@ -60,7 +60,7 @@ const VIDEOS = {
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1660087943/KidsInMotion/Rolling_1_tg0djp.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1660087943/KidsInMotion/Rolling_1_tg0djp.jpg",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335506/KidsInMotionThumbnails/Roll_side_to_side_jrtjij.png",
   },
   leg_lifts: {
     id: "leg_lifts",
@@ -73,26 +73,26 @@ const VIDEOS = {
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1660087912/KidsInMotion/Leg_lifts_ohjy1g.jpg",
   },
   // LEVEL 0
-  great_job: {
-    level: 0,
-    title: "Great Job",
-    description: "Great Job!",
-    videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644315/KidsInMotion/Great_Job_r6rnz6.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644315/KidsInMotion/Great_Job_r6rnz6.jpg",
-    id: "great_job",
-  },
-  keep_it_up: {
-    level: 0,
-    title: "Keep It Up",
-    description: "Keep It Up!",
-    videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659471969/KidsInMotion/Ex_Keep_it_Up_yrktik.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659471969/KidsInMotion/Ex_Keep_it_Up_yrktik.jpg",
-    id: "keep_it_up",
-  },
+  // great_job: {
+  //   level: 0,
+  //   title: "Great Job",
+  //   description: "Great Job!",
+  //   videoURL:
+  //     "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644315/KidsInMotion/Great_Job_r6rnz6.mp4",
+  //   previewPictureURL:
+  //     "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644315/KidsInMotion/Great_Job_r6rnz6.jpg",
+  //   id: "great_job",
+  // },
+  // keep_it_up: {
+  //   level: 0,
+  //   title: "Keep It Up",
+  //   description: "Keep It Up!",
+  //   videoURL:
+  //     "https://res.cloudinary.com/king-willy-studios/video/upload/v1659471969/KidsInMotion/Ex_Keep_it_Up_yrktik.mp4",
+  //   previewPictureURL:
+  //     "https://res.cloudinary.com/king-willy-studios/video/upload/v1659471969/KidsInMotion/Ex_Keep_it_Up_yrktik.jpg",
+  //   id: "keep_it_up",
+  // },
 
   // LEVEL 1
   hand_to_knees: {

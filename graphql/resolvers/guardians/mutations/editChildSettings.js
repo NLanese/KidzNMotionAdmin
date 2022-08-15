@@ -35,11 +35,10 @@ export default {
       }
 
       // Update the child object
-      await prisma.user.update({
+      const rObj = await prisma.user.update({
         where: {
             id: childUserID,
         },
-
         data: {
           leaveApp: leaveApp,
           accessMessages: accessMessages,
@@ -47,7 +46,7 @@ export default {
         },
       });
 
-      return true;
+      return true
     },
   },
 };
