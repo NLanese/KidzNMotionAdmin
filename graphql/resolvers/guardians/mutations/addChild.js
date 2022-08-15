@@ -39,7 +39,7 @@ export default {
           role: "CHILD",
           firstName: childFirstName,
           lastName: childLastName,
-          username: username,
+          username: childUsername,
           childDateOfBirth: childDateOfBirth,
           guardian: {
             connect: {
