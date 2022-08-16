@@ -47,7 +47,10 @@ function ManageUsers({ router }) {
         <OrganizationUserTable
           organizationUsers={user.ownedOrganization.organizationUsers}
         />
-        <InviteUserDrawer inviteUserDrawerOpen={router.query.invite} />
+        <InviteUserDrawer 
+          inviteUserDrawerOpen={router.query.invite} 
+          organizationUsers={user.ownedOrganization.organizationUsers}
+        />
       </ContentCard>
     </IndexWrapper>
   );

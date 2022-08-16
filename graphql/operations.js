@@ -161,8 +161,16 @@ const EDIT_ORGANIZATION_SETTINGS = gql`
 `;
 
 const INVITE_USER = gql`
-  mutation Mutation($email: String!, $role: String!) {
-    inviteOrganizationUser(email: $email, role: $role)
+  mutation Mutation(
+    $email: String!
+    $role: String!
+    $additionalInformation: JSON
+  ) {
+    inviteOrganizationUser(
+      email: $email
+      role: $role
+      additionalInformation: $additionalInformation
+    )
   }
 `;
 
@@ -229,5 +237,5 @@ export {
   GET_USER_CHAT_ROOMS,
   GET_CHAT_ROOM_BY_ID,
   DYNAMIC_SEND_MESSAGE,
-  CREATE_CHAT_ROOM
+  CREATE_CHAT_ROOM,
 };

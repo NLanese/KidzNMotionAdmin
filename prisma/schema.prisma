@@ -42,6 +42,7 @@ model OrganizationInviteKey {
   organization   Organization? @relation(fields: [organizationId], references: [id])
   organizationId String?
   role           Role          @default(GUARDIAN)
+  additionalInformation  Json?
 }
 
 model User {

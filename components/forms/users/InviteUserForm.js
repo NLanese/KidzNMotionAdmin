@@ -12,7 +12,7 @@ import client from "@utils/apolloClient";
 
 import Router from "next/router";
 
-function InviteUserForm() {
+function InviteUserForm({ organizationUsers }) {
   const [user, setUser] = useRecoilState(userState);
 
   // Mutations
@@ -23,6 +23,11 @@ function InviteUserForm() {
       variables: {
         role: formValues.role,
         email: formValues.email,
+        additionalInformation: formValues.role === "GUARDIAN" ?  {
+          childLevel: formValues.childLevel,
+          childTherapistID: formValues.childTherapistID
+        } : {}
+
       },
     })
       .then(async (resolved) => {
@@ -47,6 +52,23 @@ function InviteUserForm() {
       });
   };
 
+
+  const renderTherapistOptions = () => {
+    let therapists = []
+    organizationUsers.map((orgUser) => {
+
+      if (orgUser.user && orgUser.user.role === "THERAPIST") {
+        therapists.push({
+          value: orgUser.user.id,
+          text: `${orgUser.user.id === user.id && "(Me)"} ${orgUser.user.firstName} ${orgUser.user.lastName}`
+        })
+      }
+
+      return orgUser;
+    })
+    return therapists
+  }
+
   return (
     <Spin spinning={false}>
       <Form
@@ -65,6 +87,15 @@ function InviteUserForm() {
 
           if (!values.role) {
             errors.role = "Required";
+          }
+
+          if (values.role && values.role === "GUARDIAN") {
+            if (!values.childLevel) {
+              errors.childLevel = "Required";
+            }
+            if (!values.childTherapistID) {
+              errors.childTherapistID = "Required";
+            }
           }
 
           return errors;
@@ -87,6 +118,7 @@ function InviteUserForm() {
             <legend>Invite User Form</legend>
             <Row gutter={16}>
               <Col xs={24} md={24}>
+                <h3>User Information</h3>
                 <Field
                   label="Email"
                   name="email"
@@ -121,6 +153,45 @@ function InviteUserForm() {
                   size={"large"}
                   required={true}
                 />
+              </Col>
+              <Col xs={24} md={24}>
+                {values.role === "GUARDIAN" && (
+                  <>
+                    <h3>Child Information</h3>
+                    <Field
+                      name="childLevel"
+                      component={SelectField}
+                      htmlType="text"
+                      label="Child Initial Level"
+                      options={[
+                        {
+                          value: "1",
+                          text: "1",
+                        },
+                        {
+                          value: "2",
+                          text: "2",
+                        },
+                        {
+                          value: "3",
+                          text: "3",
+                        },
+                      ]}
+                      size={"large"}
+                      required={true}
+                    />
+                    <Field
+                      name="childTherapistID"
+                      component={SelectField}
+                      htmlType="text"
+                      label="Child Therapist"
+                      options={renderTherapistOptions()}
+                      size={"large"}
+                      required={true}
+                    />
+                    <br />
+                  </>
+                )}
               </Col>
             </Row>
 

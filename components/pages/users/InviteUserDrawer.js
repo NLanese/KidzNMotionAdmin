@@ -4,7 +4,7 @@ import { Drawer } from "antd";
 import Router from "next/router";
 import InviteUserForm from "@forms/users/InviteUserForm";
 
-function AssetDetail({ inviteUserDrawerOpen }) {
+function InviteUserDrawer({ inviteUserDrawerOpen, organizationUsers }) {
   return (
     <>
       <Drawer
@@ -14,10 +14,10 @@ function AssetDetail({ inviteUserDrawerOpen }) {
         onClose={() => Router.push("/users/manage", null, { shallow: true })}
         visible={inviteUserDrawerOpen}
       >
-        <InviteUserForm />
+        <InviteUserForm organizationUsers={organizationUsers}/>
       </Drawer>
     </>
   );
 }
 
-export default AssetDetail;
+export default InviteUserDrawer;

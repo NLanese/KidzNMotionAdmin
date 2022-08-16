@@ -229,7 +229,7 @@ const typeDefs = gql`
     ################################
     editOrganizationSettings(name: String!, phoneNumber: String!): User
 
-    inviteOrganizationUser(email: String!, role: String!): Boolean
+    inviteOrganizationUser(email: String!, role: String!, additionalInformation: JSON): Boolean
 
     editOrganizationSubscriptionStatus(cancelled: Boolean!): Boolean
 
