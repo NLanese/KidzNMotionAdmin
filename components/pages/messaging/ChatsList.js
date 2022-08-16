@@ -205,14 +205,11 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
       },
     })
       .then(async (resolved) => {
-        let newChatID = resolved.data.createChatRoom.id
-        window.location =
-          "/messaging/?chat=" + newChatID
+        let newChatID = resolved.data.createChatRoom.id;
+        window.location = "/messaging/?chat=" + newChatID;
       })
       .catch((error) => {
-        message.error(
-          "Sorry, there was an error opening this chat room"
-        );
+        message.error("Sorry, there was an error opening this chat room");
       });
   };
 
@@ -238,14 +235,16 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
       });
     } else if (user.role === "GUARDIAN") {
       user.children.map((childObject) => {
-        childObject.childCarePlans.map((childCarePlanObject) => {
-          possibleUserChats.push({
-            id: childCarePlanObject.therapist.id,
-            firstName: childCarePlanObject.therapist.firstName,
-            lastName: childCarePlanObject.therapist.lastName,
-            role: "THERAPIST",
+        if (childObject.childCarePlans) {
+          childObject.childCarePlans.map((childCarePlanObject) => {
+            possibleUserChats.push({
+              id: childCarePlanObject.therapist.id,
+              firstName: childCarePlanObject.therapist.firstName,
+              lastName: childCarePlanObject.therapist.lastName,
+              role: "THERAPIST",
+            });
           });
-        });
+        }
       });
     }
 
@@ -262,7 +261,10 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
 
     return possibleUserChats.map((possibleChatUser) => {
       return (
-        <div onClick={() => createNewChatRoom(possibleChatUser.id)} key={possibleChatUser.id}>
+        <div
+          onClick={() => createNewChatRoom(possibleChatUser.id)}
+          key={possibleChatUser.id}
+        >
           <ChatRowContent
             chatRoomObject={{}}
             selectedChatRoom={{ id: "" }}
