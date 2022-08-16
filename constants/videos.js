@@ -14,7 +14,7 @@ const VIDEOS = {
   },
   toe_walking: {
     id: "toe_walking",
-    level: 1,
+    level: 2,
     title: "Toe Walking",
     description: "Test your balance and your foot strength by completing the Toe Walking Video. Walk forward a few paces, and then back, while staying on your toes the whole time!",
     videoURL:
@@ -24,7 +24,7 @@ const VIDEOS = {
   },
   toe_touches: {
     id: "toe_touches",
-    level: 0,
+    level: 1,
     title: "Toe Touches",
     description: "",
     videoURL:
@@ -34,7 +34,7 @@ const VIDEOS = {
   },
   squat: {
     id: "squat",
-    level: 0,
+    level: 2,
     title: "Squat",
     description: "",
     videoURL:
@@ -44,7 +44,7 @@ const VIDEOS = {
   },
   side_to_side: {
     id: "side_to_side",
-    level: 0,
+    level: 2,
     title: "Side To Side",
     description: "",
     videoURL:
@@ -54,7 +54,7 @@ const VIDEOS = {
   },
   rolling: {
     id: "rolling",
-    level: 0,
+    level: 1,
     title: "Rolling",
     description: "",
     videoURL:
@@ -64,7 +64,7 @@ const VIDEOS = {
   },
   leg_lifts: {
     id: "leg_lifts",
-    level: 0,
+    level: 1,
     title: "Leg Lifts",
     description: "",
     videoURL:
