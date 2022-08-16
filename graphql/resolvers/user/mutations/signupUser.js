@@ -107,7 +107,7 @@ export default {
         }
         // #endregion
 
-        const allVideos = await prisma.video.findMany
+        const allVideos = await prisma.video.findMany;
 
         // #region Create the User & required information
         // Create the base user
@@ -203,10 +203,12 @@ export default {
             },
             select: {
               organizationId: true,
+              additionalInformation: true,
             },
           });
         }
 
+        // If there is a organization invite
         if (organizationInvite && organizationInvite[0]) {
           await prisma.organizationUser.create({
             data: {
@@ -241,6 +243,31 @@ export default {
                 },
               },
             });
+
+            // If there is a chidl user and the organization invite has additional information, then create:
+            //  - Child Care Plan
+            //  - Set Initial Therapist ID & Child Level
+
+            if (organizationInvite[0].additionalInformation.childTherapistID) {
+              await prisma.childCarePlan.create({
+                data: {
+                  child: {
+                    connect: {
+                      id: childUser.id,
+                    },
+                  },
+                  therapist: {
+                    connect: {
+                      id: organizationInvite[0].additionalInformation
+                        .childTherapistID,
+                    },
+                  },
+                  level: parseInt(
+                    organizationInvite[0].additionalInformation.childLevel
+                  ),
+                },
+              });
+            }
           }
 
           await prisma.organizationInviteKey.update({

@@ -76,6 +76,27 @@ const GET_USER = gql`
         firstName
         lastName
         childDateOfBirth
+        childCarePlans {
+          id
+          level
+          allVideoStatus
+          therapist {
+            id
+            firstName
+            lastName
+          }
+          child {
+            id
+            firstName
+            lastName
+            guardian {
+              id
+              firstName
+              lastName
+              email
+            }
+          }
+        }
       }
     }
   }

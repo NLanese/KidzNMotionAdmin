@@ -88,7 +88,7 @@ function ChatRowContent({ selectedChatRoom, chatRoomObject, otherUser }) {
               size={37}
             >
               {otherUser.firstName[0].toUpperCase()}.
-              {otherUser.lastName[1].toUpperCase()}.
+              {otherUser.lastName[0].toUpperCase()}.
             </Avatar>
             <Space direction="vertical" size={3}>
               <Text strong>
@@ -126,7 +126,7 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
   const renderChatRowItems = () => {
     let filteredChatRooms = structuredClone(chatRooms);
 
-    if (chatRooms.length === 0) {
+    if (chatRooms.length === 0 && renderPossibleChats(true) <= 0) {
       return (
         <div style={{ padding: "30px", textAlign: "center" }}>
           <Empty description="No chat rooms created yet" />
@@ -155,7 +155,7 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
       });
     }
 
-    if (filteredChatRooms.length === 0) {
+    if (filteredChatRooms.length === 0 && renderPossibleChats(true) <= 0) {
       return (
         <div style={{ padding: "30px", textAlign: "center" }}>
           <Empty description="No chat rooms for this search" />
@@ -213,7 +213,7 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
       });
   };
 
-  const renderPossibleChats = () => {
+  const renderPossibleChats = (intOnly) => {
     // console.clear()
     console.log(user);
     let possibleUserChats = [];
@@ -234,6 +234,7 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
         });
       });
     } else if (user.role === "GUARDIAN") {
+      console.log(user.children)
       user.children.map((childObject) => {
         if (childObject.childCarePlans) {
           childObject.childCarePlans.map((childCarePlanObject) => {
@@ -258,6 +259,10 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
     possibleUserChats = possibleUserChats.filter((possibleChatUser) => {
       return !existingChatRoomUserIds.includes(possibleChatUser.id);
     });
+
+    if (intOnly) {
+      return possibleUserChats.length
+    }
 
     return possibleUserChats.map((possibleChatUser) => {
       return (
