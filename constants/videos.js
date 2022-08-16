@@ -70,7 +70,7 @@ const VIDEOS = {
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1660087912/KidsInMotion/Leg_lifts_ohjy1g.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1660087912/KidsInMotion/Leg_lifts_ohjy1g.jpg",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335512/KidsInMotionThumbnails/Leg_Lifts_s3njlf.png",
   },
   // LEVEL 0
   // great_job: {
@@ -103,7 +103,7 @@ const VIDEOS = {
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644321/KidsInMotion/Hand_to_knees_onxqus.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644321/KidsInMotion/Hand_to_knees_onxqus.jpg",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335538/KidsInMotionThumbnails/Hand_to_Knees_savy86.png",
     id: "hand_to_knees",
   },
   chair_elevation: {
@@ -114,7 +114,7 @@ const VIDEOS = {
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644300/KidsInMotion/Chair_elevation_eexwmh.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644300/KidsInMotion/Chair_elevation_eexwmh.jpg",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335543/KidsInMotionThumbnails/Chair_Elevation_e7g1rg.png",
     id: "chair_elevation",
   },
   floor_to_stand: {
@@ -125,7 +125,7 @@ const VIDEOS = {
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644310/KidsInMotion/floor_to_stand_1_acj0jg.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644310/KidsInMotion/floor_to_stand_1_acj0jg.jpg",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335540/KidsInMotionThumbnails/Floor_to_stand_1_ylw9xj.png",
     id: "floor_to_stand",
   },
   bean_balancing: {
@@ -136,7 +136,7 @@ const VIDEOS = {
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644263/KidsInMotion/bean_balancing_ylbyd9.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644263/KidsInMotion/bean_balancing_ylbyd9.jpg",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335549/KidsInMotionThumbnails/Balance_Beam_sisc6v.png",
     id: "bean_balancing",
   },
 
@@ -149,7 +149,7 @@ const VIDEOS = {
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644347/KidsInMotion/Jump_Rope_q8yzht.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644347/KidsInMotion/Jump_Rope_q8yzht.jpg",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335526/KidsInMotionThumbnails/Jump_Rope_dmyjys.png",
     id: "jump_rope",
   },
   jumping_jacks: {
@@ -160,7 +160,7 @@ const VIDEOS = {
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644358/KidsInMotion/Jumping_Jacks_iyyksv.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644358/KidsInMotion/Jumping_Jacks_iyyksv.jpg",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335515/KidsInMotionThumbnails/Jumping_Jacks_hizxbv.png",
     id: "jumping_jacks",
   },
   jump_forward_and_backward: {
@@ -171,7 +171,7 @@ const VIDEOS = {
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644338/KidsInMotion/Jump_forward_and_back_bykc0a.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644338/KidsInMotion/Jump_forward_and_back_bykc0a.jpg",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335529/KidsInMotionThumbnails/Jump_forward_and_back_vnmavh.png",
     id: "jump_forward_and_backward",
   },
   hop_scotch: {
@@ -182,7 +182,7 @@ const VIDEOS = {
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644329/KidsInMotion/hop_scotch_rzcrpf.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644329/KidsInMotion/hop_scotch_rzcrpf.jpg",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335531/KidsInMotionThumbnails/Hop_Scotch_d2wmwe.png",
     id: "hop_scotch",
   },
   bear_crawl_left: {
@@ -193,7 +193,7 @@ const VIDEOS = {
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644272/KidsInMotion/Bear_Crawl_1_hzeetg.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644280/KidsInMotion/bear_crawl_alfyyy.jpg",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335545/KidsInMotionThumbnails/Bear_Crawl_1_nbno9g.png",
     id: "bear_crawl_left"
   },
   bear_crawl_right: {
@@ -204,7 +204,7 @@ const VIDEOS = {
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644280/KidsInMotion/bear_crawl_alfyyy.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644272/KidsInMotion/Bear_Crawl_1_hzeetg.jpg",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335545/KidsInMotionThumbnails/Bear_Crawl_1_nbno9g.png",
     id: "bear_crawl_right",
   },
 };
