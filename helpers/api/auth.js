@@ -335,6 +335,13 @@ export const getUserObject = async (user) => {
                 id: true,
                 name: true,
                 organizationType: true,
+                organizationUsers: {
+                  select: {
+                    id: true,
+                    active: true,
+                    user: true
+                  }
+                }
               },
             },
           },
