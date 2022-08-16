@@ -34,6 +34,9 @@ export default {
     ) => {
       // console.log(title);
 
+      // Define a base child user to user later in create organizatino user
+      let childUser;
+
       try {
         // #region Check User Conflicts
         // console.log(context.user);
@@ -135,7 +138,7 @@ export default {
           }
 
           // Create the child for the guardian account
-          await prisma.user.create({
+          childUser = await prisma.user.create({
             data: {
               email: makeRandomString(60) + "@kidsinmotion.com",
               password: makeRandomString(60),
@@ -220,6 +223,25 @@ export default {
               },
             },
           });
+
+          // Create the organization user for the child as well
+          if (childUser) {
+            await prisma.organizationUser.create({
+              data: {
+                active: true,
+                user: {
+                  connect: {
+                    id: childUser.id,
+                  },
+                },
+                organization: {
+                  connect: {
+                    id: organizationInvite[0].organizationId,
+                  },
+                },
+              },
+            });
+          }
 
           await prisma.organizationInviteKey.update({
             where: {
