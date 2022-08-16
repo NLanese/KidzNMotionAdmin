@@ -32,8 +32,10 @@ export default {
       // Yes then return error
       let userAlreadyInOrg = false;
       userCheckInOrganization.map((potentialOrganizationUser) => {
-        if (potentialOrganizationUser.user.email.toLowerCase() === email) {
-          userAlreadyInOrg = true;
+        if (potentialOrganizationUser.user) {
+          if (potentialOrganizationUser.user.email.toLowerCase() === email) {
+            userAlreadyInOrg = true;
+          }
         }
       });
       if (userAlreadyInOrg) {
