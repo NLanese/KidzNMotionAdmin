@@ -176,21 +176,36 @@ function SideMenu({ router, user }) {
           </Menu.Item>
         )} */}
         {user.ownedOrganization && (
-          <Menu.Item
-            onClick={() => pushLink("/users/manage")}
-            key="/users/manage"
+          <Menu.SubMenu
+            key={"/users"}
+            title={"Users"}
+            onTitleClick={() => appendMenuKey("/users")}
             icon={<TeamOutlined style={{ fontSize: "20px" }} />}
           >
-            Manage Users
-          </Menu.Item>
+            <>
+              <Menu.Item
+                key={"/users/manage"}
+                onClick={() => pushLink("/users/manage")}
+              >
+                Manage Users
+              </Menu.Item>
+
+              <Menu.Item
+                key={"/users/upload"}
+                onClick={() => pushLink("/users/upload")}
+              >
+                Upload Users
+              </Menu.Item>
+            </>
+          </Menu.SubMenu>
         )}
-         <Menu.Item
-            onClick={() => pushLink("/messaging")}
-            key="/messaging"
-            icon={<MessageOutlined style={{ fontSize: "20px" }} />}
-          >
-            Messaging
-          </Menu.Item>
+        <Menu.Item
+          onClick={() => pushLink("/messaging")}
+          key="/messaging"
+          icon={<MessageOutlined style={{ fontSize: "20px" }} />}
+        >
+          Messaging
+        </Menu.Item>
         {user.ownedOrganization && (
           <Menu.SubMenu
             key={"/account"}
