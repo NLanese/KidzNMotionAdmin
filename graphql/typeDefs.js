@@ -96,6 +96,7 @@ const typeDefs = gql`
   type Video {
     id: ID
     contentfulID: String
+    completed: Boolean
 
     medals: [Medal]
     assignment: Assignment
@@ -295,7 +296,7 @@ const typeDefs = gql`
     ##################################
     toggleAssignmentSeen(assignmentID: String!, hasSeen: Boolean!): Assignment
     
-    setVideoCompleted(videoID: String!): Boolean
+    setVideoCompleted(videoID: String!, medalType: String!): Video
 
     editChildCarePlan(
       childCarePlanID: String!

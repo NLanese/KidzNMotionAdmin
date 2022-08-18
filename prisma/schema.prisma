@@ -171,6 +171,7 @@ model Video {
   assignments Assignment[]
   users       User[]
 
+  completed        Boolean @default(false)
   title       String
   description String
   level       Int
