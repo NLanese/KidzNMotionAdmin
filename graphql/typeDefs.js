@@ -23,8 +23,14 @@ const typeDefs = gql`
     msgNotifications: Boolean
     missedDateNotifications: Boolean
     appointmentNotifications: Boolean
+
     muteAllMessages: Boolean
     muteAllAssignments: Boolean
+
+    messagesMuted: Boolean
+    assignMuted: Boolean
+
+    solo: Boolean
 
     children: [User]
     guardianId: String
@@ -291,9 +297,9 @@ const typeDefs = gql`
 
     createChatRoom(otherParticipantID: String!): ChatRoom
 
-    ##################################
+    ###################################
     #### CHILD CARE PLAN MUTATIONS ####
-    ##################################
+    ###################################
     toggleAssignmentSeen(assignmentID: String!, hasSeen: Boolean!): Assignment
     
     setVideoCompleted(videoID: String!, medalType: String!): Video
