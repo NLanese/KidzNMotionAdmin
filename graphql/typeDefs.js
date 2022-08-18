@@ -85,6 +85,7 @@ const typeDefs = gql`
     createdAt: Date
     dateStart: Date
     dateDue: Date
+    seen: Boolean
     title: String
     description: String
     childCarePlan: ChildCarePlan
@@ -276,6 +277,11 @@ const typeDefs = gql`
     sendMessage(content: String!, chatRoomID: String!): Boolean
 
     createChatRoom(otherParticipantID: String!): ChatRoom
+
+    ##################################
+    #### CHILD CARE PLAN MUTATIONS ####
+    ##################################
+    toggleAssignmentSeen(assignmentID: String!, hasSeen: Boolean!): Assignment
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------
 `;

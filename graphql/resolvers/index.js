@@ -8,6 +8,7 @@ import guardianResolvers from './guardians/guardianResolvers.js';
 import therapistResolvers from './therapists/therapistResolvers.js';
 import videoResolvers from './videos/videoResolvers.js';
 import medalResolvers from './medals/medalResolvers.js';
+import childCarePlanResolvers from './childCarePlans/childCarePlanResolvers.js';
 
 export default {
     Query: {
@@ -23,6 +24,7 @@ export default {
         ...guardianResolvers.Mutation,
         ...therapistResolvers.Mutation,
         ...chatRoomResolvers.Mutation,
+        ...childCarePlanResolvers.Mutation
     },
     JSON: GraphQLJSON,
 }
