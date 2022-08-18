@@ -142,7 +142,8 @@ model ChildCarePlan {
   weeklyVideoStatus Json?
   active            Boolean @default(true)
 
-  assignments Assignment[]
+  assignments   Assignment[]
+  blockedVideos Json?
 }
 
 model Assignment {

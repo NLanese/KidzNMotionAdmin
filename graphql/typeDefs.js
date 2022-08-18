@@ -76,6 +76,7 @@ const typeDefs = gql`
     level: Int
     active: Boolean
     allVideoStatus: JSON
+    blockedVideos: JSON
     weeklyVideoStatus: JSON
     assignments: [Assignment]
   }
@@ -171,7 +172,6 @@ const typeDefs = gql`
 
     getAllVideoFiles: [VideoFile]
 
-
     #########################
     #### MEDAL QUERIES ####
     #########################
@@ -230,7 +230,11 @@ const typeDefs = gql`
     ################################
     editOrganizationSettings(name: String!, phoneNumber: String!): User
 
-    inviteOrganizationUser(email: String!, role: String!, additionalInformation: JSON): Boolean
+    inviteOrganizationUser(
+      email: String!
+      role: String!
+      additionalInformation: JSON
+    ): Boolean
 
     editOrganizationSubscriptionStatus(cancelled: Boolean!): Boolean
 
@@ -282,6 +286,13 @@ const typeDefs = gql`
     #### CHILD CARE PLAN MUTATIONS ####
     ##################################
     toggleAssignmentSeen(assignmentID: String!, hasSeen: Boolean!): Assignment
+
+    editChildCarePlan(
+      childCarePlanID: String!
+      level: Int
+      newAssignedTherapistID: String
+      blockedVideos: JSON
+    ): ChildCarePlan
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------
 `;
