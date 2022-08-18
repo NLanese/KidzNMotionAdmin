@@ -82,6 +82,7 @@ const typeDefs = gql`
     level: Int
     active: Boolean
     allVideoStatus: JSON
+    blockedVideos: JSON
     weeklyVideoStatus: JSON
     assignments: [Assignment]
   }
@@ -91,6 +92,7 @@ const typeDefs = gql`
     createdAt: Date
     dateStart: Date
     dateDue: Date
+    seen: Boolean
     title: String
     description: String
     childCarePlan: ChildCarePlan
@@ -100,6 +102,7 @@ const typeDefs = gql`
   type Video {
     id: ID
     contentfulID: String
+    completed: Boolean
 
     medals: [Medal]
     assignment: Assignment
@@ -129,6 +132,13 @@ const typeDefs = gql`
     description: String
     videoURL: String
     previewPictureURL: String
+  }
+
+  type AvatarPiece {
+    id: String
+    title: String
+    unlocked: Boolean
+    pictureURL: String
   }
 
   type ChatRoom {
@@ -162,6 +172,7 @@ const typeDefs = gql`
     ######################
 
     getUser: User
+    getUserAvatarPieces(childID: String): [AvatarPiece]
 
     ##########################
     #### CHATROOM QUERIES ####
@@ -175,7 +186,6 @@ const typeDefs = gql`
     #########################
 
     getAllVideoFiles: [VideoFile]
-
 
     #########################
     #### MEDAL QUERIES ####
@@ -235,7 +245,11 @@ const typeDefs = gql`
     ################################
     editOrganizationSettings(name: String!, phoneNumber: String!): User
 
-    inviteOrganizationUser(email: String!, role: String!, additionalInformation: JSON): Boolean
+    inviteOrganizationUser(
+      email: String!
+      role: String!
+      additionalInformation: JSON
+    ): Boolean
 
     editOrganizationSubscriptionStatus(cancelled: Boolean!): Boolean
 
@@ -282,6 +296,20 @@ const typeDefs = gql`
     sendMessage(content: String!, chatRoomID: String!): Boolean
 
     createChatRoom(otherParticipantID: String!): ChatRoom
+
+    ##################################
+    #### CHILD CARE PLAN MUTATIONS ####
+    ##################################
+    toggleAssignmentSeen(assignmentID: String!, hasSeen: Boolean!): Assignment
+    
+    setVideoCompleted(videoID: String!, medalType: String!): Video
+
+    editChildCarePlan(
+      childCarePlanID: String!
+      level: Int
+      newAssignedTherapistID: String
+      blockedVideos: JSON
+    ): ChildCarePlan
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------
 `;

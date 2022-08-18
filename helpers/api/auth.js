@@ -186,6 +186,7 @@ export const getUserObject = async (user) => {
                       select: {
                         id: true,
                         contentfulID: true,
+                        completed: true,
                         medals: {
                           select: {
                             id: true,
@@ -285,6 +286,7 @@ export const getUserObject = async (user) => {
                   select: {
                     id: true,
                     contentfulID: true,
+                    completed: true,
                     medals: {
                       select: {
                         id: true,
@@ -466,6 +468,7 @@ export const getUserObject = async (user) => {
                   select: {
                     id: true,
                     contentfulID: true,
+                    completed: true,
                     medals: {
                       select: {
                         id: true,

@@ -2,6 +2,7 @@ import GraphQLJSON from 'graphql-type-json';
 
 // USER QUERIES
 import getUser from './queries/getUser.js';
+import getUserAvatarPieces from './queries/getUserAvatarPieces.js';
 
 // USER MUTATIONS
 import signUpUser from './mutations/signupUser.js';
@@ -19,6 +20,7 @@ export default {
     Query: {
         // USER QUERIES
         ...getUser.Query,
+        ...getUserAvatarPieces.Query,
     },
     Mutation: {
         // USER MUTATIONS
