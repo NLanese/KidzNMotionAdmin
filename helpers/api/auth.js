@@ -201,6 +201,7 @@ export const getUserObject = async (user) => {
                 therapist: {
                   select: {
                     firstName: true,
+                    id: true,
                     lastName: true,
                     title: true,
                     email: true,
@@ -486,6 +487,7 @@ export const getUserObject = async (user) => {
                 lastName: true,
                 email: true,
                 title: true,
+                id: true
               },
             },
           },
