@@ -23,8 +23,14 @@ const typeDefs = gql`
     msgNotifications: Boolean
     missedDateNotifications: Boolean
     appointmentNotifications: Boolean
+
     muteAllMessages: Boolean
     muteAllAssignments: Boolean
+
+    messagesMuted: Boolean
+    assignMuted: Boolean
+
+    solo: Boolean
 
     children: [User]
     guardianId: String

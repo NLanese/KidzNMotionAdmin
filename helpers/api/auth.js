@@ -138,6 +138,7 @@ export const getUserObject = async (user) => {
         profilePic: true,
         muteAllAssignments: true,
         muteAllMessages: true,
+        solo: true,
         children: {
           where: {
             active: true,
