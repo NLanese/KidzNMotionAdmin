@@ -12,6 +12,8 @@ export default {
       profilePic = JSON.stringify(profilePic);
       profilePic = JSON.parse(profilePic);
 
+      console.log("hit")
+
       // Update the user with the json object for the profile pic
       await prisma.user.update({
         where: {
@@ -20,7 +22,7 @@ export default {
         data: {
           profilePic: profilePic,
         },
-      });
+      }).catch(error => console.log(error))
 
       // Get the new user object
       let userObject = await getUserObject(context.user);
