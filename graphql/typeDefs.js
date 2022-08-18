@@ -294,6 +294,8 @@ const typeDefs = gql`
     #### CHILD CARE PLAN MUTATIONS ####
     ##################################
     toggleAssignmentSeen(assignmentID: String!, hasSeen: Boolean!): Assignment
+    
+    setVideoCompleted(videoID: String!): Boolean
 
     editChildCarePlan(
       childCarePlanID: String!
