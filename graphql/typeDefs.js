@@ -127,6 +127,13 @@ const typeDefs = gql`
     previewPictureURL: String
   }
 
+  type AvatarPiece {
+    id: String
+    title: String
+    unlocked: Boolean
+    pictureURL: String
+  }
+
   type ChatRoom {
     id: ID
     users: [User]
@@ -158,6 +165,7 @@ const typeDefs = gql`
     ######################
 
     getUser: User
+    getUserAvatarPieces(childID: String): [AvatarPiece]
 
     ##########################
     #### CHATROOM QUERIES ####

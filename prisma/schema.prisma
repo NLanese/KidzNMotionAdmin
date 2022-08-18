@@ -67,6 +67,7 @@ model User {
   msgNotifications        Boolean @default(false)
   missedDateNotifications Boolean @default(false)
   solo                    Boolean @default(false)
+  unlockedAvatarPieces    Json? // Used only with the get all user avatar pieces query {ids: []}
   ////////////////////////////
 
   // Therapist Specific //
