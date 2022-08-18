@@ -39,10 +39,6 @@ export default {
         throw new UserInputError("Video file id needs to match a video.");
       }
 
-      // The viddeo has already been completed
-      if (video.completed) {
-        throw new UserInputError("Video is already completed");
-      }
 
       // Perform video actions here
       if (
