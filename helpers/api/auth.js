@@ -162,6 +162,7 @@ export const getUserObject = async (user) => {
                 weeklyVideoStatus: true,
                 child: {
                   select: {
+                    role: true,
                     id: true,
                     firstName: true,
                     lastName: true
@@ -226,6 +227,13 @@ export const getUserObject = async (user) => {
             },
           },
         },
+        chatRooms: {
+          select: {
+            id: true,
+            messages: true,
+            users: true
+          }
+        }
       },
     });
   } else if (user.role === "THERAPIST") {
@@ -255,11 +263,13 @@ export const getUserObject = async (user) => {
             weeklyVideoStatus: true,
             child: {
               select: {
+                role: true,
                 id: true,
                 firstName: true,
                 lastName: true,
                 guardian: {
                   select: {
+                    role: true,
                     id: true,
                     firstName: true,
                     lastName: true,
@@ -318,6 +328,7 @@ export const getUserObject = async (user) => {
                 active: true,
                 user: {
                   select: {
+                    role: true,
                     id: true,
                     role: true,
                     firstName: true,
@@ -350,6 +361,13 @@ export const getUserObject = async (user) => {
             },
           },
         },
+        chatRooms: {
+          select: {
+            id: true,
+            messages: true,
+            users: true
+          }
+        }
       },
     });
   } else if (user.role === "ADMIN") {
