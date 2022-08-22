@@ -7,8 +7,6 @@ sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
 export default {
   Mutation: {
     inviteOrganizationUser: async (_, { email, role, additionalInformation}, context) => {
-
-      
       
       // Check to ensure the user is logged in
       if (!context.user) throw new UserInputError("Login required");
