@@ -340,6 +340,15 @@ const typeDefs = gql`
     deleteComment(
       commentID: String!
     ): Boolean
+
+    createAssignment(
+      childCarePlanID: String!
+      dateStart: String!
+      dateDue: String!
+      title: String!
+      description: String!
+      videoIDs: [String]!
+    ): Boolean
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------
 `;

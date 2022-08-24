@@ -9,6 +9,7 @@ import editChildCarePlan from './mutations/editChildCarePlan';
 import setVideoCompleted from './mutations/setVideoCompleted';
 import createComment from './mutations/createComment';
 import deleteComment from './mutations/deleteComment';
+import createAssignment from './mutations/createAssignment';
 
 
 export default {
@@ -21,7 +22,8 @@ export default {
         ...editChildCarePlan.Mutation,
         ...setVideoCompleted.Mutation,
         ...createComment.Mutation,
-        ...deleteComment.Mutation
+        ...deleteComment.Mutation,
+        ...createAssignment.Mutation,
       
     },
     JSON: GraphQLJSON,
