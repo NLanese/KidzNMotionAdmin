@@ -16,6 +16,7 @@ export default {
         ...chatRoomResolvers.Query,
         ...videoResolvers.Query,
         ...medalResolvers.Query,
+        ...childCarePlanResolvers.Query
         
     },
     Mutation: {
