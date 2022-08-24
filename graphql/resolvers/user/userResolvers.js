@@ -15,6 +15,7 @@ import editUser from './mutations/editUser.js';
 import confirmPassword from './mutations/confirmPassword.js';
 import changeProfilePicture from './mutations/changeProfilePicture.js';
 import editUserNotificationSettings from './mutations/editUserNotificationSettings.js';
+import editColorSettings from './mutations/editColorSettings.js';
 
 export default {
     Query: {
@@ -34,6 +35,7 @@ export default {
         ...confirmPassword.Mutation,
         ...changeProfilePicture.Mutation,
         ...editUserNotificationSettings.Mutation,
+        ...editColorSettings.Mutation,
     },
     JSON: GraphQLJSON,
 }

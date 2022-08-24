@@ -211,6 +211,8 @@ const typeDefs = gql`
     #### USER MUTATIONS ####
     ########################
     devCreateUser(password: String!): User
+    
+    editColorSettings(colorSettings: String!): Boolean
 
     loginUser(username: String!, password: String!): UserPayLoad
 
