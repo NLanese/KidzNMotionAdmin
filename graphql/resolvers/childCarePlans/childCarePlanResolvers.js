@@ -4,6 +4,8 @@ import GraphQLJSON from 'graphql-type-json';
 import toggleAssignmentSeen from './mutations/toggleAssignmentSeen';
 import editChildCarePlan from './mutations/editChildCarePlan';
 import setVideoCompleted from './mutations/setVideoCompleted';
+import createComment from './mutations/createComment';
+import deleteComment from './mutations/deleteComment';
 
 
 export default {
@@ -11,7 +13,9 @@ export default {
         // CHILD CARE PLAN MUTATIONS
         ...toggleAssignmentSeen.Mutation,
         ...editChildCarePlan.Mutation,
-        ...setVideoCompleted.Mutation
+        ...setVideoCompleted.Mutation,
+        ...createComment.Mutation,
+        ...deleteComment.Mutation
       
     },
     JSON: GraphQLJSON,

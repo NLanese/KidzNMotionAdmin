@@ -160,6 +160,21 @@ export const getUserObject = async (user) => {
                 level: true,
                 allVideoStatus: true,
                 weeklyVideoStatus: true,
+                comments: {
+                  select: {
+                    id: true,
+                    content: true,
+                    createdAt: true,
+                    therapist: {
+                      select: {
+                        id: true
+                      }
+                    },
+                    videoId: true,
+                    assignmentId: true,
+
+                  }
+                },
                 child: {
                   select: {
                     role: true,
@@ -261,6 +276,21 @@ export const getUserObject = async (user) => {
             level: true,
             allVideoStatus: true,
             weeklyVideoStatus: true,
+            comments: {
+              select: {
+                id: true,
+                content: true,
+                createdAt: true,
+                therapist: {
+                  select: {
+                    id: true
+                  }
+                },
+                videoId: true,
+                assignmentId: true,
+
+              }
+            },
             child: {
               select: {
                 role: true,
@@ -473,6 +503,21 @@ export const getUserObject = async (user) => {
                 firstName: true,
                 lastName: true,
                 email: true
+              }
+            },
+            comments: {
+              select: {
+                id: true,
+                content: true,
+                createdAt: true,
+                therapist: {
+                  select: {
+                    id: true
+                  }
+                },
+                videoId: true,
+                assignmentId: true,
+
               }
             },
             assignments: {

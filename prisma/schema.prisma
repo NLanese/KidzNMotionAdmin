@@ -105,6 +105,7 @@ model User {
 
   organizationInviteKeys OrganizationInviteKey[]
   videos                 Video[]
+  comments               Comment[]               @relation("therapistComments")
 }
 
 model OrganizationUser {
@@ -145,6 +146,19 @@ model ChildCarePlan {
 
   assignments   Assignment[]
   blockedVideos Json?
+  comments      Comment[]
+}
+
+model Comment {
+  id              String         @id @default(uuid())
+  content         String
+  createdAt       DateTime       @default(now())
+  therapist       User?          @relation("therapistComments", fields: [therapistId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  therapistId     String?
+  childCarePlan   ChildCarePlan? @relation(fields: [childCarePlanId], references: [id])
+  childCarePlanId String?
+  assignmentId    String?
+  videoId         String?
 }
 
 model Assignment {
@@ -171,7 +185,7 @@ model Video {
   assignments Assignment[]
   users       User[]
 
-  completed        Boolean @default(false)
+  completed   Boolean @default(false)
   title       String
   description String
   level       Int

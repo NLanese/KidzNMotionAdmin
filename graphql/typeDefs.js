@@ -85,6 +85,17 @@ const typeDefs = gql`
     blockedVideos: JSON
     weeklyVideoStatus: JSON
     assignments: [Assignment]
+    comments: [Comment]
+  }
+
+  type Comment {
+    id: ID
+    content: String
+    createdAt: Date
+    therapist: User
+    assignmentId: String
+    videoId: String
+    childCarePlan: ChildCarePlan
   }
 
   type Assignment {
@@ -310,6 +321,17 @@ const typeDefs = gql`
       newAssignedTherapistID: String
       blockedVideos: JSON
     ): ChildCarePlan
+
+    createComment(
+      childCarePlanID: String!
+      commentContent: String!
+      videoID: String
+      assignmentID: String
+    ): ChildCarePlan
+
+    deleteComment(
+      commentID: String!
+    ): Boolean
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------
 `;
