@@ -44,7 +44,8 @@ export default {
       if (
         medalType !== "bronze" &&
         medalType !== "silver" &&
-        medalType !== "gold"
+        medalType !== "gold" &&
+        medalType !== "none"
       ) {
         throw new UserInputError(
           "Medal types can only be (bronze, silver, or gold)"
@@ -54,36 +55,40 @@ export default {
       // Create the medals based on what medal type was passed in
       let medalObjectsToCreate = [];
 
-      getAllMedalTypes().map((medalObject) => {
-        if (medalObject.videoID === video.contentfulID) {
-          if (medalType === "gold") {
-            medalObjectsToCreate.push(medalObject);
-          } else if (medalType === "silver") {
-            if (medalObject.level !== "GOLD") {
+      if (medalType != "none"){
+
+        getAllMedalTypes().map((medalObject) => {
+          if (medalObject.videoID === video.contentfulID) {
+            if (medalType === "gold") {
               medalObjectsToCreate.push(medalObject);
-            }
-          } else if (medalType === "bronze") {
-            if (medalObject.level === "BRONZE") {
-              medalObjectsToCreate.push(medalObject);
+            } else if (medalType === "silver") {
+              if (medalObject.level !== "GOLD") {
+                medalObjectsToCreate.push(medalObject);
+              }
+            } else if (medalType === "bronze") {
+              if (medalObject.level === "BRONZE") {
+                medalObjectsToCreate.push(medalObject);
+              }
             }
           }
-        }
-      });
+        });
 
-      for (var i = 0; i < medalObjectsToCreate.length; i++) {
-        let medalToCreate = medalObjectsToCreate[i];
-        let newMedal = await prisma.medal.create({
-          data: {
-            title: medalToCreate.title,
-            level: medalToCreate.level,
-            description: medalToCreate.pictureURL,
-            video: {
-              connect: {
-                id: video.id,
+        for (var i = 0; i < medalObjectsToCreate.length; i++) {
+          let medalToCreate = medalObjectsToCreate[i];
+          let newMedal = await prisma.medal.create({
+            data: {
+              title: medalToCreate.title,
+              level: medalToCreate.level,
+              description: medalToCreate.pictureURL,
+              video: {
+                connect: {
+                  id: video.id,
+                },
               },
             },
-          },
-        });
+          });
+        }
+
       }
 
       // Update the video
