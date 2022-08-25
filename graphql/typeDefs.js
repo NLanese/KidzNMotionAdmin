@@ -373,6 +373,14 @@ const typeDefs = gql`
       type: String!
       participantIDs: [String]!
     ): Meeting
+  
+    editMeeting(
+      title: String!
+      meetingID: String!
+      meetingDateTime: Date!
+      type: String!
+      participantIDs: [String]!
+    ): Meeting
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------
 `;
