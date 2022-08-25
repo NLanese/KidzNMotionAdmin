@@ -381,6 +381,11 @@ const typeDefs = gql`
       type: String!
       participantIDs: [String]!
     ): Meeting
+
+    approveMeeting(
+      approveMeeting: Boolean!
+      meetingID: String!
+    ): Meeting
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------
 `;
