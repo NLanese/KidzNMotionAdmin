@@ -363,6 +363,16 @@ const typeDefs = gql`
       description: String!
       videoIDs: [String]!
     ): Boolean
+
+    ###########################
+    #### MEETING MUTATIONS ####
+    ###########################
+    createMeeting(
+      title: String!
+      meetingDateTime: Date!
+      type: String!
+      participantIDs: [String]!
+    ): Meeting
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------
 `;

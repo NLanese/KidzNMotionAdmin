@@ -1,5 +1,8 @@
 import GraphQLJSON from 'graphql-type-json';
 
+
+import createMeeting from "./mutations/createMeeting"
+
 export default {
     Query: {
         // MEETING QUERIRES
@@ -7,7 +10,7 @@ export default {
     },
     Mutation: {
         // MEETING MUTATIONS
-       
+        ...createMeeting.Mutation,
     },
     JSON: GraphQLJSON,
 }
