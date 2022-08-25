@@ -217,12 +217,18 @@ const typeDefs = gql`
     #########################
 
     getAllMedalTypes: [MedalType]
-
+    
     ###################################
     #### CHILD CARE PLAN QUERIES ####
     ###################################
-
+    
     getChildCarePlanVideoStatistics(childCarePlanID: String!): JSON
+    
+    #########################
+    #### MEETING QUERIES ####
+    #########################
+    
+    getMeetings: [Meeting]
   }
 
   # ---------------------------------------- END QUERY ----------------------------------------
