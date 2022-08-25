@@ -106,6 +106,7 @@ model User {
   organizationInviteKeys OrganizationInviteKey[]
   videos                 Video[]
   comments               Comment[]               @relation("therapistComments")
+  meetings               Meeting[]
 }
 
 model OrganizationUser {
@@ -174,6 +175,20 @@ model Assignment {
   childCarePlan   ChildCarePlan? @relation(fields: [childCarePlanId], references: [id])
   childCarePlanId String?
   videos          Video[]
+}
+
+model Meeting {
+  id              String       @id @default(uuid())
+  createdAt       DateTime     @default(now())
+  meetingDateTime DateTime?
+  title           String?
+  completed       Boolean      @default(false)
+  canceled        Boolean      @default(false)
+  type            MEETING_TYPE @default(PHONE)
+  pendingApproval Boolean      @default(false)
+  approved        Boolean      @default(false)
+  users           User[]
+  meetingOwnerID  String
 }
 
 model Video {
@@ -249,4 +264,9 @@ enum MEDAL_LEVEL {
   BRONZE
   SILVER
   GOLD
+}
+
+enum MEETING_TYPE {
+  IN_PERSON
+  PHONE
 }

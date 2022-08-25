@@ -176,6 +176,20 @@ const typeDefs = gql`
     pictureURL: String
   }
 
+  type Meeting {
+    id: String
+    createdAt: Date
+    meetingDateTime: Date
+    title: String
+    completed: Boolean
+    canceled: Boolean
+    type: String
+    pendingApproval: Boolean
+    approved: Boolean
+    users: [User]
+    meetingOwnerID: String
+  }
+
   # ---------------------------------------- END SCHEMAS ----------------------------------------
   type Query {
     ######################
