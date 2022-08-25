@@ -9,6 +9,7 @@ import therapistResolvers from './therapists/therapistResolvers.js';
 import videoResolvers from './videos/videoResolvers.js';
 import medalResolvers from './medals/medalResolvers.js';
 import childCarePlanResolvers from './childCarePlans/childCarePlanResolvers.js';
+import meetingResolvers from './meetings/meetingResolvers.js';
 
 export default {
     Query: {
@@ -16,7 +17,8 @@ export default {
         ...chatRoomResolvers.Query,
         ...videoResolvers.Query,
         ...medalResolvers.Query,
-        ...childCarePlanResolvers.Query
+        ...childCarePlanResolvers.Query,
+        ...meetingResolvers.Query
         
     },
     Mutation: {
@@ -25,7 +27,8 @@ export default {
         ...guardianResolvers.Mutation,
         ...therapistResolvers.Mutation,
         ...chatRoomResolvers.Mutation,
-        ...childCarePlanResolvers.Mutation
+        ...childCarePlanResolvers.Mutation,
+        ...meetingResolvers.Mutation
     },
     JSON: GraphQLJSON,
 }

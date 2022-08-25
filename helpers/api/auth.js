@@ -198,6 +198,8 @@ export const getUserObject = async (user) => {
                     createdAt: true,
                     dateStart: true,
                     dateDue: true,
+                    title: true,
+                    seen: true,
                     description: true,
                     videos: {
                       select: {
@@ -324,6 +326,8 @@ export const getUserObject = async (user) => {
                 createdAt: true,
                 dateStart: true,
                 dateDue: true,
+                seen: true,
+                title: true,
                 description: true,
                 videos: {
                   select: {
@@ -530,6 +534,8 @@ export const getUserObject = async (user) => {
                 createdAt: true,
                 dateStart: true,
                 dateDue: true,
+                seen: true,
+                title: true,
                 description: true,
                
                 videos: {

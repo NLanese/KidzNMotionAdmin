@@ -176,6 +176,20 @@ const typeDefs = gql`
     pictureURL: String
   }
 
+  type Meeting {
+    id: String
+    createdAt: Date
+    meetingDateTime: Date
+    title: String
+    completed: Boolean
+    canceled: Boolean
+    type: String
+    pendingApproval: Boolean
+    approved: Boolean
+    users: [User]
+    meetingOwnerID: String
+  }
+
   # ---------------------------------------- END SCHEMAS ----------------------------------------
   type Query {
     ######################
@@ -340,6 +354,25 @@ const typeDefs = gql`
     deleteComment(
       commentID: String!
     ): Boolean
+
+    createAssignment(
+      childCarePlanID: String!
+      dateStart: String!
+      dateDue: String!
+      title: String!
+      description: String!
+      videoIDs: [String]!
+    ): Boolean
+
+    ###########################
+    #### MEETING MUTATIONS ####
+    ###########################
+    createMeeting(
+      title: String!
+      meetingDateTime: Date!
+      type: String!
+      participantIDs: [String]!
+    ): Meeting
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------
 `;
