@@ -10,6 +10,20 @@ function setVideoStats(videoStats, medalObject, videoObject) {
   let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
 
   if (TotalDays <= 0) {
+
+    if (
+      !videoStats.weekStats.individualVideoDetailedStats[videoObject.contentfulID]
+    ) {
+      videoStats.weekStats.individualVideoDetailedStats[videoObject.contentfulID] = {
+        bronze: 0,
+        silver: 0,
+        gold: 0
+      }
+    }
+    
+    videoStats.weekStats.individualVideoDetailedStats[videoObject.contentfulID][medalObject.level.toLowerCase()] += 1
+
+
     if (medalObject.level === "BRONZE") {
       videoStats.weekStats.videoStats.totalVideoPlayThroughs += 1;
 
@@ -26,18 +40,31 @@ function setVideoStats(videoStats, medalObject, videoObject) {
     }
 
     if (medalObject.level === "GOLD") {
-      videoStats.weekStats.videoStats.totalVideoPlayThroughs += 1;
+
 
       videoStats.weekStats.medalStats.goldEarned += 1;
-      videoStats.weekStats.medalStats.silverEarned += 1;
-      videoStats.weekStats.medalStats.bronzeEarned += 1;
     } else if (medalObject.level === "SILVER") {
       videoStats.weekStats.medalStats.silverEarned += 1;
-      videoStats.weekStats.medalStats.bronzeEarned += 1;
     } else {
       videoStats.weekStats.medalStats.bronzeEarned += 1;
     }
+
+
   }
+
+  if (
+    !videoStats.allTimeStats.individualVideoDetailedStats[videoObject.contentfulID]
+  ) {
+    videoStats.allTimeStats.individualVideoDetailedStats[videoObject.contentfulID] = {
+      bronze: 0,
+      silver: 0,
+      gold: 0
+    }
+  }
+  
+  videoStats.allTimeStats.individualVideoDetailedStats[videoObject.contentfulID][medalObject.level.toLowerCase()] += 1
+
+
 
   if (medalObject.level === "BRONZE") {
     videoStats.allTimeStats.videoStats.totalVideoPlayThroughs += 1;
@@ -57,14 +84,11 @@ function setVideoStats(videoStats, medalObject, videoObject) {
   }
 
   if (medalObject.level === "GOLD") {
-    videoStats.allTimeStats.videoStats.totalVideoPlayThroughs += 1;
+
 
     videoStats.allTimeStats.medalStats.goldEarned += 1;
-    videoStats.allTimeStats.medalStats.silverEarned += 1;
-    videoStats.allTimeStats.medalStats.bronzeEarned += 1;
   } else if (medalObject.level === "SILVER") {
     videoStats.allTimeStats.medalStats.silverEarned += 1;
-    videoStats.allTimeStats.medalStats.bronzeEarned += 1;
   } else {
     videoStats.allTimeStats.medalStats.bronzeEarned += 1;
   }
@@ -188,6 +212,7 @@ export default {
           },
 
           individualVideoStats: {},
+          individualVideoDetailedStats: {},
         },
         weekStats: {
           medalStats: {
@@ -201,6 +226,7 @@ export default {
           },
 
           individualVideoStats: {},
+          individualVideoDetailedStats: {},
         },
       };
 
