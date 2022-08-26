@@ -50,11 +50,11 @@ export default {
         }
 
         // If the user is a child return cannot long
-        if (userToLogin.role === "CHILD") {
-          throw new UserInputError(
-            "Only guardians can sign in for their children"
-          );
-        }
+        // if (userToLogin.role === "CHILD") {
+        //   throw new UserInputError(
+        //     "Only guardians can sign in for their children"
+        //   );
+        // }
 
         // Check the users login attemps and the last one
         var oneHourAgo = new Date(new Date().getTime() - 60 * 60 * 1000);
