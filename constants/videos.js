@@ -4,7 +4,7 @@ const VIDEOS = {
 
   step_up: {
     id: "step_up",
-    level: 1,
+    level: 2,
     title: "Step Up",
     description: "Get some sort of small stool or step-up bench for this exercise! Here, we will try to step up, first with our left foot and then our right, so we have both feet on the platform! Then, step down, left the right and do it again!",
     videoURL:
@@ -34,7 +34,7 @@ const VIDEOS = {
   },
   squat: {
     id: "squat",
-    level: 2,
+    level: 1,
     title: "Squat",
     description: "",
     videoURL:
@@ -129,7 +129,7 @@ const VIDEOS = {
     id: "floor_to_stand",
   },
   bean_balancing: {
-    level: 1,
+    level: 2,
     title: "Bean Balancing",
     description:
       "In this exercise, you should try to use a balance beam, but if none are available that’s okay! Just try to find some marking or line on the floor, and walk as straight on this line as you can, without losing your balance or stepping off!",
