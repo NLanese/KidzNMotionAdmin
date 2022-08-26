@@ -146,6 +146,7 @@ export const getUserObject = async (user) => {
           },
           select: {
             id: true,
+            role: true,
             firstName: true,
             accessMessages: true,
             email: true,
@@ -245,6 +246,7 @@ export const getUserObject = async (user) => {
                 },
               },
             },
+            chatRooms: true
           },
         },
         organizations: {
