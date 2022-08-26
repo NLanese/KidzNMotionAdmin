@@ -36,6 +36,8 @@ const typeDefs = gql`
     guardianId: String
     guardian: User
 
+    videos: [Video]
+
     ownedOrganization: Organization
 
     childCarePlans: [ChildCarePlan]
@@ -217,12 +219,18 @@ const typeDefs = gql`
     #########################
 
     getAllMedalTypes: [MedalType]
-
+    
     ###################################
     #### CHILD CARE PLAN QUERIES ####
     ###################################
-
-    getChildCarePlanVideoStatistics(childCarePlanID: String!): JSON
+    
+    getChildVideoStatistics(childID: String!): JSON
+    
+    #########################
+    #### MEETING QUERIES ####
+    #########################
+    
+    getMeetings: [Meeting]
   }
 
   # ---------------------------------------- END QUERY ----------------------------------------
@@ -335,7 +343,7 @@ const typeDefs = gql`
     ###################################
     toggleAssignmentSeen(assignmentID: String!, hasSeen: Boolean!): Assignment
     
-    setVideoCompleted(videoID: String!, medalType: String!): Video
+    setVideoCompleted(videoID: String!, medalType: String!, childID: String): Video
 
     editChildCarePlan(
       childCarePlanID: String!

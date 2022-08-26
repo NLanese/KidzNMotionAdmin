@@ -5,10 +5,12 @@ import createMeeting from "./mutations/createMeeting"
 import editMeeting from "./mutations/editMeeting"
 import approveMeeting from "./mutations/approveMeeting"
 
+import getMeetings from "./queries/getMeetings"
+
 export default {
     Query: {
         // MEETING QUERIRES
-       
+       ...getMeetings.Query
     },
     Mutation: {
         // MEETING MUTATIONS
