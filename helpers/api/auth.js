@@ -149,6 +149,8 @@ export const getUserObject = async (user) => {
             role: true,
             firstName: true,
             accessMessages: true,
+            email: true,
+            username: true,
             accessSettings: true,
             leaveApp: true,
             lastName: true,
