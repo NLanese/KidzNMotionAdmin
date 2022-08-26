@@ -268,6 +268,37 @@ export default {
                 },
               });
             }
+
+            await prisma.chatroom.create({
+              data: {
+                users: {
+                  connect: [
+                    {
+                      id: childUser.id,
+                    },
+                    {
+                      id: organizationInvite[0].additionalInformation
+                      .childTherapistID,
+                    },
+                  ],
+                },
+              },
+            });
+            await prisma.chatroom.create({
+              data: {
+                users: {
+                  connect: [
+                    {
+                      id: baseUser.id,
+                    },
+                    {
+                      id: organizationInvite[0].additionalInformation
+                      .childTherapistID,
+                    },
+                  ],
+                },
+              },
+            });
           }
 
           await prisma.organizationInviteKey.update({
