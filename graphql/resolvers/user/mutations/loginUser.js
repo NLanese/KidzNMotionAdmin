@@ -8,24 +8,22 @@ var CryptoJS = require("crypto-js");
 export default {
   Mutation: {
     loginUser: async (_, { username, password }) => {
-
-      let email = username
+      let email = username;
       try {
         // Retrieve the users that match the email address
         let potentialUsers = await prisma.user.findMany({
           where: {
-            email: email
+            email: email,
           },
         });
 
-
         // If there was no user with the email, looks for one with the username
-        if (!potentialUsers || potentialUsers.length === 0){
+        if (!potentialUsers || potentialUsers.length === 0) {
           potentialUsers = await prisma.user.findMany({
             where: {
-              username: email
+              username: email,
             },
-          })
+          });
         }
 
         // console.log(potentialUsers)
@@ -33,14 +31,13 @@ export default {
         // Loop through to find user
         let userToLogin = null;
         potentialUsers.map((userObject) => {
-          if (!userObject){
-            return
+          if (!userObject) {
+            return;
           }
           if (userObject.email.toLowerCase() === email.toLowerCase()) {
             userToLogin = userObject;
-          }
-          else if (userObject.username === email){
-            userToLogin = userObject
+          } else if (userObject.username === email) {
+            userToLogin = userObject;
           }
         });
 
@@ -114,15 +111,102 @@ export default {
           ).toString();
 
           // Return token and truncated user object
-          try{
+          try {
             return {
               token: clientToken,
               user: userToLogin,
             };
-          } catch (err){
+          } catch (err) {
             // console.log(err)
           }
         } else {
+          if (userToLogin && userToLogin.role === "GUARDIAN") {
+            // Get the guardian and check against their children
+            let guradianUser = await prisma.user.findUnique({
+              where: {
+                id: userToLogin.id,
+              },
+              select: {
+                id: true,
+                email: true,
+                username: true,
+                children: {
+                  select: {
+                    password: true,
+                    id: true,
+                    email: true,
+                    username: true,
+                    firstName: true,
+                    role: true,
+                    lastName: true
+                  },
+                },
+              },
+            });
+
+            if (guradianUser.username !== username) {
+              if (guradianUser.children) {
+                let childPasswordMatch = false;
+                guradianUser.children.map((childObject) => {
+                  let bytes = CryptoJS.AES.decrypt(
+                    childObject.password,
+                    process.env.PASSWORD_SECRET_KEY
+                  );
+                  let decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
+
+            
+                  // If the passwords match
+                  if (decryptedPassword === password) {
+                    childPasswordMatch = childObject;
+                  }
+                });
+
+                if (childPasswordMatch) {
+                  // Create the client string
+                  const jwtTokenString = makeRandomString(60);
+
+                  // Remove all old jwt tokens
+                  await prisma.jWTToken.deleteMany({
+                    where: {
+                      userId: childPasswordMatch.id,
+                      active: false,
+                    },
+                  });
+
+                  // Create the new JWT token
+                  await prisma.jWTToken.create({
+                    data: {
+                      active: true,
+                      token: jwtTokenString,
+                      createdAt: changeTimeZone(new Date(), "America/New_York"),
+                      user: {
+                        connect: {
+                          id: childPasswordMatch.id,
+                        },
+                      },
+                    },
+                  });
+
+                  // Encypt the JWT token before sending down
+                  const clientToken = CryptoJS.AES.encrypt(
+                    jwtTokenString,
+                    process.env.JWT_SECRET_KEY
+                  ).toString();
+
+                  // Return token and truncated user object
+                  try {
+                    return {
+                      token: clientToken,
+                      user: childPasswordMatch,
+                    };
+                  } catch (err) {
+                    // console.log(err)
+                  }
+                }
+              }
+            }
+          }
+
           await prisma.loginAttempts.create({
             data: {
               user: {
