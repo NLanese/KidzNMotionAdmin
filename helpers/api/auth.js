@@ -168,29 +168,43 @@ export const getUserObject = async (user) => {
                     createdAt: true,
                     therapist: {
                       select: {
-                        id: true
-                      }
+                        id: true,
+                      },
                     },
                     videoId: true,
                     assignmentId: true,
-
-                  }
+                  },
                 },
                 child: {
                   select: {
                     role: true,
                     id: true,
                     firstName: true,
-                    lastName: true
-                  }
+                    lastName: true,
+                    videos: {
+                      select: {
+                        id: true,
+                        contentfulID: true,
+                        completed: true,
+                        medals: {
+                          select: {
+                            id: true,
+                            image: true,
+                            description: true,
+                            level: true,
+                          },
+                        },
+                      },
+                    },
+                  },
                 },
                 therapist: {
                   select: {
                     id: true,
                     firstName: true,
                     lastName: true,
-                    email: true
-                  }
+                    email: true,
+                  },
                 },
                 assignments: {
                   select: {
@@ -249,9 +263,9 @@ export const getUserObject = async (user) => {
           select: {
             id: true,
             messages: true,
-            users: true
-          }
-        }
+            users: true,
+          },
+        },
       },
     });
   } else if (user.role === "THERAPIST") {
@@ -287,13 +301,12 @@ export const getUserObject = async (user) => {
                 createdAt: true,
                 therapist: {
                   select: {
-                    id: true
-                  }
+                    id: true,
+                  },
                 },
                 videoId: true,
                 assignmentId: true,
-
-              }
+              },
             },
             child: {
               select: {
@@ -301,24 +314,39 @@ export const getUserObject = async (user) => {
                 id: true,
                 firstName: true,
                 lastName: true,
+                videos: {
+                  select: {
+                    id: true,
+                    contentfulID: true,
+                    completed: true,
+                    medals: {
+                      select: {
+                        id: true,
+                        image: true,
+                        description: true,
+                        level: true,
+                      },
+                    },
+                  },
+                },
                 guardian: {
                   select: {
                     role: true,
                     id: true,
                     firstName: true,
                     lastName: true,
-                    email: true
-                  }
-                }
-              }
+                    email: true,
+                  },
+                },
+              },
             },
             therapist: {
               select: {
                 id: true,
                 firstName: true,
                 lastName: true,
-                email: true
-              }
+                email: true,
+              },
             },
             assignments: {
               select: {
@@ -390,9 +418,9 @@ export const getUserObject = async (user) => {
                   select: {
                     id: true,
                     active: true,
-                    user: true
-                  }
-                }
+                    user: true,
+                  },
+                },
               },
             },
           },
@@ -401,9 +429,9 @@ export const getUserObject = async (user) => {
           select: {
             id: true,
             messages: true,
-            users: true
-          }
-        }
+            users: true,
+          },
+        },
       },
     });
   } else if (user.role === "ADMIN") {
@@ -496,6 +524,21 @@ export const getUserObject = async (user) => {
         profilePic: true,
         muteAllAssignments: true,
         muteAllMessages: true,
+        videos: {
+          select: {
+            id: true,
+            contentfulID: true,
+            completed: true,
+            medals: {
+              select: {
+                id: true,
+                image: true,
+                description: true,
+                level: true,
+              },
+            },
+          },
+        },
         childCarePlans: {
           where: {
             active: true,
@@ -510,8 +553,8 @@ export const getUserObject = async (user) => {
                 id: true,
                 firstName: true,
                 lastName: true,
-                email: true
-              }
+                email: true,
+              },
             },
             comments: {
               select: {
@@ -520,13 +563,12 @@ export const getUserObject = async (user) => {
                 createdAt: true,
                 therapist: {
                   select: {
-                    id: true
-                  }
+                    id: true,
+                  },
                 },
                 videoId: true,
                 assignmentId: true,
-
-              }
+              },
             },
             assignments: {
               select: {
@@ -537,7 +579,7 @@ export const getUserObject = async (user) => {
                 seen: true,
                 title: true,
                 description: true,
-               
+
                 videos: {
                   select: {
                     id: true,
@@ -561,7 +603,7 @@ export const getUserObject = async (user) => {
                 lastName: true,
                 email: true,
                 title: true,
-                id: true
+                id: true,
               },
             },
           },

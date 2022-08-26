@@ -6,11 +6,14 @@ import VIDEOS from "@constants/videos";
 
 export default {
   Mutation: {
-    setVideoCompleted: async (_, { videoID, medalType }, context) => {
+    setVideoCompleted: async (_, { videoID, medalType, childID }, context) => {
       if (!context.user) throw new UserInputError("Login required");
 
+      let video;
+      let child;
+
       // Find the video based on the videoID
-      let video = await prisma.video.findUnique({
+      video = await prisma.video.findUnique({
         where: {
           id: videoID,
         },
@@ -27,18 +30,60 @@ export default {
       });
 
       // If they are not, then return user input error
-      if (!video) {
+      if (!video && !VIDEOS[videoID]) {
         throw new UserInputError("Video does not exist");
       }
 
-      if (!video.contentfulID) {
-        throw new UserInputError("Video file id needs to be filled in.");
+      // IF the video id does not match
+      if (!VIDEOS[videoID] && video) {
+        if (!video.contentfulID) {
+          throw new UserInputError("Video file id needs to be filled in.");
+        }
+
+        if (!VIDEOS[video.contentfulID]) {
+          throw new UserInputError("Video file id needs to match a video.");
+        }
+      } else {
+        if (!childID) {
+          throw new UserInputError(
+            "If you are creating an indepentent video, you also need to pass in the child ID"
+          );
+        }
       }
 
-      if (!VIDEOS[video.contentfulID]) {
-        throw new UserInputError("Video file id needs to match a video.");
+      if (childID) {
+        // Find the child object to determine if the are under the guardian account
+        let childUser = await prisma.user.findUnique({
+          where: {
+            id: childID,
+          },
+          select: {
+            guardianId: true,
+            id: true,
+          },
+        });
+
+        // If they are not, then return user input error
+        if (!childUser) {
+          throw new UserInputError("Child does not exist");
+        }
       }
 
+      if (childID && VIDEOS[videoID]) {
+        video = await prisma.video.create({
+          data: {
+            contentfulID: videoID,
+            title: VIDEOS[videoID].title,
+            description: "",
+            level: VIDEOS[videoID].level,
+            users: {
+              connect: {
+                id: childID,
+              },
+            },
+          },
+        });
+      }
 
       // Perform video actions here
       if (
@@ -55,8 +100,7 @@ export default {
       // Create the medals based on what medal type was passed in
       let medalObjectsToCreate = [];
 
-      if (medalType != "none"){
-
+      if (medalType != "none") {
         getAllMedalTypes().map((medalObject) => {
           if (medalObject.videoID === video.contentfulID) {
             if (medalType === "gold") {
@@ -88,7 +132,6 @@ export default {
             },
           });
         }
-
       }
 
       // Update the video
@@ -104,7 +147,7 @@ export default {
       // Get the full video object
       let completedVideo = await prisma.video.findUnique({
         where: {
-          id: videoID,
+          id: video.id,
         },
         select: {
           id: true,
@@ -115,7 +158,7 @@ export default {
               id: true,
               title: true,
               description: true,
-              level: true
+              level: true,
             },
           },
         },

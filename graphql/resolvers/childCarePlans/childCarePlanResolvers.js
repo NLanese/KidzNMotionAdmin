@@ -1,7 +1,7 @@
 import GraphQLJSON from 'graphql-type-json';
 
 // CHILD CARE PLAN QUERIES
-import getChildCarePlanVideoStatistics from './queries/getChildCarePlanVideoStatistics';
+import getChildVideoStatistics from './queries/getChildVideoStatistics';
 
 // CHILD CARE PLAN MUTATIONS
 import toggleAssignmentSeen from './mutations/toggleAssignmentSeen';
@@ -14,7 +14,7 @@ import createAssignment from './mutations/createAssignment';
 
 export default {
     Query: {
-        ...getChildCarePlanVideoStatistics.Query,
+        ...getChildVideoStatistics.Query,
     },
     Mutation: {
         // CHILD CARE PLAN MUTATIONS
