@@ -254,8 +254,21 @@ export const getUserObject = async (user) => {
             chatRooms: {
               select: {
                 id: true,
-                messages: true,
-                users: true,
+                messages: {
+                  select: {
+                    sentBy: true,
+                    sentAt: true,
+                    content: true
+                  }
+                },
+                users: {
+                  select: {
+                    id: true,
+                    firstName: true,
+                    lastName: true,
+                    profilePic: true
+                  }
+                }
               },
             },
           },
