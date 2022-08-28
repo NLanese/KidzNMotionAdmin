@@ -15,6 +15,13 @@ export const userState = atom({
 	},
 });
 
+export const meetingsState = atom({
+	key: 'meetingsState',
+	default: {
+		loading: true
+	},
+});
+
 
 export const chatRoomState = atom({
 	key: 'chatRoomState',

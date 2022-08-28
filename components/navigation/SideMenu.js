@@ -11,6 +11,7 @@ import {
   AuditOutlined,
   CodeSandboxOutlined,
   TeamOutlined,
+  GroupOutlined,
   TableOutlined,
   BulbOutlined,
   MessageOutlined,
@@ -198,6 +199,15 @@ function SideMenu({ router, user }) {
               </Menu.Item>
             </>
           </Menu.SubMenu>
+        )}
+        {(user.role === "THERAPIST" || user.role === "GUARDIAN") && (
+          <Menu.Item
+            onClick={() => pushLink("/meetings")}
+            key="/meetings"
+            icon={<GroupOutlined style={{ fontSize: "20px" }} />}
+          >
+            Meetings
+          </Menu.Item>
         )}
         <Menu.Item
           onClick={() => pushLink("/messaging")}

@@ -77,7 +77,14 @@ function TopMenuAvatar() {
             color="processing"
             size="large"
           >
-            {daysLeft} Days Left On Trial (Activate)
+            {
+              daysLeft <= 0 ? (
+                "Your Trial Has Expired"
+              ) : (
+                `  ${daysLeft} Days Left On Trial (Activate)`
+              )
+            }
+          
           </Tag>
         </NakedButton>
       );

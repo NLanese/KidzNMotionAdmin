@@ -388,6 +388,7 @@ const typeDefs = gql`
       meetingDateTime: Date!
       type: String!
       participantIDs: [String]!
+      cancelled: Boolean!
     ): Meeting
 
     approveMeeting(

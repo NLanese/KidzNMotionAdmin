@@ -243,6 +243,48 @@ const CREATE_CHAT_ROOM = gql`
   }
 `;
 
+const GET_USER_MEETINGS = gql`
+  query Query {
+    getMeetings {
+      id
+      createdAt
+      meetingDateTime
+      title
+      completed
+      type
+      canceled
+      pendingApproval
+      approved
+      users {
+        id
+        firstName
+        lastName
+        email
+        role
+      }
+      meetingOwnerID
+    }
+  }
+`;
+
+const CREATE_MEETING = gql`
+  mutation Mutation(
+    $title: String!
+    $meetingDateTime: Date!
+    $type: String!
+    $participantIDs: [String]!
+  ) {
+    createMeeting(
+      title: $title
+      meetingDateTime: $meetingDateTime
+      type: $type
+      participantIDs: $participantIDs
+    ) {
+      id
+    }
+  }
+`;
+
 export {
   // Sign Up / Sign In
   LOGIN_USER,
@@ -259,4 +301,7 @@ export {
   GET_CHAT_ROOM_BY_ID,
   DYNAMIC_SEND_MESSAGE,
   CREATE_CHAT_ROOM,
+  // MEETINGS
+  GET_USER_MEETINGS,
+  CREATE_MEETING
 };
