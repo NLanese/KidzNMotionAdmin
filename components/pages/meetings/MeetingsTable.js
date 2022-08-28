@@ -38,7 +38,7 @@ function getMeetingParticpants(users) {
   return usersString;
 }
 
-function MeetingsTable({ meetings }) {
+function MeetingsTable({ meetings, userID }) {
   const convertMeetingSourceData = () => {
     let assetTableSource = [];
     if (!meetings) {
@@ -54,7 +54,7 @@ function MeetingsTable({ meetings }) {
       dataIndex: "users",
       key: "users",
       render: (text, record, index) => (
-        <BasicLink href={`/meetings?id=${record.id}`}>
+        <BasicLink href={record.meetingOwnerID === userID ? `/meetings?id=${record.id}` :  `/meetings?id=${record.id}&approve=true` }>
           {getMeetingParticpants(record.users)}
         </BasicLink>
       ),
@@ -112,8 +112,8 @@ function MeetingsTable({ meetings }) {
       defaultSortOrder: "descend",
       render: (text, record, index) => (
         <span>
-          <Tag color={record.completed ? "green" : "red"}>
-            {record.completed.toString().toUpperCase()}
+          <Tag color={record.approved ? "green" : "red"}>
+            {record.approved.toString().toUpperCase()}
           </Tag>
         </span>
       ),

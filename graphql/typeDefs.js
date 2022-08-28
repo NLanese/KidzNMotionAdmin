@@ -385,6 +385,7 @@ const typeDefs = gql`
     editMeeting(
       title: String!
       meetingID: String!
+      completed: Boolean!
       meetingDateTime: Date!
       type: String!
       participantIDs: [String]!

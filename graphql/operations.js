@@ -289,6 +289,7 @@ const EDIT_MEETING = gql`
     $title: String!
     $meetingDateTime: Date!
     $cancelled: Boolean!
+    $completed: Boolean!
     $meetingID: String!
     $type: String!
     $participantIDs: [String]!
@@ -300,6 +301,23 @@ const EDIT_MEETING = gql`
       participantIDs: $participantIDs
       meetingID: $meetingID
       cancelled: $cancelled
+      completed: $completed
+    ) {
+      id
+    }
+  }
+`;
+
+const APPROVE_MEETING = gql`
+  mutation Mutation(
+    $meetingID: String!
+    $approveMeeting: Boolean!
+
+  ) {
+    approveMeeting(
+      meetingID: $meetingID
+      approveMeeting: $approveMeeting
+
     ) {
       id
     }
@@ -325,5 +343,6 @@ export {
   // MEETINGS
   GET_USER_MEETINGS,
   CREATE_MEETING,
-  EDIT_MEETING
+  EDIT_MEETING,
+  APPROVE_MEETING
 };

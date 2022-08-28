@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import PageHeader from "@common/PageHeader";
 
-import { Row, Col, message } from "antd";
+import { Row, Col, message, Button, Typography } from "antd";
 import { Drawer } from "antd";
 import ContentCard from "@common/content/ContentCard";
 import Router from "next/router";
@@ -17,11 +17,14 @@ import LoadingBlock from "@common/LoadingBlock";
 import MeetingsTable from "@pages/meetings/MeetingsTable";
 import { withRouter } from "next/router";
 
-import { GET_USER_MEETINGS } from "@graphql/operations";
+import { GET_USER_MEETINGS, APPROVE_MEETING } from "@graphql/operations";
 import client from "@utils/apolloClient";
+import { useMutation } from "@apollo/client";
 import MeetingForm from "@components/forms/meetings/MeetingForm";
 import EditMeetingForm from "../components/forms/meetings/EditMeetingForm";
 import moment from "moment";
+
+const { Text, Title } = Typography;
 
 const MeetingsWrapper = styled.div`
   max-width: ${(props) => props.theme.contentSize.standard};
@@ -31,6 +34,9 @@ const MeetingsWrapper = styled.div`
 function Meetings({ router }) {
   const user = useRecoilValue(userState);
   const [meetings, setMeetings] = useRecoilState(meetingsState);
+
+  // Mutations
+  const [approveMeeting, {}] = useMutation(APPROVE_MEETING);
 
   const getUserMeetings = async () => {
     const token = localStorage.getItem("token");
@@ -42,8 +48,8 @@ function Meetings({ router }) {
           fetchPolicy: "network-only",
         })
         .then(async (resolved) => {
-          setMeetings(resolved.data.getMeetings);
           console.log(resolved);
+          setMeetings(resolved.data.getMeetings);
         })
         .catch((error) => {
           setMeetings(null);
@@ -52,6 +58,35 @@ function Meetings({ router }) {
     } else {
       setMeetings(null);
     }
+  };
+
+  const handleApproveMeeting = async (approvedMeeting) => {
+    await approveMeeting({
+      variables: {
+        meetingID: getInitialValues().meetingID,
+        approveMeeting: !getInitialValues().approved,
+      },
+    })
+      .then(async (resolved) => {
+        message.success("Successfully Approved Meeting");
+        Router.push("/meetings");
+
+        // Get the full user object and set that to state
+        await client
+          .query({
+            query: GET_USER_MEETINGS,
+            fetchPolicy: "network-only",
+          })
+          .then(async (resolved) => {
+            setMeetings(resolved.data.getMeetings);
+          })
+          .catch((error) => {
+            message.error("Sorry, there was an error getting this information");
+          });
+      })
+      .catch((error) => {
+        message.error(error.message);
+      });
   };
 
   useEffect(() => {
@@ -88,8 +123,10 @@ function Meetings({ router }) {
         title: selectedMeetingObject.title,
         meetingDateTime: moment(selectedMeetingObject.meetingDateTime),
         guardian: guardian,
+        approved: selectedMeetingObject.approved,
         child: child,
-        cancelled: 'false'
+        cancelled: "false",
+        completed: "false",
       };
     }
 
@@ -109,20 +146,52 @@ function Meetings({ router }) {
         <Row gutter={[16, 16]}>
           <Col xs={24} md={24} lg={13} xl={24}>
             <ContentCard>
-              <MeetingsTable meetings={meetings} />
+              <MeetingsTable meetings={meetings} userID={user.id} />
             </ContentCard>
           </Col>
 
           <Drawer
-            title={"Create Meeting"}
             placement="right"
             width={500}
             onClose={() => Router.push("/meetings", null, { shallow: true })}
             visible={router.query.create || router.query.id}
           >
             {router.query.create && <MeetingForm />}
-            {router.query.id && (
+            {router.query.id && !router.query.approve && (
               <EditMeetingForm initialValues={getInitialValues()} />
+            )}
+            {router.query.id && router.query.approve && (
+              <div>
+                {getInitialValues().approved ? (
+                  <>
+                    <Title level={4}>Disapprove Meeting</Title>
+                    <Text>
+                      This meeting has been approved. You can disapprove the
+                      meeting to remove it from the guardian's calendar.
+                    </Text>
+                    <br />
+                    <br />
+                  </>
+                ) : (
+                  <>
+                    <Title level={4}>Approve Meeting</Title>
+                    <Text>
+                      This meeting has not been approved yet. Please approve the
+                      meeting to set it into the guardian's calendar.
+                    </Text>
+                    <br />
+                    <br />
+                  </>
+                )}
+
+                <Button
+                  onClick={() => handleApproveMeeting(true)}
+                  type="primary"
+                  block
+                >
+                  {!getInitialValues().approved ? "Approve" : "Disapprove"} Meeting
+                </Button>
+              </div>
             )}
           </Drawer>
         </Row>

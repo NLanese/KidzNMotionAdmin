@@ -7,7 +7,7 @@ export default {
   Mutation: {
     editMeeting: async (
       _,
-      { title, meetingDateTime, type, participantIDs, meetingID, cancelled },
+      { title, meetingDateTime, type, participantIDs, meetingID, cancelled, completed },
       context
     ) => {
       if (!context.user) throw new UserInputError("Login required");
@@ -80,6 +80,7 @@ export default {
           meetingDateTime: meetingDateTime,
           type: type,
           canceled: cancelled,
+          canceled: completed,
           meetingOwnerID: context.user.id,
           pendingApproval: context.user.role !== "THERAPIST",
           approved: context.user.role === "THERAPIST",

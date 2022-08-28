@@ -21,7 +21,7 @@ function EditMeetingForm({initialValues}) {
   const [editMeeting, {}] = useMutation(EDIT_MEETING);
 
   const handleEditeMeeting = async (formValues) => {
-    console.log(formValues.cancelled)
+
     await editMeeting({
       variables: {
         type: formValues.type,
@@ -29,6 +29,7 @@ function EditMeetingForm({initialValues}) {
         title: formValues.title,
         meetingDateTime: formValues.meetingDateTime,
         cancelled: formValues.cancelled === "false" ? false : true,
+        completed: formValues.completed === "false" ? false : true,
         participantIDs: [formValues.guardian, formValues.child],
       },
     })
@@ -106,6 +107,9 @@ function EditMeetingForm({initialValues}) {
           }
           if (!values.cancelled) {
             errors.cancelled = "Required";
+          }
+          if (!values.completed) {
+            errors.completed = "Required";
           }
 
           return errors;
@@ -202,6 +206,26 @@ function EditMeetingForm({initialValues}) {
                   component={SelectField}
                   htmlType="text"
                   label="Cancel Meeting"
+                  options={[
+                    {
+                      value: true,
+                      text: "True",
+                    },
+                    {
+                      value: false,
+                      text: "False",
+                    },
+                  ]}
+                  size={"large"}
+                  required={true}
+                />
+              </Col>
+              <Col xs={24} md={24}>
+                <Field
+                  name="completed"
+                  component={SelectField}
+                  htmlType="text"
+                  label="Meeting Completed"
                   options={[
                     {
                       value: true,
