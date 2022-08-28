@@ -247,21 +247,12 @@ export const getUserObject = async (user) => {
               },
             },
             chatRooms: {
-              id: true,
-              users: {
-                firstName: true,
-                lastName: true,
-                title: true,
-                id: true
+              select: {
+                id: true,
+                messages: true,
+                users: true,
               },
-              messages: {
-                content: true,
-                createdAt: true,
-                sentBy: true,
-                sentAt: true
-              }
-
-            }
+            },
           },
         },
         organizations: {

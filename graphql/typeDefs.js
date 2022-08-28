@@ -12,6 +12,8 @@ const typeDefs = gql`
     lastName: String
     title: String
     password: String
+    soloStripeSubscriptionID: String
+    soloSubscriptionStatus: String
     phoneNumber: String
     profilePic: JSON
     role: String

@@ -23,6 +23,9 @@ const GET_USER = gql`
       lastName
       title
       phoneNumber
+      solo
+      soloStripeSubscriptionID
+      soloSubscriptionStatus
       role
       createdAt
 
