@@ -32,7 +32,7 @@ export default {
             quantity: 1,
           },
         ],
-        success_url: `${host}?success=true&session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `${host}/account/subscription-success?success=true&session_id={CHECKOUT_SESSION_ID}&user_id=${context.user.id}`,
         cancel_url: `${host}?success=false&session_id={CHECKOUT_SESSION_ID}`,
       });
 

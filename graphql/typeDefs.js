@@ -320,6 +320,8 @@ const typeDefs = gql`
     changeProfilePicture(profilePic: JSON!): User
     
     generateSoloGuardianCheckoutLink: String
+    
+    generateSoloGuardianPortalLink: String
 
     editUserNotificationSettings(
       muteMessageNotifications: Boolean!

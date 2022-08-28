@@ -9,7 +9,10 @@ import { useRecoilState } from "recoil";
 import LoadingBlock from "@common/LoadingBlock";
 
 import { useMutation } from "@apollo/client";
-import { GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK } from "@graphql/operations";
+import {
+  GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK,
+  GENERATE_SOLO_GUARDIAN_PORTAL_LINK,
+} from "@graphql/operations";
 
 const IndexWrapper = styled.div`
   max-width: ${(props) => props.theme.contentSize.tight};
@@ -31,15 +34,35 @@ function GuardianBilling() {
   const [generateSoloGuardianCheckoutLink, {}] = useMutation(
     GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK
   );
+  const [generateSoloGuardianPortalLink, {}] = useMutation(
+    GENERATE_SOLO_GUARDIAN_PORTAL_LINK
+  );
 
   const generateCheckoutURL = async () => {
-    await generateSoloGuardianCheckoutLink().then(async (resolved) => {
-      window.location = resolved.data.generateSoloGuardianCheckoutLink
-    });
+    await generateSoloGuardianCheckoutLink()
+      .then(async (resolved) => {
+        window.location = resolved.data.generateSoloGuardianCheckoutLink;
+      })
+
+      .catch((error) => {});
+  };
+
+  const generatePortalURL = async () => {
+    await generateSoloGuardianPortalLink()
+      .then(async (resolved) => {
+        console.log(resolved);
+        window.location = resolved.data.generateSoloGuardianPortalLink;
+      })
+
+      .catch((error) => {});
   };
   useEffect(() => {
-    if (!user.soloSubscriptionID) {
+
+    if (!user.soloStripeSubscriptionID) {
       generateCheckoutURL();
+    }
+    if (user.soloStripeSubscriptionID) {
+      generatePortalURL();
     }
   }, []);
 
@@ -47,7 +70,7 @@ function GuardianBilling() {
     <IndexWrapper>
       <NextSeo title="Guardian Billing" />
       <PageHeader title="Guardian Billing" />
-      {user.solo && !user.soloSubscriptionID && <LoadingBlock />}
+      <LoadingBlock />
     </IndexWrapper>
   );
 }

@@ -333,6 +333,12 @@ const GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK = gql`
   }
 `;
 
+const GENERATE_SOLO_GUARDIAN_PORTAL_LINK = gql`
+  mutation Mutation {
+    generateSoloGuardianPortalLink
+  }
+`;
+
 export {
   // Sign Up / Sign In
   LOGIN_USER,
@@ -355,5 +361,6 @@ export {
   EDIT_MEETING,
   APPROVE_MEETING,
   // GUARDIAN
-  GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK
+  GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK,
+  GENERATE_SOLO_GUARDIAN_PORTAL_LINK
 };

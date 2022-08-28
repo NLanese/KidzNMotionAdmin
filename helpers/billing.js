@@ -54,3 +54,22 @@ export const getBillingInformation = async (stripeCustomerID) => {
       return null;
     });
 };
+
+
+// Rest function to update a users stripe subscription id
+export const updateSoloGuardianSubscription = async (userID, stripeSessionID) => {
+  return await axios({
+    method: "post",
+    url: "/api/billing/update-solo-guardian-subscription",
+    data: {
+      stripeSessionID: stripeSessionID,
+      userID: userID
+    },
+  })
+    .then(({ data }) => {
+      // window.location = "/account/billing?activated=true";
+    })
+    .catch(({ response }) => {
+      return null;
+    });
+};

@@ -84,6 +84,10 @@ function Layout({ children, router }) {
     return <>{children}</>;
   }
 
+  if (router.asPath.includes("subscription-success")) {
+    return <>{children}</>;
+  }
+
   return (
     <LayoutWrapper>
       {user && !user.loading ? (

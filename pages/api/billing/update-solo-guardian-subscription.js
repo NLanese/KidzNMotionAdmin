@@ -7,14 +7,7 @@ export default async function handler(req, res) {
   const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
   const sessionID = body.stripeSessionID;
-  const returnUrl = body.host;
-  const userToken = body.token;
-
-  // Get the user object
-  const user = await handleAuth(userToken);
-  if (!user) {
-    res.status(404).json({});
-  }
+  const userID = body.userID;
 
   // Retrive the stripe session id
   const session = await stripe.checkout.sessions.retrieve(sessionID);
@@ -25,7 +18,7 @@ export default async function handler(req, res) {
   // Update the user owned organization with their stripe id
   await prisma.user.update({
     where: {
-      id: user.id,
+      id: userID,
     },
     data: {
       soloStripeSubscriptionID: session.customer,

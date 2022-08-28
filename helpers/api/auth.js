@@ -139,6 +139,8 @@ export const getUserObject = async (user) => {
         role: true,
         email: true,
         phoneNumber: true,
+        soloStripeSubscriptionID: true,
+        soloSubscriptionStatus: true,
         profilePic: true,
         muteAllAssignments: true,
         muteAllMessages: true,
