@@ -200,7 +200,7 @@ function SideMenu({ router, user }) {
             </>
           </Menu.SubMenu>
         )}
-        {(user.role === "THERAPIST" || user.role === "GUARDIAN") && (
+        {(user.role === "THERAPIST" || user.role === "GUARDIAN") && !user.solo && (
           <Menu.Item
             onClick={() => pushLink("/meetings")}
             key="/meetings"
@@ -240,6 +240,7 @@ function SideMenu({ router, user }) {
             </>
           </Menu.SubMenu>
         )}
+      
         <Menu.Item
           key={"/account/profile-settings"}
           onClick={() => pushLink("/account/profile-settings")}
@@ -247,6 +248,15 @@ function SideMenu({ router, user }) {
         >
           Profile Settings
         </Menu.Item>
+        {user.solo && (
+          <Menu.Item
+            key={"/account/guardian-billing"}
+            icon={<SettingOutlined style={{ fontSize: "20px" }} />}
+            onClick={() => pushLink("/account/guardian-billing")}
+          >
+            Billing & Subscription
+          </Menu.Item>
+        )}
       </StyledMenu>
       <Divider />
       <Typography

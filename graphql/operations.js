@@ -327,6 +327,12 @@ const APPROVE_MEETING = gql`
   }
 `;
 
+const GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK = gql`
+  mutation Mutation {
+    generateSoloGuardianCheckoutLink
+  }
+`;
+
 export {
   // Sign Up / Sign In
   LOGIN_USER,
@@ -347,5 +353,7 @@ export {
   GET_USER_MEETINGS,
   CREATE_MEETING,
   EDIT_MEETING,
-  APPROVE_MEETING
+  APPROVE_MEETING,
+  // GUARDIAN
+  GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK
 };

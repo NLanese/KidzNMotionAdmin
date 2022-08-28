@@ -318,6 +318,8 @@ const typeDefs = gql`
     swapToChildAccount(childUserID: String!): UserPayLoad
 
     changeProfilePicture(profilePic: JSON!): User
+    
+    generateSoloGuardianCheckoutLink: String
 
     editUserNotificationSettings(
       muteMessageNotifications: Boolean!

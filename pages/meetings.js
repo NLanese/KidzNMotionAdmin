@@ -138,13 +138,13 @@ function Meetings({ router }) {
       <NextSeo title="Meetings" />
       <PageHeader
         title="Meetings"
-        createURL="/meetings?create=true"
-        createTitle="Create Meeting"
+        createURL={user.role === "THERAPIST" && "/meetings?create=true"}
+        createTitle={user.role === "THERAPIST" &&  "Create Meeting"}
       />
       {meetings && meetings.loading && <LoadingBlock />}
       {meetings && !meetings.loading && (
         <Row gutter={[16, 16]}>
-          <Col xs={24} md={24} lg={13} xl={24}>
+          <Col xs={24} >
             <ContentCard>
               <MeetingsTable meetings={meetings} userID={user.id} />
             </ContentCard>
