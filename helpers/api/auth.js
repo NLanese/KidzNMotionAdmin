@@ -254,7 +254,19 @@ export const getUserObject = async (user) => {
             chatRooms: {
               select: {
                 id: true,
-                messages: true,
+                messages: {
+                  select: {
+                    id: true,
+                    content: true,
+                    sentAt: true,
+                    sentBy: true,
+                    createdAt: true,
+                    chatroomId: true,
+                    
+                  }
+                },
+                active: true,
+                createdAt: true,
                 users: true,
               },
             },
@@ -277,7 +289,19 @@ export const getUserObject = async (user) => {
         chatRooms: {
           select: {
             id: true,
-            messages: true,
+            messages: {
+              select: {
+                id: true,
+                content: true,
+                sentAt: true,
+                sentBy: true,
+                createdAt: true,
+                chatroomId: true,
+                
+              }
+            },
+            active: true,
+            createdAt: true,
             users: true,
           },
         },
@@ -443,7 +467,19 @@ export const getUserObject = async (user) => {
         chatRooms: {
           select: {
             id: true,
-            messages: true,
+            messages: {
+              select: {
+                id: true,
+                content: true,
+                sentAt: true,
+                sentBy: true,
+                createdAt: true,
+                chatroomId: true,
+                
+              }
+            },
+            active: true,
+            createdAt: true,
             users: true,
           },
         },
