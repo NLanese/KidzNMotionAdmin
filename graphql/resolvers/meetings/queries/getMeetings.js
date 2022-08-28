@@ -13,8 +13,15 @@ export default {
         },
         select: {
           meetings: {
+            orderBy: [
+              {
+                meetingDateTime: 'asc',
+              },
+             
+            ],
             where: {
               canceled: false,
+              completed: false,
             },
             select: {
               id: true,

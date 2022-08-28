@@ -60,13 +60,19 @@ function MeetingsTable({ meetings }) {
       ),
     },
     {
+      title: "Title",
+      dataIndex: "title",
+      key: "title",
+ 
+    },
+    {
       title: "Date/Time",
       dataIndex: "meetingDateTime",
       key: "meetingDateTime",
       render: (text, record, index) => (
         <span>
           <Text>
-            {dateFormat(new Date(record.meetingDateTime), "m/dd/yy hh:mm tt")}
+            {dateFormat(new Date(record.meetingDateTime), "m/dd/yy hh:MM tt")}
           </Text>
         </span>
       ),
@@ -82,34 +88,8 @@ function MeetingsTable({ meetings }) {
       ),
     },
 
-    {
-      title: "Canceled",
-      dataIndex: "canceled",
-      key: "canceled",
-      sorter: (a, b) => a.type.localeCompare(b.type),
-      defaultSortOrder: "descend",
-      render: (text, record, index) => (
-        <span>
-          <Tag color={record.canceled ? "green" : "red"}>
-            {record.canceled.toString().toUpperCase()}
-          </Tag>
-        </span>
-      ),
-    },
-    {
-      title: "Completed",
-      dataIndex: "completed",
-      key: "completed",
-      sorter: (a, b) => a.type.localeCompare(b.type),
-      defaultSortOrder: "descend",
-      render: (text, record, index) => (
-        <span>
-          <Tag color={record.completed ? "green" : "red"}>
-            {record.completed.toString().toUpperCase()}
-          </Tag>
-        </span>
-      ),
-    },
+
+ 
     {
       title: "Pending Approval",
       dataIndex: "pendingApproval",

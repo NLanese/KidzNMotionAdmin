@@ -284,6 +284,27 @@ const CREATE_MEETING = gql`
     }
   }
 `;
+const EDIT_MEETING = gql`
+  mutation Mutation(
+    $title: String!
+    $meetingDateTime: Date!
+    $cancelled: Boolean!
+    $meetingID: String!
+    $type: String!
+    $participantIDs: [String]!
+  ) {
+    editMeeting(
+      title: $title
+      meetingDateTime: $meetingDateTime
+      type: $type
+      participantIDs: $participantIDs
+      meetingID: $meetingID
+      cancelled: $cancelled
+    ) {
+      id
+    }
+  }
+`;
 
 export {
   // Sign Up / Sign In
@@ -303,5 +324,6 @@ export {
   CREATE_CHAT_ROOM,
   // MEETINGS
   GET_USER_MEETINGS,
-  CREATE_MEETING
+  CREATE_MEETING,
+  EDIT_MEETING
 };

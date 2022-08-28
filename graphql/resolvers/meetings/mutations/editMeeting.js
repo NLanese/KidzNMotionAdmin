@@ -50,21 +50,23 @@ export default {
 
       let prismaConnections = [{ id: context.user.id }];
       for (var i = 0; i < participantIDs.length; i++) {
-        prismaConnections.push({
-          id: participantIDs[i],
-        });
-        // Find the child object to determine if the are under the guardian account
-        let participantUser = await prisma.user.findUnique({
-          where: {
+        if (participantIDs[i]) {
+          prismaConnections.push({
             id: participantIDs[i],
-          },
-          select: {
-            id: true,
-          },
-        });
+          });
+          // Find the child object to determine if the are under the guardian account
+          let participantUser = await prisma.user.findUnique({
+            where: {
+              id: participantIDs[i],
+            },
+            select: {
+              id: true,
+            },
+          });
 
-        if (!participantUser) {
-          throw new UserInputError("Invalid paricipant user id");
+          if (!participantUser) {
+            throw new UserInputError("Invalid paricipant user id");
+          }
         }
       }
 
@@ -77,7 +79,7 @@ export default {
           title: title,
           meetingDateTime: meetingDateTime,
           type: type,
-          cancelled: cancelled,
+          canceled: cancelled,
           meetingOwnerID: context.user.id,
           pendingApproval: context.user.role !== "THERAPIST",
           approved: context.user.role === "THERAPIST",

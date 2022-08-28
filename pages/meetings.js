@@ -20,6 +20,8 @@ import { withRouter } from "next/router";
 import { GET_USER_MEETINGS } from "@graphql/operations";
 import client from "@utils/apolloClient";
 import MeetingForm from "@components/forms/meetings/MeetingForm";
+import EditMeetingForm from "../components/forms/meetings/EditMeetingForm";
+import moment from "moment";
 
 const MeetingsWrapper = styled.div`
   max-width: ${(props) => props.theme.contentSize.standard};
@@ -29,7 +31,6 @@ const MeetingsWrapper = styled.div`
 function Meetings({ router }) {
   const user = useRecoilValue(userState);
   const [meetings, setMeetings] = useRecoilState(meetingsState);
-  const [selectedMeeting, setSelectedMeeting] = useState(null);
 
   const getUserMeetings = async () => {
     const token = localStorage.getItem("token");
@@ -57,6 +58,44 @@ function Meetings({ router }) {
     getUserMeetings();
   }, []);
 
+  const getInitialValues = () => {
+    let id = router.query.id;
+    let intitalValues = {};
+
+    let selectedMeetingObject = null;
+
+    meetings.map((meetingObject) => {
+      if (meetingObject.id === id) {
+        selectedMeetingObject = meetingObject;
+      }
+    });
+
+    let guardian = null;
+    let child = null;
+    selectedMeetingObject.users.map((userObject) => {
+      if (userObject.role === "GUARDIAN") {
+        guardian = userObject.id;
+      }
+      if (userObject.role === "CHILD") {
+        child = userObject.id;
+      }
+    });
+
+    if (selectedMeetingObject) {
+      intitalValues = {
+        type: selectedMeetingObject.type,
+        meetingID: selectedMeetingObject.id,
+        title: selectedMeetingObject.title,
+        meetingDateTime: moment(selectedMeetingObject.meetingDateTime),
+        guardian: guardian,
+        child: child,
+        cancelled: 'false'
+      };
+    }
+
+    return intitalValues;
+  };
+
   return (
     <MeetingsWrapper>
       <NextSeo title="Meetings" />
@@ -79,14 +118,12 @@ function Meetings({ router }) {
             placement="right"
             width={500}
             onClose={() => Router.push("/meetings", null, { shallow: true })}
-            visible={router.query.create}
+            visible={router.query.create || router.query.id}
           >
-            {
-              router.query.create && (
-
-                <MeetingForm/>
-              )
-            }
+            {router.query.create && <MeetingForm />}
+            {router.query.id && (
+              <EditMeetingForm initialValues={getInitialValues()} />
+            )}
           </Drawer>
         </Row>
       )}
