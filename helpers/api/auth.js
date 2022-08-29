@@ -255,6 +255,9 @@ export const getUserObject = async (user) => {
               select: {
                 id: true,
                 messages: {
+                  orderBy: {
+                    createdAt: "asc",
+                  },
                   select: {
                     id: true,
                     content: true,
@@ -290,6 +293,9 @@ export const getUserObject = async (user) => {
           select: {
             id: true,
             messages: {
+              orderBy: {
+                createdAt: "asc",
+              },
               select: {
                 id: true,
                 content: true,
@@ -468,6 +474,9 @@ export const getUserObject = async (user) => {
           select: {
             id: true,
             messages: {
+              orderBy: {
+                createdAt: "asc",
+              },
               select: {
                 id: true,
                 content: true,

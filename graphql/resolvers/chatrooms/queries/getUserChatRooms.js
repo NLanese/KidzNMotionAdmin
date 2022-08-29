@@ -21,7 +21,7 @@ export default {
               messages: {
                 take: 1,
                 orderBy: {
-                  createdAt: "desc",
+                  createdAt: "asc",
                 },
                 select: {
                   createdAt: true,
