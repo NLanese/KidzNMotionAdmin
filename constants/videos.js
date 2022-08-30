@@ -128,16 +128,16 @@ const VIDEOS = {
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335540/KidsInMotionThumbnails/Floor_to_stand_1_ylw9xj.png",
     id: "floor_to_stand",
   },
-  bean_balancing: {
+  beam_balancing: {
     level: 2,
-    title: "Bean Balancing",
+    title: "Beam Balancing",
     description:
       "In this exercise, you should try to use a balance beam, but if none are available that’s okay! Just try to find some marking or line on the floor, and walk as straight on this line as you can, without losing your balance or stepping off!",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644263/KidsInMotion/bean_balancing_ylbyd9.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335549/KidsInMotionThumbnails/Balance_Beam_sisc6v.png",
-    id: "bean_balancing",
+    id: "beam_balancing",
   },
 
   // LEVEL 2
@@ -187,26 +187,26 @@ const VIDEOS = {
   },
   bear_crawl_left: {
     level: 2,
-    title: "Bear Crawl (Left)",
+    title: "Bear Crawl",
     description:
       "In this exercise, we will want to get on all fours, with both our feet and our palms on the ground. Like this, continue to walk forwards without losing balance or standing up!",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644272/KidsInMotion/Bear_Crawl_1_hzeetg.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335545/KidsInMotionThumbnails/Bear_Crawl_1_nbno9g.png",
-    id: "bear_crawl_left"
+    id: "bear_crawl"
   },
-  bear_crawl_right: {
-    level: 2,
-    title: "Bear Crawl (Right)",
-    description:
-      "In this exercise, we will want to get on all fours, with both our feet and our palms on the ground. Like this, continue to walk forwards without losing balance or standing up!",
-    videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644280/KidsInMotion/bear_crawl_alfyyy.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335545/KidsInMotionThumbnails/Bear_Crawl_1_nbno9g.png",
-    id: "bear_crawl_right",
-  },
+  // bear_crawl_right: {
+  //   level: 2,
+  //   title: "Bear Crawl (Right)",
+  //   description:
+  //     "In this exercise, we will want to get on all fours, with both our feet and our palms on the ground. Like this, continue to walk forwards without losing balance or standing up!",
+  //   videoURL:
+  //     "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644280/KidsInMotion/bear_crawl_alfyyy.mp4",
+  //   previewPictureURL:
+  //     "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335545/KidsInMotionThumbnails/Bear_Crawl_1_nbno9g.png",
+  //   id: "bear_crawl_right",
+  // },
 };
 
 export default VIDEOS;
