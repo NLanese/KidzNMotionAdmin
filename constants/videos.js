@@ -185,7 +185,7 @@ const VIDEOS = {
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335531/KidsInMotionThumbnails/Hop_Scotch_d2wmwe.png",
     id: "hop_scotch",
   },
-  bear_crawl_left: {
+  bear_crawl: {
     level: 2,
     title: "Bear Crawl",
     description:
