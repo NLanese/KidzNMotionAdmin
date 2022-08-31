@@ -125,7 +125,7 @@ export const handleAuth = async (clientToken) => {
 
 export const getUserObject = async (user) => {
   let userObject = {};
-  if (user.role === "GUARDIAN") {
+  if (user.role === "GUARDIAN" || user.role === "CHILD") {
     userObject = await prisma.user.findUnique({
       where: {
         id: user.id,
@@ -311,6 +311,16 @@ export const getUserObject = async (user) => {
             users: true,
           },
         },
+        guardian:{
+          select: {
+            firstName: true,
+            role: true, 
+            lastName: true, 
+            username: true,
+            email: true,
+            id: true
+          }
+        }
       },
     });
   } else if (user.role === "THERAPIST") {
@@ -383,6 +393,11 @@ export const getUserObject = async (user) => {
                     email: true,
                   },
                 },
+                childCarePlans: {
+                  select: {
+                    id: true
+                  }
+                }
               },
             },
             therapist: {
