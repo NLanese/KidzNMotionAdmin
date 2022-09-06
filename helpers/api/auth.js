@@ -145,6 +145,9 @@ export const getUserObject = async (user) => {
         muteAllAssignments: true,
         muteAllMessages: true,
         solo: true,
+        accessMessages: true,
+        accessSettings: true,
+        leaveApp: true,
         children: {
           where: {
             active: true,
