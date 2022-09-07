@@ -43,7 +43,7 @@ function Messaging({ router }) {
         })
         .then(async (resolved) => {
           setChatRooms(resolved.data.getUserChatRooms);
-          console.log(resolved)
+
           if (!router.query.chat) {
             if (resolved.data.getUserChatRooms[0]) {
               Router.push("/messaging?chat=" + resolved.data.getUserChatRooms[0].id, null, {

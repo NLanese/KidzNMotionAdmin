@@ -8,6 +8,7 @@ import ChatMessageInput from "./detail/ChatMessageInput";
 import { message } from "antd";
 import { GET_CHAT_ROOM_BY_ID } from "@graphql/operations";
 import client from "@utils/apolloClient";
+import pusherClient from "@utils/pusherClient";
 
 import { userState } from "@atoms";
 import { useRecoilValue } from "recoil";
@@ -43,6 +44,20 @@ function ChatDetail({ selectedChatRoom }) {
       setChatRoomObject(null);
     }
   };
+
+  useEffect(() => {
+    const chatRoomChannel = pusherClient.subscribe(
+      selectedChatRoom.id.toString()
+    );
+
+    chatRoomChannel.bind("new-message", function (data) {
+      fetchChatDetail();
+    });
+
+    return () => {
+      pusherClient.unsubscribe(selectedChatRoom.id.toString());
+    };
+  }, [selectedChatRoom.id]);
 
   useEffect(() => {
     fetchChatDetail();

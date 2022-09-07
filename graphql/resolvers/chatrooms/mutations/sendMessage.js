@@ -1,13 +1,14 @@
 /* eslint-disable import/no-anonymous-default-export */
 import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
+import pusherServer from "@utils/pusherServer";
 
 export default {
   Mutation: {
     sendMessage: async (_, { content, chatRoomID }, context) => {
       if (!context.user) throw new UserInputError("Login required");
 
-      // Get the chat room 
+      // Get the chat room
       let chatRoom = await prisma.chatroom.findUnique({
         where: {
           id: chatRoomID,
@@ -21,22 +22,23 @@ export default {
         },
       });
 
-      
       // If not chat room exists, throw an error
       if (!chatRoom) {
         throw new UserInputError("Chat room does not exist");
       }
-      
+
       // Make sure the user is in the chat room before sending message
-      let inChatRoom = false
+      let inChatRoom = false;
       chatRoom.users.map((userObject) => {
         if (userObject.id === context.user.id) {
-          inChatRoom = true
+          inChatRoom = true;
         }
-      })
-      
+      });
+
       if (!inChatRoom) {
-        throw new UserInputError("You have to be in chat room to send a message");
+        throw new UserInputError(
+          "You have to be in chat room to send a message"
+        );
       }
 
       // Create the message and assign to the chatroom
@@ -58,6 +60,11 @@ export default {
             },
           },
         },
+      });
+
+      // Send out the pusher trigger
+      pusherServer.trigger(chatRoomID.toString(), "new-message", {
+        message: "new-message",
       });
 
       return true;
