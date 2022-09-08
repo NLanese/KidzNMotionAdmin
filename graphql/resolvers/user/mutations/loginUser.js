@@ -26,7 +26,7 @@ export default {
           });
         }
 
-        // console.log(potentialUsers)
+        console.log("POTENTIAL USERS:", potentialUsers)
 
         // Loop through to find user
         let userToLogin = null;
@@ -43,6 +43,7 @@ export default {
 
         // If no user can be found with this email address, return an error
         if (!userToLogin) {
+          console.log("NO USER TO LOGIN")
           throw new UserInputError("Email/Password are incorrect.");
         }
 
@@ -218,10 +219,11 @@ export default {
             },
           });
 
+          console.log("Wrong Password")
           throw new UserInputError("Email/Password are incorrect.");
         }
       } catch (error) {
-        // console.log(error)
+        console.log(error)
         throw new Error(error);
       }
     },
