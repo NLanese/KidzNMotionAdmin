@@ -10,6 +10,9 @@ export default {
       { title, meetingDateTime, type, participantIDs },
       context
     ) => {
+
+      console.log(type)
+
       if (!context.user) throw new UserInputError("Login required");
       if (context.user.role !== "THERAPIST" && context.user.role !== "GUARDIAN")
         throw new UserInputError(
