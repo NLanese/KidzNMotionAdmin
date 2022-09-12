@@ -148,6 +148,97 @@ export const getUserObject = async (user) => {
         accessMessages: true,
         accessSettings: true,
         leaveApp: true,
+        childCarePlans: {
+          where: {
+            active: true,
+          },
+          select: {
+            id: true,
+            level: true,
+            allVideoStatus: true,
+            weeklyVideoStatus: true,
+            comments: {
+              select: {
+                id: true,
+                content: true,
+                createdAt: true,
+                therapist: {
+                  select: {
+                    id: true,
+                  },
+                },
+                videoId: true,
+                assignmentId: true,
+              },
+            },
+            child: {
+              select: {
+                role: true,
+                id: true,
+                firstName: true,
+                lastName: true,
+                videos: {
+                  select: {
+                    id: true,
+                    contentfulID: true,
+                    completed: true,
+                    medals: {
+                      select: {
+                        id: true,
+                        image: true,
+                        description: true,
+                        level: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            therapist: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+              },
+            },
+            assignments: {
+              select: {
+                id: true,
+                createdAt: true,
+                dateStart: true,
+                dateDue: true,
+                title: true,
+                seen: true,
+                description: true,
+                videos: {
+                  select: {
+                    id: true,
+                    contentfulID: true,
+                    completed: true,
+                    medals: {
+                      select: {
+                        id: true,
+                        image: true,
+                        description: true,
+                        level: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            therapist: {
+              select: {
+                firstName: true,
+                id: true,
+                lastName: true,
+                title: true,
+                email: true,
+              },
+            },
+          },
+        },
         children: {
           where: {
             active: true,
