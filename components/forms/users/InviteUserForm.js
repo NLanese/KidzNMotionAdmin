@@ -23,11 +23,13 @@ function InviteUserForm({ organizationUsers }) {
       variables: {
         role: formValues.role,
         email: formValues.email,
-        additionalInformation: formValues.role === "GUARDIAN" ?  {
-          childLevel: formValues.childLevel,
-          childTherapistID: formValues.childTherapistID
-        } : {}
-
+        additionalInformation:
+          formValues.role === "GUARDIAN"
+            ? {
+                childLevel: formValues.childLevel,
+                childTherapistID: formValues.childTherapistID,
+              }
+            : {},
       },
     })
       .then(async (resolved) => {
@@ -52,22 +54,22 @@ function InviteUserForm({ organizationUsers }) {
       });
   };
 
-
   const renderTherapistOptions = () => {
-    let therapists = []
+    let therapists = [];
     organizationUsers.map((orgUser) => {
-
       if (orgUser.user && orgUser.user.role === "THERAPIST") {
         therapists.push({
           value: orgUser.user.id,
-          text: `${orgUser.user.id === user.id && "(Me)"} ${orgUser.user.firstName} ${orgUser.user.lastName}`
-        })
+          text: `${orgUser.user.id === user.id && "(Me)"} ${
+            orgUser.user.firstName
+          } ${orgUser.user.lastName}`,
+        });
       }
 
       return orgUser;
-    })
-    return therapists
-  }
+    });
+    return therapists;
+  };
 
   return (
     <Spin spinning={false}>
@@ -89,14 +91,7 @@ function InviteUserForm({ organizationUsers }) {
             errors.role = "Required";
           }
 
-          if (values.role && values.role === "GUARDIAN") {
-            if (!values.childLevel) {
-              errors.childLevel = "Required";
-            }
-            if (!values.childTherapistID) {
-              errors.childTherapistID = "Required";
-            }
-          }
+      
 
           return errors;
         }}
@@ -178,7 +173,7 @@ function InviteUserForm({ organizationUsers }) {
                         },
                       ]}
                       size={"large"}
-                      required={true}
+                      required={false}
                     />
                     <Field
                       name="childTherapistID"
@@ -187,7 +182,7 @@ function InviteUserForm({ organizationUsers }) {
                       label="Child Therapist"
                       options={renderTherapistOptions()}
                       size={"large"}
-                      required={true}
+                      required={false}
                     />
                     <br />
                   </>

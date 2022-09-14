@@ -52,7 +52,6 @@ function OrganizationUserTable({organizationUsers}) {
           {record.user.firstName} {record.user.lastName}
         </BasicLink>
       ),
-      sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
       title: "Role",
@@ -64,7 +63,6 @@ function OrganizationUserTable({organizationUsers}) {
           <Tag>{record.user.role}</Tag>
         </span>
       ),
-      sorter: (a, b) => a.type.localeCompare(b.type),
     },
     {
       title: "Email",
