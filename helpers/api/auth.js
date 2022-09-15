@@ -463,6 +463,7 @@ export const getUserObject = async (user) => {
                 id: true,
                 firstName: true,
                 lastName: true,
+                profilePic: true,
                 videos: {
                   select: {
                     id: true,

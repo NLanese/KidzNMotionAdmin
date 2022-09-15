@@ -73,16 +73,16 @@ const VIDEOS = {
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335512/KidsInMotionThumbnails/Leg_Lifts_s3njlf.png",
   },
   // LEVEL 0
-  // great_job: {
-  //   level: 0,
-  //   title: "Great Job",
-  //   description: "Great Job!",
-  //   videoURL:
-  //     "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644315/KidsInMotion/Great_Job_r6rnz6.mp4",
-  //   previewPictureURL:
-  //     "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644315/KidsInMotion/Great_Job_r6rnz6.jpg",
-  //   id: "great_job",
-  // },
+  great_job: {
+    level: 0,
+    title: "Great Job",
+    description: "Great Job!",
+    videoURL:
+      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644315/KidsInMotion/Great_Job_r6rnz6.mp4",
+    previewPictureURL:
+      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644315/KidsInMotion/Great_Job_r6rnz6.jpg",
+    id: "great_job",
+  },
   // keep_it_up: {
   //   level: 0,
   //   title: "Keep It Up",
