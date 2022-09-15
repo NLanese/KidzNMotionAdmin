@@ -337,6 +337,10 @@ const typeDefs = gql`
       muteAssignmentNotifications: Boolean!
     ): Boolean
 
+    claimPatient(
+      patientUserID: String!
+    ): Boolean
+
     ############################
     #### CHATROOM MUTATIONS ####
     ############################

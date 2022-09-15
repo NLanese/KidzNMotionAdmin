@@ -49,7 +49,25 @@ const GET_USER = gql`
           }
         }
       }
-
+      organizations {
+        id
+        organization {
+          id
+          active
+          organizationUsers {
+            user {
+              id
+              role
+              firstName
+              lastName
+              childCarePlans {
+                id
+              }
+            }
+          
+          }
+        },
+      }
       ownedOrganization {
         id
         createdAt
