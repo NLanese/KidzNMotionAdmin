@@ -503,7 +503,7 @@ export const getUserObject = async (user) => {
                 email: true,
               },
             },
-            assignments: {
+            assignments: { 
               select: {
                 id: true,
                 createdAt: true,
