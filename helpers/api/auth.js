@@ -575,21 +575,26 @@ export const getUserObject = async (user) => {
                     active: true,
                     user: {
                       select :{
+                        role: true,
                         firstName: true,
                         lastName: true,
                         id: true,
                         phoneNumber: true,
                         email: true,
                         profilePic: true,
-                        childCarePlans: {
-                          where: {
-                            active: true,
-                          },
+                        children: {
                           select: {
-                            id: true,
-                            therapist: {
+                            childCarePlans: {
+                              where: {
+                                active: true,
+                              },
                               select: {
-                                id: true
+                                id: true,
+                                therapist: {
+                                  select: {
+                                    id: true
+                                  }
+                                }
                               }
                             }
                           }
