@@ -306,6 +306,7 @@ export const getUserObject = async (user) => {
                     firstName: true,
                     lastName: true,
                     email: true,
+                    profilePic: true
                   },
                 },
                 assignments: {
