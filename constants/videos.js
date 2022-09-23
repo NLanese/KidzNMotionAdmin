@@ -68,9 +68,9 @@ const VIDEOS = {
     title: "Leg Lifts",
     description: "",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1660087912/KidsInMotion/Leg_lifts_ohjy1g.mp4",
+      "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948239/Kids-N-Motion%20Videos/Leg_lifts_1_zaealj.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335512/KidsInMotionThumbnails/Leg_Lifts_s3njlf.png",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948314/Kidz-N-Motion%20Thumbnails/leg_lifts_em2etl.png",
   },
   // LEVEL 0
   great_job: {
@@ -78,9 +78,9 @@ const VIDEOS = {
     title: "Great Job",
     description: "Great Job!",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644315/KidsInMotion/Great_Job_r6rnz6.mp4",
+      "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948228/Kids-N-Motion%20Videos/Great_job_1_uffxfx.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644315/KidsInMotion/Great_Job_r6rnz6.jpg",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948312/Kidz-N-Motion%20Thumbnails/Great_job_mjoctd.png",
     id: "great_job",
   },
   // keep_it_up: {
@@ -101,9 +101,9 @@ const VIDEOS = {
     description:
       "In this video, we will start by laying straight on our stomachs. Then, bring your hands to about your chest, and bring your legs in so that you are on all fours, your knees and palms keeping you supported!",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1659644321/KidsInMotion/Hand_to_knees_onxqus.mp4",
+      "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948246/Kids-N-Motion%20Videos/Hand_to_knees_1_sngl4x.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335538/KidsInMotionThumbnails/Hand_to_Knees_savy86.png",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948312/Kidz-N-Motion%20Thumbnails/hand_to_knees_ygdegd.png",
     id: "hand_to_knees",
   },
   chair_elevation: {
