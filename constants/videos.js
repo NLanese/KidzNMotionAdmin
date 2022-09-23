@@ -8,9 +8,9 @@ const VIDEOS = {
     title: "Step Up",
     description: "Get some sort of small stool or step-up bench for this exercise! Here, we will try to step up, first with our left foot and then our right, so we have both feet on the platform! Then, step down, left the right and do it again!",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1660088060/KidsInMotion/Step_up_x55ns8.mp4",
+      "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948242/Kids-N-Motion%20Videos/Step_up_1_wwkfvc.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335500/KidsInMotionThumbnails/Step_up_mojnud.png",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/step_up_egwcrb.png"
   },
   toe_walking: {
     id: "toe_walking",
@@ -18,9 +18,9 @@ const VIDEOS = {
     title: "Toe Walking",
     description: "Test your balance and your foot strength by completing the Toe Walking Video. Walk forward a few paces, and then back, while staying on your toes the whole time!",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1660088039/KidsInMotion/Toe_Walking_1_elf73j.mp4",
+      "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948250/Kids-N-Motion%20Videos/Toe_Walking_lydpco.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1660088039/KidsInMotion/Toe_Walking_1_elf73j.jpg",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/toe_walking_uyqgpl.png",
   },
   toe_touches: {
     id: "toe_touches",
@@ -28,9 +28,9 @@ const VIDEOS = {
     title: "Toe Touches",
     description: "",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1660088012/KidsInMotion/Toe_Touches_gcmi8m.mp4",
+      "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948244/Kids-N-Motion%20Videos/Toe_Touches_1_huvgxx.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660337045/KidsInMotionThumbnails/Toe_Touches_nl7gf4.png",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/toe_touches_riskgj.png"
   },
   squat: {
     id: "squat",
@@ -38,9 +38,9 @@ const VIDEOS = {
     title: "Squat",
     description: "",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1660087992/KidsInMotion/Squat_mlysmo.mp4",
+      "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948248/Kids-N-Motion%20Videos/Squat_1_tahlhe.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335504/KidsInMotionThumbnails/Squat_xqd8tv.png",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/squat_ujqj9j.png"
   },
   side_to_side: {
     id: "side_to_side",
@@ -48,9 +48,9 @@ const VIDEOS = {
     title: "Side To Side",
     description: "",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1660087967/KidsInMotion/side_to_side_mnhtba.mp4",
+      "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948249/Kids-N-Motion%20Videos/side_to_side_1_plmjw6.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335518/KidsInMotionThumbnails/Jump_side_to_side_qotu9v.png",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/side_to_side_ecnudh.png",
   },
   rolling: {
     id: "rolling",
@@ -58,9 +58,9 @@ const VIDEOS = {
     title: "Rolling",
     description: "",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1660087943/KidsInMotion/Rolling_1_tg0djp.mp4",
+      "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948248/Kids-N-Motion%20Videos/Rolling_zw37tv.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335506/KidsInMotionThumbnails/Roll_side_to_side_jrtjij.png",
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/rolling_zfzebk.png",
   },
   leg_lifts: {
     id: "leg_lifts",
