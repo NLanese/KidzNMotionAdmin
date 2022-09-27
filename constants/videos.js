@@ -26,7 +26,7 @@ const VIDEOS = {
     id: "toe_touches",
     level: 1,
     title: "Toe Touches",
-    description: "",
+    description: "Bend over and touch your toes. For this exercise, try to keep your knees straight without bending them, and reach down as far as you can!",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948244/Kids-N-Motion%20Videos/Toe_Touches_1_huvgxx.mp4",
     previewPictureURL:
@@ -36,7 +36,7 @@ const VIDEOS = {
     id: "squat",
     level: 1,
     title: "Squat",
-    description: "",
+    description: "For this exercise, plant your feet about shoulder width apart, and squat down while trying to keep your back straight. This should test your leg strength as well as yopur balance!",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948248/Kids-N-Motion%20Videos/Squat_1_tahlhe.mp4",
     previewPictureURL:
@@ -46,7 +46,7 @@ const VIDEOS = {
     id: "side_to_side",
     level: 2,
     title: "Side To Side",
-    description: "",
+    description: "For this exercise, we will be jumoing side to side, doing our best to keep our feet together. Imagine a line on the floor next to you, and try to jump over it and back!",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948249/Kids-N-Motion%20Videos/side_to_side_1_plmjw6.mp4",
     previewPictureURL:
@@ -56,7 +56,7 @@ const VIDEOS = {
     id: "rolling",
     level: 1,
     title: "Rolling",
-    description: "",
+    description: "In this exercise, we are going to lie on the ground and try rolling onto our side, and then back again. This should test your body control.",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948248/Kids-N-Motion%20Videos/Rolling_zw37tv.mp4",
     previewPictureURL:
