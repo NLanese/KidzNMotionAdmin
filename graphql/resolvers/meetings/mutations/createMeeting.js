@@ -10,8 +10,7 @@ export default {
       { title, meetingDateTime, type, participantIDs },
       context
     ) => {
-
-      console.log(type)
+      console.log(type);
 
       if (!context.user) throw new UserInputError("Login required");
       if (context.user.role !== "THERAPIST" && context.user.role !== "GUARDIAN")
@@ -21,7 +20,7 @@ export default {
 
       // Check to make sure the meeting is not in the past
       if (new Date(meetingDateTime) <= new Date()) {
-        throw new UserInputError("Meetings can only be made in the future");
+        throw new UserInputError("Meetings can only be made in the past");
       }
 
       if (type !== "PHONE" && type !== "IN_PERSON") {
@@ -29,6 +28,29 @@ export default {
           "Meetings can only be made in person or over the phone"
         );
       }
+
+      // Check the user meetings to make sure they are not overlapping
+      const userMeetings = await prisma.meeting.findMany({
+        where: {
+          meetingOwnerID: context.user.id,
+          completed: false,
+          canceled: false
+        },
+        select: {
+          meetingDateTime: true,
+        },
+      });
+
+      let overlap = false
+      userMeetings.map((meetingObject) => {
+
+        let delta = (meetingObject.meetingDateTime - new Date(meetingDateTime)) 
+        delta = delta/ (60 * 1000)
+        if (Math.abs(delta) <= 20) {
+          throw new UserInputError("Meetings cannot be made within 20 minutes of eachother");
+        }
+        return meetingObject
+      })
 
       let prismaConnections = [{ id: context.user.id }];
       for (var i = 0; i < participantIDs.length; i++) {

@@ -59,7 +59,7 @@ export default class CustomDocument extends Document {
           <link
             rel="icon"
             type="image/x-icon"
-            href="/logos/favicon.png"
+            href="/logos/Main.png"
           /> 
           <meta name="theme-color" content="#f6f6f7" />
           <meta name="apple-mobile-web-app-title" content="Kidz-N-Motion" />

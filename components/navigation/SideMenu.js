@@ -13,7 +13,7 @@ import {
   TeamOutlined,
   GroupOutlined,
   TableOutlined,
-  BulbOutlined,
+  UserSwitchOutlined,
   MessageOutlined,
   UserOutlined,
   HomeOutlined,
@@ -148,16 +148,17 @@ function SideMenu({ router, user }) {
           Home
         </Menu.Item>
 
-        {/* <Menu.Item
-          onClick={() => pushLink("/patient-care-plans")}
-          key="/patient-care-plans"
-          disabled
-          icon={<TeamOutlined style={{ fontSize: "20px" }} />}
-        >
-          Patient Care Plans
-        </Menu.Item>
+        {/* {user.role === "THERAPIST" && (
+          <Menu.Item
+            onClick={() => pushLink("/patient-care-plans")}
+            key="/patient-care-plans"
+            icon={<TeamOutlined style={{ fontSize: "20px" }} />}
+          >
+            Patient Care Plans
+          </Menu.Item>
+        )} */}
 
-        <Menu.Item
+        {/* <Menu.Item
           onClick={() => pushLink("/child-care-plans")}
           key="/child-care-plans"
           disabled
@@ -209,6 +210,15 @@ function SideMenu({ router, user }) {
             Meetings
           </Menu.Item>
         )}
+        {/* {(user.role === "THERAPIST") && (
+          <Menu.Item
+            onClick={() => pushLink("/meetings")}
+            key="/patients"
+            icon={<UserSwitchOutlined style={{ fontSize: "20px" }} />}
+          >
+            Patients
+          </Menu.Item>
+        )} */}
         <Menu.Item
           onClick={() => pushLink("/messaging")}
           key="/messaging"
@@ -240,7 +250,7 @@ function SideMenu({ router, user }) {
             </>
           </Menu.SubMenu>
         )}
-      
+
         <Menu.Item
           key={"/account/profile-settings"}
           onClick={() => pushLink("/account/profile-settings")}

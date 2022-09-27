@@ -6,6 +6,7 @@ import { UserInputError } from "apollo-server-errors";
 export default {
   Mutation: {
     claimPatient: async (_, { patientUserID }, context) => {
+      console.log(patientUserID)
       if (!context.user) throw new UserInputError("Login required");
       if (context.user.role !== "THERAPIST")
         throw new UserInputError(
@@ -70,6 +71,7 @@ export default {
         },
       });
 
+
       // If they are not, then return user input error
       if (!childUser) {
         throw new UserInputError("Child does not exist");
@@ -80,6 +82,7 @@ export default {
         throw new UserInputError("The user is not a child");
       }
 
+      console.log(childUser)
       // Make sure they are apart of the same organization
       if (
         childUser.organizations &&

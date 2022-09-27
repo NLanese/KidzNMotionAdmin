@@ -7,7 +7,15 @@ export default {
   Mutation: {
     editMeeting: async (
       _,
-      { title, meetingDateTime, type, participantIDs, meetingID, cancelled, completed },
+      {
+        title,
+        meetingDateTime,
+        type,
+        participantIDs,
+        meetingID,
+        cancelled,
+        completed,
+      },
       context
     ) => {
       if (!context.user) throw new UserInputError("Login required");
@@ -25,6 +33,33 @@ export default {
           meetingOwnerID: true,
           id: true,
         },
+      });
+
+      // Check the user meetings to make sure they are not overlapping
+      const userMeetings = await prisma.meeting.findMany({
+        where: {
+          meetingOwnerID: context.user.id,
+          completed: false,
+          canceled: false,
+        },
+        select: {
+          meetingDateTime: true,
+          id: true,
+        },
+      });
+
+      let overlap = false;
+      userMeetings.map((meetingObject) => {
+        if (meetingID !== meetingObject.id) {
+          let delta = meetingObject.meetingDateTime - new Date(meetingDateTime);
+          delta = delta / (60 * 1000);
+          if (Math.abs(delta) <= 20) {
+            throw new UserInputError(
+              "Meetings cannot be made within 20 minutes of eachother"
+            );
+          }
+        }
+        return meetingObject;
       });
 
       // If they are not, then return user input error
