@@ -165,7 +165,7 @@ const VIDEOS = {
   },
   jump_forward_and_backward: {
     level: 2,
-    title: "Jump Forward & Backward",
+    title: "Forward Jump",
     description:
       "In this video, we will see how well you can jump with both feet together, going forwards and then backward. This will put your jumping ability to the test, as well as your balance!",
     videoURL:
