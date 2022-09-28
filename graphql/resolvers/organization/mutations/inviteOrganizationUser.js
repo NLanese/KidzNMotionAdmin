@@ -6,8 +6,14 @@ sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
 
 export default {
   Mutation: {
-    inviteOrganizationUser: async (_, { email, role, additionalInformation}, context) => {
-      
+    inviteOrganizationUser: async (
+      _,
+      { email, role, additionalInformation },
+      context
+    ) => {
+      role = role.toString()
+      role = role.replace(/[\r\n]/gm, '')
+
       // Check to ensure the user is logged in
       if (!context.user) throw new UserInputError("Login required");
 
@@ -40,6 +46,7 @@ export default {
         }
       });
       if (userAlreadyInOrg) {
+        console.log("user error")
         throw new UserInputError("User is already in the organization");
       }
 
@@ -63,6 +70,7 @@ export default {
 
       // If yes, then add them as an organization user
       if (userToInvite) {
+        console.log("Found user")
         // Create the organization user
         await prisma.organizationUser.create({
           data: {
@@ -86,7 +94,9 @@ export default {
           data: {
             active: true,
             role: role,
-            additionalInformation: additionalInformation ? additionalInformation : {},
+            additionalInformation: additionalInformation
+              ? additionalInformation
+              : {},
             organization: {
               connect: {
                 id: context.user.ownedOrganization.id,

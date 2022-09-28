@@ -23,12 +23,16 @@ import { useMutation } from "@apollo/client";
 import MeetingForm from "@components/forms/meetings/MeetingForm";
 import EditMeetingForm from "../components/forms/meetings/EditMeetingForm";
 import moment from "moment";
+import MeetingCalendar from "../components/pages/meetings/MeetingCalendar";
 
 const { Text, Title } = Typography;
 
 const MeetingsWrapper = styled.div`
   max-width: ${(props) => props.theme.contentSize.standard};
   margin: auto;
+  .ant-picker-calendar .ant-radio-group  {
+    display: none;
+  }
 `;
 
 function Meetings({ router }) {
@@ -144,21 +148,26 @@ function Meetings({ router }) {
       {meetings && meetings.loading && <LoadingBlock />}
       {meetings && !meetings.loading && (
         <Row gutter={[16, 16]}>
-          <Col xs={24} >
+          <Col lg={24} xl={12}>
             <ContentCard>
               <MeetingsTable meetings={meetings} userID={user.id} />
             </ContentCard>
           </Col>
-
+          <Col lg={24} xl={12}>
+            <ContentCard>
+              <MeetingCalendar meetings={meetings} userID={user.id} />
+            </ContentCard>
+          </Col>
           <Drawer
             placement="right"
             width={500}
+            title={router.query.create ? "Create Meeting" :  (router.query.id && router.query.approve) ? "Approve Meeting" : "Edit Meeting" }
             onClose={() => Router.push("/meetings", null, { shallow: true })}
             visible={router.query.create || router.query.id}
           >
             {router.query.create && <MeetingForm />}
             {router.query.id && !router.query.approve && (
-              <EditMeetingForm initialValues={getInitialValues()} />
+              <EditMeetingForm initialValues={getInitialValues()} createMeeting={router.query.create} />
             )}
             {router.query.id && router.query.approve && (
               <div>

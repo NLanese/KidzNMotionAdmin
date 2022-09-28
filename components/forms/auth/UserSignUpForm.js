@@ -321,7 +321,8 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
                   )}
                 </>
               )}
-              <Col xs={24} md={24}>
+              
+              <Col xs={24} md={24} style={role === "ADMIN" &&  {opacity: 0, height: 10}}>
                 <Field
                   name="organizationInviteKey"
                   component={PlainTextField}

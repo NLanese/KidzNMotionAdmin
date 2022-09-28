@@ -83,7 +83,7 @@ function ReviewStep({
     let hasFormattingErrors = false;
     let localFormattingErrors = [];
     if (!parsedData) return;
-
+    console.clear()
     // Check for column mismatch
     if (parsedData[0].length !== 2) {
       hasFormattingErrors = true;
@@ -96,12 +96,13 @@ function ReviewStep({
     }
 
     let dataSource = [];
+    let acceptedRoles = ["ADMIN", "GUARDIAN", "THERAPIST"];
     for (var rowCount = 0; rowCount < parsedData.length; rowCount++) {
       if (rowCount !== 0) {
         let row = {};
         if (
           parsedData[rowCount][0].length > 0 &&
-          parsedData[rowCount][1].length > 0 
+          parsedData[rowCount][1].length > 0
         ) {
           for (
             var colCount = 0;
@@ -124,26 +125,39 @@ function ReviewStep({
                   parsedData[rowCount][colCount];
               }
             } else if (colCount === 1) {
-              console.log(parsedData[rowCount][colCount])
-              let acceptedRoles = ["GUARDIAN", "THERAPIST", "ADMIN"]
-              if (!acceptedRoles.includes(parsedData[rowCount][colCount])) {
+            
+              let isProperRole = false;
+              acceptedRoles.map((role) => {
+                console.log(parsedData[rowCount][colCount])
+                if (role.toString() === "GUARDIAN") {
+                  isProperRole = true
+                } 
+                if (role.toString() === "THERAPIST") {
+                  isProperRole = true
+                } 
+                if (role.toString() === "ADMIN") {
+                  isProperRole = true
+                } 
+              });
+
+              if (!isProperRole) {
                 hasFormattingErrors = true;
                 localFormattingErrors.push({
                   row: rowCount,
                   id: Math.random(),
                   error: `Row ${
                     rowCount + 1
-                  } -  The role must be either GUARDIAN, THERAPIST, or ADMIN: ${
+                  } -  The role must be either GUARDIAN, THERAPIST, or ADMIN. You entered "${
                     parsedData[rowCount][colCount]
-                  }`,
+                  }"`,
                 });
               } else {
                 row[userDataTableColumns[colCount].dataIndex] =
-                  parsedData[rowCount][colCount];
+                  parsedData[rowCount][colCount].toUpperCase();
               }
-            }  else {
+            } else {
               row[userDataTableColumns[colCount].dataIndex] =
-                parsedData[rowCount][colCount];
+                parsedData[rowCount][colCount].toUpperCase();
             }
           }
           dataSource.push(row);

@@ -16,7 +16,6 @@ import UploadLayout from "@components/upload/UploadLayout";
 import UploadStep from "@components/upload/UploadStep";
 import ReviewStep from "@pages/users/ReviewStep";
 
-
 function UploadUsers({ router }) {
   const [user, setUser] = useRecoilState(userState);
 
@@ -152,7 +151,9 @@ function UploadUsers({ router }) {
 
   return (
     <UploadLayout
-      title="Bulk User Upload"
+      title={
+        user.role === "THERAPIST" ? "Bulk Client Upload" : "Bulk User Upload"
+      }
       wideLayout={step === 1}
       loading={bulkUploadLoading}
       currentStep={step}

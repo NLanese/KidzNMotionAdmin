@@ -19,6 +19,9 @@ import {
   UserOutlined,
   HomeOutlined,
   CloseOutlined,
+  VideoCameraTwoTone,
+  ContainerTwoTone,
+  VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Menu, Divider, Typography, Drawer, Button } from "antd";
 
@@ -148,40 +151,55 @@ function SideMenu({ router, user }) {
         >
           Home
         </Menu.Item>
-
-        {/* {user.role === "THERAPIST" && (
-          <Menu.Item
-            onClick={() => pushLink("/patient-care-plans")}
-            key="/patient-care-plans"
-            icon={<TeamOutlined style={{ fontSize: "20px" }} />}
-          >
-            Patient Care Plans
-          </Menu.Item>
-        )} */}
-
-        {/* <Menu.Item
-          onClick={() => pushLink("/child-care-plans")}
-          key="/child-care-plans"
-          disabled
-          icon={<TableOutlined style={{ fontSize: "20px" }} />}
+        <Menu.SubMenu
+          key={"/account"}
+          title={"Settings & Support"}
+          onTitleClick={() => appendMenuKey("/account")}
+          icon={<SettingOutlined style={{ fontSize: "20px" }} />}
         >
-          Child Care Plans
-        </Menu.Item>
+          <>
+            {user.ownedOrganization && (
+              <>
+                <Menu.Item
+                  key={"/account/organization-settings"}
+                  onClick={() => pushLink("/account/organization-settings")}
+                >
+                  Organization Settings
+                </Menu.Item>
 
-        {user.role !== "ADMIN" && (
-          <Menu.Item
-            onClick={() => pushLink("/messaging")}
-            key="/messaging"
-            disabled
-            icon={<MessageOutlined style={{ fontSize: "20px" }} />}
-          >
-            Messaging
-          </Menu.Item>
-        )} */}
+                <Menu.Item
+                  key={"/account/billing"}
+                  onClick={() => pushLink("/account/billing")}
+                >
+                  Billing & Subscription
+                </Menu.Item>
+              </>
+            )}
+
+            {user.solo && (
+              <Menu.Item
+                key={"/account/guardian-billing"}
+                icon={<SettingOutlined style={{ fontSize: "20px" }} />}
+                onClick={() => pushLink("/account/guardian-billing")}
+              >
+                Billing & Subscription
+              </Menu.Item>
+            )}
+            <Menu.Item
+              key={"/account/profile-settings"}
+              onClick={() => pushLink("/account/profile-settings")}
+            >
+              Profile Settings
+            </Menu.Item>
+            <Menu.Item onClick={() => pushLink("/support")} key="/support">
+              Knowledge Hub
+            </Menu.Item>
+          </>
+        </Menu.SubMenu>
         {user.ownedOrganization && (
           <Menu.SubMenu
             key={"/users"}
-            title={"Users"}
+            title={user.role === "THERAPIST" ?  "Clients" : "Users"}
             onTitleClick={() => appendMenuKey("/users")}
             icon={<TeamOutlined style={{ fontSize: "20px" }} />}
           >
@@ -190,14 +208,14 @@ function SideMenu({ router, user }) {
                 key={"/users/manage"}
                 onClick={() => pushLink("/users/manage")}
               >
-                Manage Users
+                {user.role === "THERAPIST" ?  "Client List" : "User List"}
               </Menu.Item>
 
               <Menu.Item
                 key={"/users/upload"}
                 onClick={() => pushLink("/users/upload")}
               >
-                Upload Users
+                {user.role === "THERAPIST" ?  "Upload Clients" : "Upload Users"}
               </Menu.Item>
             </>
           </Menu.SubMenu>
@@ -211,15 +229,6 @@ function SideMenu({ router, user }) {
             Meetings
           </Menu.Item>
         )}
-        {/* {(user.role === "THERAPIST") && (
-          <Menu.Item
-            onClick={() => pushLink("/meetings")}
-            key="/patients"
-            icon={<UserSwitchOutlined style={{ fontSize: "20px" }} />}
-          >
-            Patients
-          </Menu.Item>
-        )} */}
         <Menu.Item
           onClick={() => pushLink("/messaging")}
           key="/messaging"
@@ -227,55 +236,16 @@ function SideMenu({ router, user }) {
         >
           Messaging
         </Menu.Item>
-        {user.ownedOrganization && (
-          <Menu.SubMenu
-            key={"/account"}
-            title={"Settings"}
-            onTitleClick={() => appendMenuKey("/account")}
-            icon={<SettingOutlined style={{ fontSize: "20px" }} />}
-          >
-            <>
-              <Menu.Item
-                key={"/account/organization-settings"}
-                onClick={() => pushLink("/account/organization-settings")}
-              >
-                Organization Settings
-              </Menu.Item>
-
-              <Menu.Item
-                key={"/account/billing"}
-                onClick={() => pushLink("/account/billing")}
-              >
-                Billing & Subscription
-              </Menu.Item>
-            </>
-          </Menu.SubMenu>
-        )}
 
         <Menu.Item
-          key={"/account/profile-settings"}
-          onClick={() => pushLink("/account/profile-settings")}
-          icon={<UserOutlined style={{ fontSize: "20px" }} />}
+          onClick={() => pushLink("/video-library")}
+          key="/video-library"
+          icon={<VideoCameraOutlined style={{ fontSize: "20px" }} />}
         >
-          Profile Settings
+          Video Library
         </Menu.Item>
-        {user.solo && (
-          <Menu.Item
-            key={"/account/guardian-billing"}
-            icon={<SettingOutlined style={{ fontSize: "20px" }} />}
-            onClick={() => pushLink("/account/guardian-billing")}
-          >
-            Billing & Subscription
-          </Menu.Item>
-        )}
 
-        <Menu.Item
-          onClick={() => pushLink("/support")}
-          key="/support"
-          icon={<BulbOutlined style={{ fontSize: "20px" }} />}
-        >
-          Knowledge Hub
-        </Menu.Item>
+      
       </StyledMenu>
       <Divider />
       <Typography

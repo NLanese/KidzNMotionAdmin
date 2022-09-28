@@ -37,18 +37,22 @@ function ManageUsers({ router }) {
 
   return (
     <IndexWrapper>
-      <NextSeo title="Manage Users" />
+      <NextSeo
+        title={user.role === "THERAPIST" ? "Manage Clients" : "Manage Users"}
+      />
       <PageHeader
-        title="Manage Users"
+        title={user.role === "THERAPIST" ? "Manage Clients" : "Manage Users"}
         createURL="/users/manage?invite=true"
-        createTitle="Invite Users"
+        createTitle={
+          user.role === "THERAPIST" ? "Invite Clients" : "Invite Users"
+        }
       />
       <ContentCard modifiers={["tightPadding"]}>
         <OrganizationUserTable
           organizationUsers={user.ownedOrganization.organizationUsers}
         />
-        <InviteUserDrawer 
-          inviteUserDrawerOpen={router.query.invite} 
+        <InviteUserDrawer
+          inviteUserDrawerOpen={router.query.invite}
           organizationUsers={user.ownedOrganization.organizationUsers}
         />
       </ContentCard>

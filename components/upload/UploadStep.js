@@ -52,7 +52,7 @@ function UploadStep({
         </Upload>
       </UploadWrapper>
       <Divider />
-      <Text type="secondary">
+      <Text>
         Download a sample{" "}
         <a
           target="_blank"
@@ -62,7 +62,16 @@ function UploadStep({
         >
           {templateFile.includes("csv") ? "CSV" : "PDF"}
         </a>{" "}
-        template to see an example of the format
+        template to see an example of the format:{" "}
+        <Button
+          size="small"
+          target="_blank"
+          href={templateFile}
+          type="ghost"
+          rel="noopener noreferrer"
+        >
+          Download Template
+        </Button>. Please note that for the role column, only THERAPIST, GUARDIAN, and ADMIN are accepted.
       </Text>
 
       <Row justify="end" align="middle" gutter={16}>

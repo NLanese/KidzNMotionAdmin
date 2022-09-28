@@ -1,8 +1,9 @@
 import React from "react";
 import { DatePicker } from "antd";
 import { FormItem, FormLabel, ErrorText } from "@fields/styles";
-
+import moment from 'moment';
 const { RangePicker } = DatePicker;
+
 
 function getFormat(showTime, picker) {
   if (picker) {
@@ -21,6 +22,10 @@ function getFormat(showTime, picker) {
     }
   }
 }
+const disabledDate = (current) => {
+  // Can not select days before today and today
+  return current && current < moment().startOf("day");
+};
 
 const DateField = ({ input, meta, ...props }) => (
   <FormItem
@@ -57,6 +62,7 @@ const DateField = ({ input, meta, ...props }) => (
         placeholder={props.placeholder}
         style={{ width: "100%" }}
         size={props.size}
+        disabledDate={disabledDate}
         inputReadOnly={true}
         picker={props.picker}
         use12Hours={true}

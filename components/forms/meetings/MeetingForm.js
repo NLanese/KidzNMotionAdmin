@@ -83,7 +83,7 @@ function MeetingForm({}) {
     <Spin spinning={false}>
       <Form
         onSubmit={handleCreateMeeting}
-        initialValues={{}}
+        initialValues={{ type: "IN_PERSON" }}
         mutators={{
           setValue: ([field, value], state, { changeValue }) => {
             changeValue(state, field, () => value);
@@ -122,6 +122,7 @@ function MeetingForm({}) {
             <legend>Invite User Form</legend>
             <Row gutter={16}>
               <Col xs={24} md={24}>
+                <h3>Step 1: Title Your Meeting</h3>
                 <Field
                   label="Title"
                   name="title"
@@ -133,6 +134,7 @@ function MeetingForm({}) {
                 />
               </Col>
               <Col xs={24} md={24}>
+                <h3>Step 2: Select A Date & Time</h3>
                 <Field
                   name="type"
                   component={SelectField}
@@ -165,6 +167,7 @@ function MeetingForm({}) {
                 />
               </Col>
               <Col xs={24} md={24}>
+              <h3>Step 3: Add Participants</h3>
                 <Field
                   name="guardian"
                   component={SelectField}
@@ -181,17 +184,19 @@ function MeetingForm({}) {
                   }}
                 </OnChange>
               </Col>
-              <Col xs={24} md={24}>
-                <Field
-                  name="child"
-                  component={SelectField}
-                  htmlType="text"
-                  label="Child"
-                  options={getPossibleChildren(values.guardian)}
-                  size={"large"}
-                  required={false}
-                />
-              </Col>
+              {values.guardian && (
+                <Col xs={24} md={24}>
+                  <Field
+                    name="child"
+                    component={SelectField}
+                    htmlType="text"
+                    label="Child"
+                    options={getPossibleChildren(values.guardian)}
+                    size={"large"}
+                    required={false}
+                  />
+                </Col>
+              )}
             </Row>
 
             <Button

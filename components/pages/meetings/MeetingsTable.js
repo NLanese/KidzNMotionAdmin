@@ -25,17 +25,27 @@ const MeetingTableWrapper = styled.div`
 `;
 
 function getMeetingParticpants(users) {
-  let usersString = ""
+  let users2 = [];
   users.map((userObject, index) => {
-      
+    users2.push( `${userObject.firstName} ${userObject.lastName}`);
 
-      usersString += `${userObject.firstName} ${userObject.lastName} (${userObject.role})`
+  
+  });
 
-      if (index+1 !== users.length) {
-          usersString += ", "
-      }
-  }) 
-  return usersString;
+  return users2.map((usersString) => {
+    return <><Tag id={usersString}>{usersString}</Tag> <br/></>
+  })
+}
+
+function renderApprovalStatus(record) {
+  if (record.approved) {
+    return "Approved".toUpperCase()
+  } else {
+    if (record.pendingApproval) {
+      return "Pending Approval".toUpperCase()
+    }
+  }
+  
 }
 
 function MeetingsTable({ meetings, userID }) {
@@ -49,21 +59,32 @@ function MeetingsTable({ meetings, userID }) {
   };
 
   const columns = [
+
+    {
+      title: "Title",
+      dataIndex: "title",
+      key: "title",
+      render: (text, record, index) => (
+        <BasicLink
+          href={
+            record.meetingOwnerID === userID
+              ? `/meetings?id=${record.id}`
+              : `/meetings?id=${record.id}&approve=true`
+          }
+        >
+          {record.title} (Open)
+        </BasicLink>
+      ),
+    },
     {
       title: "Participants",
       dataIndex: "users",
       key: "users",
       render: (text, record, index) => (
-        <BasicLink href={record.meetingOwnerID === userID ? `/meetings?id=${record.id}` :  `/meetings?id=${record.id}&approve=true` }>
+        <>
           {getMeetingParticpants(record.users)}
-        </BasicLink>
+        </>
       ),
-    },
-    {
-      title: "Title",
-      dataIndex: "title",
-      key: "title",
- 
     },
     {
       title: "Date/Time",
@@ -88,36 +109,20 @@ function MeetingsTable({ meetings, userID }) {
       ),
     },
 
+    {
+      title: "Approval Status",
+      dataIndex: "approvalStatus",
+      key: "approvalStatus",
 
- 
-    {
-      title: "Pending Approval",
-      dataIndex: "pendingApproval",
-      key: "pendingApproval",
-      sorter: (a, b) => a.type.localeCompare(b.type),
       defaultSortOrder: "descend",
       render: (text, record, index) => (
         <span>
-          <Tag color={record.pendingApproval ? "green" : "red"}>
-            {record.pendingApproval.toString().toUpperCase()}
-          </Tag>
+          <Tag color={renderApprovalStatus(record) === "APPROVED" ? "green" : "yellow"}>{renderApprovalStatus(record)}</Tag>
         </span>
       ),
     },
-    {
-      title: "Approved",
-      dataIndex: "approved",
-      key: "approved",
-      sorter: (a, b) => a.type.localeCompare(b.type),
-      defaultSortOrder: "descend",
-      render: (text, record, index) => (
-        <span>
-          <Tag color={record.approved ? "green" : "red"}>
-            {record.approved.toString().toUpperCase()}
-          </Tag>
-        </span>
-      ),
-    },
+
+    
   ];
 
   return (

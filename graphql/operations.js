@@ -357,6 +357,20 @@ const GENERATE_SOLO_GUARDIAN_PORTAL_LINK = gql`
   }
 `;
 
+const GET_VIDEO_LIBRARY = gql`
+  query Query {
+    getAllVideoFiles {
+      id
+      level
+      title
+      description
+      videoURL
+      previewPictureURL
+    }
+  }
+`;
+
+
 export {
   // Sign Up / Sign In
   LOGIN_USER,
@@ -380,5 +394,7 @@ export {
   APPROVE_MEETING,
   // GUARDIAN
   GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK,
-  GENERATE_SOLO_GUARDIAN_PORTAL_LINK
+  GENERATE_SOLO_GUARDIAN_PORTAL_LINK,
+  // VIDEO LIBRARY
+  GET_VIDEO_LIBRARY
 };

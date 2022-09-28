@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Field } from "react-final-form";
 import { OnChange } from "react-final-form-listeners";
-import { PlainTextField, SelectField, DateField } from "@fields";
+import { PlainTextField, SelectField, DateField, SwitchField } from "@fields";
 import { Col, Row, Button, message, Spin } from "antd";
 
 import { userState, meetingsState } from "@atoms";
@@ -13,7 +13,7 @@ import client from "@utils/apolloClient";
 
 import Router from "next/router";
 
-function EditMeetingForm({initialValues}) {
+function EditMeetingForm({ initialValues, createMeeting }) {
   const [user, setUser] = useRecoilState(userState);
   const [meetings, setMeetings] = useRecoilState(meetingsState);
 
@@ -21,15 +21,29 @@ function EditMeetingForm({initialValues}) {
   const [editMeeting, {}] = useMutation(EDIT_MEETING);
 
   const handleEditeMeeting = async (formValues) => {
+    let cancelled = formValues.cancelled;
+    if (cancelled === "true") {
+      cancelled = true;
+    }
+    if (cancelled === "false") {
+      cancelled = false;
+    }
 
+    let completed = formValues.completed;
+    if (completed === "true") {
+      completed = true;
+    }
+    if (completed === "false") {
+      completed = false;
+    }
     await editMeeting({
       variables: {
         type: formValues.type,
         meetingID: initialValues.meetingID,
         title: formValues.title,
         meetingDateTime: formValues.meetingDateTime,
-        cancelled: formValues.cancelled === "false" ? false : true,
-        completed: formValues.completed === "false" ? false : true,
+        cancelled: cancelled,
+        completed: completed,
         participantIDs: [formValues.guardian, formValues.child],
       },
     })
@@ -128,8 +142,10 @@ function EditMeetingForm({initialValues}) {
             }}
           >
             <legend>Invite User Form</legend>
+
             <Row gutter={16}>
               <Col xs={24} md={24}>
+                <h3>Meeting Information</h3>
                 <Field
                   label="Title"
                   name="title"
@@ -173,6 +189,7 @@ function EditMeetingForm({initialValues}) {
                 />
               </Col>
               <Col xs={24} md={24}>
+                <h3>Meeting Participants</h3>
                 <Field
                   name="guardian"
                   component={SelectField}
@@ -200,10 +217,12 @@ function EditMeetingForm({initialValues}) {
                   required={false}
                 />
               </Col>
-              <Col xs={24} md={24}>
-                <Field
+
+              {/* <Col xs={24} md={24}>
+                
+               <Field
                   name="cancelled"
-                  component={SelectField}
+                  component={SwitchField}
                   htmlType="text"
                   label="Cancel Meeting"
                   options={[
@@ -219,11 +238,12 @@ function EditMeetingForm({initialValues}) {
                   size={"large"}
                   required={true}
                 />
-              </Col>
+              </Col> */}
               <Col xs={24} md={24}>
+                <h3>Meeting Options</h3>
                 <Field
                   name="completed"
-                  component={SelectField}
+                  component={SwitchField}
                   htmlType="text"
                   label="Meeting Completed"
                   options={[
@@ -250,7 +270,7 @@ function EditMeetingForm({initialValues}) {
               size={"large"}
               disabled={invalid || pristine}
             >
-              Create Meeting
+              Edit Meeting
             </Button>
           </form>
         )}

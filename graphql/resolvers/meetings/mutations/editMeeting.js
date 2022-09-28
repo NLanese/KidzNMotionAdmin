@@ -18,6 +18,7 @@ export default {
       },
       context
     ) => {
+      console.log(completed, cancelled)
       if (!context.user) throw new UserInputError("Login required");
       if (context.user.role !== "THERAPIST" && context.user.role !== "GUARDIAN")
         throw new UserInputError(
@@ -49,18 +50,22 @@ export default {
       });
 
       let overlap = false;
-      userMeetings.map((meetingObject) => {
-        if (meetingID !== meetingObject.id) {
-          let delta = meetingObject.meetingDateTime - new Date(meetingDateTime);
-          delta = delta / (60 * 1000);
-          if (Math.abs(delta) <= 20) {
-            throw new UserInputError(
-              "Meetings cannot be made within 20 minutes of eachother"
-            );
+
+      if (!cancelled && !completed) {
+        userMeetings.map((meetingObject) => {
+          if (meetingID !== meetingObject.id) {
+            let delta =
+              meetingObject.meetingDateTime - new Date(meetingDateTime);
+            delta = delta / (60 * 1000);
+            if (Math.abs(delta) <= 5) {
+              throw new UserInputError(
+                "Meetings cannot be made within 5 minutes of eachother"
+              );
+            }
           }
-        }
-        return meetingObject;
-      });
+          return meetingObject;
+        });
+      }
 
       // If they are not, then return user input error
       if (!meetingToEdit) {
@@ -72,9 +77,11 @@ export default {
         throw new UserInputError("Access denied");
       }
 
-      // Check to make sure the meeting is not in the past
-      if (new Date(meetingDateTime) <= new Date()) {
-        throw new UserInputError("Meetings can only be made in the future");
+      if (!cancelled && !completed) {
+        // Check to make sure the meeting is not in the past
+        if (new Date(meetingDateTime) <= new Date()) {
+          throw new UserInputError("Meetings can only be made in the future");
+        }
       }
 
       if (type !== "PHONE" && type !== "IN_PERSON") {
