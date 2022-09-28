@@ -2,7 +2,7 @@ export default async function handler(req, res) {
   const body = req.body;
   const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
-  // Tom Pro Plan Product ID
+  // Kidz-N-Motion Pro Plan Product ID
   const priceId = "price_1LMTrNGjT1PBxtTZNrkwpLbf";
 
   const session = await stripe.checkout.sessions.create({

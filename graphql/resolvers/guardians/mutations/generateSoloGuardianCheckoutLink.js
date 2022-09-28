@@ -21,7 +21,7 @@ export default {
       if (context.user.soloStripeSubscriptionID)
         throw new UserInputError("This guardian already has a subscription");
 
-      // Tom Pro Plan Product ID
+      // Kidz-N-Motion Pro Plan Product ID
       const priceId = "price_1LbnW6GjT1PBxtTZgowXZb4U";
 
       const session = await stripe.checkout.sessions.create({

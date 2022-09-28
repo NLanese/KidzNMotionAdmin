@@ -155,7 +155,7 @@ function Billing() {
           {window.location.href.includes("activated") && (
             <Alert
               message="Welcome!"
-              description="Your subscription has been activated! Thanks for being apart of the TOM family."
+              description="Your subscription has been activated! Thanks for being apart of the Kidz-N-Motion family."
               type="success"
               closable
               showIcon
@@ -165,7 +165,7 @@ function Billing() {
             billingInformation.subscription.status === "past_due") && (
             <Alert
               message="Heads Up"
-              description="There was an issue with your last payment, please replace your credit card on file to avoid being locked out of your Tom Account"
+              description="There was an issue with your last payment, please replace your credit card on file to avoid being locked out of your Kidz-N-Motion Account"
               type="warning"
               closable
               action={
@@ -188,7 +188,7 @@ function Billing() {
           <br />
           <BillingInformationRow
             title="Payment methods"
-            description="Manage how you pay your bills in Tom App."
+            description="Manage how you pay your bills in Kidz-N-Motion App."
           >
             <>
               <ContentCard>
@@ -342,7 +342,7 @@ function Billing() {
                 <Space direction="vertical" size="small">
                   <Text strong>Bills</Text>
                   <Text type="secondary">
-                    Your monthly bill is on a 30-day cycle. It includes your Tom
+                    Your monthly bill is on a 30-day cycle. It includes your Kidz-N-Motion
                     App subscription, app charges, shipping labels, and
                     transaction fees.
                   </Text>

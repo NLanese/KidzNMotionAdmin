@@ -14,6 +14,7 @@ import {
   GroupOutlined,
   TableOutlined,
   UserSwitchOutlined,
+  BulbOutlined,
   MessageOutlined,
   UserOutlined,
   HomeOutlined,
@@ -267,6 +268,14 @@ function SideMenu({ router, user }) {
             Billing & Subscription
           </Menu.Item>
         )}
+
+        <Menu.Item
+          onClick={() => pushLink("/support")}
+          key="/support"
+          icon={<BulbOutlined style={{ fontSize: "20px" }} />}
+        >
+          Knowledge Hub
+        </Menu.Item>
       </StyledMenu>
       <Divider />
       <Typography

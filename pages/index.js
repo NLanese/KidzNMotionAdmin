@@ -47,16 +47,15 @@ function Index() {
                 <InfoCircleOutlined /> Learn how to make the most out of Kidz-N-Motion
               </Title>
               <Text>
-                We’ve got dozens of free and tutorials for all features or
-                functionality your team needs.
+              We've got the tutorials for the functionality and features to answer your questions.
               </Text>
-              <BasicLink href="/">
+              <BasicLink href="/support">
                 <Link type="link">Learn more</Link>
               </BasicLink>
             </Space>
           </ContentCard>
         </Col>
-        <Col xs={24} sm={12}>
+        {/* <Col xs={24} sm={12}>
           <ContentCard>
             <Space direction="vertical">
               <Title style={{ margin: "0px" }} level={5}>
@@ -79,7 +78,7 @@ function Index() {
               </BasicLink>
             </Space>
           </ContentCard>
-        </Col>
+        </Col> */}
       </Row>
     </IndexWrapper>
   );
