@@ -129,8 +129,8 @@ function Meetings({ router }) {
         guardian: guardian,
         approved: selectedMeetingObject.approved,
         child: child,
-        cancelled: "false",
-        completed: "false",
+        cancelled: selectedMeetingObject.canceled,
+        completed: false,
       };
     }
 

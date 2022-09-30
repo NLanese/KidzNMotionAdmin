@@ -17,7 +17,7 @@ const LoadingBackground = styled.div`
       rgba(0, 0, 0, 0.85),
       rgba(0, 0, 0, 0.83)
     ),
-    url("/backgrounds/authBackground.jpg");
+    url("/backgrounds/background2.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top;

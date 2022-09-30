@@ -21,6 +21,7 @@ function EditMeetingForm({ initialValues, createMeeting }) {
   const [editMeeting, {}] = useMutation(EDIT_MEETING);
 
   const handleEditeMeeting = async (formValues) => {
+
     let cancelled = formValues.cancelled;
     if (cancelled === "true") {
       cancelled = true;
@@ -29,6 +30,9 @@ function EditMeetingForm({ initialValues, createMeeting }) {
       cancelled = false;
     }
 
+    if (!cancelled) {
+      cancelled = false
+    }
     let completed = formValues.completed;
     if (completed === "true") {
       completed = true;
@@ -36,6 +40,7 @@ function EditMeetingForm({ initialValues, createMeeting }) {
     if (completed === "false") {
       completed = false;
     }
+
     await editMeeting({
       variables: {
         type: formValues.type,
@@ -119,12 +124,7 @@ function EditMeetingForm({ initialValues, createMeeting }) {
           if (!values.guardian) {
             errors.guardian = "Required";
           }
-          if (!values.cancelled) {
-            errors.cancelled = "Required";
-          }
-          if (!values.completed) {
-            errors.completed = "Required";
-          }
+       
 
           return errors;
         }}
@@ -218,27 +218,18 @@ function EditMeetingForm({ initialValues, createMeeting }) {
                 />
               </Col>
 
-              {/* <Col xs={24} md={24}>
+              <Col xs={24} md={24}>
                 
                <Field
                   name="cancelled"
                   component={SwitchField}
                   htmlType="text"
                   label="Cancel Meeting"
-                  options={[
-                    {
-                      value: true,
-                      text: "True",
-                    },
-                    {
-                      value: false,
-                      text: "False",
-                    },
-                  ]}
+              
                   size={"large"}
                   required={true}
                 />
-              </Col> */}
+              </Col>
               <Col xs={24} md={24}>
                 <h3>Meeting Options</h3>
                 <Field
@@ -246,16 +237,7 @@ function EditMeetingForm({ initialValues, createMeeting }) {
                   component={SwitchField}
                   htmlType="text"
                   label="Meeting Completed"
-                  options={[
-                    {
-                      value: true,
-                      text: "True",
-                    },
-                    {
-                      value: false,
-                      text: "False",
-                    },
-                  ]}
+                 
                   size={"large"}
                   required={true}
                 />

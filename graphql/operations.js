@@ -54,6 +54,9 @@ const GET_USER = gql`
         organization {
           id
           active
+          name
+          stripeSubscriptionID
+          subscriptionStatus
           organizationUsers {
             user {
               id
@@ -64,9 +67,8 @@ const GET_USER = gql`
                 id
               }
             }
-          
           }
-        },
+        }
       }
       ownedOrganization {
         id
@@ -330,16 +332,8 @@ const EDIT_MEETING = gql`
 `;
 
 const APPROVE_MEETING = gql`
-  mutation Mutation(
-    $meetingID: String!
-    $approveMeeting: Boolean!
-
-  ) {
-    approveMeeting(
-      meetingID: $meetingID
-      approveMeeting: $approveMeeting
-
-    ) {
+  mutation Mutation($meetingID: String!, $approveMeeting: Boolean!) {
+    approveMeeting(meetingID: $meetingID, approveMeeting: $approveMeeting) {
       id
     }
   }
@@ -370,7 +364,6 @@ const GET_VIDEO_LIBRARY = gql`
   }
 `;
 
-
 export {
   // Sign Up / Sign In
   LOGIN_USER,
@@ -396,5 +389,5 @@ export {
   GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK,
   GENERATE_SOLO_GUARDIAN_PORTAL_LINK,
   // VIDEO LIBRARY
-  GET_VIDEO_LIBRARY
+  GET_VIDEO_LIBRARY,
 };

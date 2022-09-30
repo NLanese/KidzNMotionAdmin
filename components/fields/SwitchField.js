@@ -19,7 +19,7 @@ const SwitchField = ({ input, meta, ...props }) => (
     )}
     <Switch
       {...input}
-      checked={input.checked}
+      checked={input.value}
       type="checkbox"
       checkedChildren={props.checkedChildren}
       unCheckedChildren={props.unCheckedChildren}

@@ -54,6 +54,7 @@ function Layout({ children, router }) {
       .then(async (resolved) => {
         // console.log(resolved.data.getUser)
         setUser(resolved.data.getUser)
+        console.log()
       })
       .catch((error) => {
         setUser(null);
@@ -67,6 +68,7 @@ function Layout({ children, router }) {
 
   useEffect(() => {
     observeAuth();
+    console.log(user)
   }, []);
 
   useEffect(() => {

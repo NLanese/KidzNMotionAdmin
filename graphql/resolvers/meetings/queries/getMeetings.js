@@ -20,7 +20,6 @@ export default {
              
             ],
             where: {
-              canceled: false,
               completed: false,
             },
             select: {

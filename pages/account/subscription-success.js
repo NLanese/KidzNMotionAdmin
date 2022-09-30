@@ -21,7 +21,7 @@ const AuthFormBackground = styled.div`
       rgba(0, 0, 0, 0.65),
       rgba(0, 0, 0, 0.63)
     ),
-    url("https://images.ctfassets.net/z3ixs6i8tjtq/1BrRYAM5hHY2AvljR5sYo6/c3555ea612c0b6cef51e7ba04c9b6c90/authBackground.jpg?w=2000&q=60");
+    url("https://images.ctfassets.net/z3ixs6i8tjtq/3XDihX4PPPsfYPjIvZP8Ny/33b0285ad5a7d1ac848f6e091227493d/background2.png?w=2000&q=60");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top;
