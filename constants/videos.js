@@ -15,8 +15,8 @@ const VIDEOS = {
   toe_walking: {
     id: "toe_walking",
     level: 2,
-    title: "Toe Walking",
-    description: "Test your balance and your foot strength by completing the Toe Walking Video. Walk forward a few paces, and then back, while staying on your toes the whole time!",
+    title: "Heel/Toe Walking",
+    description: "Test your balance and your foot strength by completing the Toe Walking Video. Walk forward on your toes, then turn and walk on your heels. Walk forward a few paces, and then back, while staying on your toes the whole time!",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948250/Kids-N-Motion%20Videos/Toe_Walking_lydpco.mp4",
     previewPictureURL:
@@ -36,7 +36,7 @@ const VIDEOS = {
     id: "squat",
     level: 1,
     title: "Squat",
-    description: "For this exercise, plant your feet about shoulder width apart, and squat down while trying to keep your back straight. This should test your leg strength as well as yopur balance!",
+    description: "For this exercise, plant your feet about shoulder width apart, and squat down while trying to keep your back straight. This should test your leg strength as well as your balance!",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948248/Kids-N-Motion%20Videos/Squat_1_tahlhe.mp4",
     previewPictureURL:
@@ -46,7 +46,7 @@ const VIDEOS = {
     id: "side_to_side",
     level: 2,
     title: "Side To Side",
-    description: "For this exercise, we will be jumoing side to side, doing our best to keep our feet together. Imagine a line on the floor next to you, and try to jump over it and back!",
+    description: "For this exercise, we will be jumping side to side, doing our best to keep our feet together. Imagine a line on the floor next to you, and try to jump over it and back!",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948249/Kids-N-Motion%20Videos/side_to_side_1_plmjw6.mp4",
     previewPictureURL:
@@ -56,7 +56,7 @@ const VIDEOS = {
     id: "rolling",
     level: 1,
     title: "Rolling",
-    description: "In this exercise, we are going to lie on the ground and try rolling onto our side, and then back again. This should test your body control.",
+    description: "In this exercise, we are going to lie on the ground and try rolling onto our side, and then back again. This should test your trunk control and strength.",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948248/Kids-N-Motion%20Videos/Rolling_zw37tv.mp4",
     previewPictureURL:
@@ -66,7 +66,7 @@ const VIDEOS = {
     id: "leg_lifts",
     level: 1,
     title: "Leg Lifts",
-    description: "",
+    description: "In this video, we are going to stand on one leg and lift the other leg. This should test your balance and hip strength.",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948239/Kids-N-Motion%20Videos/Leg_lifts_1_zaealj.mp4",
     previewPictureURL:
@@ -99,7 +99,7 @@ const VIDEOS = {
     level: 1,
     title: "Hands To Knees",
     description:
-      "In this video, we will start by laying straight on our stomachs. Then, bring your hands to about your chest, and bring your legs in so that you are on all fours, your knees and palms keeping you supported!",
+      "In this video, we will start by laying straight on our stomachs with your knees and hand keeping you supported. Then, bring your hands to about your chest, and bring your legs in so that you are on all fours, your knees and palms keeping you supported! This will test your body and hip strength.",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948246/Kids-N-Motion%20Videos/Hand_to_knees_1_sngl4x.mp4",
     previewPictureURL:
@@ -110,7 +110,7 @@ const VIDEOS = {
     level: 1,
     title: "Chair Elevation",
     description:
-      "In this video, you will need to be seated on a chair that has armrests. Once you’re seated, try pushing off of the handles with your hands, and push your body up, so that your rear is no longer on the seat!",
+      "In this video, you will need to be seated on a chair that has armrests. Once you’re seated, try pushing off of the handles with your hands, and push your body up, so that your rear is no longer on the seat! This will test your upper body and hip strength.",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948253/Kids-N-Motion%20Videos/Chair_elevation_1_rmxp0k.mp4",
     previewPictureURL:
@@ -145,7 +145,7 @@ const VIDEOS = {
     level: 2,
     title: "Jump Rope",
     description:
-      "Here we will try to jump rope for 60 seconds! Keep a rhythm as you try to see how many times you can successfully jump the rope in time!",
+      "Here we will try to jump rope for 60 seconds! Keep a rhythm as you try to see how many times you can successfully jump over the rope in time!",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948254/Kids-N-Motion%20Videos/Jump_rope_1_vkuk3n.mp4",
     previewPictureURL:
@@ -156,7 +156,7 @@ const VIDEOS = {
     level: 2,
     title: "Jumping Jacks",
     description:
-      "See if you can do jumping jacks for 60 seconds! This exercise will test how well you can jump, as well as your coordination and agility!",
+      "See if you can do jumping jacks for 60 seconds! This will test how well you can jump, as well as your coordination, endurance, and agility.",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948254/Kids-N-Motion%20Videos/Jumping_Jacks_1_dkxvno.mp4",
     previewPictureURL:
