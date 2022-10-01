@@ -35,8 +35,54 @@ const GET_USER = gql`
 
       patientCarePlans {
         id
+        childId
+        therapist {
+          id
+          email
+          firstName
+          lastName
+        }
         level
+        active
         allVideoStatus
+        blockedVideos
+        weeklyVideoStatus
+        assignments {
+          id
+          createdAt
+          dateStart
+          dateDue
+          seen
+          title
+          description
+          videos {
+            id
+            contentfulID
+            completed
+            file {
+              id
+              level
+              title
+              description
+              videoURL
+              previewPictureURL
+            }
+            medals {
+              id
+              title
+              image
+              description
+              level
+            }
+          }
+        }
+        comments {
+          id
+          content
+          createdAt
+          assignmentId
+          videoId
+        }
         child {
           id
           firstName
@@ -45,10 +91,12 @@ const GET_USER = gql`
             id
             firstName
             lastName
+            phoneNumber
             email
           }
         }
       }
+
       organizations {
         id
         organization {
@@ -59,10 +107,15 @@ const GET_USER = gql`
           subscriptionStatus
           organizationUsers {
             user {
-              id
               role
               firstName
               lastName
+              id
+              childDateOfBirth
+              phoneNumber
+              email
+              profilePic
+              guardianId
               childCarePlans {
                 id
               }
@@ -364,6 +417,38 @@ const GET_VIDEO_LIBRARY = gql`
   }
 `;
 
+const EDIT_CHILD_CARE_PLAN_DETAILS = gql`
+  mutation Mutation($childCarePlanID: String!, $level: Int!) {
+    editChildCarePlan(childCarePlanID: $childCarePlanID, level: $level) {
+      id
+    }
+  }
+`;
+
+const CREATE_CHILD_CARE_PLAN_COMMENT = gql`
+  mutation Mutation(
+    $childCarePlanID: String!
+    $commentContent: String!
+    $videoID: String
+    $assignmentID: String
+  ) {
+    createComment(
+      childCarePlanID: $childCarePlanID
+      commentContent: $commentContent
+      videoID: $videoID
+      assignmentID: $assignmentID
+    ) {
+      id
+    }
+  }
+`;
+
+const DELETE_CHILD_CARE_PLAN_COMMENT = gql`
+  mutation Mutation($commentID: String!) {
+    deleteComment(commentID: $commentID)
+  }
+`;
+
 export {
   // Sign Up / Sign In
   LOGIN_USER,
@@ -390,4 +475,8 @@ export {
   GENERATE_SOLO_GUARDIAN_PORTAL_LINK,
   // VIDEO LIBRARY
   GET_VIDEO_LIBRARY,
+  // CHILD CARE PLAN
+  EDIT_CHILD_CARE_PLAN_DETAILS,
+  CREATE_CHILD_CARE_PLAN_COMMENT,
+  DELETE_CHILD_CARE_PLAN_COMMENT,
 };

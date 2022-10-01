@@ -199,23 +199,32 @@ function SideMenu({ router, user }) {
         {user.ownedOrganization && (
           <Menu.SubMenu
             key={"/users"}
-            title={user.role === "THERAPIST" ?  "Clients" : "Users"}
+            title={user.role === "THERAPIST" ? "Patients" : "Users"}
             onTitleClick={() => appendMenuKey("/users")}
             icon={<TeamOutlined style={{ fontSize: "20px" }} />}
           >
             <>
-              <Menu.Item
-                key={"/users/manage"}
-                onClick={() => pushLink("/users/manage")}
-              >
-                {user.role === "THERAPIST" ?  "Client List" : "User List"}
-              </Menu.Item>
+              {user.role === "THERAPIST" ? (
+                <Menu.Item
+                  key={"/patients/manage"}
+                  onClick={() => pushLink("/patients/manage")}
+                >
+                  Patient List
+                </Menu.Item>
+              ) : (
+                <Menu.Item
+                  key={"/users/manage"}
+                  onClick={() => pushLink("/users/manage")}
+                >
+                  User List
+                </Menu.Item>
+              )}
 
               <Menu.Item
                 key={"/users/upload"}
                 onClick={() => pushLink("/users/upload")}
               >
-                {user.role === "THERAPIST" ?  "Upload Clients" : "Upload Users"}
+                {user.role === "THERAPIST" ? "Upload Patients" : "Upload Users"}
               </Menu.Item>
             </>
           </Menu.SubMenu>
@@ -244,8 +253,6 @@ function SideMenu({ router, user }) {
         >
           Video Library
         </Menu.Item>
-
-      
       </StyledMenu>
       <Divider />
       <Typography

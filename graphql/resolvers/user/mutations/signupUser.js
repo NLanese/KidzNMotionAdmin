@@ -118,6 +118,7 @@ export default {
             username: username,
             role: role,
             title: title,
+            phoneNumber: phoneNumber,
             firstName: firstName,
             lastName: lastName,
           },

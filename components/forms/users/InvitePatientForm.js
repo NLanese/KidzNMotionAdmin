@@ -143,10 +143,6 @@ function InviteUserForm({ organizationUsers, therapistMode }) {
                       text: "Guardian",
                     },
                     {
-                      value: "ADMIN",
-                      text: "Admin",
-                    },
-                    {
                       value: "THERAPIST",
                       text: "Therapist",
                     },

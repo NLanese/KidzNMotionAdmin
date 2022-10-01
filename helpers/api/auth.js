@@ -158,6 +158,9 @@ export const getUserObject = async (user) => {
             allVideoStatus: true,
             weeklyVideoStatus: true,
             comments: {
+              orderBy: {
+                createdAt: "desc",
+              },
               select: {
                 id: true,
                 content: true,
@@ -264,6 +267,9 @@ export const getUserObject = async (user) => {
                 allVideoStatus: true,
                 weeklyVideoStatus: true,
                 comments: {
+                  orderBy: {
+                    createdAt: "desc",
+                  },
                   select: {
                     id: true,
                     content: true,
@@ -447,6 +453,9 @@ export const getUserObject = async (user) => {
             allVideoStatus: true,
             weeklyVideoStatus: true,
             comments: {
+              orderBy: {
+                createdAt: "desc",
+              },
               select: {
                 id: true,
                 content: true,
@@ -467,6 +476,7 @@ export const getUserObject = async (user) => {
                 firstName: true,
                 lastName: true,
                 profilePic: true,
+                childDateOfBirth: true,
                 videos: {
                   select: {
                     id: true,
@@ -488,6 +498,7 @@ export const getUserObject = async (user) => {
                     id: true,
                     firstName: true,
                     lastName: true,
+                    phoneNumber: true,
                     email: true,
                   },
                 },
@@ -556,6 +567,7 @@ export const getUserObject = async (user) => {
                     firstName: true,
                     lastName: true,
                     email: true,
+                    guardianId: true
                   },
                 },
               },
@@ -585,9 +597,11 @@ export const getUserObject = async (user) => {
                         firstName: true,
                         lastName: true,
                         id: true,
+                        childDateOfBirth: true,
                         phoneNumber: true,
                         email: true,
                         profilePic: true,
+                        guardianId: true,
                         children: {
                           select: {
                             childCarePlans: {
@@ -672,6 +686,7 @@ export const getUserObject = async (user) => {
                     id: true,
                     role: true,
                     firstName: true,
+                    guardianId: true,
                     lastName: true,
                     email: true,
                   },
@@ -702,6 +717,7 @@ export const getUserObject = async (user) => {
                         id: true,
                         role: true,
                         firstName: true,
+                        guardianId: true,
                         lastName: true,
                       },
                     },
@@ -763,6 +779,9 @@ export const getUserObject = async (user) => {
               },
             },
             comments: {
+              orderBy: {
+                createdAt: "desc",
+              },
               select: {
                 id: true,
                 content: true,
