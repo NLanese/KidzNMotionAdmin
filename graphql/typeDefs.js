@@ -131,6 +131,7 @@ const typeDefs = gql`
     title: String
     image: String
     description: String
+    createdAt: Date
     level: String
     video: Video
   }

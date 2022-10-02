@@ -2,8 +2,26 @@ import React from "react";
 import { Drawer, Descriptions, Divider, Typography, Tabs, Image } from "antd";
 import styled from "styled-components";
 var dateFormat = require("dateformat");
+import VIDEOS from "@constants/videos";
 
 function PatientInformation({ patientDetail, user }) {
+  const renderBlockedVideos = () => {
+   
+    let videoString = "";
+    if (patientDetail.carePlan.blockedVideos) {
+      console.log("hi")
+      if (patientDetail.carePlan.blockedVideos.ids) {
+        
+        patientDetail.carePlan.blockedVideos.ids.map((videoID, index) => {
+          if (VIDEOS[videoID]) {
+            videoString += `${VIDEOS[videoID].title} - Level: ${VIDEOS[videoID].level}, `
+          }
+        });
+      }
+    }
+
+    return videoString
+  };
   return (
     <>
       <Descriptions
@@ -23,6 +41,7 @@ function PatientInformation({ patientDetail, user }) {
           {dateFormat(patientDetail.childDateOfBirth, "mmm dd, yyyy")}
         </Descriptions.Item>
         <Descriptions.Item label="Diagnosis"></Descriptions.Item>
+       
         <Descriptions.Item label="Therapist">
           {patientDetail.carePlan.therapist.firstName}{" "}
           {patientDetail.carePlan.therapist.firstName}{" "}
@@ -38,6 +57,7 @@ function PatientInformation({ patientDetail, user }) {
         <Descriptions.Item label="Guardian Phone Number">
           {patientDetail.carePlan.child.guardian.phoneNumber}
         </Descriptions.Item>
+        <Descriptions.Item label="Blocked Vidoes">{renderBlockedVideos()}</Descriptions.Item>
       </Descriptions>
       <Divider />
     </>

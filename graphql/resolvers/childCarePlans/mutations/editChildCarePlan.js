@@ -9,6 +9,7 @@ export default {
       { childCarePlanID, level, newAssignedTherapistID, blockedVideos },
       context
     ) => {
+
       if (!context.user) throw new UserInputError("Login required");
 
       if (context.user.role !== "THERAPIST")
@@ -73,8 +74,10 @@ export default {
             " blockedVideos should be formated like {ids: ['VIDEO_ID', 'VIDEO_ID']}"
           );
         }
+      
         updateObject.blockedVideos = JSON.parse((JSON.stringify(blockedVideos)))
       }
+
 
       // Update the child care plan
       let updatedChildCarePlan = await prisma.childCarePlan.update({

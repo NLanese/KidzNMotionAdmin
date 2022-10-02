@@ -190,6 +190,7 @@ export const getUserObject = async (user) => {
                         id: true,
                         image: true,
                         description: true,
+                        createdAt: true,
                         level: true,
                       },
                     },
@@ -224,6 +225,7 @@ export const getUserObject = async (user) => {
                         id: true,
                         image: true,
                         description: true,
+                        createdAt: true,
                         level: true,
                       },
                     },
@@ -264,6 +266,7 @@ export const getUserObject = async (user) => {
               select: {
                 id: true,
                 level: true,
+                blockedVideos: true,
                 allVideoStatus: true,
                 weeklyVideoStatus: true,
                 comments: {
@@ -300,6 +303,8 @@ export const getUserObject = async (user) => {
                             image: true,
                             description: true,
                             level: true,
+                            
+                            createdAt: true
                           },
                         },
                       },
@@ -335,6 +340,7 @@ export const getUserObject = async (user) => {
                             image: true,
                             description: true,
                             level: true,
+                            createdAt: true
                           },
                         },
                       },
@@ -452,6 +458,7 @@ export const getUserObject = async (user) => {
             level: true,
             allVideoStatus: true,
             weeklyVideoStatus: true,
+            blockedVideos: true,
             comments: {
               orderBy: {
                 createdAt: "desc",
@@ -488,6 +495,7 @@ export const getUserObject = async (user) => {
                         image: true,
                         description: true,
                         level: true,
+                        createdAt: true
                       },
                     },
                   },
@@ -536,6 +544,7 @@ export const getUserObject = async (user) => {
                         id: true,
                         image: true,
                         description: true,
+                        createdAt: true,
                         level: true,
                       },
                     },
@@ -756,6 +765,7 @@ export const getUserObject = async (user) => {
                 id: true,
                 image: true,
                 description: true,
+                createdAt: true,
                 level: true,
               },
             },
@@ -816,6 +826,7 @@ export const getUserObject = async (user) => {
                         image: true,
                         description: true,
                         level: true,
+                        createdAt: true
                       },
                     },
                   },

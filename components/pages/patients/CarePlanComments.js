@@ -35,6 +35,7 @@ function CarePlanComments({ comments, getUser, returnUrl }) {
 
   const renderComments = () => {
     return comments.map((commentObject) => {
+      if (commentObject.assignmentId) return;
       return (
         <Comment
           author={"You"}

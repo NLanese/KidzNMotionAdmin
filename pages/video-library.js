@@ -62,7 +62,6 @@ function Index() {
 
   useEffect(() => {
     getVideos();
-   
   }, []);
   const checkout = async () => {
     const session = await getCheckoutURL();
@@ -120,9 +119,6 @@ function Index() {
         )}
       </>
     );
-
-    // DEV ONLY
-    return fullVideoFeed
 
     let halfVideoFeedOwnedOrg = (
       <>
@@ -191,7 +187,7 @@ function Index() {
       if (user.solo) {
         return fullVideoFeed;
       } else {
-        return <h1>Under Management Feed</h1>;
+        return fullVideoFeed;
       }
     }
   };
@@ -199,6 +195,16 @@ function Index() {
     <IndexWrapper>
       <PageHeader title="Kidz-N-Motion Video Library" />
       {determineVideoLibrary()}
+      <Divider />
+      <h1>FOR DEVELOPMENT ONLY - FULL VIDEO LIBRARY</h1>
+      {!videos ? (
+        <LoadingBlock />
+      ) : (
+        <>
+          {renderVideoLevel(1)}
+          {renderVideoLevel(2)}
+        </>
+      )}
     </IndexWrapper>
   );
 }

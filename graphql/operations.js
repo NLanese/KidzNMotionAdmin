@@ -72,6 +72,7 @@ const GET_USER = gql`
               title
               image
               description
+              createdAt
               level
             }
           }
@@ -156,6 +157,35 @@ const GET_USER = gql`
           id
           level
           allVideoStatus
+          assignments {
+            id
+            createdAt
+            dateStart
+            dateDue
+            seen
+            title
+            description
+            videos {
+              id
+              contentfulID
+              completed
+              file {
+                id
+                level
+                title
+                description
+                videoURL
+                previewPictureURL
+              }
+              medals {
+                id
+                title
+                image
+                description
+                level
+              }
+            }
+          }
           therapist {
             id
             firstName
@@ -418,8 +448,8 @@ const GET_VIDEO_LIBRARY = gql`
 `;
 
 const EDIT_CHILD_CARE_PLAN_DETAILS = gql`
-  mutation Mutation($childCarePlanID: String!, $level: Int!) {
-    editChildCarePlan(childCarePlanID: $childCarePlanID, level: $level) {
+  mutation Mutation($childCarePlanID: String!, $level: Int!, $blockedVideos: JSON) {
+    editChildCarePlan(childCarePlanID: $childCarePlanID, level: $level, blockedVideos: $blockedVideos) {
       id
     }
   }
@@ -446,6 +476,27 @@ const CREATE_CHILD_CARE_PLAN_COMMENT = gql`
 const DELETE_CHILD_CARE_PLAN_COMMENT = gql`
   mutation Mutation($commentID: String!) {
     deleteComment(commentID: $commentID)
+  }
+`;
+
+
+const CREATE_CHILD_CARE_PLAN_ASSIGMENT = gql`
+  mutation Mutation(
+    $childCarePlanID: String!,
+    $dateStart: String!,
+    $dateDue: String!,
+    $title: String!,
+    $description: String!,
+    $videoIDs: [String]!
+  ) {
+    createAssignment(
+      childCarePlanID: $childCarePlanID,
+      dateStart: $dateStart,
+      dateDue: $dateDue,
+      title: $title,
+      description: $description,
+      videoIDs: $videoIDs
+    ) 
   }
 `;
 
@@ -479,4 +530,5 @@ export {
   EDIT_CHILD_CARE_PLAN_DETAILS,
   CREATE_CHILD_CARE_PLAN_COMMENT,
   DELETE_CHILD_CARE_PLAN_COMMENT,
+  CREATE_CHILD_CARE_PLAN_ASSIGMENT
 };

@@ -6,6 +6,17 @@ import { Col, Row, Button, message, Spin } from "antd";
 import { useMutation } from "@apollo/client";
 import { EDIT_CHILD_CARE_PLAN_DETAILS } from "@graphql/operations";
 import Router from "next/router";
+import VIDEOS from "@constants/videos";
+
+function compare(a, b) {
+  if (a.text < b.text) {
+    return -1;
+  }
+  if (a.text > b.text) {
+    return 1;
+  }
+  return 0;
+}
 
 function EditChildCareDetailsForm({ getUser, initialValues, returnUrl }) {
   const [loading, setLoading] = useState(false);
@@ -18,7 +29,8 @@ function EditChildCareDetailsForm({ getUser, initialValues, returnUrl }) {
     await editFunction({
       variables: {
         level: parseInt(formValues.childLevel),
-        childCarePlanID: initialValues.childCarePlanID
+        childCarePlanID: initialValues.childCarePlanID,
+        blockedVideos: { ids: formValues.blockedVideos },
       },
     })
       .then(async (resolved) => {
@@ -33,6 +45,28 @@ function EditChildCareDetailsForm({ getUser, initialValues, returnUrl }) {
         setLoading(false);
         message.error("Something went wrong here.");
       });
+  };
+
+  const renderVideoOptions = () => {
+    // {
+    //   value: "1",
+    //   text: "1",
+    // },
+    let options = [];
+    for (var key in VIDEOS) {
+      if (VIDEOS.hasOwnProperty(key)) {
+        options.push({
+          value: VIDEOS[key].id,
+          text: `${VIDEOS[key].title} - Level: ${VIDEOS[key].level}`,
+        });
+      }
+    }
+
+    options = options.sort(compare); // b - a for reverse sort
+
+    console.log(options);
+
+    return options;
   };
 
   return (
@@ -68,7 +102,6 @@ function EditChildCareDetailsForm({ getUser, initialValues, returnUrl }) {
           >
             <Row gutter={16}>
               <Col xs={24} md={24}>
-                <h3>Child Information</h3>
                 <Field
                   name="childLevel"
                   component={SelectField}
@@ -90,6 +123,20 @@ function EditChildCareDetailsForm({ getUser, initialValues, returnUrl }) {
                   ]}
                   size={"large"}
                   required={false}
+                />
+              </Col>
+              <Col xs={24} sm={24}>
+                <Field
+                  label="Blocked Videos"
+                  name="blockedVideos"
+                  htmlType="text"
+                  component={SelectField}
+                  required={true}
+                  showSearch={true}
+                  mode="multiple"
+                  options={renderVideoOptions()}
+                  size={"large"}
+                  hideErrorText={false}
                 />
               </Col>
             </Row>

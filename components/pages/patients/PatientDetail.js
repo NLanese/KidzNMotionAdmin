@@ -13,8 +13,11 @@ import { useSetRecoilState } from "recoil";
 const { TabPane } = Tabs;
 
 import EditChildCareDetailsForm from "@forms/patients/EditChildCareDetailsForm";
+import CreateCarePlanAssignmentForm from "@forms/patients/CreateCarePlanAssignmentForm";
 import CreateCarePlanComment from "@forms/patients/CreateCarePlanComment";
 import CarePlanComments from "@pages/patients/CarePlanComments";
+import CarePlanAssignments from "@pages/patients/CarePlanAssignments";
+
 
 function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
   const setUser = useSetRecoilState(userState);
@@ -82,6 +85,21 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
           initialValues={{
             childLevel: patientDetail.carePlan.level.toString(),
             childCarePlanID: patientDetail.carePlan.id,
+            blockedVideos: patientDetail.carePlan.blockedVideos
+              ? patientDetail.carePlan.blockedVideos.ids
+              : [],
+          }}
+          returnUrl={`/patients/manage?id=${patientDetail.id}`}
+        />
+      );
+    }
+    if (router.query.createAssignment) {
+      return (
+        <CreateCarePlanAssignmentForm
+          getUser={getUser}
+          initialValues={{
+            childCarePlanID: patientDetail.carePlan.id,
+            videoIDs: [],
           }}
           returnUrl={`/patients/manage?id=${patientDetail.id}`}
         />
@@ -125,7 +143,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
             </BasicLink>
             <PatientInformation patientDetail={patientDetail} user={user} />
 
-            <Tabs defaultActiveKey="2">
+            <Tabs defaultActiveKey="1">
               <TabPane tab="Assignments" key="1">
                 <div
                   style={{
@@ -138,18 +156,27 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
                     href={`/patients/manage?id=${patientDetail.id}&createAssignment=true`}
                     shallow={true}
                   >
-                    <Button type="ghost" style={{ float: "right" }}>
+                    <Button type="primary" style={{ float: "right" }}>
                       Create New Assignment +
                     </Button>
                   </BasicLink>
+                
                 </div>
+                <CarePlanAssignments
+                    getUser={getUser}
+                    initialValues={{
+                      childCarePlanID: patientDetail.carePlan.id,
+                    }}
+                    returnUrl={`/patients/manage?id=${patientDetail.id}`}
+                    assignments={patientDetail.carePlan.assignments}
+                  />
               </TabPane>
               <TabPane tab="Care Plan Comments" key="2">
                 <BasicLink
                   href={`/patients/manage?id=${patientDetail.id}&createComment=true`}
                   shallow={true}
                 >
-                  <Button type="ghost" style={{ float: "right" }}>
+                  <Button type="primary" style={{ float: "right" }}>
                     Add New Comment +
                   </Button>
                 </BasicLink>
