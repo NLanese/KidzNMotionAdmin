@@ -30,11 +30,18 @@ const LayoutWrapper = styled.div`
   ::-moz-selection {
     background: #ffb7b7 !important; /* Gecko Browsers */
   }
+
   .ant-btn-primary {
     background-color: ${(props) => props.theme.colors.primary} !important;
     border-color: ${(props) => props.theme.colors.primary} !important;
-    color: white;
+    color: white !important;
   }
+  .ant-btn-primary:hover {
+    background-color: ${(props) => props.theme.colors.primary} !important;
+    border-color: ${(props) => props.theme.colors.primary} !important;
+    color: white !important;
+  }
+  .kZgPRq .ant-btn:hover, .kZgPRq .ant-btn:focus
   .ant-btn-primary[disabled],
   .ant-btn-primary[disabled]:hover,
   .ant-btn-primary[disabled]:focus,
@@ -98,47 +105,53 @@ const LayoutWrapper = styled.div`
   .ant-input:hover {
     border-color: ${(props) => props.theme.colors.primary};
   }
-  .ant-popover-buttons .ant-btn-primary  {
+  .ant-popover-buttons .ant-btn-primary {
     background-color: ${(props) => props.theme.colors.primary} !important;
-    
   }
   .ant-result-info .ant-result-icon > .anticon {
-
     color: ${(props) => props.theme.colors.primary} !important;
-    
   }
-  .ant-btn-ghost:hover, .ant-btn-ghost:focus {
+  .ant-btn-ghost:hover,
+  .ant-btn-ghost:focus {
     color: ${(props) => props.theme.colors.primary} !important;
     border-color: ${(props) => props.theme.colors.primary} !important;
-    
   }
   .ant-pagination-item-active a {
     border-color: ${(props) => props.theme.colors.primary} !important;
-
   }
   .ant-pagination.ant-pagination-mini .ant-pagination-item {
     border-color: ${(props) => props.theme.colors.primary} !important;
-
   }
   .ant-tag-processing {
     color: ${(props) => props.theme.colors.primary} !important;
     border-color: ${(props) => props.theme.colors.primary} !important;
-    background-color: ${(props) => addAlpha(props.theme.colors.primary, 0.1)} !important;
+    background-color: ${(props) =>
+      addAlpha(props.theme.colors.primary, 0.1)} !important;
   }
   .ant-switch-checked {
-    background-color: ${(props) => addAlpha(props.theme.colors.primary, 1)} !important;
-    
+    background-color: ${(props) =>
+      addAlpha(props.theme.colors.primary, 1)} !important;
   }
   .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-icon {
-    
-    border-color: ${(props) => addAlpha(props.theme.colors.primary, 1)} !important;
-    background: ${(props) => addAlpha(props.theme.colors.primary, 1)} !important;
-    background-color: ${(props) => addAlpha(props.theme.colors.primary, 1)} !important;
+    border-color: ${(props) =>
+      addAlpha(props.theme.colors.primary, 1)} !important;
+    background: ${(props) =>
+      addAlpha(props.theme.colors.primary, 1)} !important;
+    background-color: ${(props) =>
+      addAlpha(props.theme.colors.primary, 1)} !important;
   }
-  .ant-btn:hover, .ant-btn:focus {
-    border-color: ${(props) => addAlpha(props.theme.colors.primary, 1)} !important;
-    color: ${(props) => addAlpha(props.theme.colors.primary, 1)} !important;
-
+  .ant-btn:hover,
+  .ant-btn:focus {
+    border-color: ${(props) =>
+      addAlpha(props.theme.colors.primary, 1)} !important;
+    color: white !important;
+  }
+  .ant-menu-vertical .ant-menu-item::after,
+  .ant-menu-vertical-left .ant-menu-item::after,
+  .ant-menu-vertical-right .ant-menu-item::after,
+  .ant-menu-inline .ant-menu-item::after {
+    border-color: ${(props) =>
+      addAlpha(props.theme.colors.primary, 1)} !important;
   }
 `;
 
@@ -195,22 +208,6 @@ function Layout({ children, router }) {
   useEffect(() => {
     // // console.log(user)
   }, [user]);
-
-  if (router.asPath.includes("auth")) {
-    // If the user is still loading then return loading layout before authenitcaiont layouts
-    if (user) return <LoadingLayout />;
-
-    return <AuthLayout>{children}</AuthLayout>;
-  }
-
-  if (router.asPath.includes("legal")) {
-    return <>{children}</>;
-  }
-
-  if (router.asPath.includes("subscription-success")) {
-    return <>{children}</>;
-  }
-
   const getThemeColor = () => {
     if (user) {
       theme.colors.primary = user.webAppColorSettings;
@@ -221,6 +218,22 @@ function Layout({ children, router }) {
     }
     return theme;
   };
+  if (router.asPath.includes("auth")) {
+    // If the user is still loading then return loading layout before authenitcaiont layouts
+    if (user) return <LoadingLayout />;
+
+    return  <ThemeProvider theme={getThemeColor()}><AuthLayout>{children}</AuthLayout></ThemeProvider>
+  }
+
+  if (router.asPath.includes("legal")) {
+    return <ThemeProvider theme={getThemeColor()}>{children}</ThemeProvider>;
+  }
+
+  if (router.asPath.includes("subscription-success")) {
+    return <ThemeProvider  theme={getThemeColor()}>{children}</ThemeProvider>;
+  }
+
+
 
   return (
     <ThemeProvider theme={getThemeColor()}>
