@@ -14,7 +14,7 @@ const AuthFormBackground = styled.div`
   width: 100%;
   height: 100%;
   background: rgb(24, 144, 255);
-  background: ${(props) => props.theme.gradients.main};
+  background:  linear-gradient(155deg,rgb(73 163 246) 25%,rgb(15 106 191) 100%);
 
   background-image: linear-gradient(
       to bottom,
