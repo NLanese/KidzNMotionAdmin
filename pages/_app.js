@@ -4,7 +4,7 @@ import React from "react";
 import { DefaultSeo } from "next-seo";
 
 import Head from "next/head";
-import NextNprogress from "nextjs-progressbar";
+
 import Layout from "@containers/Layout";
 import { RecoilRoot } from "recoil";
 
@@ -52,13 +52,7 @@ class MyApp extends App {
        
           <>
             <DefaultSeo title="Home" titleTemplate="%s  | Kidz-N-Motion" />
-            <NextNprogress
-              color="#ffbe76"
-              options={{ showSpinner: false }}
-              startPosition={0.3}
-              stopDelayMs={0}
-              height={3}
-            />
+          
             <RecoilRoot>
               <ApolloProvider client={client}>
                 <Layout>

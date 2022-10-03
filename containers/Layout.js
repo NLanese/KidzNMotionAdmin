@@ -33,6 +33,7 @@ const LayoutWrapper = styled.div`
   .ant-btn-primary {
     background-color: ${(props) => props.theme.colors.primary} !important;
     border-color: ${(props) => props.theme.colors.primary} !important;
+    color: white;
   }
   .ant-btn-primary[disabled],
   .ant-btn-primary[disabled]:hover,
@@ -117,6 +118,26 @@ const LayoutWrapper = styled.div`
   }
   .ant-pagination.ant-pagination-mini .ant-pagination-item {
     border-color: ${(props) => props.theme.colors.primary} !important;
+
+  }
+  .ant-tag-processing {
+    color: ${(props) => props.theme.colors.primary} !important;
+    border-color: ${(props) => props.theme.colors.primary} !important;
+    background-color: ${(props) => addAlpha(props.theme.colors.primary, 0.1)} !important;
+  }
+  .ant-switch-checked {
+    background-color: ${(props) => addAlpha(props.theme.colors.primary, 1)} !important;
+    
+  }
+  .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-icon {
+    
+    border-color: ${(props) => addAlpha(props.theme.colors.primary, 1)} !important;
+    background: ${(props) => addAlpha(props.theme.colors.primary, 1)} !important;
+    background-color: ${(props) => addAlpha(props.theme.colors.primary, 1)} !important;
+  }
+  .ant-btn:hover, .ant-btn:focus {
+    border-color: ${(props) => addAlpha(props.theme.colors.primary, 1)} !important;
+    color: ${(props) => addAlpha(props.theme.colors.primary, 1)} !important;
 
   }
 `;
