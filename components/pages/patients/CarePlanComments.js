@@ -35,33 +35,34 @@ function CarePlanComments({ comments, getUser, returnUrl, assignmentID }) {
 
   const renderComments = () => {
     return comments.map((commentObject) => {
-
       if (!assignmentID) {
         if (commentObject.assignmentId) return;
       } else {
-        if (commentObject.assignmentId !== assignmentID) return
+        if (commentObject.assignmentId !== assignmentID) return;
       }
-      
 
       return (
-        <Comment
-          author={"You"}
-          key={commentObject.id}
-          avatar="/logos/Main.png"
-          content={commentObject.content}
-          datetime={dateFormat(commentObject.createdAt, "m/dd hh:MM tt")}
-          actions={[
-            <Popconfirm
-              placement="topLeft"
-              title={"Are you sure you want to delete this comment?"}
-              onConfirm={() => deleteComment(commentObject.id)}
-              okText="Yes, Delete"
-              cancelText="No, Cancel"
-            >
-              <span style={{ color: "#e74c3c" }}>Delete Comment</span>
-            </Popconfirm>,
-          ]}
-        />
+        <div key={commentObject.id}>
+          <Comment
+            author={"You"}
+            key={commentObject.id}
+            avatar="/logos/Main.png"
+            content={commentObject.content}
+            datetime={dateFormat(commentObject.createdAt, "m/dd hh:MM tt")}
+            actions={[
+              <Popconfirm
+                key={"topLeft"}
+                placement="topLeft"
+                title={"Are you sure you want to delete this comment?"}
+                onConfirm={() => deleteComment(commentObject.id)}
+                okText="Yes, Delete"
+                cancelText="No, Cancel"
+              >
+                <span style={{ color: "#e74c3c" }}>Delete Comment</span>
+              </Popconfirm>,
+            ]}
+          />
+        </div>
       );
     });
   };
