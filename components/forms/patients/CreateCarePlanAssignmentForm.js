@@ -76,7 +76,7 @@ function CreateCarePlanAssignmentForm({ getUser, initialValues, returnUrl }) {
       let videoObject = VIDEOS[videoID]
       return (
 
-      <ContentCard style={{ position: "relative" }}>
+      <ContentCard style={{ position: "relative" }} key={videoID.title}>
         <Space direction="vertical">
           <Title style={{ margin: "0px" }} level={5}>
             {videoObject.title}

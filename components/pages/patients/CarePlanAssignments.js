@@ -40,6 +40,7 @@ function CarePlanAssignments({
     return medals.map((medalObject) => {
       return (
         <Tooltip
+          key={medalObject.createdAt}
           title={`${medalObject.level} | Completed: ${dateFormat(
             medalObject.createdAt,
             "mmmm dd, yyyy"
