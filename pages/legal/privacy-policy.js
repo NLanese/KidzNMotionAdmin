@@ -5,14 +5,14 @@ import { NextSeo } from "next-seo";
 import BasicLink from "@common/BasicLink";
 
 const PrivacyPolicyWrapper = styled.div`
-  background: ${(props) => props.theme.colors.backgroundColor};
+  background: white;
   min-height: 100vh;
 `;
 
 const PrivacyPolicyInnerWrapper = styled.div`
-  max-width: ${(props) => props.theme.contentSize.tight};
+  max-width: 1500px;
   margin: auto;
-  background: ${(props) => props.theme.colors.backgroundColor};
+  background: white;
   padding: 40px 20px;
   & img {
     text-align: center;

@@ -34,10 +34,10 @@ const AuthContentWrapper = styled.main`
   z-index: 3;
   display: flex;
   align-items: center;
-  @media (max-width: ${(props) => props.theme.breakPoints.md}) {
+  @media (max-width: 996px) {
     justify-content: center;
   }
-  @media (max-width: ${(props) => props.theme.breakPoints.xs}) {
+  @media (max-width: 576px) {
     align-items: flex-start;
   }
 `;
@@ -47,7 +47,7 @@ const AuthPageContent = styled.div`
   margin-right: 10vw;
   margin-top: 40px;
   margin-bottom: 40px;
-  @media (max-width: ${(props) => props.theme.breakPoints.xs}) {
+  @media (max-width:576px) {
     margin-top: 10vw;
     margin-right: 5vw;
     margin-left: 5vw;
