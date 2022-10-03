@@ -295,6 +295,7 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
                       name="childDateOfBirth"
                       htmlType="text"
                       component={DateField}
+                      allowBack={true}
                       required={true}
                       size={"large"}
                       hideErrorText={false}

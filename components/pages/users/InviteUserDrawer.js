@@ -28,7 +28,7 @@ function InviteUserDrawer({
         {(therapistMode && inviteUserDrawerOpen) ? (
           <InvitePatientForm
             organizationUsers={organizationUsers}
-            therapistMode={therapistMode}
+            therapistMode={true}
           />
         ) : (
           <InviteUserForm

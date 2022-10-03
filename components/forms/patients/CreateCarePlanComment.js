@@ -7,7 +7,12 @@ import { useMutation } from "@apollo/client";
 import { CREATE_CHILD_CARE_PLAN_COMMENT } from "@graphql/operations";
 import Router from "next/router";
 
-function CreateCarePlanComment({ getUser, initialValues, returnUrl }) {
+function CreateCarePlanComment({
+  getUser,
+  initialValues,
+  returnUrl,
+  assignment,
+}) {
   const [loading, setLoading] = useState(false);
 
   // Mutations
@@ -19,6 +24,7 @@ function CreateCarePlanComment({ getUser, initialValues, returnUrl }) {
       variables: {
         commentContent: formValues.commentContent,
         childCarePlanID: initialValues.childCarePlanID,
+        assignmentID: assignment && initialValues.assignmentID,
       },
     })
       .then(async (resolved) => {
@@ -63,7 +69,9 @@ function CreateCarePlanComment({ getUser, initialValues, returnUrl }) {
         }) => (
           <form
             onSubmit={(event) => {
-              handleSubmit(event).then((event) => {});
+              handleSubmit(event).then((event) => {
+                form.mutators.setValue("commentContent", "");
+              });
             }}
           >
             <Row gutter={16}>

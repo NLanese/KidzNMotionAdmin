@@ -26,6 +26,7 @@ import client from "@utils/apolloClient";
 import ReactPlayer from "react-player";
 import BasicLink from "@common/BasicLink";
 const { Text, Title, Link } = Typography;
+import VIDEOS from "@constants/videos";
 
 const IndexWrapper = styled.div`
   max-width: 1200px;
@@ -187,7 +188,52 @@ function Index() {
       if (user.solo) {
         return fullVideoFeed;
       } else {
-        return fullVideoFeed;
+        let videosToWatch = [];
+        if (user.children && user.children[0]) {
+          if (user.children[0].childCarePlans) {
+            if (user.children[0].childCarePlans[0]) {
+              user.children[0].childCarePlans[0].assignments.map(
+                (assignmentObject) => {
+                  assignmentObject.videos.map((videoObject) => {
+                    if (!videosToWatch.includes(videoObject.contentfulID)) {
+                      videosToWatch.push(videoObject.contentfulID);
+                    }
+                  });
+                }
+              );
+            }
+          }
+        }
+
+        if (videosToWatch.length === 0) {
+          return fullVideoFeed;
+        } else {
+          return videosToWatch.map((videoID) => {
+            let videoObject = VIDEOS[videoID]
+            return (
+              <Col xs={24} sm={24} key={videoObject.id}>
+                <>
+                  <ContentCard style={{ position: "relative" }}>
+                    <Space direction="vertical">
+                      <Title style={{ margin: "0px" }} level={5}>
+                        {videoObject.title}
+                      </Title>
+                      <Text>{videoObject.description}</Text>
+                    </Space>
+                    <ReactPlayer
+                      url={videoObject.videoURL}
+                      controls={true}
+                      width="100%"
+                      style={{ width: "100%" }}
+                    />
+                  </ContentCard>
+                </>
+              </Col>
+            );
+          });
+        }
+
+        return <div />;
       }
     }
   };
@@ -196,7 +242,8 @@ function Index() {
       <PageHeader title="Kidz-N-Motion Video Library" />
       {determineVideoLibrary()}
       <Divider />
-      <h1>FOR DEVELOPMENT ONLY - FULL VIDEO LIBRARY</h1>
+      <br />
+      <h1>FOR TESTING PURPOSES ONLY</h1>
       {!videos ? (
         <LoadingBlock />
       ) : (

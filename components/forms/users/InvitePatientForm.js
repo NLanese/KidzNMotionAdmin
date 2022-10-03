@@ -1,63 +1,103 @@
 import React from "react";
 import { Form, Field } from "react-final-form";
-import { PlainTextField, SelectField } from "@fields";
+import { PlainTextField, SelectField, DateField } from "@fields";
 import { Col, Row, Button, message, Spin } from "antd";
 
 import { userState } from "@atoms";
 import { useRecoilState } from "recoil";
 
 import { useMutation } from "@apollo/client";
-import { INVITE_USER, GET_USER } from "@graphql/operations";
+import { INVITE_USER, GET_USER, INVITE_PATIENT } from "@graphql/operations";
 import client from "@utils/apolloClient";
 
 import Router from "next/router";
 
-function InviteUserForm({ organizationUsers, therapistMode }) {
+function InvitePatientForm({ organizationUsers, therapistMode }) {
   const [user, setUser] = useRecoilState(userState);
 
   // Mutations
   const [inviteUser, {}] = useMutation(INVITE_USER);
+  const [invitePatient, {}] = useMutation(INVITE_PATIENT);
 
   const handleInvite = async (formValues) => {
-    await inviteUser({
-      variables: {
-        role: formValues.role,
-        email: formValues.email,
-        additionalInformation:
-          formValues.role === "GUARDIAN"
-            ? {
-                childLevel: formValues.childLevel,
-                childTherapistID: formValues.childTherapistID,
-              }
-            : {},
-      },
-    })
-      .then(async (resolved) => {
-        message.success("Successfully Invited User");
-        if (therapistMode) {
-
-          Router.push("/patients/manage");
-        } else {
-
-          Router.push("/users/manage");
-        }
-
-        // Get the full user object and set that to state
-        await client
-          .query({
-            query: GET_USER,
-            fetchPolicy: "network-only",
-          })
-          .then(async (resolved) => {
-            setUser(resolved.data.getUser);
-          })
-          .catch((error) => {
-            message.error("Sorry, there was an error getting this information");
-          });
+    if (formValues.role === "GUARDIAN") {
+      await invitePatient({
+        variables: {
+          email: formValues.email,
+          guardianFirstName: formValues.guardianFirstName,
+          guardianLastName: formValues.guardianLastName,
+          childFirstName: formValues.childFirstName,
+          childLastName: formValues.childLastName,
+          childDateOfBirth: formValues.childDateOfBirth,
+          childLevel: formValues.childLevel,
+          childTherapistID: formValues.childTherapistID,
+        },
       })
-      .catch((error) => {
-        message.error(error.message);
-      });
+        .then(async (resolved) => {
+          console.clear();
+          console.log(resolved);
+          message.success("Successfully Created User");
+          Router.push("/patients/manage?id=" + resolved.data.invitePatient);
+
+          // Get the full user object and set that to state
+          await client
+            .query({
+              query: GET_USER,
+              fetchPolicy: "network-only",
+            })
+            .then(async (resolved) => {
+              setUser(resolved.data.getUser);
+            })
+            .catch((error) => {
+              message.error(
+                "Sorry, there was an error getting this information"
+              );
+            });
+        })
+        .catch((error) => {
+          message.error(error.message);
+        });
+    } else {
+      await inviteUser({
+        variables: {
+          role: formValues.role,
+          email: formValues.email,
+          additionalInformation:
+            formValues.role === "GUARDIAN"
+              ? {
+                  childLevel: formValues.childLevel,
+                  childTherapistID: formValues.childTherapistID,
+                }
+              : {},
+        },
+      })
+        .then(async (resolved) => {
+          message.success("Successfully Invited User");
+          if (therapistMode) {
+            Router.push("/patients/manage");
+          } else {
+            Router.push("/users/manage");
+          }
+
+          // Get the full user object and set that to state
+          await client
+            .query({
+              query: GET_USER,
+              fetchPolicy: "network-only",
+            })
+            .then(async (resolved) => {
+              setUser(resolved.data.getUser);
+            })
+            .catch((error) => {
+              message.error(
+                "Sorry, there was an error getting this information"
+              );
+            });
+        })
+        .catch((error) => {
+          message.error(error.message);
+        });
+    }
   };
 
   const renderTherapistOptions = () => {
@@ -74,6 +114,7 @@ function InviteUserForm({ organizationUsers, therapistMode }) {
 
       return orgUser;
     });
+    console.log(therapists);
     return therapists;
   };
 
@@ -97,7 +138,29 @@ function InviteUserForm({ organizationUsers, therapistMode }) {
             errors.role = "Required";
           }
 
-      
+          if (values.role === "GUARDIAN") {
+            if (!values.guardianFirstName) {
+              errors.guardianFirstName = "Required";
+            }
+            if (!values.guardianLastName) {
+              errors.guardianLastName = "Required";
+            }
+            if (!values.childFirstName) {
+              errors.childFirstName = "Required";
+            }
+            if (!values.childLastName) {
+              errors.childLastName = "Required";
+            }
+            if (!values.childDateOfBirth) {
+              errors.childDateOfBirth = "Required";
+            }
+            if (!values.childLevel) {
+              errors.childLevel = "Required";
+            }
+            if (!values.childTherapistID) {
+              errors.childTherapistID = "Required";
+            }
+          }
 
           return errors;
         }}
@@ -151,10 +214,76 @@ function InviteUserForm({ organizationUsers, therapistMode }) {
                   required={true}
                 />
               </Col>
-              <Col xs={24} md={24}>
-                {values.role === "GUARDIAN" && (
-                  <>
+              {values.role === "GUARDIAN" && (
+                <>
+                  <Col xs={24} md={24}>
+                    <h3>Guardian Information</h3>
+                  </Col>
+                  <Col xs={24} md={12}>
+                    <Field
+                      label="Guardian First Name"
+                      name="guardianFirstName"
+                      htmlType="text"
+                      component={PlainTextField}
+                      required={true}
+                      size={"large"}
+                      hideErrorText={false}
+                    />
+                  </Col>
+                  <Col xs={24} md={12}>
+                    <Field
+                      label="Guardian Last Name"
+                      name="guardianLastName"
+                      htmlType="text"
+                      component={PlainTextField}
+                      required={true}
+                      size={"large"}
+                      hideErrorText={false}
+                    />
+                  </Col>
+                </>
+              )}
+
+              {values.role === "GUARDIAN" && (
+                <>
+                  <Col xs={24} md={24}>
                     <h3>Child Information</h3>
+                  </Col>
+                  <Col xs={24} md={12}>
+                    <Field
+                      label="Child First Name"
+                      name="childFirstName"
+                      htmlType="text"
+                      component={PlainTextField}
+                      required={true}
+                      size={"large"}
+                      hideErrorText={false}
+                    />
+                  </Col>
+                  <Col xs={24} md={12}>
+                    <Field
+                      label="Child Last Name"
+                      name="childLastName"
+                      htmlType="text"
+                      component={PlainTextField}
+                      required={true}
+                      size={"large"}
+                      hideErrorText={false}
+                    />
+                  </Col>
+                  <Col xs={24} md={24}>
+                    <Field
+                      label="Child Date Of Birth"
+                      name="childDateOfBirth"
+                      htmlType="text"
+                      component={DateField}
+                      allowBack={true}
+                      required={true}
+                      size={"large"}
+                      hideErrorText={false}
+                    />
+                  </Col>
+                  <Col xs={24} md={24}>
                     <Field
                       name="childLevel"
                       component={SelectField}
@@ -177,6 +306,8 @@ function InviteUserForm({ organizationUsers, therapistMode }) {
                       size={"large"}
                       required={false}
                     />
+                  </Col>
+                  <Col xs={24} md={24}>
                     <Field
                       name="childTherapistID"
                       component={SelectField}
@@ -186,12 +317,11 @@ function InviteUserForm({ organizationUsers, therapistMode }) {
                       size={"large"}
                       required={false}
                     />
-                    <br />
-                  </>
-                )}
-              </Col>
+                  </Col>
+                </>
+              )}
             </Row>
-
+            <br />
             <Button
               type="primary"
               loading={submitting}
@@ -200,7 +330,7 @@ function InviteUserForm({ organizationUsers, therapistMode }) {
               size={"large"}
               disabled={invalid || pristine}
             >
-              Invite User
+              Invite Patient
             </Button>
           </form>
         )}
@@ -209,4 +339,4 @@ function InviteUserForm({ organizationUsers, therapistMode }) {
   );
 }
 
-export default InviteUserForm;
+export default InvitePatientForm;

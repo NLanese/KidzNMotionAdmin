@@ -229,6 +229,16 @@ function SideMenu({ router, user }) {
             </>
           </Menu.SubMenu>
         )}
+        {!user.ownedOrganization && user.role === "THERAPIST" && (
+          <Menu.Item
+            key={"/patients/manage"}
+            onClick={() => pushLink("/patients/manage")}
+            icon={<TeamOutlined style={{ fontSize: "20px" }} />}
+          >
+            Patient List
+          </Menu.Item>
+        )}
+
         {(user.role === "THERAPIST" || user.role === "GUARDIAN") && !user.solo && (
           <Menu.Item
             onClick={() => pushLink("/meetings")}

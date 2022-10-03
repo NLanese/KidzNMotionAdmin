@@ -11,7 +11,7 @@ const CommentContainer = styled.div`
   margin-top: 40px;
 `;
 
-function CarePlanComments({ comments, getUser, returnUrl }) {
+function CarePlanComments({ comments, getUser, returnUrl, assignmentID }) {
   // Mutations
   const [deleteChildCarePlanComment, {}] = useMutation(
     DELETE_CHILD_CARE_PLAN_COMMENT
@@ -35,7 +35,14 @@ function CarePlanComments({ comments, getUser, returnUrl }) {
 
   const renderComments = () => {
     return comments.map((commentObject) => {
-      if (commentObject.assignmentId) return;
+
+      if (!assignmentID) {
+        if (commentObject.assignmentId) return;
+      } else {
+        if (commentObject.assignmentId !== assignmentID) return
+      }
+      
+
       return (
         <Comment
           author={"You"}

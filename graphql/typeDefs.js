@@ -342,6 +342,17 @@ const typeDefs = gql`
       patientUserID: String!
     ): Boolean
 
+    invitePatient(
+      email: String!
+      guardianFirstName: String!
+      guardianLastName: String!
+      childFirstName: String!
+      childLastName: String!
+      childDateOfBirth: String!
+      childLevel: String!
+      childTherapistID: String!
+    ): String
+
     ############################
     #### CHATROOM MUTATIONS ####
     ############################

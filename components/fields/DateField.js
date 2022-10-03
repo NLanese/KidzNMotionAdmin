@@ -22,7 +22,7 @@ function getFormat(showTime, picker) {
     }
   }
 }
-const disabledDate = (current) => {
+const disabledDate = (current, ) => {
   // Can not select days before today and today
   return current && current < moment().startOf("day");
 };
@@ -62,7 +62,7 @@ const DateField = ({ input, meta, ...props }) => (
         placeholder={props.placeholder}
         style={{ width: "100%" }}
         size={props.size}
-        disabledDate={disabledDate}
+        disabledDate={!props.allowBack && disabledDate}
         inputReadOnly={true}
         picker={props.picker}
         use12Hours={true}

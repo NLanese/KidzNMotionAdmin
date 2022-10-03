@@ -66,7 +66,7 @@ function InviteUserForm({ organizationUsers, therapistMode }) {
       if (orgUser.user && orgUser.user.role === "THERAPIST") {
         therapists.push({
           value: orgUser.user.id,
-          text: `${orgUser.user.id === user.id && "(Me)"} ${
+          text: `${orgUser.user.id === user.id ? "(Me)" : ""} ${
             orgUser.user.firstName
           } ${orgUser.user.lastName}`,
         });

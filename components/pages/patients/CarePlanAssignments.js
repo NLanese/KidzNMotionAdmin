@@ -20,6 +20,8 @@ import BasicLink from "@common/BasicLink";
 import { Collapse } from "antd";
 const { Panel } = Collapse;
 import ReactPlayer from "react-player";
+import CarePlanComments from "@pages/patients/CarePlanComments";
+import CreateCarePlanComment from "@forms/patients/CreateCarePlanComment";
 
 var dateFormat = require("dateformat");
 
@@ -27,14 +29,28 @@ const AssignmentContainer = styled.div`
   margin-top: 40px;
 `;
 
-function CarePlanAssignments({ assignments, returnUrl }) {
+function CarePlanAssignments({
+  assignments,
+  returnUrl,
+  getUser,
+  comments,
+  initialValues,
+}) {
   const renderMedals = (medals) => {
     return medals.map((medalObject) => {
-      return <Tooltip title={`${medalObject.level} | Completed: ${dateFormat(medalObject.createdAt, "mmmm dd, yyyy")}`}><Avatar src={medalObject.description} /></Tooltip>;
+      return (
+        <Tooltip
+          title={`${medalObject.level} | Completed: ${dateFormat(
+            medalObject.createdAt,
+            "mmmm dd, yyyy"
+          )}`}
+        >
+          <Avatar src={medalObject.description} />
+        </Tooltip>
+      );
     });
   };
   const renderVideoDetails = (assignmentObject) => {
-
     return assignmentObject.videos.map((videoObject) => {
       return (
         <Row gutter={[16, 3]} key={videoObject.id}>
@@ -64,7 +80,7 @@ function CarePlanAssignments({ assignments, returnUrl }) {
               url={videoObject.file.videoURL}
               controls={true}
               width="100%"
-                height="200px"
+              height="200px"
             />
           </Col>
           <Divider />
@@ -110,6 +126,19 @@ function CarePlanAssignments({ assignments, returnUrl }) {
             <Collapse defaultActiveKey={[]} bordered={true}>
               <Panel header="Video Details" key="1">
                 {renderVideoDetails(assignmentObject)}
+              </Panel>
+              <Panel header="Assignment Comments" key="2">
+                <CreateCarePlanComment
+                  getUser={getUser}
+                  returnUrl={returnUrl}
+                  assignment={true}
+                  initialValues={{
+                    ...initialValues,
+                    assignmentID: assignmentObject.id,
+                  }}
+                />
+                <Divider />
+                <CarePlanComments getUser={getUser} comments={comments} assignmentID={assignmentObject.id}/>
               </Panel>
             </Collapse>
           </ContentCard>

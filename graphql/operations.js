@@ -448,8 +448,16 @@ const GET_VIDEO_LIBRARY = gql`
 `;
 
 const EDIT_CHILD_CARE_PLAN_DETAILS = gql`
-  mutation Mutation($childCarePlanID: String!, $level: Int!, $blockedVideos: JSON) {
-    editChildCarePlan(childCarePlanID: $childCarePlanID, level: $level, blockedVideos: $blockedVideos) {
+  mutation Mutation(
+    $childCarePlanID: String!
+    $level: Int!
+    $blockedVideos: JSON
+  ) {
+    editChildCarePlan(
+      childCarePlanID: $childCarePlanID
+      level: $level
+      blockedVideos: $blockedVideos
+    ) {
       id
     }
   }
@@ -479,24 +487,47 @@ const DELETE_CHILD_CARE_PLAN_COMMENT = gql`
   }
 `;
 
-
 const CREATE_CHILD_CARE_PLAN_ASSIGMENT = gql`
   mutation Mutation(
-    $childCarePlanID: String!,
-    $dateStart: String!,
-    $dateDue: String!,
-    $title: String!,
-    $description: String!,
+    $childCarePlanID: String!
+    $dateStart: String!
+    $dateDue: String!
+    $title: String!
+    $description: String!
     $videoIDs: [String]!
   ) {
     createAssignment(
-      childCarePlanID: $childCarePlanID,
-      dateStart: $dateStart,
-      dateDue: $dateDue,
-      title: $title,
-      description: $description,
+      childCarePlanID: $childCarePlanID
+      dateStart: $dateStart
+      dateDue: $dateDue
+      title: $title
+      description: $description
       videoIDs: $videoIDs
-    ) 
+    )
+  }
+`;
+
+const INVITE_PATIENT = gql`
+  mutation Mutation(
+    $email: String!
+    $guardianFirstName: String!
+    $guardianLastName: String!
+    $childFirstName: String!
+    $childLastName: String!
+    $childDateOfBirth: String!
+    $childLevel: String!
+    $childTherapistID: String!
+  ) {
+    invitePatient(
+      email: $email
+      guardianFirstName: $guardianFirstName
+      guardianLastName: $guardianLastName
+      childFirstName: $childFirstName
+      childLastName: $childLastName
+      childDateOfBirth: $childDateOfBirth
+      childLevel: $childLevel
+      childTherapistID: $childTherapistID
+    )
   }
 `;
 
@@ -530,5 +561,6 @@ export {
   EDIT_CHILD_CARE_PLAN_DETAILS,
   CREATE_CHILD_CARE_PLAN_COMMENT,
   DELETE_CHILD_CARE_PLAN_COMMENT,
-  CREATE_CHILD_CARE_PLAN_ASSIGMENT
+  CREATE_CHILD_CARE_PLAN_ASSIGMENT,
+  INVITE_PATIENT
 };

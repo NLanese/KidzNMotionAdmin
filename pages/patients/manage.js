@@ -47,7 +47,7 @@ function ManagePatients({ router }) {
     let users = [];
     user.organizations[0].organization.organizationUsers.map(
       (orgUserObject) => {
-        console.log(orgUserObject)
+        console.log(orgUserObject);
         let user = Object.assign({}, orgUserObject.user);
         if (patientCarePlans[user.id]) {
           user.carePlan = patientCarePlans[user.id];
@@ -72,8 +72,8 @@ function ManagePatients({ router }) {
   useEffect(() => {
     if (router.query.id) {
       if (renderPatientData(true)[router.query.id]) {
-        console.clear()
-        console.log(renderPatientData(true)[router.query.id])
+        console.clear();
+        console.log(renderPatientData(true)[router.query.id]);
         setPatientDetail(renderPatientData(true)[router.query.id]);
       } else {
         setPatientDetail(null);
@@ -99,11 +99,13 @@ function ManagePatients({ router }) {
           user={user}
           router={router}
         />
-        <InviteUserDrawer
-          therapistMode={true}
-          inviteUserDrawerOpen={router.query.invite}
-          organizationUsers={user.ownedOrganization.organizationUsers}
-        />
+        {user.ownedOrganization && (
+          <InviteUserDrawer
+            therapistMode={true}
+            inviteUserDrawerOpen={router.query.invite}
+            organizationUsers={user.ownedOrganization.organizationUsers}
+          />
+        )}
       </ContentCard>
     </IndexWrapper>
   );
