@@ -5,7 +5,7 @@ import { message } from "antd";
 import { NextSeo } from "next-seo";
 import PageHeader from "@common/PageHeader";
 import MainOrganizationSettingsForm from "@forms/profileSettings/MainOrganizationSettingsForm";
-
+import ColorThemeSettingsForm from "@forms/profileSettings/ColorThemeSettingsForm";
 import { userState } from "@atoms";
 import { useRecoilState } from "recoil";
 
@@ -73,6 +73,10 @@ function ProfileSettings() {
       <NextSeo title="Profile Settings" />
       <PageHeader title="Profile Settings" />
       <MainOrganizationSettingsForm
+        initialValues={user}
+        submitOrganizationSettings={submitUserProfile}
+      />
+      <ColorThemeSettingsForm
         initialValues={user}
         submitOrganizationSettings={submitUserProfile}
       />

@@ -24,7 +24,7 @@ const VIDEOS = {
   },
   toe_touches: {
     id: "toe_touches",
-    level: 1,
+    level: 2,
     title: "Toe Touches",
     description: "Bend over and touch your toes. For this exercise, try to keep your knees straight without bending them, and reach down as far as you can!",
     videoURL:
@@ -34,7 +34,7 @@ const VIDEOS = {
   },
   squat: {
     id: "squat",
-    level: 1,
+    level: 2,
     title: "Squat",
     description: "For this exercise, plant your feet about shoulder width apart, and squat down while trying to keep your back straight. This should test your leg strength as well as your balance!",
     videoURL:

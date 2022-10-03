@@ -20,6 +20,9 @@ const AvatarDetails = styled.div`
     opacity: 0.7;
     transition: ${(props) => props.theme.transitions.standard};
   }
+  .ant-avatar {
+    background-color:  ${props => props.theme.colors.primary} !important;
+  }
 `;
 const AvatarTextDetails = styled.div`
   text-align: right;
@@ -56,15 +59,14 @@ function TopMenuAvatar() {
     location.reload();
   };
 
-
   const renderFreeTrialTag = () => {
     if (!user.ownedOrganization) return;
- 
-    
+
     if (!user.ownedOrganization.stripeSubscriptionID) {
       let daysLeft = parseInt(
         16 -
-          (new Date().getTime() - new Date(user.ownedOrganization.createdAt).getTime()) /
+          (new Date().getTime() -
+            new Date(user.ownedOrganization.createdAt).getTime()) /
             (1000 * 3600 * 24)
       );
       return (
@@ -77,14 +79,9 @@ function TopMenuAvatar() {
             color="processing"
             size="large"
           >
-            {
-              daysLeft <= 0 ? (
-                "Your Trial Has Expired"
-              ) : (
-                `  ${daysLeft} Days Left On Trial (Activate)`
-              )
-            }
-          
+            {daysLeft <= 0
+              ? "Your Trial Has Expired"
+              : `  ${daysLeft} Days Left On Trial (Activate)`}
           </Tag>
         </NakedButton>
       );
@@ -95,7 +92,7 @@ function TopMenuAvatar() {
     setLoading(true);
     const session = await getCheckoutURL();
     if (!session) {
-      setLoading(false)
+      setLoading(false);
     } else {
       window.location = session.checkoutURL;
     }

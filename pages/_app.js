@@ -1,8 +1,8 @@
 import App from "next/app";
 import React from "react";
-import { ThemeProvider } from "styled-components";
+
 import { DefaultSeo } from "next-seo";
-import theme from "@styles/theme";
+
 import Head from "next/head";
 import NextNprogress from "nextjs-progressbar";
 import Layout from "@containers/Layout";
@@ -14,6 +14,11 @@ import { ApolloProvider } from "@apollo/client";
 import client from "@utils/apolloClient";
 
 class MyApp extends App {
+  constructor(props) {
+    super(props);
+    this.state = { color: "#ff9800" };
+  }
+
   componentDidMount() {
     // Fixes the scroll jump issue when going to pages of different heights
     window.history.scrollRestoration = "manual";
@@ -31,6 +36,8 @@ class MyApp extends App {
     }
   }
 
+
+
   render() {
     const { Component, pageProps } = this.props;
     return (
@@ -42,7 +49,7 @@ class MyApp extends App {
             key="viewport"
           />
         </Head>
-        <ThemeProvider theme={theme}>
+       
           <>
             <DefaultSeo title="Home" titleTemplate="%s  | Kidz-N-Motion" />
             <NextNprogress
@@ -100,7 +107,7 @@ class MyApp extends App {
               }
             `}</style>
           </>
-        </ThemeProvider>
+        
       </>
     );
   }

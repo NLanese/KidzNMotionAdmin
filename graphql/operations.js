@@ -24,6 +24,7 @@ const GET_USER = gql`
       title
       phoneNumber
       solo
+      webAppColorSettings
       soloStripeSubscriptionID
       soloSubscriptionStatus
       role

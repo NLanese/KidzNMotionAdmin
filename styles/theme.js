@@ -1,5 +1,5 @@
 // Base Theme Styles
-const theme = {
+let theme = {
     colors: {
         primary: "#f0932b",
         lightPrimary: "#badc58",

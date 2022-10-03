@@ -17,6 +17,7 @@ const typeDefs = gql`
     phoneNumber: String
     profilePic: JSON
     role: String
+    webAppColorSettings: String
     createdAt: Date
 
     childDateOfBirth: Date

@@ -74,6 +74,9 @@ const ChatRowItem = styled.div`
   & strong {
     text-transform: capitalize;
   }
+  .ant-avatar {
+    background-color: ${props => props.theme.colors.primary};
+  }
 `;
 
 function ChatRowContent({ selectedChatRoom, chatRoomObject, otherUser }) {
@@ -85,7 +88,7 @@ function ChatRowContent({ selectedChatRoom, chatRoomObject, otherUser }) {
         <Col xs={18}>
           <Space>
             <Avatar
-              style={{ backgroundColor: "#f0932b", fontSize: "16px" }}
+              style={{ fontSize: "16px" }}
               size={37}
             >
               {otherUser.firstName[0].toUpperCase()}.

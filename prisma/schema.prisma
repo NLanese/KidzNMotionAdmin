@@ -60,16 +60,17 @@ model User {
   ////////////////
 
   // Parent / Child Specific //
-  childDateOfBirth        String?
-  colorSettings           String  @default("Orange")
-  messagesMuted           Boolean @default(false)
-  assignMuted             Boolean @default(false)
-  msgNotifications        Boolean @default(false)
-  missedDateNotifications Boolean @default(false)
-  solo                    Boolean @default(false)
-  soloStripeSubscriptionID    String?
-  soloSubscriptionStatus      String?
-  unlockedAvatarPieces    Json? // Used only with the get all user avatar pieces query {ids: []}
+  childDateOfBirth         String?
+  colorSettings            String  @default("Orange")
+  webAppColorSettings      String  @default("#ff9800")
+  messagesMuted            Boolean @default(false)
+  assignMuted              Boolean @default(false)
+  msgNotifications         Boolean @default(false)
+  missedDateNotifications  Boolean @default(false)
+  solo                     Boolean @default(false)
+  soloStripeSubscriptionID String?
+  soloSubscriptionStatus   String?
+  unlockedAvatarPieces     Json? // Used only with the get all user avatar pieces query {ids: []}
   ////////////////////////////
 
   // Therapist Specific //

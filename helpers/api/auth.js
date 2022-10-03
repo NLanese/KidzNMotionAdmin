@@ -134,6 +134,7 @@ export const getUserObject = async (user) => {
         id: true,
         firstName: true,
         colorSettings: true,
+        webAppColorSettings: true,
         lastName: true,
         username: true,
         role: true,
@@ -443,6 +444,7 @@ export const getUserObject = async (user) => {
         firstName: true,
         lastName: true,
         colorSettings: true,
+        webAppColorSettings: true,
         role: true,
         email: true,
         phoneNumber: true,
@@ -674,6 +676,7 @@ export const getUserObject = async (user) => {
         colorSettings: true,
         phoneNumber: true,
         profilePic: true,
+        webAppColorSettings: true,
         muteAllAssignments: true,
         muteAllMessages: true,
         ownedOrganization: {

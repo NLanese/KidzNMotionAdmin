@@ -24,7 +24,11 @@ import {
   VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Menu, Divider, Typography, Drawer, Button } from "antd";
-
+function addAlpha(color, opacity) {
+  // coerce values so ti is between 0 and 1.
+  var _opacity = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
+  return color + _opacity.toString(16).toUpperCase();
+}
 const SideMenuStyleWrapper = styled.div`
   user-select: none; /* supported by Chrome and Opera */
   -webkit-user-select: none; /* Safari */
@@ -74,6 +78,24 @@ const SideMenuWrapper = styled.div`
     background: white;
     min-height: 40vh;
   }
+  .ant-menu-item-selected {
+    background: ${(props) =>
+      addAlpha(props.theme.colors.primary, 0.1)} !important;
+    border-color: ${(props) =>
+      addAlpha(props.theme.colors.primary, 0.1)} !important;
+    color: ${(props) => props.theme.colors.primary} !important;
+  }
+  .ant-menu-light .ant-menu-item:hover,
+  .ant-menu-light .ant-menu-item-active,
+  .ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open,
+  .ant-menu-light .ant-menu-submenu-active,
+  .ant-menu-light .ant-menu-submenu-title:hover {
+    color: ${(props) => props.theme.colors.primary} !important;
+  }
+  .ant-menu-submenu:hover > .ant-menu-submenu-title > .ant-menu-submenu-expand-icon, .ant-menu-submenu:hover > .ant-menu-submenu-title > .ant-menu-submenu-arrow {
+    color: ${(props) => props.theme.colors.primary} !important;
+
+  }
 `;
 
 const StyledMenu = styled(Menu)`
@@ -81,8 +103,12 @@ const StyledMenu = styled(Menu)`
   position: relative;
   top: 0px;
   height: auto;
-  .ant-menu-sub.ant-menu-inline {
-    background-color: #f3f3f3;
+
+  .ant-menu-submenu-selected {
+    color: ${(props) => props.theme.colors.primary} !important;
+  }
+  .ant-menu-submenu:hover {
+    color: ${(props) => props.theme.colors.primary} !important;
   }
 `;
 
