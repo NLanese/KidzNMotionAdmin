@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { message } from "antd";
+import { Divider, message } from "antd";
 
 import { NextSeo } from "next-seo";
 import PageHeader from "@common/PageHeader";
 import MainOrganizationSettingsForm from "@forms/profileSettings/MainOrganizationSettingsForm";
 import ColorThemeSettingsForm from "@forms/profileSettings/ColorThemeSettingsForm";
+import AvatarSettingsForm from "@forms/profileSettings/AvatarSettingsForm";
 import { userState } from "@atoms";
 import { useRecoilState } from "recoil";
 
@@ -76,7 +77,13 @@ function ProfileSettings() {
         initialValues={user}
         submitOrganizationSettings={submitUserProfile}
       />
+      <Divider />
       <ColorThemeSettingsForm
+        initialValues={user}
+        submitOrganizationSettings={submitUserProfile}
+      />
+      <Divider />
+      <AvatarSettingsForm
         initialValues={user}
         submitOrganizationSettings={submitUserProfile}
       />

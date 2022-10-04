@@ -6,8 +6,10 @@ import { userState } from "@atoms";
 import { capitalizeFirstLetter } from "@helpers/common";
 import { ExclamationCircleOutlined, SyncOutlined } from "@ant-design/icons";
 import NakedButton from "@common/NakedButton";
-import { Avatar, Typography, Dropdown, Menu, message, Tag, Space } from "antd";
+import { Typography, Dropdown, Menu, message, Tag, Space } from "antd";
 import { getCheckoutURL } from "@helpers/billing";
+
+import Avatar from "@forms/profileSettings/Avatar";
 
 const { Title } = Typography;
 
@@ -21,7 +23,7 @@ const AvatarDetails = styled.div`
     transition: ${(props) => props.theme.transitions.standard};
   }
   .ant-avatar {
-    background-color:  ${props => props.theme.colors.primary} !important;
+    background-color: ${(props) => props.theme.colors.primary} !important;
   }
 `;
 const AvatarTextDetails = styled.div`
@@ -97,6 +99,44 @@ function TopMenuAvatar() {
       window.location = session.checkoutURL;
     }
   };
+
+  const getUserAvatar = () => {
+    let interumProfilePic = {
+      body: "body1",
+      eyes: "eyes3",
+      facialHair: "facialHair0",
+      mouth: "mouth4",
+      nose: "nose2",
+      hair: "hair5",
+
+      bodyColor: "bc1",
+      facialHairColor: "fhc6",
+      hairColor: "hc1",
+      skinColor: "sc1",
+      backgroundColor: "bgc1",
+    };
+
+    if (user.profilePic) {
+      interumProfilePic = user.profilePic
+    }
+    return (
+      <Avatar
+        size={40}
+        bodyType={interumProfilePic.body}
+        bodyColor={interumProfilePic.bodyColor}
+        eyeType={interumProfilePic.eyes}
+        facialHairType={interumProfilePic.facialHair}
+        facialHairColor={interumProfilePic.facialHairColor}
+        hairType={interumProfilePic.hair}
+        hairColor={interumProfilePic.hairColor}
+        mouthType={interumProfilePic.mouth}
+        noseType={interumProfilePic.nose}
+        skinColor={interumProfilePic.skinColor}
+        backgroundColor={interumProfilePic.backgroundColor}
+      />
+    );
+  };
+
   // console.log(user)
   return (
     <Space>
@@ -119,15 +159,7 @@ function TopMenuAvatar() {
         arrow={{ pointAtCenter: false }}
       >
         <AvatarDetails>
-          {user.firstName && user.lastName && (
-            <Avatar
-              style={{ backgroundColor: "#f0932b", fontSize: "16px" }}
-              size={33}
-            >
-              {user.firstName[0]}
-              {user.lastName[0]}
-            </Avatar>
-          )}
+          {getUserAvatar()}
           <AvatarTextDetails>
             {user.firstName && user.lastName && (
               <Title level={5}>
