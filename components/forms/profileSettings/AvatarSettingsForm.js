@@ -330,7 +330,7 @@ function AvatarSettingsForm({}) {
               <Panel header="Facial Hair Settings" key="3">
                 <h3>Pick The Style</h3>
                 <Row gutter={16}>
-                {renderAvatarSelectionItem(
+                  {renderAvatarSelectionItem(
                     null,
                     "facialHair",
                     "facialHair0",
@@ -937,6 +937,30 @@ function AvatarSettingsForm({}) {
                     )
                   }
                   color={skinColors[interumProfilePic.skinColor]}
+                />
+              </Panel>
+              <Panel header="Background Color" key="100">
+                <h3>Pick The Color</h3>
+                <CirclePicker
+                  width={"100%"}
+                  circleSize={50}
+                  colors={[
+                    "#93a7fe",
+                    "#a9e874",
+                    "#ff7a9a",
+                    "#b378f7",
+                    "#ff6674",
+                    "#89e6e5",
+                    "#ffcc64",
+                    "#f8fbff",
+                  ]}
+                  onChangeComplete={(color) =>
+                    setAvatarItem(
+                      "backgroundColor",
+                      reverseObject(backgroundColors)[color.hex]
+                    )
+                  }
+                  color={backgroundColors[interumProfilePic.backgroundColor]}
                 />
               </Panel>
             </Collapse>
