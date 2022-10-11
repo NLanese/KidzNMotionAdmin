@@ -24,7 +24,7 @@ const VIDEOS = {
   },
   toe_touches: {
     id: "toe_touches",
-    level: 2,
+    level: 1,
     title: "Toe Touches",
     description: "Bend over and touch your toes. For this exercise, try to keep your knees straight without bending them, and reach down as far as you can!",
     videoURL:
@@ -34,7 +34,7 @@ const VIDEOS = {
   },
   squat: {
     id: "squat",
-    level: 2,
+    level: 1,
     title: "Squat",
     description: "For this exercise, plant your feet about shoulder width apart, and squat down while trying to keep your back straight. This should test your leg strength as well as your balance!",
     videoURL:
@@ -97,7 +97,7 @@ const VIDEOS = {
   // LEVEL 1
   hand_to_knees: {
     level: 1,
-    title: "Hands To Knees",
+    title: "Hands And Knees",
     description:
       "In this video, we will start by laying straight on our stomachs with your knees and hand keeping you supported. Then, bring your hands to about your chest, and bring your legs in so that you are on all fours, your knees and palms keeping you supported! This will test your body and hip strength.",
     videoURL:
@@ -108,7 +108,7 @@ const VIDEOS = {
   },
   chair_elevation: {
     level: 1,
-    title: "Chair Elevation",
+    title: "Chair Pushup",
     description:
       "In this video, you will need to be seated on a chair that has armrests. Once you’re seated, try pushing off of the handles with your hands, and push your body up, so that your rear is no longer on the seat! This will test your upper body and hip strength.",
     videoURL:
