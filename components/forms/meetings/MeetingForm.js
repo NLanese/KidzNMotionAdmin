@@ -20,15 +20,29 @@ function MeetingForm({}) {
   // Mutations
   const [createMeeting, {}] = useMutation(CREATE_MEETING);
 
+  const getUserTherapist = () => {
+
+    let therapistID = null
+    if (user.children) {
+      if (user.children[0]) {
+        if (user.children[0].childCarePlans) {
+          if (user.children[0].childCarePlans[0]) {
+            if (user.children[0].childCarePlans[0].therapist) {
+              return [user.children[0].childCarePlans[0].therapist.id]
+            } 
+          } 
+        }
+      }
+    }
+  }
+
   const handleCreateMeeting = async (formValues) => {
-    console.clear();
-    console.log(formValues);
     await createMeeting({
       variables: {
         type: formValues.type,
         title: formValues.title,
         meetingDateTime: formValues.meetingDateTime,
-        participantIDs: [formValues.guardian, formValues.child],
+        participantIDs: user.role === "GUARDIAN" ? getUserTherapist() : [formValues.guardian, formValues.child],
       },
     })
       .then(async (resolved) => {
@@ -55,6 +69,9 @@ function MeetingForm({}) {
 
   const getPossibleGuardians = () => {
     let guardians = [];
+    if (!user.patientCarePlans) {
+      return [];
+    }
     user.patientCarePlans.map((carePlanObject) => {
       guardians.push({
         value: carePlanObject.child.guardian.id,
@@ -67,6 +84,9 @@ function MeetingForm({}) {
 
   const getPossibleChildren = (selectedGuardian) => {
     let children = [];
+    if (!user.patientCarePlans) {
+      return [];
+    }
     user.patientCarePlans.map((carePlanObject) => {
       if (carePlanObject.child.guardian.id === selectedGuardian) {
         children.push({
@@ -100,8 +120,10 @@ function MeetingForm({}) {
           if (!values.meetingDateTime) {
             errors.meetingDateTime = "Required";
           }
-          if (!values.guardian) {
-            errors.guardian = "Required";
+          if (user.role !== "GUARDIAN") {
+            if (!values.guardian) {
+              errors.guardian = "Required";
+            }
           }
 
           return errors;
@@ -166,24 +188,28 @@ function MeetingForm({}) {
                   hideErrorText={false}
                 />
               </Col>
-              <Col xs={24} md={24}>
-              <h3>Step 3: Add Participants</h3>
-                <Field
-                  name="guardian"
-                  component={SelectField}
-                  htmlType="text"
-                  label="Guardian"
-                  options={getPossibleGuardians()}
-                  size={"large"}
-                  required={true}
-                />
-                <OnChange name="guardian">
-                  {(value, previous) => {
-                    // do something
-                    form.mutators.setValue("child", null);
-                  }}
-                </OnChange>
-              </Col>
+              {user.role !== "GUARDIAN" && (
+                <>
+                  <Col xs={24} md={24}>
+                    <h3>Step 3: Add Participants</h3>
+                    <Field
+                      name="guardian"
+                      component={SelectField}
+                      htmlType="text"
+                      label="Guardian"
+                      options={getPossibleGuardians()}
+                      size={"large"}
+                      required={true}
+                    />
+                    <OnChange name="guardian">
+                      {(value, previous) => {
+                        // do something
+                        form.mutators.setValue("child", null);
+                      }}
+                    </OnChange>
+                  </Col>
+                </>
+              )}
               {values.guardian && (
                 <Col xs={24} md={24}>
                   <Field
@@ -207,7 +233,7 @@ function MeetingForm({}) {
               size={"large"}
               disabled={invalid || pristine}
             >
-              Create Meeting
+              {user.role === "GUARDIAN" ? "Request Meeting" : "Create Meeting"}
             </Button>
           </form>
         )}

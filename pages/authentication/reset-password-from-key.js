@@ -5,8 +5,9 @@ const { Text } = Typography;
 import AuthCard from "@components/pages/auth/AuthCard";
 import BasicLink from "@common/BasicLink";
 import Router from "next/router";
+import { withRouter } from "next/router";
 
-function ResetPassowrd() {
+function ResetPassowrd({ router }) {
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const passwordResetKey = urlSearchParams.get("key");
@@ -18,7 +19,10 @@ function ResetPassowrd() {
   }, []);
 
   return (
-    <AuthCard title="Reset Password" pageTitle="Reset Password">
+    <AuthCard
+      title={router.query.create ? "Create Account Password" : "Reset Password"}
+      pageTitle={router.query.create ? "Create Account Password" : "Reset Password"}
+    >
       <PasswordResetFromKeyForm />
       <BasicLink href="/authentication/login">
         <Text
@@ -37,4 +41,4 @@ function ResetPassowrd() {
   );
 }
 
-export default ResetPassowrd;
+export default withRouter(ResetPassowrd);

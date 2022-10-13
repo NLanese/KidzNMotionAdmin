@@ -188,10 +188,10 @@ export default {
             <br />
             <a href=${
               "https://kids-in-motion.vercel.app/authentication/reset-password-from-key?key=" +
-              resetPasswordKey.id
+              resetPasswordKey.id + "&create=true"
             }>${
           "https://kids-in-motion.vercel.app/authentication/reset-password-from-key?key=" +
-          resetPasswordKey.id
+          resetPasswordKey.id + "&create=true"
         }</a>
             <br />
             <strong>If you did not request this account account activation, you can ignore this message</strong>

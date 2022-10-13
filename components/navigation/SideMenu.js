@@ -287,7 +287,8 @@ function SideMenu({ router, user }) {
           key="/video-library"
           icon={<VideoCameraOutlined style={{ fontSize: "20px" }} />}
         >
-          Video Library
+            {user.role === "GUARDIAN" ? "Assigned Videos" : " Video Library"}
+         
         </Menu.Item>
       </StyledMenu>
       <Divider />

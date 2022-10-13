@@ -30,7 +30,7 @@ const { Text, Title } = Typography;
 const MeetingsWrapper = styled.div`
   max-width: ${(props) => props.theme.contentSize.standard};
   margin: auto;
-  .ant-picker-calendar .ant-radio-group  {
+  .ant-picker-calendar .ant-radio-group {
     display: none;
   }
 `;
@@ -142,8 +142,10 @@ function Meetings({ router }) {
       <NextSeo title="Meetings" />
       <PageHeader
         title="Meetings"
-        createURL={user.role === "THERAPIST" && "/meetings?create=true"}
-        createTitle={user.role === "THERAPIST" &&  "Create Meeting"}
+        createURL={"/meetings?create=true"}
+        createTitle={
+          user.role === "THERAPIST" ? "Create Meeting" : "Request Meeting"
+        }
       />
       {meetings && meetings.loading && <LoadingBlock />}
       {meetings && !meetings.loading && (
@@ -161,13 +163,24 @@ function Meetings({ router }) {
           <Drawer
             placement="right"
             width={500}
-            title={router.query.create ? "Create Meeting" :  (router.query.id && router.query.approve) ? "Approve Meeting" : "Edit Meeting" }
+            title={
+              router.query.create
+                ? user.role === "GUARDIAN"
+                  ? "Request Meeting"
+                  : "Create Meeting"
+                : router.query.id && router.query.approve
+                ? "Approve Meeting"
+                : "Edit Meeting"
+            }
             onClose={() => Router.push("/meetings", null, { shallow: true })}
             visible={router.query.create || router.query.id}
           >
             {router.query.create && <MeetingForm />}
             {router.query.id && !router.query.approve && (
-              <EditMeetingForm initialValues={getInitialValues()} createMeeting={router.query.create} />
+              <EditMeetingForm
+                initialValues={getInitialValues()}
+                createMeeting={router.query.create}
+              />
             )}
             {router.query.id && router.query.approve && (
               <div>
@@ -198,7 +211,8 @@ function Meetings({ router }) {
                   type="primary"
                   block
                 >
-                  {!getInitialValues().approved ? "Approve" : "Disapprove"} Meeting
+                  {!getInitialValues().approved ? "Approve" : "Disapprove"}{" "}
+                  Meeting
                 </Button>
               </div>
             )}

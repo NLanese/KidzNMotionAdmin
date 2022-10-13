@@ -21,7 +21,6 @@ function EditMeetingForm({ initialValues, createMeeting }) {
   const [editMeeting, {}] = useMutation(EDIT_MEETING);
 
   const handleEditeMeeting = async (formValues) => {
-
     let cancelled = formValues.cancelled;
     if (cancelled === "true") {
       cancelled = true;
@@ -31,7 +30,7 @@ function EditMeetingForm({ initialValues, createMeeting }) {
     }
 
     if (!cancelled) {
-      cancelled = false
+      cancelled = false;
     }
     let completed = formValues.completed;
     if (completed === "true") {
@@ -124,7 +123,6 @@ function EditMeetingForm({ initialValues, createMeeting }) {
           if (!values.guardian) {
             errors.guardian = "Required";
           }
-       
 
           return errors;
         }}
@@ -188,44 +186,46 @@ function EditMeetingForm({ initialValues, createMeeting }) {
                   hideErrorText={false}
                 />
               </Col>
-              <Col xs={24} md={24}>
-                <h3>Meeting Participants</h3>
-                <Field
-                  name="guardian"
-                  component={SelectField}
-                  htmlType="text"
-                  label="Guardian"
-                  options={getPossibleGuardians()}
-                  size={"large"}
-                  required={true}
-                />
-                <OnChange name="guardian">
-                  {(value, previous) => {
-                    // do something
-                    form.mutators.setValue("child", null);
-                  }}
-                </OnChange>
-              </Col>
-              <Col xs={24} md={24}>
-                <Field
-                  name="child"
-                  component={SelectField}
-                  htmlType="text"
-                  label="Child"
-                  options={getPossibleChildren(values.guardian)}
-                  size={"large"}
-                  required={false}
-                />
-              </Col>
+              {user.role !== "GUARDIAN" && (
+                <>
+                  <Col xs={24} md={24}>
+                    <h3>Meeting Participants</h3>
+                    <Field
+                      name="guardian"
+                      component={SelectField}
+                      htmlType="text"
+                      label="Guardian"
+                      options={getPossibleGuardians()}
+                      size={"large"}
+                      required={true}
+                    />
+                    <OnChange name="guardian">
+                      {(value, previous) => {
+                        // do something
+                        form.mutators.setValue("child", null);
+                      }}
+                    </OnChange>
+                  </Col>
+                  <Col xs={24} md={24}>
+                    <Field
+                      name="child"
+                      component={SelectField}
+                      htmlType="text"
+                      label="Child"
+                      options={getPossibleChildren(values.guardian)}
+                      size={"large"}
+                      required={false}
+                    />
+                  </Col>
+                </>
+              )}
 
               <Col xs={24} md={24}>
-                
-               <Field
+                <Field
                   name="cancelled"
                   component={SwitchField}
                   htmlType="text"
                   label="Cancel Meeting"
-              
                   size={"large"}
                   required={true}
                 />
@@ -237,7 +237,6 @@ function EditMeetingForm({ initialValues, createMeeting }) {
                   component={SwitchField}
                   htmlType="text"
                   label="Meeting Completed"
-                 
                   size={"large"}
                   required={true}
                 />
