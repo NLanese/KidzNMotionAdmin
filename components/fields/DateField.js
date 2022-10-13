@@ -5,7 +5,7 @@ import moment from 'moment';
 const { RangePicker } = DatePicker;
 
 
-function getFormat(showTime, picker) {
+function getFormat(showTime, picker, showDayOfWeek) {
   if (picker) {
     if (picker === "year") {
       return "YYYY";
@@ -18,7 +18,13 @@ function getFormat(showTime, picker) {
     if (showTime) {
       return "MM/DD/YYYY h:mm A";
     } else {
-      return "MM/DD/YYYY";
+      if (showDayOfWeek) {
+
+        return "MM/DD/YYYY dddd";
+      } else {
+
+        return "MM/DD/YYYY";
+      }
     }
   }
 }
@@ -54,7 +60,7 @@ const DateField = ({ input, meta, ...props }) => (
         mode={props.picker}
         allowClear={props.allowClear}
         showTime={props.showTime ? { format: "h:mm A" } : null}
-        format={getFormat(props.showTime, props.picker)}
+        format={getFormat(props.showTime, props.picker, props.showDayOfWeek)}
       />
     ) : (
       <DatePicker
@@ -69,7 +75,7 @@ const DateField = ({ input, meta, ...props }) => (
         mode={props.picker}
         allowClear={props.allowClear}
         showTime={props.showTime ? { format: "h:mm A" } : null}
-        format={getFormat(props.showTime, props.picker)}
+        format={getFormat(props.showTime, props.picker, props.showDayOfWeek)}
       />
     )}
 

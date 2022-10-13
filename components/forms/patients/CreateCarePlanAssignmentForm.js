@@ -147,6 +147,7 @@ function CreateCarePlanAssignmentForm({ getUser, initialValues, returnUrl }) {
                   htmlType="text"
                   component={DateField}
                   required={true}
+                  showDayOfWeek={true}
                   size={"large"}
                   hideErrorText={false}
                 />
@@ -157,6 +158,7 @@ function CreateCarePlanAssignmentForm({ getUser, initialValues, returnUrl }) {
                   name="dateEnd"
                   htmlType="text"
                   component={DateField}
+                  showDayOfWeek={true}
                   required={true}
                   size={"large"}
                   hideErrorText={false}
@@ -164,7 +166,7 @@ function CreateCarePlanAssignmentForm({ getUser, initialValues, returnUrl }) {
               </Col>
               <Col xs={24} sm={24}>
                 <Field
-                  label="Assignment Title"
+                  label="Home Exercise Program"
                   name="title"
                   htmlType="text"
                   component={PlainTextField}
@@ -175,7 +177,7 @@ function CreateCarePlanAssignmentForm({ getUser, initialValues, returnUrl }) {
               </Col>
               <Col xs={24} sm={24}>
                 <Field
-                  label="Assignment Description"
+                  label="Home Program Instructions"
                   name="description"
                   htmlType="text"
                   component={TextAreaField}
