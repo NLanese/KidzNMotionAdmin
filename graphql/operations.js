@@ -22,6 +22,7 @@ const GET_USER = gql`
       firstName
       lastName
       title
+      diagnosis
       phoneNumber
       solo
       profilePic
@@ -90,6 +91,7 @@ const GET_USER = gql`
           id
           firstName
           lastName
+          diagnosis
           guardian {
             id
             firstName
@@ -154,6 +156,7 @@ const GET_USER = gql`
         id
         firstName
         lastName
+        diagnosis
         childDateOfBirth
         childCarePlans {
           id
@@ -452,11 +455,13 @@ const GET_VIDEO_LIBRARY = gql`
 const EDIT_CHILD_CARE_PLAN_DETAILS = gql`
   mutation Mutation(
     $childCarePlanID: String!
+    $diagnosis: String!
     $level: Int!
     $blockedVideos: JSON
   ) {
     editChildCarePlan(
       childCarePlanID: $childCarePlanID
+      diagnosis: $diagnosis
       level: $level
       blockedVideos: $blockedVideos
     ) {

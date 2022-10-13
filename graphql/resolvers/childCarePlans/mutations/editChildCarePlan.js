@@ -6,7 +6,7 @@ export default {
   Mutation: {
     editChildCarePlan: async (
       _,
-      { childCarePlanID, level, newAssignedTherapistID, blockedVideos },
+      { childCarePlanID, level, newAssignedTherapistID, blockedVideos, diagnosis },
       context
     ) => {
 
@@ -22,6 +22,12 @@ export default {
         },
         select: {
           id: true,
+          child: {
+            select: {
+              diagnosis: true,
+              id: true
+            }
+          },
           therapist: {
             select: {
               id: true,
@@ -85,6 +91,16 @@ export default {
           id: childCarePlan.id,
         },
         data: updateObject,
+      });
+
+      // Update the child care plan
+      await prisma.user.update({
+        where: {
+          id: childCarePlan.child.id,
+        },
+        data: {
+          diagnosis: diagnosis
+        },
       });
 
       return updatedChildCarePlan;

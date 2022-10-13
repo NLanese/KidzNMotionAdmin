@@ -21,6 +21,7 @@ const typeDefs = gql`
     createdAt: Date
 
     childDateOfBirth: Date
+    diagnosis: String
     colorSettings: String
 
     msgNotifications: Boolean
@@ -303,6 +304,7 @@ const typeDefs = gql`
     ############################
     editChildSettings(
       childUserID: String!
+
       leaveApp: Boolean!
       accessMessages: Boolean!
       accessSettings: Boolean!
@@ -371,6 +373,7 @@ const typeDefs = gql`
     editChildCarePlan(
       childCarePlanID: String!
       level: Int
+      diagnosis: String!
       newAssignedTherapistID: String
       blockedVideos: JSON
     ): ChildCarePlan

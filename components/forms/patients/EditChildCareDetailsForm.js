@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Field } from "react-final-form";
-import { PlainTextField, SelectField } from "@fields";
+import { TextAreaField, SelectField } from "@fields";
 import { Col, Row, Button, message, Spin } from "antd";
 
 import { useMutation } from "@apollo/client";
@@ -29,6 +29,7 @@ function EditChildCareDetailsForm({ getUser, initialValues, returnUrl }) {
     await editFunction({
       variables: {
         level: parseInt(formValues.childLevel),
+        diagnosis: formValues.diagnosis,
         childCarePlanID: initialValues.childCarePlanID,
         blockedVideos: { ids: formValues.blockedVideos },
       },
@@ -137,6 +138,16 @@ function EditChildCareDetailsForm({ getUser, initialValues, returnUrl }) {
                   options={renderVideoOptions()}
                   size={"large"}
                   hideErrorText={false}
+                />
+              </Col>
+              <Col xs={24} md={24}>
+                <Field
+                  name="diagnosis"
+                  component={TextAreaField}
+                  label="Diagnosis"
+                  size={"large"}
+                  required={false}
+                  hideErrorText={true}
                 />
               </Col>
             </Row>

@@ -79,12 +79,16 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
 
   const getDrawerContent = () => {
     if (router.query.editPlan) {
+      console.clear()
+      console.log(patientDetail)
       return (
         <EditChildCareDetailsForm
           getUser={getUser}
           initialValues={{
             childLevel: patientDetail.carePlan.level.toString(),
             childCarePlanID: patientDetail.carePlan.id,
+            diagnosis: patientDetail.carePlan.child.diagnosis,
+
             blockedVideos: patientDetail.carePlan.blockedVideos
               ? patientDetail.carePlan.blockedVideos.ids
               : [],

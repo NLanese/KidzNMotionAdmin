@@ -260,6 +260,7 @@ export const getUserObject = async (user) => {
             leaveApp: true,
             lastName: true,
             childDateOfBirth: true,
+            diagnosis: true,
             childCarePlans: {
               where: {
                 active: true,
@@ -486,6 +487,7 @@ export const getUserObject = async (user) => {
                 lastName: true,
                 profilePic: true,
                 childDateOfBirth: true,
+                diagnosis: true,
                 videos: {
                   select: {
                     id: true,
@@ -619,6 +621,7 @@ export const getUserObject = async (user) => {
                         lastName: true,
                         id: true,
                         childDateOfBirth: true,
+                        diagnosis: true,
                         phoneNumber: true,
                         email: true,
                         profilePic: true,
@@ -765,6 +768,7 @@ export const getUserObject = async (user) => {
         leaveApp: true,
         lastName: true,
         childDateOfBirth: true,
+        diagnosis: true,
         profilePic: true,
         muteAllAssignments: true,
         muteAllMessages: true,
