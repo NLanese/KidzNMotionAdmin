@@ -552,6 +552,16 @@ export const getUserObject = async (user) => {
                     },
                   },
                 },
+                childCarePlan: {
+                  select: {
+                    child: {
+                      select: {
+                        firstName: true,
+                        lastName: true
+                      }
+                    }
+                  }
+                }
               },
             },
           },
