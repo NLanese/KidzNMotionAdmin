@@ -22,6 +22,7 @@ const { Panel } = Collapse;
 import ReactPlayer from "react-player";
 import CarePlanComments from "@pages/patients/CarePlanComments";
 import CreateCarePlanComment from "@forms/patients/CreateCarePlanComment";
+import VideoCommentForm from "@forms/patients/VideoCommentForm";
 
 var dateFormat = require("dateformat");
 
@@ -84,6 +85,29 @@ function CarePlanAssignments({
               height="200px"
             />
           </Col>
+
+          <Col xs={24} sm={24}>
+            <Collapse defaultActiveKey={[]} bordered={true}>
+              <Panel header={`${videoObject.file.title.toString()} Comments`} key="1">
+                <VideoCommentForm
+                  getUser={getUser}
+                  returnUrl={returnUrl}
+                  initialValues={{
+                    ...initialValues,
+                    assignmentID: assignmentObject.id,
+                    videoID: videoObject.id
+                  }}
+                />
+                <Divider />
+                <CarePlanComments
+                  getUser={getUser}
+                  comments={comments}
+                  assignmentID={assignmentObject.id}
+                  videoID={videoObject.id}
+                />
+              </Panel>
+            </Collapse>
+          </Col>
           <Divider />
         </Row>
       );
@@ -139,7 +163,11 @@ function CarePlanAssignments({
                   }}
                 />
                 <Divider />
-                <CarePlanComments getUser={getUser} comments={comments} assignmentID={assignmentObject.id}/>
+                <CarePlanComments
+                  getUser={getUser}
+                  comments={comments}
+                  assignmentID={assignmentObject.id}
+                />
               </Panel>
             </Collapse>
           </ContentCard>

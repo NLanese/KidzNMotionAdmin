@@ -7,7 +7,7 @@ import { useMutation } from "@apollo/client";
 import { CREATE_CHILD_CARE_PLAN_COMMENT } from "@graphql/operations";
 import Router from "next/router";
 
-function CreateCarePlanComment({
+function VideoCommentForm({
   getUser,
   initialValues,
   returnUrl,
@@ -24,7 +24,8 @@ function CreateCarePlanComment({
       variables: {
         commentContent: formValues.commentContent,
         childCarePlanID: initialValues.childCarePlanID,
-        assignmentID: assignment && initialValues.assignmentID,
+        assignmentID: initialValues.assignmentID,
+        videoID: initialValues.videoID,
       },
     })
       .then(async (resolved) => {
@@ -80,7 +81,7 @@ function CreateCarePlanComment({
                   name="commentContent"
                   component={TextAreaField}
                   htmlType="text"
-                  label={assignment ? "Assignment Comment" : "Care Plan Comment"}
+                  label={"Video Comment"}
                   size={"large"}
                   required={false}
                 />
@@ -104,4 +105,4 @@ function CreateCarePlanComment({
   );
 }
 
-export default CreateCarePlanComment;
+export default VideoCommentForm;
