@@ -2,6 +2,7 @@
 import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
 import pusherServer from "@utils/pusherServer";
+import { createNotification } from "@helpers/api/notifications";
 
 export default {
   Mutation: {
@@ -29,9 +30,12 @@ export default {
 
       // Make sure the user is in the chat room before sending message
       let inChatRoom = false;
+      let otherUserIds = [];
       chatRoom.users.map((userObject) => {
         if (userObject.id === context.user.id) {
           inChatRoom = true;
+        } else {
+          otherUserIds.push(userObject.id);
         }
       });
 
@@ -61,6 +65,16 @@ export default {
           },
         },
       });
+
+      for (var i = 0; i < otherUserIds.length; i++) {
+        await createNotification(
+          "New Message From " + context.user.firstName,
+          content,
+          "MESSAGE",
+          otherUserIds[i],
+          context.user.id
+        );
+      }
 
       // Send out the pusher trigger
       pusherServer.trigger(chatRoomID.toString(), "new-message", {

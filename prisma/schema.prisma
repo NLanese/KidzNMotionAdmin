@@ -242,6 +242,20 @@ model Message {
   chatRoom   Chatroom @relation(fields: [chatroomId], references: [id])
 }
 
+model Notification {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  title       String?
+  description String?
+
+  type String?
+
+  toUserId   String?
+  fromUserId String?
+
+  dismissed Boolean @default(false)
+}
+
 model ChatroomToUser {
   A String
   B String

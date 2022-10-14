@@ -197,6 +197,16 @@ const typeDefs = gql`
     meetingOwnerID: String
   }
 
+  type Notification {
+    id: String
+    createdAt: Date
+    title: String
+    description: String
+    type: String
+    toUserId: String
+    fromUserId: String
+  }
+
   # ---------------------------------------- END SCHEMAS ----------------------------------------
   type Query {
     ######################
@@ -236,6 +246,12 @@ const typeDefs = gql`
     #########################
     
     getMeetings: [Meeting]
+
+    ###############################
+    #### NOTIFICATION QUERIES ####
+    ##############################
+    
+    getNotifications: [Notification]
   }
 
   # ---------------------------------------- END QUERY ----------------------------------------
@@ -422,6 +438,14 @@ const typeDefs = gql`
       approveMeeting: Boolean!
       meetingID: String!
     ): Meeting
+
+    ################################
+    #### NOTIFICATION MUTATIONS ####
+    ################################
+    dismissNotification(
+      notificationID: String!
+    ): Boolean
+
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------
 `;
