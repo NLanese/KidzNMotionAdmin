@@ -56,10 +56,12 @@ function EditChildCareDetailsForm({ getUser, initialValues, returnUrl }) {
     let options = [];
     for (var key in VIDEOS) {
       if (VIDEOS.hasOwnProperty(key)) {
-        options.push({
-          value: VIDEOS[key].id,
-          text: `${VIDEOS[key].title} - Level: ${VIDEOS[key].level}`,
-        });
+        if (VIDEOS[key].id !== "great_job") {
+          options.push({
+            value: VIDEOS[key].id,
+            text: `${VIDEOS[key].title} - Level: ${VIDEOS[key].level}`,
+          });
+        }
       }
     }
 

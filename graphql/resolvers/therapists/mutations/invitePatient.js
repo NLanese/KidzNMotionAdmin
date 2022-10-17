@@ -19,6 +19,7 @@ export default {
         childDateOfBirth,
         childLevel,
         childTherapistID,
+        diagnosis
       },
       context
     ) => {
@@ -82,6 +83,7 @@ export default {
           firstName: childFirstName,
           lastName: childLastName,
           childDateOfBirth: childDateOfBirth,
+          diagnosis: diagnosis,
           guardian: {
             connect: {
               id: baseUser.id,

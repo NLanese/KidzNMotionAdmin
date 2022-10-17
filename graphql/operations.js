@@ -524,6 +524,7 @@ const INVITE_PATIENT = gql`
     $childDateOfBirth: String!
     $childLevel: String!
     $childTherapistID: String!
+    $diagnosis: String!
   ) {
     invitePatient(
       email: $email
@@ -534,6 +535,7 @@ const INVITE_PATIENT = gql`
       childDateOfBirth: $childDateOfBirth
       childLevel: $childLevel
       childTherapistID: $childTherapistID
+      diagnosis: $diagnosis
     )
   }
 `;

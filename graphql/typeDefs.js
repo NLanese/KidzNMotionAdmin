@@ -370,6 +370,7 @@ const typeDefs = gql`
       childDateOfBirth: String!
       childLevel: String!
       childTherapistID: String!
+      diagnosis: String!
     ): String
 
     ############################

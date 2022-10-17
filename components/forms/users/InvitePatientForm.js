@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Field } from "react-final-form";
-import { PlainTextField, SelectField, DateField } from "@fields";
+import { PlainTextField, SelectField, DateField, TextAreaField } from "@fields";
 import { Col, Row, Button, message, Spin } from "antd";
 
 import { userState } from "@atoms";
@@ -31,6 +31,7 @@ function InvitePatientForm({ organizationUsers, therapistMode }) {
           childDateOfBirth: formValues.childDateOfBirth,
           childLevel: formValues.childLevel,
           childTherapistID: formValues.childTherapistID,
+          diagnosis: formValues.diagnosis
         },
       })
         .then(async (resolved) => {
@@ -106,7 +107,7 @@ function InvitePatientForm({ organizationUsers, therapistMode }) {
       if (orgUser.user && orgUser.user.role === "THERAPIST") {
         therapists.push({
           value: orgUser.user.id,
-          text: `${orgUser.user.id === user.id && "(Me)"} ${
+          text: `${orgUser.user.id === user.id ? "(Me)" : ""} ${
             orgUser.user.firstName
           } ${orgUser.user.lastName}`,
         });
@@ -147,6 +148,9 @@ function InvitePatientForm({ organizationUsers, therapistMode }) {
             }
             if (!values.childFirstName) {
               errors.childFirstName = "Required";
+            }
+            if (!values.diagnosis) {
+              errors.diagnosis = "Required";
             }
             if (!values.childLastName) {
               errors.childLastName = "Required";
@@ -266,6 +270,17 @@ function InvitePatientForm({ organizationUsers, therapistMode }) {
                       name="childLastName"
                       htmlType="text"
                       component={PlainTextField}
+                      required={true}
+                      size={"large"}
+                      hideErrorText={false}
+                    />
+                  </Col>
+                  <Col xs={24} md={24}>
+                    <Field
+                      label="Diagnosis"
+                      name="diagnosis"
+                      htmlType="text"
+                      component={TextAreaField}
                       required={true}
                       size={"large"}
                       hideErrorText={false}

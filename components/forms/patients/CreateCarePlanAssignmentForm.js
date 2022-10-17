@@ -1,7 +1,16 @@
 import React, { useState } from "react";
 import { Form, Field } from "react-final-form";
 import { TextAreaField, PlainTextField, DateField, SelectField } from "@fields";
-import { Col, Row, Button, message, Spin, Space, Typography, Divider } from "antd";
+import {
+  Col,
+  Row,
+  Button,
+  message,
+  Spin,
+  Space,
+  Typography,
+  Divider,
+} from "antd";
 import ContentCard from "@common/content/ContentCard";
 import { useMutation } from "@apollo/client";
 import { CREATE_CHILD_CARE_PLAN_ASSIGMENT } from "@graphql/operations";
@@ -59,11 +68,13 @@ function CreateCarePlanAssignmentForm({ getUser, initialValues, returnUrl }) {
     // },
     let options = [];
     for (var key in VIDEOS) {
-      if (VIDEOS.hasOwnProperty(key)) {
-        options.push({
-          value: VIDEOS[key].id,
-          text: `${VIDEOS[key].title} - Level: ${VIDEOS[key].level}`,
-        });
+      if (VIDEOS[key].id !== "great_job") {
+        if (VIDEOS.hasOwnProperty(key)) {
+          options.push({
+            value: VIDEOS[key].id,
+            text: `${VIDEOS[key].title} - Level: ${VIDEOS[key].level}`,
+          });
+        }
       }
     }
     options = options.sort(compare); // b - a for reverse sort
@@ -73,24 +84,23 @@ function CreateCarePlanAssignmentForm({ getUser, initialValues, returnUrl }) {
 
   const renderAssignedVideos = (videoIDs) => {
     return videoIDs.map((videoID) => {
-      let videoObject = VIDEOS[videoID]
+      let videoObject = VIDEOS[videoID];
       return (
-
-      <ContentCard style={{ position: "relative" }} key={videoID.title}>
-        <Space direction="vertical">
-          <Title style={{ margin: "0px" }} level={5}>
-            {videoObject.title}
-          </Title>
-          <Text>{videoObject.description}</Text>
-        </Space>
-        <ReactPlayer
-          url={videoObject.videoURL}
-          controls={true}
-          width="100%"
-          style={{ width: "100%" }}
-        />
-      </ContentCard>
-      )
+        <ContentCard style={{ position: "relative" }} key={videoID.title}>
+          <Space direction="vertical">
+            <Title style={{ margin: "0px" }} level={5}>
+              {videoObject.title}
+            </Title>
+            <Text>{videoObject.description}</Text>
+          </Space>
+          <ReactPlayer
+            url={videoObject.videoURL}
+            controls={true}
+            width="100%"
+            style={{ width: "100%" }}
+          />
+        </ContentCard>
+      );
     });
   };
 
