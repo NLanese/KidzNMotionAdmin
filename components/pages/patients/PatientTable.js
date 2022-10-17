@@ -107,7 +107,7 @@ function PatientTable({ patientData, user }) {
       render: (text, record, index) => (
         <Text>
           {record.carePlan.therapist.firstName}{" "}
-          {record.carePlan.therapist.firstName}{" "}
+          {record.carePlan.therapist.lastName}{" "}
           {record.carePlan.therapist.id === user.id && "(ME)"}
         </Text>
       ),

@@ -329,7 +329,7 @@ function SideMenuContainer({ router, user }) {
         visible={menuOpen}
       >
         <MobileLogo>
-          <img alt="Kidz-N-Motion Logo" src="/logos/LogoSVG.svg" />
+          <img alt="Kidz-N-Motion Logo" src="/logos/Main.png" />
           <Button
             style={{ float: "right", marginTop: "4px" }}
             size="large"

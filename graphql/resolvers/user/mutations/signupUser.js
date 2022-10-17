@@ -141,7 +141,7 @@ export default {
           // Create the child for the guardian account
           childUser = await prisma.user.create({
             data: {
-              email: makeRandomString(60) + "@kidsinmotion.com",
+              email: makeRandomString(60) + "@kidz-n-motion.com",
               password: makeRandomString(60),
               role: "CHILD",
               firstName: childFirstName,
