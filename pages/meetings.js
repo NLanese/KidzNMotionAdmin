@@ -128,6 +128,7 @@ function Meetings({ router }) {
         meetingDateTime: moment(selectedMeetingObject.meetingDateTime),
         guardian: guardian,
         approved: selectedMeetingObject.approved,
+        pendingApproval: selectedMeetingObject.pendingApproval,
         child: child,
         cancelled: selectedMeetingObject.canceled,
         completed: false,
@@ -135,6 +136,117 @@ function Meetings({ router }) {
     }
 
     return intitalValues;
+  };
+
+  const renderMeetingApprovalContent = () => {
+    if (router.query.id && router.query.approve) {
+      if (getInitialValues().pendingApproval) {
+        return (
+          <>
+            <Title level={4}>Approve Meeting</Title>
+            <Text>
+              This meeting has not been approved yet. Please approve the meeting
+              to set it into the guardian's calendar.
+            </Text>
+            <br />
+            <br />
+            <Button
+              onClick={() => handleApproveMeeting(true)}
+              type="primary"
+              block
+            >
+              Approve Meeting
+            </Button>
+            <br />
+            <br />
+            <Button
+              onClick={() => handleApproveMeeting(false)}
+              type="primary"
+              block
+            >
+              Disapprove Meeting
+            </Button>
+          </>
+        );
+      } else {
+        if (getInitialValues().approved) {
+          return (
+            <>
+              <Title level={4}>Approve Meeting</Title>
+              <Text>
+                This meeting has been approved. You can disapprove the meeting
+                to remove it from the guardian's calendar.
+              </Text>
+              <br />
+
+              <br />
+              <Button
+                onClick={() => handleApproveMeeting(false)}
+                type="primary"
+                block
+              >
+                Disapprove Meeting
+              </Button>
+            </>
+          );
+        } else {
+          return (
+            <>
+              <Title level={4}>Approve Meeting</Title>
+              <Text>
+                This meeting has been disapproved. You can approve the meeting
+                to add it from the guardian's calendar.
+              </Text>
+              <br />
+
+              <br />
+              <Button
+                onClick={() => handleApproveMeeting(true)}
+                type="primary"
+                block
+              >
+                Approve Meeting
+              </Button>
+            </>
+          );
+        }
+      }
+    }
+
+    // {router.query.id && router.query.approve && (
+    //   <div>
+    //     {getInitialValues().approved ? (
+    //       <>
+    //         <Title level={4}>Disapprove Meeting</Title>
+    //         <Text>
+    //           This meeting has been approved. You can disapprove the
+    //           meeting to remove it from the guardian's calendar.
+    //         </Text>
+    //         <br />
+    //         <br />
+    //       </>
+    //     ) : (
+    //       <>
+    //         <Title level={4}>Approve Meeting</Title>
+    //         <Text>
+    //           This meeting has not been approved yet. Please approve the
+    //           meeting to set it into the guardian's calendar.
+    //         </Text>
+    //         <br />
+    //         <br />
+    //       </>
+    //     )}
+
+    //     <Button
+    //       onClick={() => handleApproveMeeting(true)}
+    //       type="primary"
+    //       block
+    //     >
+    //       {!getInitialValues().approved ? "Approve" : "Disapprove"}{" "}
+    //       Meeting
+    //     </Button>
+    //   </div>
+    // )}
   };
 
   return (
@@ -182,40 +294,7 @@ function Meetings({ router }) {
                 createMeeting={router.query.create}
               />
             )}
-            {router.query.id && router.query.approve && (
-              <div>
-                {getInitialValues().approved ? (
-                  <>
-                    <Title level={4}>Disapprove Meeting</Title>
-                    <Text>
-                      This meeting has been approved. You can disapprove the
-                      meeting to remove it from the guardian's calendar.
-                    </Text>
-                    <br />
-                    <br />
-                  </>
-                ) : (
-                  <>
-                    <Title level={4}>Approve Meeting</Title>
-                    <Text>
-                      This meeting has not been approved yet. Please approve the
-                      meeting to set it into the guardian's calendar.
-                    </Text>
-                    <br />
-                    <br />
-                  </>
-                )}
-
-                <Button
-                  onClick={() => handleApproveMeeting(true)}
-                  type="primary"
-                  block
-                >
-                  {!getInitialValues().approved ? "Approve" : "Disapprove"}{" "}
-                  Meeting
-                </Button>
-              </div>
-            )}
+            {renderMeetingApprovalContent()}
           </Drawer>
         </Row>
       )}

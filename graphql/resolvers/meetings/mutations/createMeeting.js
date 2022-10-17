@@ -81,8 +81,8 @@ export default {
           meetingDateTime: meetingDateTime,
           type: type,
           meetingOwnerID: context.user.id,
-          pendingApproval: context.user.role !== "THERAPIST",
-          approved: context.user.role === "THERAPIST",
+          pendingApproval: true,
+          approved: false,
           users: {
             connect: prismaConnections,
           },

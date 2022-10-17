@@ -40,8 +40,13 @@ function getMeetingParticpants(users) {
 }
 
 function renderApprovalStatus(record) {
+  
   if (record.canceled) {
     return "CANCELLED";
+  }
+
+  if (!record.approved && !record.pendingApproval) {
+    return "NOT APPROVED"
   }
 
   if (record.approved) {
@@ -57,6 +62,10 @@ function renderApprovalStatusColor(record) {
   if (record.canceled) {
     return "red";
   }
+  if (!record.approved && !record.pendingApproval) {
+    return "red"
+  }
+
   if (record.approved) {
     return "green";
   } else {

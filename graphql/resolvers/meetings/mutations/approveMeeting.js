@@ -45,7 +45,7 @@ export default {
           id: meetingID,
         },
         data: {
-          pendingApproval: !approveMeeting,
+          pendingApproval: false,
           approved: approveMeeting,
         },
       });
