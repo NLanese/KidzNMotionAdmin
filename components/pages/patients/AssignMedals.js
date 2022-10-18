@@ -84,7 +84,7 @@ function AssignMedalsForm({ router, getUser }) {
       .then(async (resolved) => {
         message.success("Successfully Assigned Medal");
         await getUser();
-        window.location("/patients/manage?id=" + router.query.id);
+        window.location.replace("/patients/manage?id=" + router.query.id);
       })
       .catch((error) => {
         message.error("Failed to save medal to video");
