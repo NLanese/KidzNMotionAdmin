@@ -25,6 +25,7 @@ function AssignMedalsForm({ router, getUser }) {
   const [neededBreak, setNeededBreak] = useState("no");
   const [seconds, setSeconds] = useState("less30");
 
+  // Mutations
   const [setVideoCompleted, {}] = useMutation(SET_VIDEO_COMPLETED);
 
   const checkCanSubmit = () => {
@@ -83,14 +84,7 @@ function AssignMedalsForm({ router, getUser }) {
       .then(async (resolved) => {
         message.success("Successfully Assigned Medal");
         await getUser();
-        Router.push(
-          "/patients/manage?id=" + router.query.id,
-
-          null,
-          {
-            shallow: true,
-          }
-        );
+        window.location("/patients/manage?id=" + router.query.id);
       })
       .catch((error) => {
         message.error("Failed to save medal to video");
@@ -99,7 +93,7 @@ function AssignMedalsForm({ router, getUser }) {
     setLoading(false);
   };
   if (!router.query.video_id) {
-    return <div />
+    return <div />;
   }
   return (
     <FormContainer>
