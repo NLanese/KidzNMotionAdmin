@@ -2,6 +2,8 @@
 import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
 import VIDEOS from "@constants/videos";
+import { createNotification } from "@helpers/api/notifications";
+var dateFormat = require("dateformat");
 
 export default {
   Mutation: {
@@ -22,6 +24,16 @@ export default {
         },
         select: {
           id: true,
+          child: {
+            select: {
+              id: true,
+              guardian: {
+                select: {
+                  id: true,
+                },
+              },
+            },
+          },
           therapist: {
             select: {
               id: true,
@@ -85,6 +97,27 @@ export default {
           },
         });
       }
+
+      await createNotification(
+        "New Assignment Created By " +
+          context.user.firstName +
+          " " +
+          context.user.lastName,
+        `Your New Assignment ${title} Is Due On ${dateFormat(dateDue, "m/dd")}`,
+        "NEW_ASSIGNMENT",
+        childCarePlan.child.id,
+        context.user.id
+      );
+      await createNotification(
+        "New Assignment Created By " +
+          context.user.firstName +
+          " " +
+          context.user.lastName,
+        `Your New Assignment ${title} Is Due On ${dateFormat(dateDue, "m/dd")}`,
+        "NEW_ASSIGNMENT",
+        childCarePlan.child.guardian.id,
+        context.user.id
+      );
 
       return true;
     },
