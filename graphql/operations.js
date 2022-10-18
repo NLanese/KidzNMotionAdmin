@@ -540,6 +540,22 @@ const INVITE_PATIENT = gql`
   }
 `;
 
+
+const SET_VIDEO_COMPLETED = gql`
+  mutation Mutation(
+    $videoID: String!
+    $medalType: String!
+  ) {
+    setVideoCompleted(
+      videoID: $videoID
+      medalType: $medalType
+    ) {
+      id
+    }
+  }
+`;
+
+
 export {
   // Sign Up / Sign In
   LOGIN_USER,
@@ -571,5 +587,6 @@ export {
   CREATE_CHILD_CARE_PLAN_COMMENT,
   DELETE_CHILD_CARE_PLAN_COMMENT,
   CREATE_CHILD_CARE_PLAN_ASSIGMENT,
-  INVITE_PATIENT
+  INVITE_PATIENT,
+  SET_VIDEO_COMPLETED
 };

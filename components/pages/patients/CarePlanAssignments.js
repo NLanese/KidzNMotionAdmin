@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import styled from "styled-components";
 import {
@@ -11,6 +11,7 @@ import {
   Tag,
   Divider,
   Avatar,
+  Drawer,
   Button,
   Tooltip,
 } from "antd";
@@ -23,6 +24,9 @@ import ReactPlayer from "react-player";
 import CarePlanComments from "@pages/patients/CarePlanComments";
 import CreateCarePlanComment from "@forms/patients/CreateCarePlanComment";
 import VideoCommentForm from "@forms/patients/VideoCommentForm";
+import { withRouter } from "next/router";
+import Router from "next/router";
+import AssignMedalsForm from "./AssignMedals";
 
 var dateFormat = require("dateformat");
 
@@ -36,7 +40,12 @@ function CarePlanAssignments({
   getUser,
   comments,
   initialValues,
+  router,
 }) {
+
+
+
+
   const renderMedals = (medals) => {
     return medals.map((medalObject) => {
       return (
@@ -56,9 +65,31 @@ function CarePlanAssignments({
     return assignmentObject.videos.map((videoObject) => {
       return (
         <Row gutter={[16, 3]} key={videoObject.id}>
+          <Col xs={24} sm={12}>
+            <h2> {videoObject.file.title.toString()}</h2>
+          </Col>
+          <Col xs={24} sm={12}>
+            <Button
+              onClick={() =>
+                Router.push(
+                  "/patients/manage?id=" +
+                    router.query.id +
+                    "&video=" +
+                    videoObject.id + "&video_id=" + videoObject.file.id,
+                  null,
+                  {
+                    shallow: true,
+                  }
+                )
+              }
+              style={{ float: "right" }}
+            >
+              Assign Medal For Video
+            </Button>
+          </Col>
+
           <Col xs={24} sm={16}>
             <Descriptions
-              title={videoObject.file.title.toString()}
               size="small"
               bordered
               layout="vertical"
@@ -88,14 +119,17 @@ function CarePlanAssignments({
 
           <Col xs={24} sm={24}>
             <Collapse defaultActiveKey={[]} bordered={true}>
-              <Panel header={`${videoObject.file.title.toString()} Comments`} key="1">
+              <Panel
+                header={`${videoObject.file.title.toString()} Comments`}
+                key="1"
+              >
                 <VideoCommentForm
                   getUser={getUser}
                   returnUrl={returnUrl}
                   initialValues={{
                     ...initialValues,
                     assignmentID: assignmentObject.id,
-                    videoID: videoObject.id
+                    videoID: videoObject.id,
                   }}
                 />
                 <Divider />
@@ -187,8 +221,19 @@ function CarePlanAssignments({
   return (
     <AssignmentContainer>
       <Row gutter={[16, 3]}>{renderAssignments()}</Row>
+      <Drawer
+        title={"Assign Video Medals"}
+        placement="right"
+        width={550}
+        onClose={() =>
+          Router.push("/patients/manage?id=" + router.query.id, null, {
+            shallow: true,
+          })
+        }
+        visible={router.query.video}
+      ><AssignMedalsForm  getUser={getUser} router={router}/></Drawer>
     </AssignmentContainer>
   );
 }
 
-export default CarePlanAssignments;
+export default withRouter(CarePlanAssignments);
