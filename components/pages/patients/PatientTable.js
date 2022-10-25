@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 
 import styled from "styled-components";
-import { Table, Tag, Typography } from "antd";
+import { Table, Tag, Typography, Dropdown, Collapse } from "antd";
 import BasicLink from "@common/BasicLink";
 import { EditOutlined } from "@ant-design/icons";
 var dateFormat = require("dateformat");
+import Router from "next/router";
+const { Panel } = Collapse;
 
 const { Text } = Typography;
 
@@ -30,22 +32,24 @@ function PatientTable({ patientData, user }) {
   };
 
   const renderUserAssignments = (record) => {
-    let assignments = []
+    let assignments = [];
     if (record.carePlan) {
       record.carePlan.assignments.map((assignmentObject) => {
         assignments.push({
           title: assignmentObject.title,
-          dateDue: dateFormat(assignmentObject.dateDue, "dddd (mm/dd)")
-        })
-      })
+          dateDue: dateFormat(assignmentObject.dateDue, "dddd (mm/dd)"),
+        });
+      });
     }
     return assignments.map((assignmentObject) => {
       return (
-        <Tag key={assignmentObject.dateDue}>{assignmentObject.title} | {assignmentObject.dateDue}</Tag>
-      )
-    })
-    return ""
-  }
+        <Tag key={assignmentObject.dateDue}>
+          {assignmentObject.title} | {assignmentObject.dateDue}
+        </Tag>
+      );
+    });
+    return "";
+  };
 
   const columns = [
     {
@@ -69,13 +73,17 @@ function PatientTable({ patientData, user }) {
       key: "Assignments",
       width: 45,
       render: (text, record, index) => (
-        <BasicLink
-          key={index}
-          href={`/patients/manage?id=${record.id}`}
-          shallow={true}
-        >
-          {renderUserAssignments(record)}
-        </BasicLink>
+        <Collapse accordion>
+          <Panel header="View Assignments" key="1">
+            <BasicLink
+              key={index}
+              href={`/patients/manage?id=${record.id}`}
+              shallow={true}
+            >
+              {renderUserAssignments(record)}
+            </BasicLink>
+          </Panel>
+        </Collapse>
       ),
     },
     // {
