@@ -61,6 +61,57 @@ export default {
       let updatedChildCarePlan = await prisma.childCarePlan.findUnique({
         where: {
           id: childCarePlanID,
+        },
+        select: {
+          id: true,
+          child: {
+            select: {
+              id: true,
+              email: true,
+              username: true,
+              firstName: true, 
+              lastName: true,
+              profilePic: true,
+            }
+          },
+          level: true,
+          active: true,
+          allVideoStatus: true, 
+          weeklyVideoStatus: true,
+          assignments: {
+            select: {
+              id: true,
+              dateStart: true,
+              dateDue: true,
+              seen: true,
+              title: true,
+              description: true,
+              videos: {
+                select: {
+                  id: true,
+                  contentfulID: true,
+                  completed: true,
+                  medals: {
+                    select: {
+                      id: true,
+                      title: true,
+                      image: true, 
+                      description: true,
+                      createdAt: true,
+                      level: true,
+                    }
+                  }
+                }
+              }
+            }
+          },
+          comments: {
+            select: {
+              id: true,
+              content: true,
+              createdAt: true
+            }
+          }
         }
       });
 
