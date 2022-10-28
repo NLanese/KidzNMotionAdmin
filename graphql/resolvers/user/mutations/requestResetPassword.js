@@ -14,7 +14,7 @@ export default {
       context
     ) => {
       // If the user is already logged in do not let them reset password
-      if (context.user) throw new UserInputError("Already logged in");
+      
 
       // Retrieve the users that match the email address
       let potentialUsers = await prisma.user.findMany({
