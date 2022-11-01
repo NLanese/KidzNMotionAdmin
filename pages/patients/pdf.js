@@ -174,13 +174,13 @@ function ManagePatients({ router }) {
         >
           {badgesObject.videoTitle}: [
           {badgesObject.medals.BRONZE
-            ? `Bronze Medals (${badgesObject.medals.BRONZE.toString()})`
+            ? `Bronze Medals (${badgesObject.medals.BRONZE.toString()}) `
             : ""}
           {badgesObject.medals.SILVER
-            ? `Silver Medals (${badgesObject.medals.SILVER.toString()})`
+            ? `Silver Medals (${badgesObject.medals.SILVER.toString()}) `
             : ""}
           {badgesObject.medals.GOLD
-            ? `Gold Medals (${badgesObject.medals.GOLD.toString()})`
+            ? `Gold Medals (${badgesObject.medals.GOLD.toString()}) `
             : ""}
           ],
         </Text>
