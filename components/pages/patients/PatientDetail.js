@@ -148,6 +148,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
             <a
               href={`/patients/pdf?id=${patientDetail.id}`}
               target="_blank"
+              rel="noreferrer"
             >
               <Button type="ghost" style={{ float: "right", marginRight: "10px" }}>
                 Generate Care Plan PDF
