@@ -163,6 +163,7 @@ function ManagePatients({ router }) {
     return badgesObjects.map((badgesObject) => {
       return (
         <Text
+          key={badgesObject.videoTitle}
           style={{
             fontWeight: "600",
             fontSize: "13px",
@@ -211,10 +212,13 @@ function ManagePatients({ router }) {
         }
       });
     });
-    
+
     return videos.map((videoObject) => {
       return (
-        <View style={{borderBottom: "1px solid black", paddingTop: "10px"}}>
+        <View
+          key={videoObject.title}
+          style={{ borderBottom: "1px solid black", paddingTop: "10px" }}
+        >
           <Text
             style={{
               fontWeight: "600",
@@ -222,8 +226,7 @@ function ManagePatients({ router }) {
               marginBottom: "10px",
             }}
           >
-           {videoObject.title}: {videoObject.description}
-
+            {videoObject.title}: {videoObject.description}
           </Text>
           <Text
             style={{
@@ -232,8 +235,7 @@ function ManagePatients({ router }) {
               marginBottom: "10px",
             }}
           >
-          {videoObject.comments}
-            
+            {videoObject.comments}
           </Text>
         </View>
       );
