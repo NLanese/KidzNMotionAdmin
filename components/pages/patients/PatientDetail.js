@@ -145,6 +145,14 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
                 Edit Care Plan Information
               </Button>
             </BasicLink>
+            <a
+              href={`/patients/pdf?id=${patientDetail.id}`}
+              target="_blank"
+            >
+              <Button type="ghost" style={{ float: "right", marginRight: "10px" }}>
+                Generate Care Plan PDF
+              </Button>
+            </a>
             <PatientInformation patientDetail={patientDetail} user={user} />
 
             <Tabs defaultActiveKey="1">

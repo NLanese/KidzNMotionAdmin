@@ -41,8 +41,8 @@ const LayoutWrapper = styled.div`
     border-color: ${(props) => props.theme.colors.primary} !important;
     color: white !important;
   }
-  .kZgPRq .ant-btn:hover, .kZgPRq .ant-btn:focus
-  .ant-btn-primary[disabled],
+  .kZgPRq .ant-btn:hover,
+  .kZgPRq .ant-btn:focus .ant-btn-primary[disabled],
   .ant-btn-primary[disabled]:hover,
   .ant-btn-primary[disabled]:focus,
   .ant-btn-primary[disabled]:active {
@@ -222,7 +222,11 @@ function Layout({ children, router }) {
     // If the user is still loading then return loading layout before authenitcaiont layouts
     if (user) return <LoadingLayout />;
 
-    return  <ThemeProvider theme={getThemeColor()}><AuthLayout>{children}</AuthLayout></ThemeProvider>
+    return (
+      <ThemeProvider theme={getThemeColor()}>
+        <AuthLayout>{children}</AuthLayout>
+      </ThemeProvider>
+    );
   }
 
   if (router.asPath.includes("legal")) {
@@ -230,10 +234,33 @@ function Layout({ children, router }) {
   }
 
   if (router.asPath.includes("subscription-success")) {
-    return <ThemeProvider  theme={getThemeColor()}>{children}</ThemeProvider>;
+    return <ThemeProvider theme={getThemeColor()}>{children}</ThemeProvider>;
   }
 
-
+  if (router.asPath.includes("pdf")) {
+    return (
+      <ThemeProvider theme={getThemeColor()}>
+        <NextNprogress
+          color={user ? user.webAppColorSettings : "#ffbe76"}
+          options={{ showSpinner: false }}
+          startPosition={0.3}
+          stopDelayMs={0}
+          height={3}
+        />
+        <LayoutWrapper>
+          {user && !user.loading ? (
+            <>
+              <MainContentWrapper id="mainContent">
+                {children}
+              </MainContentWrapper>
+            </>
+          ) : (
+            <LoadingLayout />
+          )}
+        </LayoutWrapper>
+      </ThemeProvider>
+    );
+  }
 
   return (
     <ThemeProvider theme={getThemeColor()}>
