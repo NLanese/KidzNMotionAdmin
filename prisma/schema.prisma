@@ -57,6 +57,7 @@ model User {
   profilePic  Json?
   role        Role     @default(GUARDIAN)
   createdAt   DateTime @default(now())
+  fcmToken    String?
   ////////////////
 
   // Parent / Child Specific //

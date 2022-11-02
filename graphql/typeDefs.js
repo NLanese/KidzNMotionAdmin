@@ -15,6 +15,7 @@ const typeDefs = gql`
     soloStripeSubscriptionID: String
     soloSubscriptionStatus: String
     phoneNumber: String
+    fcmToken: String
     profilePic: JSON
     role: String
     webAppColorSettings: String
@@ -285,6 +286,8 @@ const typeDefs = gql`
     logoutUser: String
 
     requestResetPassword(email: String!): Boolean
+    
+    updatePhoneToken(token: String!): Boolean
 
     confirmPassword(password: String!): Boolean
 
