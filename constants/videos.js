@@ -32,7 +32,7 @@ const VIDEOS = {
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/toe_touches_riskgj.png"
   },
-  squat: { // MISSING?
+  squat: { 
     id: "squat",
     level: 1,
     title: "Squat",
