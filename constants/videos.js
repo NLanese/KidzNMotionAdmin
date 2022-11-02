@@ -2,7 +2,7 @@
 const VIDEOS = {
   // TO BE ADDED
 
-  step_up: {
+  step_up: {  // MISSING
     id: "step_up",
     level: 2,
     title: "Step Up",
@@ -12,7 +12,7 @@ const VIDEOS = {
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/step_up_egwcrb.png"
   },
-  toe_walking: {
+  toe_walking: { // MISSING
     id: "toe_walking",
     level: 2,
     title: "Heel/Toe Walking",
@@ -22,7 +22,7 @@ const VIDEOS = {
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/toe_walking_uyqgpl.png",
   },
-  toe_touches: {
+  toe_touches: { // MISSING?
     id: "toe_touches",
     level: 1,
     title: "Toe Touches",
@@ -32,7 +32,7 @@ const VIDEOS = {
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/toe_touches_riskgj.png"
   },
-  squat: {
+  squat: { // MISSING?
     id: "squat",
     level: 1,
     title: "Squat",
