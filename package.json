@@ -27,6 +27,7 @@
     "dateformat": "^4.5.1",
     "dotenv-webpack": "^7.0.3",
     "final-form": "^4.20.7",
+    "firebase-admin": "^11.2.0",
     "graphql": "^15.0.0",
     "graphql-type-json": "^0.3.2",
     "micro": "^9.3.4",
