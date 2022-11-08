@@ -491,6 +491,7 @@ export const getUserObject = async (user) => {
                 profilePic: true,
                 childDateOfBirth: true,
                 diagnosis: true,
+                assignMuted: true,
                 videos: {
                   select: {
                     id: true,
@@ -515,6 +516,7 @@ export const getUserObject = async (user) => {
                     lastName: true,
                     phoneNumber: true,
                     email: true,
+                    messagesMuted: true
                   },
                 },
                 childCarePlans: {
