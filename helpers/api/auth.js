@@ -994,5 +994,7 @@ export const getUserObject = async (user) => {
     // console.log("hi");
   }
 
+  console.log(userObject.organizations)
+
   return userObject;
 };
