@@ -4,6 +4,7 @@ import GraphQLJSON from 'graphql-type-json';
 import editNotificationSettings from './mutations/editNotificationSettings.js';
 import claimPatient from './mutations/claimPatient.js';
 import invitePatient from './mutations/invitePatient.js';
+import changeUserNotifications from './mutations/changeUserNotifications.js';
 
 export default {
     Mutation: {
@@ -11,6 +12,7 @@ export default {
         ...editNotificationSettings.Mutation,
         ...claimPatient.Mutation,
         ...invitePatient.Mutation,
+        ...changeUserNotifications.Mutation
 
     },
     JSON: GraphQLJSON,

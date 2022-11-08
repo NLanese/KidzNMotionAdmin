@@ -364,6 +364,12 @@ const typeDefs = gql`
       patientUserID: String!
     ): Boolean
 
+    changeUserNotifications(
+      userID: String!
+      messagesMuted: Boolean!
+      assignMuted: Boolean!
+    ): User
+
     invitePatient(
       email: String!
       guardianFirstName: String!
