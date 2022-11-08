@@ -156,7 +156,9 @@ function ManagePatients({ router }) {
             videoBadgeObject.medals[medalObject.level] = 1;
           }
         });
-        badgesObjects.push(videoBadgeObject);
+        if (videoBadgeObject.medals.BRONZE) {
+          badgesObjects.push(videoBadgeObject);
+        }
       });
     });
     console.log(badgesObjects);
@@ -326,7 +328,7 @@ function ManagePatients({ router }) {
                 <div
                   style={{
                     display: "flex",
-                    flexDirection: "row",
+                    flexDirection: "column",
                     justifyContent: "flex-start",
                     padding: "2rem",
                     borderBottom: "1px solid #EBEBEB",
@@ -377,7 +379,7 @@ function ManagePatients({ router }) {
                     }}
                   >
                     Therapist Name: {patientDetail.carePlan.therapist.firstName}{" "}
-                    {patientDetail.carePlan.therapist.firstName}
+                    {patientDetail.carePlan.therapist.lastName}
                   </Text>
                   <Text
                     style={{
