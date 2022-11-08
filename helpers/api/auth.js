@@ -397,6 +397,7 @@ export const getUserObject = async (user) => {
                 organizationType: true,
                 stripeSubscriptionID: true,
                 subscriptionStatus: true,
+                phoneNumber: true,
               },
             },
           },
@@ -611,6 +612,7 @@ export const getUserObject = async (user) => {
                 organizationType: true,
                 stripeSubscriptionID: true,
                 subscriptionStatus: true,
+                phoneNumber: true,
                 organizationUsers: {
                   select: {
                     id: true,
@@ -735,7 +737,7 @@ export const getUserObject = async (user) => {
                 organizationType: true,
                 stripeSubscriptionID: true,
                 subscriptionStatus: true,
-                
+                phoneNumber: true,
                 organizationUsers: {
                   select: {
                     id: true,
