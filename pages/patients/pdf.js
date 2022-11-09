@@ -156,12 +156,16 @@ function ManagePatients({ router }) {
             videoBadgeObject.medals[medalObject.level] = 1;
           }
         });
-        if (videoBadgeObject.medals.BRONZE) {
+        if (
+          videoBadgeObject.medals.BRONZE ||
+          videoBadgeObject.medals.SILVER ||
+          videoBadgeObject.medals.GOLD
+        ) {
           badgesObjects.push(videoBadgeObject);
         }
       });
     });
-    console.log(badgesObjects);
+
     return badgesObjects.map((badgesObject) => {
       return (
         <Text
@@ -338,7 +342,46 @@ function ManagePatients({ router }) {
                 >
                   {renderGameBadges()}
                 </div>
-
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+                    padding: "2rem",
+                    borderBottom: "1px solid #EBEBEB",
+                    marginTop: "10px",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontWeight: "600",
+                      fontSize: "12px",
+                      width: "100%",
+                    }}
+                  >
+                    Bronze - Complete the video for at least 30 seconds
+                  </Text>
+                  <Text
+                    style={{
+                      fontWeight: "800",
+                      fontSize: "12px",
+      
+                    }}
+                  >
+                    Silver - Complete the video for a minute, with or without
+                    breaks, with no physical help
+                  </Text>
+                  <Text
+                    style={{
+                      fontWeight: "800",
+                      fontSize: "12px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    Gold - Complete the video without help, for a full minute
+                    with no breaks
+                  </Text>
+                </div>
                 <Text
                   style={{
                     fontWeight: "600",

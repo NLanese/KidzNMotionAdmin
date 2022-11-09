@@ -119,18 +119,20 @@ export default {
 
         for (var i = 0; i < medalObjectsToCreate.length; i++) {
           let medalToCreate = medalObjectsToCreate[i];
-          let newMedal = await prisma.medal.create({
-            data: {
-              title: medalToCreate.title,
-              level: medalToCreate.level,
-              description: medalToCreate.pictureURL,
-              video: {
-                connect: {
-                  id: video.id,
+          if (medalType.toUpperCase() === medalToCreate.level) {
+            let newMedal = await prisma.medal.create({
+              data: {
+                title: medalToCreate.title,
+                level: medalToCreate.level,
+                description: medalToCreate.pictureURL,
+                video: {
+                  connect: {
+                    id: video.id,
+                  },
                 },
               },
-            },
-          });
+            });
+          }
         }
       }
 
