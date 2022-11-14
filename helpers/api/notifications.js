@@ -22,6 +22,9 @@ export const createNotification = async (
     },
   });
 
+  console.log("---------")
+  console.log(userToSendPushNotification.fcmToken)
+  console.log("---------")
   if (userToSendPushNotification && userToSendPushNotification.fcmToken) {
     const message = {
       notification: {

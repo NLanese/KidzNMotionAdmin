@@ -19,6 +19,15 @@ const ChatMessagesWrapper = styled.div`
 
 `;
 
+function reverseArr(input) {
+  var ret = new Array;
+  for(var i = input.length-1; i >= 0; i--) {
+      ret.push(input[i]);
+  }
+  return ret;
+}
+
+
 function ChatMessages({ chatRoomObject, user }) {
   const bottomRef = useRef(null);
 
@@ -36,8 +45,10 @@ function ChatMessages({ chatRoomObject, user }) {
     }
     let today = null;
     let messages = chatRoomObject.messages;
-  
-    return messages.map((message) => {
+    
+    var messagesReversed = reverseArr(messages);
+
+    return messagesReversed.map((message) => {
       let displayMessagSentHeader = false;
       let messageSent = dateFormat(message.createdAt, "dddd (mm/dd)");
       if (today !== messageSent) {
