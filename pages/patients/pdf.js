@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { NextSeo } from "next-seo";
+import { makeRandomString, changeTimeZone } from "@helpers/common";
 
 import { withRouter } from "next/router";
 var dateFormat = require("dateformat");
@@ -214,7 +215,22 @@ function ManagePatients({ router }) {
     patientDetail.carePlan.comments.map((commentObject) => {
       videos.map((videoObject) => {
         if (commentObject.videoId === videoObject.id) {
-          videoObject.comments.push(commentObject.content);
+          console.log(videoObject.comments);
+          console.log("---------");
+
+          let date1 = changeTimeZone(
+            commentObject.createdAt,
+            "America/New_York"
+          );
+          let date2 = new Date();
+
+          if (
+            date1.getFullYear() === date2.getFullYear() &&
+            date1.getMonth() === date2.getMonth() &&
+            date1.getDate() === date2.getDate()
+          ) {
+            videoObject.comments.push(commentObject.content);
+          }
         }
       });
     });
@@ -365,7 +381,6 @@ function ManagePatients({ router }) {
                     style={{
                       fontWeight: "800",
                       fontSize: "12px",
-      
                     }}
                   >
                     Silver - Complete the video for a minute, with or without
