@@ -8,7 +8,7 @@ const VIDEOS = {
     title: "Step Up",
     description: "Get some sort of small stool or step-up bench for this exercise! Here, we will try to step up, first with our left foot and then our right, so we have both feet on the platform! Then, step down, left the right and do it again!",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948242/Kids-N-Motion%20Videos/Step_up_1_wwkfvc.mp4",
+      "https://res.cloudinary.com/king-willy-studios/video/upload/v1668524544/Kids-N-Motion%20Videos/Step_up_ofg3pr.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/step_up_egwcrb.png"
   },
@@ -38,7 +38,7 @@ const VIDEOS = {
     title: "Squat",
     description: "For this exercise, plant your feet about shoulder width apart, and squat down while trying to keep your back straight. This should test your leg strength as well as your balance!",
     videoURL:
-      "https://asset.cloudinary.com/king-willy-studios/c3aedc4a44029c0bcb6c246a94ae78c2",
+      "https://res.cloudinary.com/king-willy-studios/video/upload/v1668524529/Kids-N-Motion%20Videos/Squat_1_ungpfq.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/squat_ujqj9j.png"
   },
