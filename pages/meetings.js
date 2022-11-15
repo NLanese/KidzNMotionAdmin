@@ -164,7 +164,7 @@ function Meetings({ router }) {
               type="primary"
               block
             >
-              Disapprove Meeting
+              Decline Meeting
             </Button>
           </>
         );
@@ -174,7 +174,7 @@ function Meetings({ router }) {
             <>
               <Title level={4}>Approve Meeting</Title>
               <Text>
-                This meeting has been approved. You can disapprove the meeting
+                This meeting has been approved. You can Decline the meeting
                 to remove it from the guardian's calendar.
               </Text>
               <br />
@@ -185,7 +185,7 @@ function Meetings({ router }) {
                 type="primary"
                 block
               >
-                Disapprove Meeting
+                Decline Meeting
               </Button>
             </>
           );
@@ -194,7 +194,7 @@ function Meetings({ router }) {
             <>
               <Title level={4}>Approve Meeting</Title>
               <Text>
-                This meeting has been disapproved. You can approve the meeting
+                This meeting has been declined. You can approve the meeting
                 to add it from the guardian's calendar.
               </Text>
               <br />
