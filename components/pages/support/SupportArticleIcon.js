@@ -38,11 +38,11 @@ function SupportArticleIcon({ href, title, description, icon }) {
   return (
     <BasicLink href={href ? href : "/"}>
       <ArticleIconWrapper>
-        <Space align="start">
+        <Space align="center">
           {icon}
-          <Space direction="vertical" size={7}>
-            <Text strong>{title}</Text>
-            <Text>{description}</Text>
+            <Text strong >{title}</Text>
+          <Space direction="center" size={7}>
+            {/* <Text>{description}</Text> */}
           </Space>
         </Space>
       </ArticleIconWrapper>

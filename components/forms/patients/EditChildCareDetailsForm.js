@@ -119,10 +119,10 @@ function EditChildCareDetailsForm({ getUser, initialValues, returnUrl }) {
                       value: "2",
                       text: "2",
                     },
-                    {
-                      value: "3",
-                      text: "3",
-                    },
+                    // {
+                    //   value: "3",
+                    //   text: "3",
+                    // },
                   ]}
                   size={"large"}
                   required={false}
