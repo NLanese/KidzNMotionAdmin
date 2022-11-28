@@ -18,7 +18,6 @@ import CreateCarePlanComment from "@forms/patients/CreateCarePlanComment";
 import CarePlanComments from "@pages/patients/CarePlanComments";
 import CarePlanAssignments from "@pages/patients/CarePlanAssignments";
 
-
 function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
   const setUser = useSetRecoilState(userState);
 
@@ -79,8 +78,8 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
 
   const getDrawerContent = () => {
     if (router.query.editPlan) {
-      console.clear()
-      console.log(patientDetail)
+      console.clear();
+      console.log(patientDetail);
       return (
         <EditChildCareDetailsForm
           getUser={getUser}
@@ -150,8 +149,11 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
               target="_blank"
               rel="noreferrer"
             >
-              <Button type="ghost" style={{ float: "right", marginRight: "10px" }}>
-                Generate Care Plan PDF
+              <Button
+                type="ghost"
+                style={{ float: "right", marginRight: "10px" }}
+              >
+                Generate A PDF Document
               </Button>
             </a>
             <PatientInformation patientDetail={patientDetail} user={user} />
@@ -173,17 +175,16 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
                       Create New Assignment +
                     </Button>
                   </BasicLink>
-                
                 </div>
                 <CarePlanAssignments
-                    getUser={getUser}
-                    comments={patientDetail.carePlan.comments}
-                    initialValues={{
-                      childCarePlanID: patientDetail.carePlan.id,
-                    }}
-                    returnUrl={`/patients/manage?id=${patientDetail.id}`}
-                    assignments={patientDetail.carePlan.assignments}
-                  />
+                  getUser={getUser}
+                  comments={patientDetail.carePlan.comments}
+                  initialValues={{
+                    childCarePlanID: patientDetail.carePlan.id,
+                  }}
+                  returnUrl={`/patients/manage?id=${patientDetail.id}`}
+                  assignments={patientDetail.carePlan.assignments}
+                />
               </TabPane>
               <TabPane tab="Care Plan Comments" key="2">
                 <BasicLink

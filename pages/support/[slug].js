@@ -5,6 +5,8 @@ import { NextSeo } from "next-seo";
 import PageHeader from "@common/PageHeader";
 import ContentCard from "@common/content/ContentCard";
 import { useRouter } from "next/router";
+import { useRecoilValue } from "recoil";
+import { userState } from "@atoms";
 const { Title, Text } = Typography;
 
 const SupportArticleWrapper = styled.div`
@@ -24,6 +26,7 @@ const SupportArticleWrapper = styled.div`
 `;
 
 function Support() {
+  const user = useRecoilValue(userState);
   const router = useRouter();
 
   const renderContent = () => {
@@ -33,7 +36,10 @@ function Support() {
         content: (
           <>
             <Text>
-              Kidz-N-Motion app is a therapy tool that helps physical therapists
+              {user.role === "GUARDIAN"
+                ? `Kidz-N-Motion is a physical therapy platform that offers an easy-to-operate approach with helping disabled children. We have done this by launching a user-friendly app aimed at improving functional mobility, strength, balance, and coordination through simple physical therapy activities. The app uses animated videos with a gamified way to address gross motor skills. The app could be utilized by therapists, parents, and children with disabilities. As a parent/child user, you have specific activities recommended by your therapist to practice. You can send a message within the app to your therapist about your child’s care. And you can request an appointment with your therapist all through the app.
+`
+                : `  Kidz-N-Motion app is a therapy tool that helps physical therapists
               manage their patients more efficiently, effectively and allows for
               parents to engage in their child's development. A therapist can
               document a baseline assessment, upload a video clip of the child
@@ -41,7 +47,7 @@ function Support() {
               the app! Therapists will be able to give assignments for home
               exercise programs or schedule meetings with clients (in-person or
               remotely) via both the Kidz-N-Motion Web Application as well as
-              the Mobile App.
+              the Mobile App.`}
               <br />
               <br />
               For parents, we understand how hard it is to track your child's
@@ -59,7 +65,7 @@ function Support() {
       "request-meeting": {
         title: "Requesting Meeting",
         content: (
-          <>
+          <Text>
             Please keep in mind that on the Kidz-N-Motion website is where the
             meetings are managed. Clicking on the ‘Meetings’ sub header will
             allow the user to request meetings, through the button on the top
@@ -70,13 +76,13 @@ function Support() {
             type of meeting, ‘Virtual or In-Person meeting.’
             <br />
             <br />
-            On the mobile app, log in then click on the avatar to get to
+            On the mobile app, login then click on the avatar to get to
             settings. Under settings, click ‘Request a Meeting” to request a
             meeting with the therapist. A modal will produce a time, a date, and
             ‘Virtual or In-Person meeting.’ The displayed date is a button that
             when pressed, will open a date / time picker. These pickers will
             allow you to select the date or time desired.
-          </>
+          </Text>
         ),
       },
       "message-therapist": {
@@ -88,7 +94,9 @@ function Support() {
               Guardians/Parents will have a chat per therapist, meaning if they
               have two or more kids with a therapist, you will have two or more
               chat rooms. Users with one child in the network will only have one
-              chat room with that child’s therapist.
+              chat room with that child’s therapist.On the website, after
+              logging into the portal, messaging can be found on the left column
+              of the homepage.
               <br />
               <br />
               On the mobile application, upon sign-in users will see a button
@@ -97,10 +105,6 @@ function Support() {
               numerous chat rooms, they will be directed to a feed of all their
               different conversations. From here, users will be able to select
               the conversation they wish to access.
-              <br />
-              <br />
-              On the website, after logging into the portal, messaging can be
-              found on the left column of the homepage.
             </Text>
           </>
         ),
@@ -112,8 +116,8 @@ function Support() {
             <Text>
               On the mobile app, login then click ‘Videos’ to access all
               assigned videos. You will also see an indication on your calendar
-              of a new video assignment.Click on ‘View all’ on the bottom of the
-              calendar page. Then select the assignment to view the verbal
+              of a new video assignment. Click on ‘View all’ on the bottom of
+              the calendar page. Then select the assignment to view the verbal
               description of the assigned videos.
               <br />
               <br />
@@ -305,7 +309,7 @@ function Support() {
             invites to a large number of users at once. An example of this
             spreadsheet is available for download. The excel sheet has two cells
             labeled, email and role (guardian, administrator, therapist) to fill
-            in for submission. Log in, click ‘Patients’, then click ‘Upload
+            in for submission. Login, click ‘Patients’, then click ‘Upload
             Patients.’ Then click on ‘Download Template.’ The file should
             appear, fill, save, then click ‘Upload File’. Next click ‘Upload and
             continue’. Review the information for accuracy then click ‘Bulk
