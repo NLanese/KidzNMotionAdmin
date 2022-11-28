@@ -42,10 +42,6 @@ function CarePlanAssignments({
   initialValues,
   router,
 }) {
-
-
-
-
   const renderMedals = (medals) => {
     return medals.map((medalObject) => {
       return (
@@ -75,7 +71,9 @@ function CarePlanAssignments({
                   "/patients/manage?id=" +
                     router.query.id +
                     "&video=" +
-                    videoObject.id + "&video_id=" + videoObject.file.id,
+                    videoObject.id +
+                    "&video_id=" +
+                    videoObject.file.id,
                   null,
                   {
                     shallow: true,
@@ -149,8 +147,12 @@ function CarePlanAssignments({
   };
 
   const renderAssignments = () => {
-    return assignments.map((assignmentObject) => {
-      console.log(assignmentObject);
+    let sortedAssignments = JSON.parse(JSON.stringify(assignments));
+    sortedAssignments = sortedAssignments.sort((a, b) =>
+      a.dateDue > b.dateDue ? 1 : b.dateDue > a.dateDue ? -1 : 0
+    );
+
+    return sortedAssignments.map((assignmentObject) => {
       return (
         <Col xs={24} sm={24} key={assignmentObject.id}>
           <ContentCard key={assignmentObject.id}>
@@ -171,7 +173,7 @@ function CarePlanAssignments({
                 {dateFormat(assignmentObject.dateStart, "mmm dd, yyyy")}
               </Descriptions.Item>
               <Descriptions.Item label="Date End">
-                {dateFormat(assignmentObject.dateEnd, "mmm dd, yyyy")}
+                {dateFormat(assignmentObject.dateDue, "mmm dd, yyyy")}
               </Descriptions.Item>
               <Descriptions.Item label="Description">
                 {assignmentObject.description}
@@ -231,7 +233,9 @@ function CarePlanAssignments({
           })
         }
         visible={router.query.video}
-      ><AssignMedalsForm  getUser={getUser} router={router}/></Drawer>
+      >
+        <AssignMedalsForm getUser={getUser} router={router} />
+      </Drawer>
     </AssignmentContainer>
   );
 }

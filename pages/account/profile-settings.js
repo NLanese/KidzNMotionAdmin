@@ -31,9 +31,7 @@ function ProfileSettings() {
   const [user, setUser] = useRecoilState(userState);
 
   // Mutations
-  const [editUser, {}] = useMutation(
-    EDIT_USER
-  );
+  const [editUser, {}] = useMutation(EDIT_USER);
 
   const submitUserProfile = async (formValues) => {
     await editUser({
@@ -53,11 +51,11 @@ function ProfileSettings() {
         await client
           .query({
             query: GET_USER,
-            fetchPolicy: 'network-only'
+            fetchPolicy: "network-only",
           })
           .then(async (resolved) => {
-            console.clear()
-            // console.log(resolved);
+            // console.clear()
+            // // console.log(resolved);
             setUser(resolved.data.getUser);
           })
           .catch((error) => {

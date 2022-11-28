@@ -28,18 +28,17 @@ const SubmitButtonContainer = styled.div`
   }
 `;
 
-
 function MainOrganizationSettingsForm({
   submitOrganizationSettings,
   initialValues,
 }) {
-  // console.log(initialValues)
+  // // console.log(initialValues)
   const user = useRecoilValue(userState);
   const [formLoading, setFormLoading] = useState(false);
 
   const handleCreateCompanyPreferences = async (formValues) => {
     setFormLoading(true);
-    formValues.username = formValues.email
+    formValues.username = formValues.email;
     await submitOrganizationSettings(formValues);
     setFormLoading(false);
   };

@@ -75,7 +75,7 @@ const ChatRowItem = styled.div`
     text-transform: capitalize;
   }
   .ant-avatar {
-    background-color: ${props => props.theme.colors.primary};
+    background-color: ${(props) => props.theme.colors.primary};
   }
 `;
 
@@ -87,10 +87,7 @@ function ChatRowContent({ selectedChatRoom, chatRoomObject, otherUser }) {
       <Row justify="middle" align="middle">
         <Col xs={18}>
           <Space>
-            <Avatar
-              style={{ fontSize: "16px" }}
-              size={37}
-            >
+            <Avatar style={{ fontSize: "16px" }} size={37}>
               {otherUser.firstName[0].toUpperCase()}.
               {otherUser.lastName[0].toUpperCase()}.
             </Avatar>
@@ -203,8 +200,7 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
   };
 
   const createNewChatRoom = async (otherParticipantID) => {
-
-    console.log(otherParticipantID)
+    // console.log(otherParticipantID);
     await createChatRoom({
       variables: {
         otherParticipantID: otherParticipantID,
@@ -220,8 +216,8 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
   };
 
   const renderPossibleChats = (intOnly) => {
-    // console.clear()
-    console.log(user);
+    // // console.clear()
+    // console.log(user);
     let possibleUserChats = [];
 
     if (user.role === "THERAPIST") {
@@ -240,12 +236,12 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
         });
       });
     } else if (user.role === "GUARDIAN") {
-      console.log(user.children)
-      console.clear()
+      // console.log(user.children);
+      // console.clear()
       user.children.map((childObject) => {
         if (childObject.childCarePlans) {
           childObject.childCarePlans.map((childCarePlanObject) => {
-            console.log(childCarePlanObject)
+            // console.log(childCarePlanObject);
             possibleUserChats.push({
               id: childCarePlanObject.therapist.id,
               firstName: childCarePlanObject.therapist.firstName,
@@ -269,12 +265,11 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
     });
 
     if (intOnly) {
-      return possibleUserChats.length
+      return possibleUserChats.length;
     }
 
     return possibleUserChats.map((possibleChatUser) => {
-      
-      console.log(possibleChatUser)
+      // console.log(possibleChatUser);
       return (
         <div
           onClick={() => createNewChatRoom(possibleChatUser.id)}

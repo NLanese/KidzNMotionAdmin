@@ -49,10 +49,10 @@ function OrganizationSettings() {
         await client
           .query({
             query: GET_USER,
-            fetchPolicy: 'network-only'
+            fetchPolicy: "network-only",
           })
           .then(async (resolved) => {
-            // console.log(resolved);
+            // // console.log(resolved);
             setUser(resolved.data.getUser);
           })
           .catch((error) => {

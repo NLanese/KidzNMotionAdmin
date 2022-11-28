@@ -34,7 +34,13 @@ function PatientTable({ patientData, user }) {
   const renderUserAssignments = (record) => {
     let assignments = [];
     if (record.carePlan) {
-      record.carePlan.assignments.map((assignmentObject) => {
+      let sortedAssignments = JSON.parse(
+        JSON.stringify(record.carePlan.assignments)
+      );
+      sortedAssignments = sortedAssignments.sort((a, b) =>
+        a.dateDue > b.dateDue ? 1 : b.dateDue > a.dateDue ? -1 : 0
+      );
+      sortedAssignments.map((assignmentObject) => {
         assignments.push({
           title: assignmentObject.title,
           dateDue: dateFormat(assignmentObject.dateDue, "dddd (mm/dd)"),

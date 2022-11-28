@@ -85,7 +85,7 @@ function AvatarSettingsForm({}) {
         fetchPolicy: "network-only",
       })
       .then(async (resolved) => {
-        console.clear();
+        // console.clear();
         setUser(resolved.data.getUser);
       })
       .catch((error) => {

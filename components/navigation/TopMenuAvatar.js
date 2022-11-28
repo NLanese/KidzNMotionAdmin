@@ -117,7 +117,7 @@ function TopMenuAvatar() {
     };
 
     if (user.profilePic) {
-      interumProfilePic = user.profilePic
+      interumProfilePic = user.profilePic;
     }
     return (
       <Avatar
@@ -137,7 +137,7 @@ function TopMenuAvatar() {
     );
   };
 
-  // console.log(user)
+  // // console.log(user)
   return (
     <Space>
       {renderFreeTrialTag()}

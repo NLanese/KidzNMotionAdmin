@@ -11,7 +11,13 @@ const CommentContainer = styled.div`
   margin-top: 40px;
 `;
 
-function CarePlanComments({ comments, getUser, returnUrl, assignmentID, videoID }) {
+function CarePlanComments({
+  comments,
+  getUser,
+  returnUrl,
+  assignmentID,
+  videoID,
+}) {
   // Mutations
   const [deleteChildCarePlanComment, {}] = useMutation(
     DELETE_CHILD_CARE_PLAN_COMMENT
@@ -35,11 +41,11 @@ function CarePlanComments({ comments, getUser, returnUrl, assignmentID, videoID 
 
   const renderComments = () => {
     return comments.map((commentObject) => {
-      console.clear()
-      console.log(commentObject)
+      // console.clear()
+      // console.log(commentObject);
       if (!videoID) {
         if (commentObject.videoId) {
-          return
+          return;
         }
         if (!assignmentID) {
           if (commentObject.assignmentId) return;
@@ -48,10 +54,9 @@ function CarePlanComments({ comments, getUser, returnUrl, assignmentID, videoID 
         }
       } else {
         if (commentObject.videoId !== videoID) {
-          return
+          return;
         }
       }
-      
 
       return (
         <div key={commentObject.id}>

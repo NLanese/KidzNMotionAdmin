@@ -26,7 +26,7 @@ export default {
           });
         }
 
-        console.log("POTENTIAL USERS:", potentialUsers)
+        // console.log("POTENTIAL USERS:", potentialUsers)
 
         // Loop through to find user
         let userToLogin = null;
@@ -43,7 +43,7 @@ export default {
 
         // If no user can be found with this email address, return an error
         if (!userToLogin) {
-          console.log("NO USER TO LOGIN")
+          // console.log("NO USER TO LOGIN")
           throw new UserInputError("Email/Password are incorrect.");
         }
 
@@ -118,7 +118,7 @@ export default {
               user: userToLogin,
             };
           } catch (err) {
-            // console.log(err)
+            // // console.log(err)
           }
         } else {
           if (userToLogin && userToLogin.role === "GUARDIAN") {
@@ -139,7 +139,7 @@ export default {
                     username: true,
                     firstName: true,
                     role: true,
-                    lastName: true
+                    lastName: true,
                   },
                 },
               },
@@ -155,7 +155,6 @@ export default {
                   );
                   let decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
 
-            
                   // If the passwords match
                   if (decryptedPassword === password) {
                     childPasswordMatch = childObject;
@@ -201,7 +200,7 @@ export default {
                       user: childPasswordMatch,
                     };
                   } catch (err) {
-                    // console.log(err)
+                    // // console.log(err)
                   }
                 }
               }
@@ -219,11 +218,11 @@ export default {
             },
           });
 
-          console.log("Wrong Password")
+          // console.log("Wrong Password")
           throw new UserInputError("Email/Password are incorrect.");
         }
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         throw new Error(error);
       }
     },

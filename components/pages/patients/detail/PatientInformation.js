@@ -6,21 +6,19 @@ import VIDEOS from "@constants/videos";
 
 function PatientInformation({ patientDetail, user }) {
   const renderBlockedVideos = () => {
-   
     let videoString = "";
     if (patientDetail.carePlan.blockedVideos) {
-      console.log("hi")
+      // console.log("hi")
       if (patientDetail.carePlan.blockedVideos.ids) {
-        
         patientDetail.carePlan.blockedVideos.ids.map((videoID, index) => {
           if (VIDEOS[videoID]) {
-            videoString += `${VIDEOS[videoID].title} - Level: ${VIDEOS[videoID].level}, `
+            videoString += `${VIDEOS[videoID].title} - Level: ${VIDEOS[videoID].level}, `;
           }
         });
       }
     }
 
-    return videoString
+    return videoString;
   };
   return (
     <>
@@ -40,8 +38,10 @@ function PatientInformation({ patientDetail, user }) {
         <Descriptions.Item label="Date of Birth">
           {dateFormat(patientDetail.childDateOfBirth, "mmm dd, yyyy")}
         </Descriptions.Item>
-        <Descriptions.Item label="Diagnosis">{patientDetail.carePlan.child.diagnosis}</Descriptions.Item>
-       
+        <Descriptions.Item label="Diagnosis">
+          {patientDetail.carePlan.child.diagnosis}
+        </Descriptions.Item>
+
         <Descriptions.Item label="Therapist">
           {patientDetail.carePlan.therapist.firstName}{" "}
           {patientDetail.carePlan.therapist.firstName}{" "}
@@ -57,7 +57,9 @@ function PatientInformation({ patientDetail, user }) {
         <Descriptions.Item label="Guardian Phone Number">
           {patientDetail.carePlan.child.guardian.phoneNumber}
         </Descriptions.Item>
-        <Descriptions.Item label="Blocked Vidoes">{renderBlockedVideos()}</Descriptions.Item>
+        <Descriptions.Item label="Blocked Vidoes">
+          {renderBlockedVideos()}
+        </Descriptions.Item>
       </Descriptions>
       <Divider />
     </>

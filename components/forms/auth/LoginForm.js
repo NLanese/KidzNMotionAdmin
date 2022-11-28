@@ -36,18 +36,15 @@ function LoginForm() {
         await client
           .query({
             query: GET_USER,
-            fetchPolicy: 'network-only'
-            
+            fetchPolicy: "network-only",
           })
           .then(async (resolved) => {
-            // console.log(resolved)
-            setUser(resolved.data.getUser)
-
+            // // console.log(resolved)
+            setUser(resolved.data.getUser);
           })
           .catch((error) => {
             message.error("Sorry, there was an error getting this information");
           });
-
       })
       .catch((error) => {
         message.error("Incorrect email/username or password");

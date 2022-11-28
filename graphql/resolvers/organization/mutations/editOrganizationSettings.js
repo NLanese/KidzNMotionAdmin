@@ -9,7 +9,7 @@ export default {
       if (!context.user.ownedOrganization)
         throw new UserInputError("Owner Role required");
 
-      console.log("hit")
+      // console.log("hit")
 
       await prisma.organization.update({
         where: {

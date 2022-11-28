@@ -9,7 +9,7 @@ export default {
       { commentContent, videoID, assignmentID, childCarePlanID },
       context
     ) => {
-      console.log(assignmentID)
+      // console.log(assignmentID)
       if (!context.user) throw new UserInputError("Login required");
 
       if (context.user.role !== "THERAPIST")
@@ -46,9 +46,9 @@ export default {
           videoId: videoID,
           assignmentId: assignmentID,
           therapist: {
-              connect: {
-                  id: context.user.id
-              }
+            connect: {
+              id: context.user.id,
+            },
           },
           childCarePlan: {
             connect: {
@@ -56,7 +56,7 @@ export default {
             },
           },
         },
-      })
+      });
 
       let updatedChildCarePlan = await prisma.childCarePlan.findUnique({
         where: {
@@ -69,14 +69,14 @@ export default {
               id: true,
               email: true,
               username: true,
-              firstName: true, 
+              firstName: true,
               lastName: true,
               profilePic: true,
-            }
+            },
           },
           level: true,
           active: true,
-          allVideoStatus: true, 
+          allVideoStatus: true,
           weeklyVideoStatus: true,
           assignments: {
             select: {
@@ -95,24 +95,24 @@ export default {
                     select: {
                       id: true,
                       title: true,
-                      image: true, 
+                      image: true,
                       description: true,
                       createdAt: true,
                       level: true,
-                    }
-                  }
-                }
-              }
-            }
+                    },
+                  },
+                },
+              },
+            },
           },
           comments: {
             select: {
               id: true,
               content: true,
-              createdAt: true
-            }
-          }
-        }
+              createdAt: true,
+            },
+          },
+        },
       });
 
       return updatedChildCarePlan;

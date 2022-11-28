@@ -9,7 +9,7 @@ import { Typography, Divider, Space, Col, Row, Button, Spin } from "antd";
 const { Text } = Typography;
 
 function ColorThemeSettingsForm({ submitOrganizationSettings, initialValues }) {
-  // console.log(initialValues)
+  // // console.log(initialValues)
   const user = useRecoilValue(userState);
   const [color, setColor] = useState("#ff9800");
   const [formLoading, setFormLoading] = useState(false);
@@ -27,8 +27,8 @@ function ColorThemeSettingsForm({ submitOrganizationSettings, initialValues }) {
       },
     })
       .then(({ data }) => {
-        console.log("success");
-        window.location.reload()
+        // console.log("success");
+        window.location.reload();
       })
       .catch(({ response }) => {
         return null;

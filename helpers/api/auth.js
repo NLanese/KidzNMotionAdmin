@@ -306,8 +306,8 @@ export const getUserObject = async (user) => {
                             image: true,
                             description: true,
                             level: true,
-                            
-                            createdAt: true
+
+                            createdAt: true,
                           },
                         },
                       },
@@ -320,7 +320,7 @@ export const getUserObject = async (user) => {
                     firstName: true,
                     lastName: true,
                     email: true,
-                    profilePic: true
+                    profilePic: true,
                   },
                 },
                 assignments: {
@@ -343,7 +343,7 @@ export const getUserObject = async (user) => {
                             image: true,
                             description: true,
                             level: true,
-                            createdAt: true
+                            createdAt: true,
                           },
                         },
                       },
@@ -375,8 +375,7 @@ export const getUserObject = async (user) => {
                     sentBy: true,
                     createdAt: true,
                     chatroomId: true,
-                    
-                  }
+                  },
                 },
                 active: true,
                 createdAt: true,
@@ -416,24 +415,23 @@ export const getUserObject = async (user) => {
                 sentBy: true,
                 createdAt: true,
                 chatroomId: true,
-                
-              }
+              },
             },
             active: true,
             createdAt: true,
             users: true,
           },
         },
-        guardian:{
+        guardian: {
           select: {
             firstName: true,
-            role: true, 
-            lastName: true, 
+            role: true,
+            lastName: true,
             username: true,
             email: true,
-            id: true
-          }
-        }
+            id: true,
+          },
+        },
       },
     });
   } else if (user.role === "THERAPIST") {
@@ -504,7 +502,7 @@ export const getUserObject = async (user) => {
                         image: true,
                         description: true,
                         level: true,
-                        createdAt: true
+                        createdAt: true,
                       },
                     },
                   },
@@ -518,14 +516,14 @@ export const getUserObject = async (user) => {
                     phoneNumber: true,
                     email: true,
                     messagesMuted: true,
-                    assignMuted: true
+                    assignMuted: true,
                   },
                 },
                 childCarePlans: {
                   select: {
-                    id: true
-                  }
-                }
+                    id: true,
+                  },
+                },
               },
             },
             therapist: {
@@ -536,7 +534,7 @@ export const getUserObject = async (user) => {
                 email: true,
               },
             },
-            assignments: { 
+            assignments: {
               select: {
                 id: true,
                 createdAt: true,
@@ -566,11 +564,11 @@ export const getUserObject = async (user) => {
                     child: {
                       select: {
                         firstName: true,
-                        lastName: true
-                      }
-                    }
-                  }
-                }
+                        lastName: true,
+                      },
+                    },
+                  },
+                },
               },
             },
           },
@@ -597,7 +595,7 @@ export const getUserObject = async (user) => {
                     firstName: true,
                     lastName: true,
                     email: true,
-                    guardianId: true
+                    guardianId: true,
                   },
                 },
               },
@@ -621,9 +619,9 @@ export const getUserObject = async (user) => {
                   select: {
                     id: true,
                     active: true,
-                    
+
                     user: {
-                      select :{
+                      select: {
                         role: true,
                         firstName: true,
                         lastName: true,
@@ -644,15 +642,15 @@ export const getUserObject = async (user) => {
                                 id: true,
                                 therapist: {
                                   select: {
-                                    id: true
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
+                                    id: true,
+                                  },
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
                   },
                 },
               },
@@ -673,8 +671,7 @@ export const getUserObject = async (user) => {
                 sentBy: true,
                 createdAt: true,
                 chatroomId: true,
-                
-              }
+              },
             },
             active: true,
             createdAt: true,
@@ -852,7 +849,7 @@ export const getUserObject = async (user) => {
                         image: true,
                         description: true,
                         level: true,
-                        createdAt: true
+                        createdAt: true,
                       },
                     },
                   },
@@ -912,7 +909,7 @@ export const getUserObject = async (user) => {
       }
     }
   } catch {
-    // console.log("");
+    // // console.log("");
   }
 
   // GUARDIAN
@@ -957,7 +954,7 @@ export const getUserObject = async (user) => {
       }
     }
   } catch {
-    // console.log("hi");
+    // // console.log("hi");
   }
 
   // CHILD
@@ -995,10 +992,10 @@ export const getUserObject = async (user) => {
       }
     }
   } catch {
-    // console.log("hi");
+    // // console.log("hi");
   }
 
-  console.log(userObject.organizations)
+  // console.log(userObject.organizations)
 
   return userObject;
 };

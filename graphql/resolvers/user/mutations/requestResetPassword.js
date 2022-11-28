@@ -1,7 +1,7 @@
 import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
-const sgMail = require('@sendgrid/mail')
-sgMail.setApiKey(process.env.SEND_GRID_API_KEY)
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
 
 export default {
   Mutation: {
@@ -14,7 +14,6 @@ export default {
       context
     ) => {
       // If the user is already logged in do not let them reset password
-      
 
       // Retrieve the users that match the email address
       let potentialUsers = await prisma.user.findMany({
@@ -29,7 +28,7 @@ export default {
           return;
         }
         if (userObject.email.toLowerCase() === email.toLowerCase()) {
-            userResetingPassword = userObject;
+          userResetingPassword = userObject;
         }
       });
 
@@ -49,28 +48,34 @@ export default {
           },
         },
       });
-      
+
       const msg = {
         to: userResetingPassword.email, // Change to your recipient
-        from: 'test@em8453.getfreelaundry.com', // Change to your verified sender
-        subject: 'Kidz-N-Motion Password Reset',
-       
+        from: "test@em8453.getfreelaundry.com", // Change to your verified sender
+        subject: "Kidz-N-Motion Password Reset",
+
         html: `
             <p>Please click the link below to reset your password</p>
             <br />
-            <a href=${"https://kids-in-motion.vercel.app/authentication/reset-password-from-key?key=" + resetPasswordKey.id}>${"https://kids-in-motion.vercel.app/authentication/reset-password-from-key?key=" + resetPasswordKey.id}</a>
+            <a href=${
+              "https://kids-in-motion.vercel.app/authentication/reset-password-from-key?key=" +
+              resetPasswordKey.id
+            }>${
+          "https://kids-in-motion.vercel.app/authentication/reset-password-from-key?key=" +
+          resetPasswordKey.id
+        }</a>
             <br />
             <strong>If you did not request this password reset, you can ignore this message</strong>
         `,
-      }
+      };
       await sgMail
         .send(msg)
         .then(() => {
-          // console.log('Email sent')
+          // // console.log('Email sent')
         })
         .catch((error) => {
-          console.error(error.response.body)
-        })
+          console.error(error.response.body);
+        });
 
       return true;
     },

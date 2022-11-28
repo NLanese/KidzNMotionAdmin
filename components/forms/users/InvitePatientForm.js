@@ -31,12 +31,12 @@ function InvitePatientForm({ organizationUsers, therapistMode }) {
           childDateOfBirth: formValues.childDateOfBirth,
           childLevel: formValues.childLevel,
           childTherapistID: formValues.childTherapistID,
-          diagnosis: formValues.diagnosis
+          diagnosis: formValues.diagnosis,
         },
       })
         .then(async (resolved) => {
-          console.clear();
-          console.log(resolved);
+          // console.clear();
+          // console.log(resolved);
           message.success("Successfully Created User");
           Router.push("/patients/manage?id=" + resolved.data.invitePatient);
 
@@ -115,7 +115,7 @@ function InvitePatientForm({ organizationUsers, therapistMode }) {
 
       return orgUser;
     });
-    console.log(therapists);
+    // console.log(therapists);
     return therapists;
   };
 
@@ -319,7 +319,7 @@ function InvitePatientForm({ organizationUsers, therapistMode }) {
                         // },
                       ]}
                       size={"large"}
-                      required={false}
+                      required={true}
                     />
                   </Col>
                   <Col xs={24} md={24}>
@@ -330,7 +330,7 @@ function InvitePatientForm({ organizationUsers, therapistMode }) {
                       label="Child Therapist"
                       options={renderTherapistOptions()}
                       size={"large"}
-                      required={false}
+                      required={true}
                     />
                   </Col>
                 </>

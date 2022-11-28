@@ -19,7 +19,7 @@ export default {
         childDateOfBirth,
         childLevel,
         childTherapistID,
-        diagnosis
+        diagnosis,
       },
       context
     ) => {
@@ -190,10 +190,12 @@ export default {
             <br />
             <a href=${
               "https://kids-in-motion.vercel.app/authentication/reset-password-from-key?key=" +
-              resetPasswordKey.id + "&create=true"
+              resetPasswordKey.id +
+              "&create=true"
             }>${
           "https://kids-in-motion.vercel.app/authentication/reset-password-from-key?key=" +
-          resetPasswordKey.id + "&create=true"
+          resetPasswordKey.id +
+          "&create=true"
         }</a>
             <br />
             <strong>If you did not request this account account activation, you can ignore this message</strong>
@@ -202,7 +204,7 @@ export default {
       await sgMail
         .send(msg)
         .then(() => {
-          // console.log('Email sent')
+          // // console.log('Email sent')
         })
         .catch((error) => {
           console.error(error.response.body);

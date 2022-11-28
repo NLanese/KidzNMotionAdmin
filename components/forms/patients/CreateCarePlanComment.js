@@ -30,8 +30,9 @@ function CreateCarePlanComment({
       .then(async (resolved) => {
         setLoading(false);
         await getUser();
-        Router.push(returnUrl, null, {
+        Router.replace(returnUrl, null, {
           shallow: true,
+          scroll: false,
         });
         message.success("Successfully Saved Comment");
       })
@@ -80,7 +81,9 @@ function CreateCarePlanComment({
                   name="commentContent"
                   component={TextAreaField}
                   htmlType="text"
-                  label={assignment ? "Assignment Comment" : "Care Plan Comment"}
+                  label={
+                    assignment ? "Assignment Comment" : "Care Plan Comment"
+                  }
                   size={"large"}
                   required={false}
                 />

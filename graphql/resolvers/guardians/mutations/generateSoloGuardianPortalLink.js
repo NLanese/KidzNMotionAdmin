@@ -6,7 +6,7 @@ export default {
     generateSoloGuardianPortalLink: async (_, {}, context) => {
       const host = "http://localhost:3000";
 
-      console.log("hiijijiji")
+      // console.log("hiijijiji")
       if (!context.user) throw new UserInputError("Login required");
       if (context.user.role !== "GUARDIAN")
         throw new UserInputError("Only guardians can get portal links");
@@ -26,7 +26,6 @@ export default {
         customer: context.user.soloStripeSubscriptionID,
         return_url: host,
       });
-
 
       return portalSession.url;
     },

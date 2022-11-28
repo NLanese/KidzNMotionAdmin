@@ -29,8 +29,8 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
         fetchPolicy: "network-only",
       })
       .then(async (resolved) => {
-        console.clear();
-        // console.log(resolved);
+        // console.clear();
+        // // console.log(resolved);
         setUser(resolved.data.getUser);
       })
       .catch((error) => {
@@ -78,8 +78,8 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
 
   const getDrawerContent = () => {
     if (router.query.editPlan) {
-      console.clear();
-      console.log(patientDetail);
+      // console.clear();
+      // console.log(patientDetail);
       return (
         <EditChildCareDetailsForm
           getUser={getUser}
@@ -122,6 +122,8 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
     return <div />;
   };
 
+  console.log("--------");
+  console.log(patientDetailOpen);
   return (
     <>
       <Drawer
@@ -132,7 +134,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
         placement="right"
         width={1000}
         onClose={() => Router.push("/patients/manage", null, { shallow: true })}
-        visible={patientDetailOpen}
+        visible={patientDetailOpen ? true : false}
       >
         {patientDetail && (
           <>

@@ -41,7 +41,7 @@ function AssignMedalsForm({ router, getUser }) {
   };
 
   const getStatus = () => {
-    console.log(instructions, neededBreak, seconds);
+    // console.log(instructions, neededBreak, seconds);
     if (instructions === "yes" && neededBreak === "yes") {
       return "bronze";
     }
@@ -84,7 +84,10 @@ function AssignMedalsForm({ router, getUser }) {
       .then(async (resolved) => {
         message.success("Successfully Assigned Medal");
         await getUser();
-        window.location.replace("/patients/manage?id=" + router.query.id);
+        Router.replace("/patients/manage?id=" + router.query.id, null, {
+          shallow: true,
+          scroll: false,
+        });
       })
       .catch((error) => {
         message.error("Failed to save medal to video");

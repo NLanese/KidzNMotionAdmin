@@ -7,12 +7,7 @@ import { useMutation } from "@apollo/client";
 import { CREATE_CHILD_CARE_PLAN_COMMENT } from "@graphql/operations";
 import Router from "next/router";
 
-function VideoCommentForm({
-  getUser,
-  initialValues,
-  returnUrl,
-  assignment,
-}) {
+function VideoCommentForm({ getUser, initialValues, returnUrl, assignment }) {
   const [loading, setLoading] = useState(false);
 
   // Mutations
@@ -31,8 +26,9 @@ function VideoCommentForm({
       .then(async (resolved) => {
         setLoading(false);
         await getUser();
-        Router.push(returnUrl, null, {
+        Router.replace(returnUrl, null, {
           shallow: true,
+          scroll: false,
         });
         message.success("Successfully Saved Comment");
       })

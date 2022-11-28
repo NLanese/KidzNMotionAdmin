@@ -10,9 +10,10 @@ export default {
       context
     ) => {
       if (!context.user) throw new UserInputError("Login required");
-      // console.log(context.user.role)
-      if (context.user.role !== "GUARDIAN") throw new UserInputError("Only guardians can edit child settings");
-      
+      // // console.log(context.user.role)
+      if (context.user.role !== "GUARDIAN")
+        throw new UserInputError("Only guardians can edit child settings");
+
       // Find the child object to determine if the are under the guardian account
       let childUser = await prisma.user.findUnique({
         where: {
@@ -37,16 +38,16 @@ export default {
       // Update the child object
       const rObj = await prisma.user.update({
         where: {
-            id: childUserID,
+          id: childUserID,
         },
         data: {
           leaveApp: leaveApp,
           accessMessages: accessMessages,
-          accessSettings: accessSettings
+          accessSettings: accessSettings,
         },
       });
 
-      return true
+      return true;
     },
   },
 };

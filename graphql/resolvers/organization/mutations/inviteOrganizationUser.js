@@ -11,8 +11,8 @@ export default {
       { email, role, additionalInformation },
       context
     ) => {
-      role = role.toString()
-      role = role.replace(/[\r\n]/gm, '')
+      role = role.toString();
+      role = role.replace(/[\r\n]/gm, "");
 
       // Check to ensure the user is logged in
       if (!context.user) throw new UserInputError("Login required");
@@ -46,7 +46,7 @@ export default {
         }
       });
       if (userAlreadyInOrg) {
-        console.log("user error")
+        // console.log("user error")
         throw new UserInputError("User is already in the organization");
       }
 
@@ -70,7 +70,7 @@ export default {
 
       // If yes, then add them as an organization user
       if (userToInvite) {
-        console.log("Found user")
+        // console.log("Found user")
         // Create the organization user
         await prisma.organizationUser.create({
           data: {
@@ -120,13 +120,13 @@ export default {
         await sgMail
           .send(msg)
           .then(() => {
-            console.log("Email sent");
+            // console.log("Email sent");
           })
           .catch((error) => {
             console.error(error.response.body);
           });
 
-        console.log(organizationInvite);
+        // console.log(organizationInvite);
       }
 
       return true;

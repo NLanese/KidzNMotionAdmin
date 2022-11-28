@@ -187,9 +187,9 @@ function Layout({ children, router }) {
           fetchPolicy: "network-only",
         })
         .then(async (resolved) => {
-          // console.log(resolved.data.getUser)
+          // // console.log(resolved.data.getUser)
           setUser(resolved.data.getUser);
-          console.log();
+          // console.log();
         })
         .catch((error) => {
           setUser(null);
@@ -202,11 +202,11 @@ function Layout({ children, router }) {
 
   useEffect(() => {
     observeAuth();
-    console.log(user);
+    // console.log(user);
   }, []);
 
   useEffect(() => {
-    // // console.log(user)
+    // // // console.log(user)
   }, [user]);
   const getThemeColor = () => {
     if (user) {

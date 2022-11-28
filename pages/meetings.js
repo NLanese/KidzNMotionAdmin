@@ -52,7 +52,7 @@ function Meetings({ router }) {
           fetchPolicy: "network-only",
         })
         .then(async (resolved) => {
-          console.log(resolved);
+          // console.log(resolved);
           setMeetings(resolved.data.getMeetings);
         })
         .catch((error) => {
@@ -174,8 +174,8 @@ function Meetings({ router }) {
             <>
               <Title level={4}>Approve Meeting</Title>
               <Text>
-                This meeting has been approved. You can Decline the meeting
-                to remove it from the guardian's calendar.
+                This meeting has been approved. You can Decline the meeting to
+                remove it from the guardian's calendar.
               </Text>
               <br />
 
@@ -194,8 +194,8 @@ function Meetings({ router }) {
             <>
               <Title level={4}>Approve Meeting</Title>
               <Text>
-                This meeting has been declined. You can approve the meeting
-                to add it from the guardian's calendar.
+                This meeting has been declined. You can approve the meeting to
+                add it from the guardian's calendar.
               </Text>
               <br />
 

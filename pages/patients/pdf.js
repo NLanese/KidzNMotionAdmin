@@ -57,7 +57,7 @@ function ManagePatients({ router }) {
     let users = [];
     user.organizations[0].organization.organizationUsers.map(
       (orgUserObject) => {
-        console.log(orgUserObject);
+        // console.log(orgUserObject);
         let user = Object.assign({}, orgUserObject.user);
         if (patientCarePlans[user.id]) {
           user.carePlan = patientCarePlans[user.id];
@@ -82,8 +82,8 @@ function ManagePatients({ router }) {
   useEffect(() => {
     if (router.query.id) {
       if (renderPatientData(true)[router.query.id]) {
-        console.clear();
-        console.log(renderPatientData(true)[router.query.id]);
+        // console.clear();
+        // console.log(renderPatientData(true)[router.query.id]);
         setPatientDetail(renderPatientData(true)[router.query.id]);
       } else {
         setPatientDetail(null);
@@ -196,13 +196,13 @@ function ManagePatients({ router }) {
   };
 
   const renderNotes = () => {
-    console.clear();
-    console.log(patientDetail.carePlan.comments);
+    // console.clear();
+    // console.log(patientDetail.carePlan.comments);
 
     let videos = [];
     patientDetail.carePlan.assignments.map((assignmentObject) => {
       assignmentObject.videos.map((videoObject) => {
-        console.log(videoObject);
+        // console.log(videoObject);
         videos.push({
           title: videoObject.file.title,
           description: videoObject.file.description,
@@ -215,8 +215,8 @@ function ManagePatients({ router }) {
     patientDetail.carePlan.comments.map((commentObject) => {
       videos.map((videoObject) => {
         if (commentObject.videoId === videoObject.id) {
-          console.log(videoObject.comments);
-          console.log("---------");
+          // console.log(videoObject.comments);
+          // console.log("---------");
 
           let date1 = changeTimeZone(
             commentObject.createdAt,

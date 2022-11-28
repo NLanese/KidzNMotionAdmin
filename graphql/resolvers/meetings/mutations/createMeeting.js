@@ -10,7 +10,7 @@ export default {
       { title, meetingDateTime, type, participantIDs },
       context
     ) => {
-      console.log(type);
+      // console.log(type);
 
       if (!context.user) throw new UserInputError("Login required");
       if (context.user.role !== "THERAPIST" && context.user.role !== "GUARDIAN")
@@ -34,23 +34,24 @@ export default {
         where: {
           meetingOwnerID: context.user.id,
           completed: false,
-          canceled: false
+          canceled: false,
         },
         select: {
           meetingDateTime: true,
         },
       });
 
-      let overlap = false
+      let overlap = false;
       userMeetings.map((meetingObject) => {
-
-        let delta = (meetingObject.meetingDateTime - new Date(meetingDateTime)) 
-        delta = delta/ (60 * 1000)
+        let delta = meetingObject.meetingDateTime - new Date(meetingDateTime);
+        delta = delta / (60 * 1000);
         if (Math.abs(delta) <= 20) {
-          throw new UserInputError("Meetings cannot be made within 20 minutes of eachother");
+          throw new UserInputError(
+            "Meetings cannot be made within 20 minutes of eachother"
+          );
         }
-        return meetingObject
-      })
+        return meetingObject;
+      });
 
       let prismaConnections = [{ id: context.user.id }];
       for (var i = 0; i < participantIDs.length; i++) {

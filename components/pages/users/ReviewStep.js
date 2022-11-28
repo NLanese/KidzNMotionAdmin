@@ -83,7 +83,7 @@ function ReviewStep({
     let hasFormattingErrors = false;
     let localFormattingErrors = [];
     if (!parsedData) return;
-    console.clear()
+    // console.clear()
     // Check for column mismatch
     if (parsedData[0].length !== 2) {
       hasFormattingErrors = true;
@@ -125,19 +125,18 @@ function ReviewStep({
                   parsedData[rowCount][colCount];
               }
             } else if (colCount === 1) {
-            
               let isProperRole = false;
               acceptedRoles.map((role) => {
-                console.log(parsedData[rowCount][colCount])
+                // console.log(parsedData[rowCount][colCount]);
                 if (role.toString() === "GUARDIAN") {
-                  isProperRole = true
-                } 
+                  isProperRole = true;
+                }
                 if (role.toString() === "THERAPIST") {
-                  isProperRole = true
-                } 
+                  isProperRole = true;
+                }
                 if (role.toString() === "ADMIN") {
-                  isProperRole = true
-                } 
+                  isProperRole = true;
+                }
               });
 
               if (!isProperRole) {
