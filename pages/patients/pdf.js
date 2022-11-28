@@ -151,12 +151,22 @@ function ManagePatients({ router }) {
           medals: {},
         };
         videoObject.medals.map((medalObject) => {
-          if (videoBadgeObject.medals[medalObject.level]) {
-            videoBadgeObject.medals[medalObject.level] += 1;
-          } else {
-            videoBadgeObject.medals[medalObject.level] = 1;
+          let date1 = changeTimeZone(medalObject.createdAt, "America/New_York");
+          let date2 = new Date();
+
+          if (
+            date1.getFullYear() === date2.getFullYear() &&
+            date1.getMonth() === date2.getMonth() &&
+            date1.getDate() === date2.getDate()
+          ) {
+            if (videoBadgeObject.medals[medalObject.level]) {
+              videoBadgeObject.medals[medalObject.level] += 1;
+            } else {
+              videoBadgeObject.medals[medalObject.level] = 1;
+            }
           }
         });
+        console.log(videoBadgeObject);
         if (
           videoBadgeObject.medals.BRONZE ||
           videoBadgeObject.medals.SILVER ||
