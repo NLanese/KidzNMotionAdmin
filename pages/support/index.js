@@ -101,92 +101,90 @@ function Support() {
           <Divider />
         </>
       )}
-      {user.role === "THERAPIST" ||
-        (true && (
-          <>
-            <Row gutter={[16, 16]}>
-              <Col md={24}>
-                <Title level={2}>Patient Management</Title>
-              </Col>
-              <Col md={12}>
-                <SupportArticleIcon
-                  title="Patient Import"
-                  href="/support/patient-import"
-                  description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
-                  icon={<IdcardTwoTone />}
-                />
-              </Col>
-              <Col md={12}>
-                <SupportArticleIcon
-                  title="Invite Patients"
-                  href="/support/invite-patients"
-                  description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
-                  icon={<MailTwoTone />}
-                />
-              </Col>
-              <Col md={12}>
-                <SupportArticleIcon
-                  title="Create Assignments"
-                  href="/support/create-assignments"
-                  description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
-                  icon={<ReconciliationTwoTone />}
-                />
-              </Col>
-              <Col md={12}>
-                <SupportArticleIcon
-                  title="Create Meetings"
-                  href="/support/create-meetings"
-                  description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
-                  icon={<CalendarTwoTone />}
-                />
-              </Col>
-              <Col md={12}>
-                <SupportArticleIcon
-                  title="Manage Chatrooms"
-                  href="/support/manage-chatrooms"
-                  description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
-                  icon={<MessageTwoTone />}
-                />
-              </Col>
-            </Row>
-            <Divider />
-          </>
-        ))}
-      {user.ownedOrganization ||
-        (true && (
-          <>
-            <Row gutter={[16, 16]}>
-              <Col md={24}>
-                <Title level={2}>Organization Management</Title>
-              </Col>
-              <Col md={12}>
-                <SupportArticleIcon
-                  title="Set Up Your Organization"
-                  href="/support/organizational-settings"
-                  description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
-                  icon={<SettingTwoTone />}
-                />
-              </Col>
-              <Col md={12}>
-                <SupportArticleIcon
-                  title="Invite Team Members"
-                  href="/support/invite-team-members"
-                  description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
-                  icon={<MailTwoTone />}
-                />
-              </Col>
-              <Col md={12}>
-                <SupportArticleIcon
-                  title="Billing & Subscriptions"
-                  href="/support/billing-and-subscriptions"
-                  description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
-                  icon={<DollarCircleTwoTone />}
-                />
-              </Col>
-            </Row>
-            <Divider />
-          </>
-        ))}
+      {user.role === "THERAPIST" && (
+        <>
+          <Row gutter={[16, 16]}>
+            <Col md={24}>
+              <Title level={2}>Patient Management</Title>
+            </Col>
+            <Col md={12}>
+              <SupportArticleIcon
+                title="Patient Import"
+                href="/support/patient-import"
+                description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
+                icon={<IdcardTwoTone />}
+              />
+            </Col>
+            <Col md={12}>
+              <SupportArticleIcon
+                title="Invite Patients"
+                href="/support/invite-patients"
+                description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
+                icon={<MailTwoTone />}
+              />
+            </Col>
+            <Col md={12}>
+              <SupportArticleIcon
+                title="Create Assignments"
+                href="/support/create-assignments"
+                description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
+                icon={<ReconciliationTwoTone />}
+              />
+            </Col>
+            <Col md={12}>
+              <SupportArticleIcon
+                title="Create Meetings"
+                href="/support/create-meetings"
+                description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
+                icon={<CalendarTwoTone />}
+              />
+            </Col>
+            <Col md={12}>
+              <SupportArticleIcon
+                title="Manage Chatrooms"
+                href="/support/manage-chatrooms"
+                description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
+                icon={<MessageTwoTone />}
+              />
+            </Col>
+          </Row>
+          <Divider />
+        </>
+      )}
+      {user.ownedOrganization && (
+        <>
+          <Row gutter={[16, 16]}>
+            <Col md={24}>
+              <Title level={2}>Organization Management</Title>
+            </Col>
+            <Col md={12}>
+              <SupportArticleIcon
+                title="Set Up Your Organization"
+                href="/support/organizational-settings"
+                description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
+                icon={<SettingTwoTone />}
+              />
+            </Col>
+            <Col md={12}>
+              <SupportArticleIcon
+                title="Invite Team Members"
+                href="/support/invite-team-members"
+                description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
+                icon={<MailTwoTone />}
+              />
+            </Col>
+            <Col md={12}>
+              <SupportArticleIcon
+                title="Billing & Subscriptions"
+                href="/support/billing-and-subscriptions"
+                description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
+                icon={<DollarCircleTwoTone />}
+              />
+            </Col>
+          </Row>
+          <Divider />
+        </>
+      )}
     </SupportWrapper>
   );
 }
