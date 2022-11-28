@@ -38,7 +38,7 @@ const VIDEOS = {
     title: "Squat",
     description: "For this exercise, plant your feet about shoulder width apart, and squat down while trying to keep your back straight. This should test your leg strength as well as your balance!",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1668524529/Kids-N-Motion%20Videos/Squat_1_ungpfq.mp4",
+      "https://res.cloudinary.com/king-willy-studios/video/upload/v1669215530/Kids-N-Motion%20Videos/Squat_ddkhg6.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/squat_ujqj9j.png"
   },
