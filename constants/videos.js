@@ -38,7 +38,7 @@ const VIDEOS = {
     title: "Squat",
     description: "For this exercise, plant your feet about shoulder width apart, and squat down while trying to keep your back straight. This should test your leg strength as well as your balance!",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1668524529/Kids-N-Motion%20Videos/Squat_1_ungpfq.mp4",
+      "https://res.cloudinary.com/king-willy-studios/video/upload/v1669215530/Kids-N-Motion%20Videos/Squat_ddkhg6.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/squat_ujqj9j.png"
   },
@@ -56,7 +56,7 @@ const VIDEOS = {
     id: "rolling",
     level: 1,
     title: "Rolling",
-    description: "In this exercise, we are going to lie on the ground and try rolling onto our side, and then back again. This should test your trunk control and strength.",
+    description: "In this exercise, we are going to lie on the ground and roll from stomach to back from both sides. This should test your trunk control and strength.",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887194/Kids-N-Motion%20Videos/Rolling_ekboiz.mp4",
     previewPictureURL:
@@ -99,7 +99,7 @@ const VIDEOS = {
     level: 1,
     title: "Hands And Knees",
     description:
-      "In this video, we will start by laying straight on our stomachs with your knees and hand keeping you supported. Then, bring your hands to about your chest, and bring your legs in so that you are on all fours, your knees and palms keeping you supported! This will test your body and hip strength.",
+      "In this video, we will start by laying on our stomach with our knees and hands straight. Then, bring your hands to about your chest, and bring your legs in so that you are on all fours, your knees and palms keeping you supported! This will test your body and hip strength.",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887166/Kids-N-Motion%20Videos/Hand_to_knees_xnf0jn.mp4",
     previewPictureURL:
