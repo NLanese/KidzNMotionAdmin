@@ -153,6 +153,12 @@ function CarePlanAssignments({
     );
 
     return sortedAssignments.map((assignmentObject) => {
+      if (
+        router.query.assignmentId &&
+        assignmentObject.id !== router.query.assignmentId
+      )
+        return null;
+
       return (
         <Col xs={24} sm={24} key={assignmentObject.id}>
           <ContentCard key={assignmentObject.id}>
@@ -222,6 +228,22 @@ function CarePlanAssignments({
 
   return (
     <AssignmentContainer>
+      {router.query.assignmentId && (
+        <>
+          <Button
+            onClick={() =>
+              Router.push("/patients/manage?id=" + router.query.id, null, {
+                shallow: true,
+              })
+            }
+          >
+            Show All Assignments
+          </Button>
+          <br />
+          <br />
+        </>
+      )}
+
       <Row gutter={[16, 3]}>{renderAssignments()}</Row>
       <Drawer
         title={"Assign Video Medals"}

@@ -43,15 +43,22 @@ function PatientTable({ patientData, user }) {
       sortedAssignments.map((assignmentObject) => {
         assignments.push({
           title: assignmentObject.title,
+          id: assignmentObject.id,
           dateDue: dateFormat(assignmentObject.dateDue, "dddd (mm/dd)"),
         });
       });
     }
     return assignments.map((assignmentObject) => {
       return (
-        <Tag key={assignmentObject.dateDue}>
-          {assignmentObject.title} | {assignmentObject.dateDue}
-        </Tag>
+        <BasicLink
+          key={assignmentObject.id}
+          href={`/patients/manage?id=${record.id}&assignmentId=${assignmentObject.id}`}
+          shallow={true}
+        >
+          <Tag>
+            {assignmentObject.title} | {assignmentObject.dateDue}
+          </Tag>
+        </BasicLink>
       );
     });
     return "";
@@ -81,13 +88,7 @@ function PatientTable({ patientData, user }) {
       render: (text, record, index) => (
         <Collapse accordion>
           <Panel header="View Assignments" key="1">
-            <BasicLink
-              key={index}
-              href={`/patients/manage?id=${record.id}`}
-              shallow={true}
-            >
-              {renderUserAssignments(record)}
-            </BasicLink>
+            {renderUserAssignments(record)}
           </Panel>
         </Collapse>
       ),

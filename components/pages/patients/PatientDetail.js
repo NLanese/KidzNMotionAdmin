@@ -122,8 +122,6 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
     return <div />;
   };
 
-  console.log("--------");
-  console.log(patientDetailOpen);
   return (
     <>
       <Drawer

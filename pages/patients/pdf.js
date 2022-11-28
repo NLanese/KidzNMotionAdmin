@@ -257,7 +257,7 @@ function ManagePatients({ router }) {
               marginBottom: "10px",
             }}
           >
-            {videoObject.comments}
+            {videoObject.comments.toString()}
           </Text>
         </View>
       );
