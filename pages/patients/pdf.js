@@ -11,6 +11,8 @@ import { useRecoilState } from "recoil";
 import Router from "next/router";
 import { Button } from "antd";
 
+import moment from "moment";
+
 import {
   Page,
   Text,
@@ -40,6 +42,7 @@ const IndexWrapper = styled.div`
 function ManagePatients({ router }) {
   const [user, setUser] = useRecoilState(userState);
   const [patientDetail, setPatientDetail] = useState(null);
+  const [dateToUse, setDateToUse] = useState(null);
 
   useEffect(() => {
     if (user.role !== "THERAPIST") {
@@ -84,6 +87,12 @@ function ManagePatients({ router }) {
       if (renderPatientData(true)[router.query.id]) {
         // console.clear();
         // console.log(renderPatientData(true)[router.query.id]);
+        if (router.query.date) {
+          const date = new moment(router.query.date);
+          console.log(date);
+          setDateToUse(date);
+        }
+
         setPatientDetail(renderPatientData(true)[router.query.id]);
       } else {
         setPatientDetail(null);
@@ -152,7 +161,7 @@ function ManagePatients({ router }) {
         };
         videoObject.medals.map((medalObject) => {
           let date1 = changeTimeZone(medalObject.createdAt, "America/New_York");
-          let date2 = new Date();
+          let date2 = dateToUse.toDate();
 
           if (
             date1.getFullYear() === date2.getFullYear() &&
@@ -178,6 +187,7 @@ function ManagePatients({ router }) {
     });
 
     return badgesObjects.map((badgesObject) => {
+      console.log(badgesObject);
       return (
         <Text
           key={badgesObject.videoTitle}
@@ -232,7 +242,8 @@ function ManagePatients({ router }) {
             commentObject.createdAt,
             "America/New_York"
           );
-          let date2 = new Date();
+
+          let date2 = dateToUse.toDate();
 
           if (
             date1.getFullYear() === date2.getFullYear() &&
@@ -277,7 +288,7 @@ function ManagePatients({ router }) {
   return (
     <IndexWrapper>
       <NextSeo title={"Patient PDF"} />
-      {patientDetail && (
+      {patientDetail && dateToUse && (
         <>
           <PDFViewer style={{ width: "100%", height: "100vh", border: "none" }}>
             <Document>
@@ -456,7 +467,7 @@ function ManagePatients({ router }) {
                       marginBottom: "10px",
                     }}
                   >
-                    Date: {dateFormat(new Date(), "mmm dd, yyyy")}
+                    Date Selected: {dateToUse.format("MM/DD/YYYY")}
                   </Text>
                 </div>
               </Page>
