@@ -228,8 +228,10 @@ const GlobalStyle = createGlobalStyle`
     font-family: Gilroy, -apple-system, system-ui, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
     font-weight: 800 !important;
   }
+
+  .ant-popover-message-title {
+    padding-left: 0px !important;
+  }
 `;
 
-
-
-export default GlobalStyle; 
+export default GlobalStyle;

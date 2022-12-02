@@ -2,14 +2,23 @@ import React from "react";
 import Router from "next/router";
 import BasicLink from "@common/BasicLink";
 import PatientInformation from "./detail/PatientInformation";
-import { Typography, Tabs, Button, Drawer, message } from "antd";
+import {
+  Typography,
+  Tabs,
+  Button,
+  Drawer,
+  message,
+  Popconfirm,
+  Calendar,
+} from "antd";
 
+import moment from "moment";
 import { GET_USER } from "@graphql/operations";
 import client from "@utils/apolloClient";
 
 import { userState } from "@atoms";
 import { useSetRecoilState } from "recoil";
-
+import styled from "styled-components";
 const { TabPane } = Tabs;
 
 import EditChildCareDetailsForm from "@forms/patients/EditChildCareDetailsForm";
@@ -18,8 +27,15 @@ import CreateCarePlanComment from "@forms/patients/CreateCarePlanComment";
 import CarePlanComments from "@pages/patients/CarePlanComments";
 import CarePlanAssignments from "@pages/patients/CarePlanAssignments";
 
+const CalenderWrapper = styled.div`
+  .ant-popover-message-title {
+    padding-left: 0px !important;
+  }
+`;
+
 function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
   const setUser = useSetRecoilState(userState);
+  const [dateToUse, setDateToUse] = React.useState(new moment());
 
   // Reset User Function
   const getUser = async () => {
@@ -122,6 +138,16 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
     return <div />;
   };
 
+  const setPDFCalenderDate = (date) => {
+    setDateToUse(date);
+  };
+
+  // <a
+  // href={`/patients/pdf?id=${patientDetail.id}`}
+  // target="_blank"
+  // rel="noreferrer"
+  // >
+
   return (
     <>
       <Drawer
@@ -144,10 +170,29 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
                 Edit Care Plan Information
               </Button>
             </BasicLink>
-            <a
-              href={`/patients/pdf?id=${patientDetail.id}`}
-              target="_blank"
-              rel="noreferrer"
+
+            <Popconfirm
+              placement="bottom"
+              okText="Generate PDF"
+              cancelText="Cancel"
+              icon=""
+              onConfirm={() => {
+                window.open(
+                  `/patients/pdf?id=${patientDetail.id}&date=${dateToUse.format(
+                    "MM/DD/YYYY"
+                  )}`,
+                  "_blank"
+                );
+              }}
+              title={
+                <CalenderWrapper style={{ maxWidth: "290px" }}>
+                  <Calendar
+                    fullscreen={false}
+                    onChange={(value) => setPDFCalenderDate(value)}
+                    value={dateToUse}
+                  />
+                </CalenderWrapper>
+              }
             >
               <Button
                 type="ghost"
@@ -155,7 +200,8 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
               >
                 Generate A PDF Document
               </Button>
-            </a>
+            </Popconfirm>
+
             <PatientInformation patientDetail={patientDetail} user={user} />
 
             <Tabs defaultActiveKey="1">
