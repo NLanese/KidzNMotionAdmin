@@ -16,7 +16,7 @@ const VIDEOS = {
     id: "toe_walking",
     level: 2,
     title: "Heel/Toe Walking",
-    description: "Test your balance and your foot strength by completing the Toe Walking Video. Walk forward on your toes, then turn and walk on your heels. Walk forward a few paces, and then back, while staying on your toes the whole time!",
+    description: "Test your balance and your foot strength! Walk forward on your toes, then turn around and walk back on your heels!",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887209/Kids-N-Motion%20Videos/Toe_Walking_chevus.mp4",
     previewPictureURL:
@@ -130,7 +130,7 @@ const VIDEOS = {
   },
   beam_balancing: {
     level: 2,
-    title: "Beam Balancing",
+    title: "Balance Beam",
     description:
       "In this exercise, you should try to use a balance beam, but if none are available that’s okay! Just try to find some marking or line on the floor, and walk as straight on this line as you can, without losing your balance or stepping off!",
     videoURL:
