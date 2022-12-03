@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import { userState } from "@atoms";
 const { Title, Text } = Typography;
+import BasicLink from "@common/BasicLink";
 
 import Support1 from "../../public/support/1.png";
 import Support2 from "../../public/support/2.png";
@@ -260,9 +261,9 @@ function Support() {
           <>
             <Text>
               1. After logging in, click patients. Then click{" "}
-              <a href="/users/upload" target="_blank">
+              <BasicLink href="/users/upload" target="_blank">
                 upload patients
-              </a>
+              </BasicLink>
               .
             </Text>
             <Image src={Support1} />
