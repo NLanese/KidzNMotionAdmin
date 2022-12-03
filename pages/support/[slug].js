@@ -9,6 +9,13 @@ import { useRecoilValue } from "recoil";
 import { userState } from "@atoms";
 const { Title, Text } = Typography;
 
+import Support1 from "../../public/support/1.png";
+import Support2 from "../../public/support/2.png";
+import Support3 from "../../public/support/3.png";
+import Support4 from "../../public/support/4.png";
+
+import Image from "next/image";
+
 const SupportArticleWrapper = styled.div`
   max-width: ${(props) => props.theme.contentSize.extraTight};
   margin: auto;
@@ -220,6 +227,11 @@ function Support() {
             ambulators to children with the capacity to learn to jump or hop.
             <br />
             <br />
+            <a href="/templates/users/user-report.docx" target="_blank">
+              Download A Sample Assignment Report
+            </a>
+            <br />
+            <br />
             Upon sign-in to the mobile app, a therapist user will be able to
             press the ‘Scheduling’ button. From here, all the presently
             scheduled meetings and assignments can be viewed. Click, ‘Create New
@@ -237,7 +249,48 @@ function Support() {
             Clicking the pencil will lead to a page that will allow the
             therapist user to create an assignment, edit basic information and
             the option to generate a PDF document.
+            <br />
           </Text>
+        ),
+      },
+
+      "upload-patients": {
+        title: "Steps To Upload Patients",
+        content: (
+          <>
+            <Text>
+              1. After logging in, click patients. Then click{" "}
+              <a href="/users/upload" target="_blank">
+                upload patients
+              </a>
+              .
+            </Text>
+            <Image src={Support1} />
+            <Text>
+              2. Next, click{" "}
+              <a
+                href="/templates/users/USER_UPLOAD_TEMPLATE.csv"
+                target="_blank"
+              >
+                Download template
+              </a>
+              . An excel spread sheet with two columns designated for the email
+              and user role will appear. Complete the form with each users email
+              and role,guardian, user or administrator.
+            </Text>
+            <Image src={Support2} />
+            <Text>
+              3. Save the document. Click upload file to attach the saved
+              document. Then click, upload and continue to review the
+              information.
+            </Text>
+            <Image src={Support3} />
+            <Text>
+              4. Review the information uploaded for accuracy. Then click bulk
+              upload
+            </Text>
+            <Image src={Support4} />
+          </>
         ),
       },
       "create-meetings": {
