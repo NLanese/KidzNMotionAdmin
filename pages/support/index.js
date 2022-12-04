@@ -19,6 +19,7 @@ import {
   DollarCircleTwoTone,
   MailTwoTone,
   VideoCameraTwoTone,
+  UploadOutlined,
 } from "@ant-design/icons";
 import { useRecoilValue } from "recoil";
 import { userState } from "@atoms";
@@ -129,6 +130,14 @@ function Support() {
                 href="/support/create-assignments"
                 description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
                 icon={<ReconciliationTwoTone />}
+              />
+            </Col>
+            <Col md={12}>
+              <SupportArticleIcon
+                title="Upload Patients"
+                href="/support/upload-patients"
+                description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
+                icon={<UploadOutlined />}
               />
             </Col>
             <Col md={12}>
