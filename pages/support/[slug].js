@@ -146,9 +146,7 @@ function Support() {
               Kidz-N-Motion with a therapist link has a free subscription while
               under the care and supervision of a physical therapist. If a
               parent joins the platform without a therapist link, the monthly
-              subscription will be $5/ month.
-              <br />
-              <br />
+              subscription will be $5/ month.{" "}
               <b>
                 It is recommended to consult with a medical professional before
                 initiating an exercise plan.{" "}
@@ -173,6 +171,24 @@ function Support() {
             organizations and therapists alike will be able to send user invites
             via a .CSV file upload, in addition to the manual sign-up method.
             The user invites will be linked with your company code.
+          </Text>
+        ),
+      },
+      "status-reports": {
+        title: "Status Reports",
+        content: (
+          <Text>
+            On the web portal, creating a status report from the patient list
+            can be accessed after logging in. Select ‘Patient list,’ which will
+            lead to ‘Manage Patients’ screen. Click the pencil next to the
+            client/patient’s name that you would like to create a document.
+            Clicking the pencil will lead to a page that will allow the
+            therapist user to edit basic information and to generate a PDF
+            document. To comment on the platform, click on ‘Video detail’ to
+            comment on a specific video and under the care plan comment tab.
+            When all desired comments are recorded, then click ‘Generate PDF
+            document.’ A downloadable document will be generated to download to
+            your device or printed.
           </Text>
         ),
       },
@@ -205,11 +221,9 @@ function Support() {
             will bring you right to that chat. For users with numerous chat
             rooms, they will be directed to a feed of all their different
             conversations. From here, users will be able to select the
-            conversation they wish to access.
-            <br />
-            <br />
-            On the website, after logging into the portal, messaging can be
-            found on the left column of the homepage.
+            conversation they wish to access. On the website, after logging into
+            the portal, messaging can be found on the left column of the
+            homepage.
           </Text>
         ),
       },

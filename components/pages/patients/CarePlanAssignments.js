@@ -149,7 +149,7 @@ function CarePlanAssignments({
   const renderAssignments = () => {
     let sortedAssignments = JSON.parse(JSON.stringify(assignments));
     sortedAssignments = sortedAssignments.sort((a, b) =>
-      a.dateDue > b.dateDue ? 1 : b.dateDue > a.dateDue ? -1 : 0
+      a.dateStart > b.dateStart ? 1 : b.dateStart > a.dateStart ? -1 : 0
     );
 
     return sortedAssignments.map((assignmentObject) => {

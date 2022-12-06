@@ -38,13 +38,14 @@ function PatientTable({ patientData, user }) {
         JSON.stringify(record.carePlan.assignments)
       );
       sortedAssignments = sortedAssignments.sort((a, b) =>
-        a.dateDue > b.dateDue ? 1 : b.dateDue > a.dateDue ? -1 : 0
+        a.dateStart > b.dateStart ? 1 : b.dateStart > a.dateStart ? -1 : 0
       );
       sortedAssignments.map((assignmentObject) => {
         assignments.push({
           title: assignmentObject.title,
           id: assignmentObject.id,
-          dateDue: dateFormat(assignmentObject.dateDue, "dddd (mm/dd)"),
+          dateStart: dateFormat(assignmentObject.dateStart, "ddd (mm/dd)"),
+          dateDue: dateFormat(assignmentObject.dateDue, "ddd (mm/dd)"),
         });
       });
     }
@@ -56,7 +57,8 @@ function PatientTable({ patientData, user }) {
           shallow={true}
         >
           <Tag>
-            {assignmentObject.title} | {assignmentObject.dateDue}
+            {assignmentObject.title} | {assignmentObject.dateStart} -{" "}
+            {assignmentObject.dateDue}
           </Tag>
         </BasicLink>
       );

@@ -20,6 +20,7 @@ import {
   MailTwoTone,
   VideoCameraTwoTone,
   UploadOutlined,
+  PaperClipOutlined,
 } from "@ant-design/icons";
 import { useRecoilValue } from "recoil";
 import { userState } from "@atoms";
@@ -138,6 +139,14 @@ function Support() {
                 href="/support/upload-patients"
                 description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
                 icon={<UploadOutlined />}
+              />
+            </Col>
+            <Col md={12}>
+              <SupportArticleIcon
+                title="Status Reports"
+                href="/support/status-reports"
+                description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
+                icon={<PaperClipOutlined />}
               />
             </Col>
             <Col md={12}>
