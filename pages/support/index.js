@@ -109,14 +109,14 @@ function Support() {
             <Col md={24}>
               <Title level={2}>Patient Management</Title>
             </Col>
-            <Col md={12}>
+            {/* <Col md={12}>
               <SupportArticleIcon
-                title="Patient Import"
+                title="Patient Bulk Import"
                 href="/support/patient-import"
                 description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
                 icon={<IdcardTwoTone />}
               />
-            </Col>
+            </Col>  */}
             <Col md={12}>
               <SupportArticleIcon
                 title="Invite Patients"
@@ -135,7 +135,7 @@ function Support() {
             </Col>
             <Col md={12}>
               <SupportArticleIcon
-                title="Upload Patients"
+                title="Patient Bulk Imports"
                 href="/support/upload-patients"
                 description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
                 icon={<UploadOutlined />}

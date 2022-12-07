@@ -102,7 +102,7 @@ function Support() {
               Guardians/Parents will have a chat per therapist, meaning if they
               have two or more kids with a therapist, you will have two or more
               chat rooms. Users with one child in the network will only have one
-              chat room with that child’s therapist.On the website, after
+              chat room with that child’s therapist. On the website, after
               logging into the portal, messaging can be found on the left column
               of the homepage.
               <br />
@@ -270,9 +270,27 @@ function Support() {
       },
 
       "upload-patients": {
-        title: "Steps To Upload Patients",
+        title: "Patient Bulk Imports",
         content: (
           <>
+            <Text>
+              If you are a school or facility that needs to add both therapists
+              and students, it can be easily done. Through the Kidz-N-Motion
+              online portal, organizations and therapists alike will be able to
+              send user invites via a .CSV file upload, in addition to the
+              manual sign-up method. This means that a properly compiled
+              spreadsheet can be submitted to send invites to a large number of
+              users at once. An example of this spreadsheet is available for
+              download. The excel sheet has two cells labeled, email and role
+              (guardian, administrator, therapist) to fill in for submission.
+              Login, click ‘Patients’, then click ‘Upload Patients.’ Then click
+              on ‘Download Template.’ The file should appear, fill, save, then
+              click ‘Upload File’. Next click ‘Upload and continue’. Review the
+              information for accuracy then click ‘Bulk Upload.’ Upon
+              submitting, it will simultaneously send email invites to all of
+              the users listed on the document.
+            </Text>
+            <br />
             <Text>
               1. After logging in, click patients. Then click{" "}
               <BasicLink href="/users/upload" target="_blank">
@@ -365,7 +383,7 @@ function Support() {
         ),
       },
       "patient-import": {
-        title: "Patient Import",
+        title: "Patient Bulk Import",
         content: (
           <Text>
             If you are a school or facility that needs to add both therapists
