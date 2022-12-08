@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
+import VIDEOS from "@constants/videos";
 import { NextSeo } from "next-seo";
 import { makeRandomString, changeTimeZone } from "@helpers/common";
 
@@ -17,9 +17,11 @@ import {
   Page,
   Text,
   View,
+  Image,
   Document,
   StyleSheet,
   PDFViewer,
+  Link,
 } from "@react-pdf/renderer";
 
 const IndexWrapper = styled.div`
@@ -226,6 +228,7 @@ function ManagePatients({ router }) {
         videos.push({
           title: videoObject.file.title,
           description: videoObject.file.description,
+          link: videoObject.file.videoURL,
           id: videoObject.id,
           comments: [],
         });
@@ -257,6 +260,9 @@ function ManagePatients({ router }) {
     });
 
     return videos.map((videoObject) => {
+      if (videoObject.comments.length === 0) {
+        return null;
+      }
       return (
         <View
           key={videoObject.title}
@@ -269,7 +275,11 @@ function ManagePatients({ router }) {
               marginBottom: "10px",
             }}
           >
-            {videoObject.title}: {videoObject.description}
+            {videoObject.title}{" "}
+            <Link src={videoObject.link}>
+              <Image src="/pclip.png" style={{ width: "15px" }} />
+            </Link>
+            : ({videoObject.description})
           </Text>
           <Text
             style={{
@@ -345,6 +355,7 @@ function ManagePatients({ router }) {
                   >
                     Diagnosis: {patientDetail.carePlan.child.diagnosis}
                   </Text>
+
                   <Text
                     style={{
                       fontWeight: "600",
@@ -352,8 +363,67 @@ function ManagePatients({ router }) {
                       marginBottom: "10px",
                     }}
                   >
+                    Duration:
+                  </Text>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-start",
+                    padding: "2rem",
+                    borderBottom: "1px solid #EBEBEB",
+                    marginTop: "10px",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontWeight: "600",
+                      fontSize: "12px",
+                      width: "50%",
+                    }}
+                  >
                     Select Functional Level: {patientDetail.carePlan.level}
                   </Text>
+
+                  <Text
+                    style={{
+                      fontWeight: "600",
+                      fontSize: "12px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    Progress:
+                  </Text>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-start",
+                    padding: "2rem",
+                    borderBottom: "1px solid #EBEBEB",
+                    marginTop: "10px",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontWeight: "600",
+                      fontSize: "12px",
+                      width: "50%",
+                    }}
+                  >
+                    Goal:
+                    <br />
+                  </Text>
+
+                  <Text
+                    style={{
+                      fontWeight: "600",
+                      fontSize: "12px",
+                      marginBottom: "10px",
+                    }}
+                  ></Text>
                 </div>
 
                 <Text
