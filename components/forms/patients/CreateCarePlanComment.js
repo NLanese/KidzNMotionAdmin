@@ -82,7 +82,7 @@ function CreateCarePlanComment({
                   component={TextAreaField}
                   htmlType="text"
                   label={
-                    assignment ? "Assignment Comment" : "Care Plan Comment"
+                    assignment ? "Assignment Progress" : "Care Plan Comment"
                   }
                   size={"large"}
                   required={false}
@@ -98,7 +98,7 @@ function CreateCarePlanComment({
               size={"large"}
               disabled={invalid || pristine}
             >
-              Create Comment
+              Create
             </Button>
           </form>
         )}

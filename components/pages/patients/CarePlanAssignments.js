@@ -194,7 +194,7 @@ function CarePlanAssignments({
               <Panel header="Video Details" key="1">
                 {renderVideoDetails(assignmentObject)}
               </Panel>
-              <Panel header="Assignment Comments" key="2">
+              <Panel header="Assignment Progress" key="2">
                 <CreateCarePlanComment
                   getUser={getUser}
                   returnUrl={returnUrl}

@@ -295,6 +295,36 @@ function ManagePatients({ router }) {
     });
   };
 
+  const renderAssignmentProgress = () => {
+    // console.clear();
+    // console.log(patientDetail.carePlan.comments);
+
+    let videos = [];
+    let comments = [];
+
+    patientDetail.carePlan.comments.map((commentObject) => {
+      if (commentObject.assignmentId) {
+        // console.log(videoObject.comments);
+        // console.log("---------");
+
+        let date1 = changeTimeZone(commentObject.createdAt, "America/New_York");
+
+        let date2 = dateToUse.toDate();
+
+        // if (
+        //   date1.getFullYear() === date2.getFullYear() &&
+        //   date1.getMonth() === date2.getMonth() &&
+        //   date1.getDate() === date2.getDate()
+        // ) {
+        //   comments.push(commentObject.content);
+        // }
+        comments.push(commentObject.content);
+      }
+    });
+
+    return comments.toString();
+  };
+
   return (
     <IndexWrapper>
       <NextSeo title={"Patient PDF"} />
@@ -393,7 +423,7 @@ function ManagePatients({ router }) {
                       marginBottom: "10px",
                     }}
                   >
-                    Progress:
+                    Goal:
                   </Text>
                 </div>
                 <div
@@ -411,9 +441,11 @@ function ManagePatients({ router }) {
                       fontWeight: "600",
                       fontSize: "12px",
                       width: "50%",
+                      marginBottom: "10px",
                     }}
                   >
-                    Goal:
+                    Progress: {renderAssignmentProgress()}
+                    <br />
                     <br />
                   </Text>
 
