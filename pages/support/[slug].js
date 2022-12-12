@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Col, Row, Typography, Divider, Button } from "antd";
+import { Col, Row, Typography, Divider, Button, Popover } from "antd";
 import { NextSeo } from "next-seo";
 import PageHeader from "@common/PageHeader";
 import ContentCard from "@common/content/ContentCard";
@@ -32,6 +32,31 @@ const SupportArticleWrapper = styled.div`
     display: block;
   }
 `;
+
+function CSV({ children }) {
+  return (
+    <Popover
+      content={
+        <div style={{ maxWidth: "200px" }}>
+          A CSV(comma-separated values) file is a text file that has a specific
+          format which allows data to be saved in a table structured format.
+        </div>
+      }
+      title="What is a CSV?"
+    >
+      <div
+        style={{
+          display: "inline",
+          color: "orange",
+          cursor: "pointer",
+          position: "relative",
+        }}
+      >
+        {children}
+      </div>
+    </Popover>
+  );
+}
 
 function Support() {
   const user = useRecoilValue(userState);
@@ -169,16 +194,9 @@ function Support() {
             Inviting therapists to the platform for your organization is like
             inviting clients/patients. Through the Kidz-N-Motion online portal,
             organizations and therapists alike will be able to send user invites
-            via a{" "}
-            <a
-              href="https://www.businessinsider.com/guides/tech/what-is-csv-file"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              .CSV file upload{" "}
-            </a>
-            , in addition to the manual sign-up method. The user invites will be
-            linked with your company code.
+            via a <CSV>.CSV </CSV> file upload , in addition to the manual
+            sign-up method. The user invites will be linked with your company
+            code.
           </Text>
         ),
       },
@@ -285,23 +303,16 @@ function Support() {
               If you are a school or facility that needs to add both therapists
               and students, it can be easily done. Through the Kidz-N-Motion
               online portal, organizations and therapists alike will be able to
-              send user invites via a{" "}
-              <a
-                href="https://www.businessinsider.com/guides/tech/what-is-csv-file"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                .CSV file upload{" "}
-              </a>
-              , in addition to the manual sign-up method. This means that a
-              properly compiled spreadsheet can be submitted to send invites to
-              a large number of users at once. An example of this spreadsheet is
-              available for download. The excel sheet has two cells labeled,
-              email and role (guardian, administrator, therapist) to fill in for
-              submission. Login, click ‘Patients’, then click ‘Upload Patients.’
-              Then click on ‘Download Template.’ The file should appear, fill,
-              save, then click ‘Upload File’. Next click ‘Upload and continue’.
-              Review the information for accuracy then click ‘Bulk Upload.’ Upon
+              send user invites via a <CSV>.CSV </CSV> file upload , in addition
+              to the manual sign-up method. This means that a properly compiled
+              spreadsheet can be submitted to send invites to a large number of
+              users at once. An example of this spreadsheet is available for
+              download. The excel sheet has two cells labeled, email and role
+              (guardian, administrator, therapist) to fill in for submission.
+              Login, click ‘Patients’, then click ‘Upload Patients.’ Then click
+              on ‘Download Template.’ The file should appear, fill, save, then
+              click ‘Upload File’. Next click ‘Upload and continue’. Review the
+              information for accuracy then click ‘Bulk Upload.’ Upon
               submitting, it will simultaneously send email invites to all of
               the users listed on the document.
             </Text>
@@ -404,25 +415,18 @@ function Support() {
             If you are a school or facility that needs to add both therapists
             and students, it can be easily done. Through the Kidz-N-Motion
             online portal, organizations and therapists alike will be able to
-            send user invites via a{" "}
-            <a
-              href="https://www.businessinsider.com/guides/tech/what-is-csv-file"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              .CSV file upload{" "}
-            </a>
-            , in addition to the manual sign-up method. This means that a
-            properly compiled spreadsheet can be submitted to send invites to a
-            large number of users at once. An example of this spreadsheet is
-            available for download. The excel sheet has two cells labeled, email
-            and role (guardian, administrator, therapist) to fill in for
-            submission. Login, click ‘Patients’, then click ‘Upload Patients.’
-            Then click on ‘Download Template.’ The file should appear, fill,
-            save, then click ‘Upload File’. Next click ‘Upload and continue’.
-            Review the information for accuracy then click ‘Bulk Upload.’ Upon
-            submitting, it will simultaneously send email invites to all of the
-            users listed on the document.
+            send user invites via a <CSV>.CSV </CSV>
+            file upload , in addition to the manual sign-up method. This means
+            that a properly compiled spreadsheet can be submitted to send
+            invites to a large number of users at once. An example of this
+            spreadsheet is available for download. The excel sheet has two cells
+            labeled, email and role (guardian, administrator, therapist) to fill
+            in for submission. Login, click ‘Patients’, then click ‘Upload
+            Patients.’ Then click on ‘Download Template.’ The file should
+            appear, fill, save, then click ‘Upload File’. Next click ‘Upload and
+            continue’. Review the information for accuracy then click ‘Bulk
+            Upload.’ Upon submitting, it will simultaneously send email invites
+            to all of the users listed on the document.
           </Text>
         ),
       },
