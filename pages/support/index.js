@@ -21,6 +21,7 @@ import {
   VideoCameraTwoTone,
   UploadOutlined,
   PaperClipOutlined,
+  DiffOutlined,
 } from "@ant-design/icons";
 import { useRecoilValue } from "recoil";
 import { userState } from "@atoms";
@@ -147,6 +148,14 @@ function Support() {
                 href="/support/status-reports"
                 description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
                 icon={<PaperClipOutlined />}
+              />
+            </Col>
+            <Col md={12}>
+              <SupportArticleIcon
+                title="Documentation"
+                href="/support/documentation"
+                description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
+                icon={<DiffOutlined />}
               />
             </Col>
             <Col md={12}>

@@ -29,7 +29,7 @@ function EditChildCareDetailsForm({ getUser, initialValues, returnUrl }) {
     await editFunction({
       variables: {
         level: parseInt(formValues.childLevel),
-        diagnosis: formValues.diagnosis,
+        diagnosis: "",
         childCarePlanID: initialValues.childCarePlanID,
         blockedVideos: { ids: formValues.blockedVideos },
       },
@@ -142,7 +142,7 @@ function EditChildCareDetailsForm({ getUser, initialValues, returnUrl }) {
                   hideErrorText={false}
                 />
               </Col>
-              <Col xs={24} md={24}>
+              {/* <Col xs={24} md={24}>
                 <Field
                   name="diagnosis"
                   component={TextAreaField}
@@ -151,7 +151,7 @@ function EditChildCareDetailsForm({ getUser, initialValues, returnUrl }) {
                   required={false}
                   hideErrorText={true}
                 />
-              </Col>
+              </Col> */}
             </Row>
 
             <Button

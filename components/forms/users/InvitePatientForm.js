@@ -31,7 +31,7 @@ function InvitePatientForm({ organizationUsers, therapistMode }) {
           childDateOfBirth: formValues.childDateOfBirth,
           childLevel: formValues.childLevel,
           childTherapistID: formValues.childTherapistID,
-          diagnosis: formValues.diagnosis,
+          diagnosis: "",
         },
       })
         .then(async (resolved) => {
@@ -149,9 +149,9 @@ function InvitePatientForm({ organizationUsers, therapistMode }) {
             if (!values.childFirstName) {
               errors.childFirstName = "Required";
             }
-            if (!values.diagnosis) {
-              errors.diagnosis = "Required";
-            }
+            // if (!values.diagnosis) {
+            //   errors.diagnosis = "Required";
+            // }
             if (!values.childLastName) {
               errors.childLastName = "Required";
             }
@@ -275,7 +275,7 @@ function InvitePatientForm({ organizationUsers, therapistMode }) {
                       hideErrorText={false}
                     />
                   </Col>
-                  <Col xs={24} md={24}>
+                  {/* <Col xs={24} md={24}>
                     <Field
                       label="Diagnosis"
                       name="diagnosis"
@@ -285,7 +285,7 @@ function InvitePatientForm({ organizationUsers, therapistMode }) {
                       size={"large"}
                       hideErrorText={false}
                     />
-                  </Col>
+                  </Col> */}
                   <Col xs={24} md={24}>
                     <Field
                       label="Child Date Of Birth"

@@ -42,7 +42,7 @@ export const createNotification = async (
   }
 
   // Create the notification
-  await prisma.notification.create({
+  let notification = await prisma.notification.create({
     data: {
       title: title,
       description: description,

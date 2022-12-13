@@ -235,23 +235,23 @@ const typeDefs = gql`
     #########################
 
     getAllMedalTypes: [MedalType]
-    
+
     ###################################
     #### CHILD CARE PLAN QUERIES ####
     ###################################
-    
+
     getChildVideoStatistics(childID: String!): JSON
-    
+
     #########################
     #### MEETING QUERIES ####
     #########################
-    
+
     getMeetings: [Meeting]
 
     ###############################
     #### NOTIFICATION QUERIES ####
     ##############################
-    
+
     getNotifications: [Notification]
   }
 
@@ -261,7 +261,7 @@ const typeDefs = gql`
     #### USER MUTATIONS ####
     ########################
     devCreateUser(password: String!): User
-    
+
     editColorSettings(colorSettings: String!): Boolean
 
     loginUser(username: String!, password: String!): UserPayLoad
@@ -286,7 +286,7 @@ const typeDefs = gql`
     logoutUser: String
 
     requestResetPassword(email: String!): Boolean
-    
+
     updatePhoneToken(token: String!): Boolean
 
     confirmPassword(password: String!): Boolean
@@ -303,6 +303,13 @@ const typeDefs = gql`
       phoneNumber: String
       title: String
       username: String
+    ): Boolean
+
+    createUserToUserNotification(
+      title: String!
+      description: String!
+      type: String!
+      toUserId: String!
     ): Boolean
 
     ################################
@@ -341,9 +348,9 @@ const typeDefs = gql`
     swapToChildAccount(childUserID: String!): UserPayLoad
 
     changeProfilePicture(profilePic: JSON!): User
-    
+
     generateSoloGuardianCheckoutLink: String
-    
+
     generateSoloGuardianPortalLink: String
 
     editUserNotificationSettings(
@@ -360,9 +367,7 @@ const typeDefs = gql`
       muteAssignmentNotifications: Boolean!
     ): Boolean
 
-    claimPatient(
-      patientUserID: String!
-    ): Boolean
+    claimPatient(patientUserID: String!): Boolean
 
     changeUserNotifications(
       userID: String!
@@ -393,8 +398,12 @@ const typeDefs = gql`
     #### CHILD CARE PLAN MUTATIONS ####
     ###################################
     toggleAssignmentSeen(assignmentID: String!, hasSeen: Boolean!): Assignment
-    
-    setVideoCompleted(videoID: String!, medalType: String!, childID: String): Video
+
+    setVideoCompleted(
+      videoID: String!
+      medalType: String!
+      childID: String
+    ): Video
 
     editChildCarePlan(
       childCarePlanID: String!
@@ -411,9 +420,7 @@ const typeDefs = gql`
       assignmentID: String
     ): ChildCarePlan
 
-    deleteComment(
-      commentID: String!
-    ): Boolean
+    deleteComment(commentID: String!): Boolean
 
     createAssignment(
       childCarePlanID: String!
@@ -433,7 +440,7 @@ const typeDefs = gql`
       type: String!
       participantIDs: [String]!
     ): Meeting
-  
+
     editMeeting(
       title: String!
       meetingID: String!
@@ -444,18 +451,12 @@ const typeDefs = gql`
       cancelled: Boolean!
     ): Meeting
 
-    approveMeeting(
-      approveMeeting: Boolean!
-      meetingID: String!
-    ): Meeting
+    approveMeeting(approveMeeting: Boolean!, meetingID: String!): Meeting
 
     ################################
     #### NOTIFICATION MUTATIONS ####
     ################################
-    dismissNotification(
-      notificationID: String!
-    ): Boolean
-
+    dismissNotification(notificationID: String!): Boolean
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------
 `;

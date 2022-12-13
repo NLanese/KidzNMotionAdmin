@@ -118,6 +118,65 @@ function Support() {
           </Text>
         ),
       },
+      documentation: {
+        title: "Documentation",
+        content: (
+          <>
+            <Text>
+              To effectively monitor and track patients' outcomes, documentation
+              is vital for the therapist. On the Kidz-N-Motion app, tracking
+              your patients' progress is done via a status report. Therapists
+              can document after initially assessing a child’s ability to
+              perform the skills modeled in the videos. The videos can also be a
+              tool used for treatment. The app allows you to upload a clip of
+              the child performing each of those movements to show visual
+              documentation of their baseline function. Then when you reassess
+              the child, there is evidence to support progress and effectiveness
+              of the treatment. Kidz-N-Motion app affords therapists the
+              convenience of recording comments on their phone to simply print
+              them later through the web portal.On the web portal, generating a
+              PDF document will produce a status report with comments entered in
+              each comment section. In order to complete other pertinent
+              information on the template document, Adobe software is required
+              on the device. The platform also allows a child to earn game
+              badges. Questions will appear after a video is completed. Based on
+              the responses to the questions a game badge is awarded.
+            </Text>
+            <br />
+            <br />
+            <Text style={{ weight: 700 }}>
+              <b>The questions are as follows:</b>{" "}
+            </Text>
+            <Text>
+              Did you give any instruction or physical support to complete this
+              video? Did the child need to stop at any point to take a break?
+              How many seconds of the video were they able to successfully do,
+              less than 30 seconds, less than a minute or 1 full minute?
+            </Text>
+            <br />
+            <br />
+            <Text>
+              <b>Game badge criteria:</b>{" "}
+            </Text>
+            <Text>
+              Gold: performs the task independently, for 1 min, without a rest
+              period
+              <br />
+              Bronze: performs the task with verbal cues, for 1 min, with or
+              without rest period
+              <br />
+              Silver: performs task with physical assist, for at least 30
+              seconds, with or without rest periods
+              <br />
+              <br />
+              To create comments for documentation on the mobile app, go to
+              ‘Clients,’ then select a client and click ‘Documentation and
+              Comments’ to make comments that can be downloaded from the web
+              portal.
+            </Text>
+          </>
+        ),
+      },
       "message-therapist": {
         title: "Message Therapist",
         content: (
@@ -296,10 +355,10 @@ function Support() {
       },
 
       "upload-patients": {
-        title: "Patient Bulk Imports",
+        title: "Steps To Perform a Bulk Upload",
         content: (
           <>
-            <Text>
+            {/* <Text>
               If you are a school or facility that needs to add both therapists
               and students, it can be easily done. Through the Kidz-N-Motion
               online portal, organizations and therapists alike will be able to
@@ -316,7 +375,7 @@ function Support() {
               submitting, it will simultaneously send email invites to all of
               the users listed on the document.
             </Text>
-            <br />
+            <br /> */}
             <Text>
               1. After logging in, click patients. Then click{" "}
               <BasicLink href="/users/upload" target="_blank">

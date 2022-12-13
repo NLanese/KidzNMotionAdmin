@@ -185,13 +185,25 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
                 );
               }}
               title={
-                <CalenderWrapper style={{ maxWidth: "290px" }}>
-                  <Calendar
-                    fullscreen={false}
-                    onChange={(value) => setPDFCalenderDate(value)}
-                    value={dateToUse}
-                  />
-                </CalenderWrapper>
+                <>
+                  <p
+                    style={{
+                      width: "240px",
+                      textAlign: "center",
+                      margin: "auto",
+                    }}
+                  >
+                    You will be redirect from this site to view/edit the
+                    document.
+                  </p>
+                  <CalenderWrapper style={{ maxWidth: "290px" }}>
+                    <Calendar
+                      fullscreen={false}
+                      onChange={(value) => setPDFCalenderDate(value)}
+                      value={dateToUse}
+                    />
+                  </CalenderWrapper>
+                </>
               }
             >
               <Button

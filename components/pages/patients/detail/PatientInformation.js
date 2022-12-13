@@ -38,9 +38,9 @@ function PatientInformation({ patientDetail, user }) {
         <Descriptions.Item label="Date of Birth">
           {dateFormat(patientDetail.childDateOfBirth, "mmm dd, yyyy")}
         </Descriptions.Item>
-        <Descriptions.Item label="Diagnosis">
+        {/* <Descriptions.Item label="Diagnosis">
           {patientDetail.carePlan.child.diagnosis}
-        </Descriptions.Item>
+        </Descriptions.Item> */}
 
         <Descriptions.Item label="Therapist">
           {patientDetail.carePlan.therapist.firstName}{" "}

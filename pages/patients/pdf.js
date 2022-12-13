@@ -383,7 +383,7 @@ function ManagePatients({ router }) {
                       width: "50%",
                     }}
                   >
-                    Diagnosis: {patientDetail.carePlan.child.diagnosis}
+                    Diagnosis:
                   </Text>
 
                   <Text
