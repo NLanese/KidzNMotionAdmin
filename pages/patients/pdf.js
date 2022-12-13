@@ -224,10 +224,10 @@ function ManagePatients({ router }) {
     let videos = [];
     patientDetail.carePlan.assignments.map((assignmentObject) => {
       assignmentObject.videos.map((videoObject) => {
-        // console.log(videoObject);
+        console.log(videoObject);
         videos.push({
           title: videoObject.file.title,
-          description: videoObject.file.description,
+          description: VIDEOS[videoObject.file.id]?.medicalDescription,
           link: videoObject.file.videoURL,
           id: videoObject.id,
           comments: [],
@@ -279,7 +279,7 @@ function ManagePatients({ router }) {
             <Link src={videoObject.link}>
               <Image src="/pclip.png" style={{ width: "15px" }} />
             </Link>
-            : ({videoObject.description})
+            : {videoObject.description}
           </Text>
           <Text
             style={{

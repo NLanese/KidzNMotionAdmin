@@ -2,75 +2,95 @@
 const VIDEOS = {
   // TO BE ADDED
 
-  step_up: {  // MISSING
+  step_up: {
+    // MISSING
     id: "step_up",
     level: 2,
     title: "Step Up",
-    description: "Get some sort of small stool or step-up bench for this exercise! Here, we will try to step up, first with our left foot and then our right, so we have both feet on the platform! Then, step down, left the right and do it again!",
+    description:
+      "Get some sort of small stool or step-up bench for this exercise! Here, we will try to step up, first with our left foot and then our right, so we have both feet on the platform! Then, step down, left the right and do it again!",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1668524544/Kids-N-Motion%20Videos/Step_up_ofg3pr.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/step_up_egwcrb.png"
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/step_up_egwcrb.png",
+    medicalDescription:
+      "(Testing hip flexors, hamstrings, balance, and coordination)",
   },
-  toe_walking: { // MISSING
+  toe_walking: {
+    // MISSING
     id: "toe_walking",
     level: 2,
     title: "Heel/Toe Walking",
-    description: "Test your balance and your foot strength! Walk forward on your toes, then turn around and walk back on your heels!",
+    description:
+      "Test your balance and your foot strength! Walk forward on your toes, then turn around and walk back on your heels!",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887209/Kids-N-Motion%20Videos/Toe_Walking_chevus.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/toe_walking_uyqgpl.png",
+    medicalDescription:
+      "(Testing ankle dorsiflexors, gastrocnemius-soleus group)",
   },
-  toe_touches: { // MISSING?
+  toe_touches: {
+    // MISSING?
     id: "toe_touches",
     level: 1,
     title: "Toe Touches",
-    description: "Bend over and touch your toes. For this exercise, try to keep your knees straight without bending them, and reach down as far as you can!",
+    description:
+      "Bend over and touch your toes. For this exercise, try to keep your knees straight without bending them, and reach down as far as you can!",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887191/Kids-N-Motion%20Videos/Toe_Touches_jh5cdk.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/toe_touches_riskgj.png"
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/toe_touches_riskgj.png",
+    medicalDescription: "(Gower’s Maneuver)",
   },
-  squat: { 
+  squat: {
     id: "squat",
     level: 1,
     title: "Squat",
-    description: "For this exercise, plant your feet about shoulder width apart, and squat down while trying to keep your back straight. This should test your leg strength as well as your balance!",
+    description:
+      "For this exercise, plant your feet about shoulder width apart, and squat down while trying to keep your back straight. This should test your leg strength as well as your balance!",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1669215530/Kids-N-Motion%20Videos/Squat_ddkhg6.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/squat_ujqj9j.png"
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/squat_ujqj9j.png",
+    medicalDescription: "(Gluteus maximus and quadriceps femoris strength)",
   },
   side_to_side: {
     id: "side_to_side",
     level: 2,
     title: "Side To Side",
-    description: "For this exercise, we will be jumping side to side, doing our best to keep our feet together. Imagine a line on the floor next to you, and try to jump over it and back!",
+    description:
+      "For this exercise, we will be jumping side to side, doing our best to keep our feet together. Imagine a line on the floor next to you, and try to jump over it and back!",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887221/Kids-N-Motion%20Videos/side_to_side_f23jwu.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/side_to_side_ecnudh.png",
+    medicalDescription: "(Strengthening, balance and coordination)",
   },
   rolling: {
     id: "rolling",
     level: 1,
     title: "Rolling",
-    description: "In this exercise, we are going to lie on the ground and roll from stomach to back from both sides. This should test your trunk control and strength.",
+    description:
+      "In this exercise, we are going to lie on the ground and roll from stomach to back from both sides. This should test your trunk control and strength.",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887194/Kids-N-Motion%20Videos/Rolling_ekboiz.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/rolling_zfzebk.png",
+    medicalDescription: "(Trunk strength, symmetry)",
   },
   leg_lifts: {
     id: "leg_lifts",
     level: 1,
     title: "Leg Lifts",
-    description: "In this video, we are going to stand on one leg and lift the other leg. This should test your balance and hip strength.",
+    description:
+      "In this video, we are going to stand on one leg and lift the other leg. This should test your balance and hip strength.",
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887150/Kids-N-Motion%20Videos/Leg_lifts_r4a0dk.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948314/Kidz-N-Motion%20Thumbnails/leg_lifts_em2etl.png",
+    medicalDescription:
+      "(pelvis drop on lifted leg indicates contralateral gluteus Medius and minimus weakness)",
   },
   // LEVEL 0
   great_job: {
@@ -105,6 +125,7 @@ const VIDEOS = {
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948312/Kidz-N-Motion%20Thumbnails/hand_to_knees_ygdegd.png",
     id: "hand_to_knees",
+    medicalDescription: "(proximal trunk stability, coordination, strength)",
   },
   chair_elevation: {
     level: 1,
@@ -116,6 +137,8 @@ const VIDEOS = {
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948312/Kidz-N-Motion%20Thumbnails/chair_elevation_ealjwh.png",
     id: "chair_elevation",
+    medicalDescription:
+      "(Trapezius, latissimus dorsi, scapular depressors, triceps, and hip flexor strength)",
   },
   floor_to_stand: {
     level: 1,
@@ -127,6 +150,7 @@ const VIDEOS = {
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948313/Kidz-N-Motion%20Thumbnails/floor_to_stand_cfjgyg.png",
     id: "floor_to_stand",
+    medicalDescription: "(strength and coordination)",
   },
   beam_balancing: {
     level: 2,
@@ -138,6 +162,7 @@ const VIDEOS = {
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948312/Kidz-N-Motion%20Thumbnails/Bean_balancing_ks8kz9.png",
     id: "beam_balancing",
+    medicalDescription: "(Balance and coordination)",
   },
 
   // LEVEL 2
@@ -151,6 +176,7 @@ const VIDEOS = {
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948314/Kidz-N-Motion%20Thumbnails/jump_rope_mdtgcm.png",
     id: "jump_rope",
+    medicalDescription: "(Endurance, strengthening, balance, and coordination)",
   },
   jumping_jacks: {
     level: 2,
@@ -162,6 +188,7 @@ const VIDEOS = {
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948314/Kidz-N-Motion%20Thumbnails/jumping_jacks_m3uf1m.png",
     id: "jumping_jacks",
+    medicalDescription: "(Endurance, strengthening, balance, and coordination)",
   },
   jump_forward_and_backward: {
     level: 2,
@@ -173,6 +200,7 @@ const VIDEOS = {
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948314/Kidz-N-Motion%20Thumbnails/jump_forward_and_back_u7h14j.png",
     id: "jump_forward_and_backward",
+    medicalDescription: "(Balance and coordination)",
   },
   hop_scotch: {
     level: 2,
@@ -184,6 +212,7 @@ const VIDEOS = {
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948314/Kidz-N-Motion%20Thumbnails/hop_scotch_a770di.png",
     id: "hop_scotch",
+    medicalDescription: "(Balance and coordination)",
   },
   bear_crawl: {
     level: 2,
@@ -194,7 +223,9 @@ const VIDEOS = {
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887200/Kids-N-Motion%20Videos/Bear_Crawl_ddnoqb.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948312/Kidz-N-Motion%20Thumbnails/Bear_crawl_1_wymsmn.png",
-    id: "bear_crawl"
+    id: "bear_crawl",
+    medicalDescription:
+      "(Total body: Core strength, shoulder, chest, and leg strength)",
   },
   // bear_crawl_right: {
   //   level: 2,
