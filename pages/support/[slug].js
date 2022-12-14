@@ -355,7 +355,7 @@ function Support() {
       },
 
       "upload-patients": {
-        title: "Steps To Perform a Bulk Upload",
+        title: "Patient Bulk Imports",
         content: (
           <>
             <Text>
@@ -370,6 +370,11 @@ function Support() {
               (guardian, administrator, therapist) to fill in for submission.
             </Text>
             <br />
+            <br />
+            <Text style={{ weight: 700 }}>
+              {" "}
+              <b>Steps To Perform a Bulk Upload</b>
+            </Text>
             <Text>
               1. After logging in, click patients. Then click{" "}
               <BasicLink href="/users/upload" target="_blank">
