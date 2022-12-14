@@ -138,9 +138,16 @@ function ManagePatients({ router }) {
     },
     header: {
       fontSize: 12,
-      marginBottom: 40,
+      marginBottom: 10,
       textAlign: "center",
       color: "grey",
+    },
+    header2: {
+      fontSize: 10,
+      marginBottom: 30,
+      textAlign: "center",
+      color: "grey",
+      textDecoration: "italic",
     },
     pageNumber: {
       position: "absolute",
@@ -335,6 +342,11 @@ function ManagePatients({ router }) {
               <Page style={styles.body} size="A4">
                 <Text style={styles.header} fixed>
                   Treatment Report
+                </Text>
+                <Text style={styles.header2} fixed>
+                  To edit this document, please download the PDF and edit it on
+                  your computer.
+                  <br />
                 </Text>
 
                 <div

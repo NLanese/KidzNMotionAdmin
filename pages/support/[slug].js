@@ -134,7 +134,7 @@ function Support() {
               the child, there is evidence to support progress and effectiveness
               of the treatment. Kidz-N-Motion app affords therapists the
               convenience of recording comments on their phone to simply print
-              them later through the web portal.On the web portal, generating a
+              them later through the web portal. On the web portal, generating a
               PDF document will produce a status report with comments entered in
               each comment section. In order to complete other pertinent
               information on the template document, Adobe software is required
@@ -358,7 +358,7 @@ function Support() {
         title: "Steps To Perform a Bulk Upload",
         content: (
           <>
-            {/* <Text>
+            <Text>
               If you are a school or facility that needs to add both therapists
               and students, it can be easily done. Through the Kidz-N-Motion
               online portal, organizations and therapists alike will be able to
@@ -368,14 +368,8 @@ function Support() {
               users at once. An example of this spreadsheet is available for
               download. The excel sheet has two cells labeled, email and role
               (guardian, administrator, therapist) to fill in for submission.
-              Login, click ‘Patients’, then click ‘Upload Patients.’ Then click
-              on ‘Download Template.’ The file should appear, fill, save, then
-              click ‘Upload File’. Next click ‘Upload and continue’. Review the
-              information for accuracy then click ‘Bulk Upload.’ Upon
-              submitting, it will simultaneously send email invites to all of
-              the users listed on the document.
             </Text>
-            <br /> */}
+            <br />
             <Text>
               1. After logging in, click patients. Then click{" "}
               <BasicLink href="/users/upload" target="_blank">
