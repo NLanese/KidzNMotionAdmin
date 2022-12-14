@@ -219,6 +219,7 @@ export const getUserObject = async (user) => {
                 description: true,
                 childCarePlan: {
                   select: {
+                    id: true,
                     childId: true
                   }
                 },
