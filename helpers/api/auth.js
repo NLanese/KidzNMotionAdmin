@@ -338,6 +338,11 @@ export const getUserObject = async (user) => {
                     title: true,
                     seen: true,
                     description: true,
+                    childCarePlan: {
+                      select: {
+                        childId: true
+                      }
+                    },
                     videos: {
                       select: {
                         id: true,
@@ -549,6 +554,11 @@ export const getUserObject = async (user) => {
                 seen: true,
                 title: true,
                 description: true,
+                childCarePlan: {
+                  select: {
+                    childId: true
+                  }
+                },
                 videos: {
                   select: {
                     id: true,
@@ -843,7 +853,11 @@ export const getUserObject = async (user) => {
                 seen: true,
                 title: true,
                 description: true,
-
+                childCarePlan: {
+                  select: {
+                    childId: true
+                  }
+                },
                 videos: {
                   select: {
                     id: true,
