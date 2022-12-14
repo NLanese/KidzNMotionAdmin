@@ -217,6 +217,11 @@ export const getUserObject = async (user) => {
                 title: true,
                 seen: true,
                 description: true,
+                childCarePlan: {
+                  select: {
+                    childId: true
+                  }
+                },
                 videos: {
                   select: {
                     id: true,
