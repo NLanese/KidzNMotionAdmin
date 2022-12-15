@@ -13,6 +13,21 @@ export default {
     ) => {
       if (!context.user) throw new UserInputError("Login required");
 
+      let assignment;
+      if (type) {
+        // Find the assignment that we are tyring to toggle as see
+        assignment = await prisma.assignment.findUnique({
+          where: {
+            id: type,
+          },
+          select: {
+            notificationSent: true,
+          },
+        });
+      }
+
+      if (assignment && assignment.notificationSent) return false;
+
       await createNotification(
         title,
         description,
@@ -20,6 +35,16 @@ export default {
         toUserId,
         context.user.id
       );
+
+      if (assignment && !assignment.notificationSent)
+        await prisma.assignment.update({
+          where: {
+            id: type,
+          },
+          data: {
+            notificationSent: true,
+          },
+        });
 
       return true;
     },
