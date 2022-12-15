@@ -175,7 +175,8 @@ model Assignment {
   title       String
   description String
 
-  seen Boolean @default(false)
+  seen             Boolean @default(false)
+  notificationSent Boolean @default(false)
 
   childCarePlan   ChildCarePlan? @relation(fields: [childCarePlanId], references: [id])
   childCarePlanId String?

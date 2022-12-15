@@ -216,6 +216,7 @@ export const getUserObject = async (user) => {
                 dateDue: true,
                 title: true,
                 seen: true,
+                notificationSent: true,
                 description: true,
                 videos: {
                   select: {
@@ -331,6 +332,7 @@ export const getUserObject = async (user) => {
                     dateDue: true,
                     title: true,
                     seen: true,
+                    notificationSent: true,
                     description: true,
                     videos: {
                       select: {
@@ -541,6 +543,7 @@ export const getUserObject = async (user) => {
                 dateStart: true,
                 dateDue: true,
                 seen: true,
+                notificationSent: true,
                 title: true,
                 description: true,
                 videos: {
@@ -835,6 +838,7 @@ export const getUserObject = async (user) => {
                 dateStart: true,
                 dateDue: true,
                 seen: true,
+                notificationSent: true,
                 title: true,
                 description: true,
 

@@ -111,6 +111,7 @@ const typeDefs = gql`
     dateStart: Date
     dateDue: Date
     seen: Boolean
+    notificationSent: Boolean
     title: String
     description: String
     childCarePlan: ChildCarePlan
