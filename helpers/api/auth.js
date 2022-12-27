@@ -779,121 +779,123 @@ export const getUserObject = async (user) => {
         },
       },
     });
-  } else if (user.role === "CHILD") {
-    userObject = await prisma.user.findUnique({
-      where: {
-        id: user.id,
-      },
-      select: {
-        id: true,
-        firstName: true,
-        accessMessages: true,
-        accessSettings: true,
-        colorSettings: true,
-        leaveApp: true,
-        lastName: true,
-        childDateOfBirth: true,
-        diagnosis: true,
-        profilePic: true,
-        muteAllAssignments: true,
-        muteAllMessages: true,
-        videos: {
-          select: {
-            id: true,
-            contentfulID: true,
-            completed: true,
-            medals: {
-              select: {
-                id: true,
-                image: true,
-                description: true,
-                createdAt: true,
-                level: true,
-              },
-            },
-          },
-        },
-        childCarePlans: {
-          where: {
-            active: true,
-          },
-          select: {
-            id: true,
-            level: true,
-            allVideoStatus: true,
-            weeklyVideoStatus: true,
-            therapist: {
-              select: {
-                id: true,
-                firstName: true,
-                lastName: true,
-                email: true,
-              },
-            },
-            comments: {
-              orderBy: {
-                createdAt: "desc",
-              },
-              select: {
-                id: true,
-                content: true,
-                createdAt: true,
-                therapist: {
-                  select: {
-                    id: true,
-                  },
-                },
-                videoId: true,
-                assignmentId: true,
-              },
-            },
-            assignments: {
-              select: {
-                id: true,
-                createdAt: true,
-                dateStart: true,
-                dateDue: true,
-                seen: true,
-                notificationSent: true,
-                title: true,
-                description: true,
-                childCarePlan: {
-                  select: {
-                    childId: true
-                  }
-                },
-                videos: {
-                  select: {
-                    id: true,
-                    contentfulID: true,
-                    completed: true,
-                    medals: {
-                      select: {
-                        id: true,
-                        image: true,
-                        description: true,
-                        level: true,
-                        createdAt: true,
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            therapist: {
-              select: {
-                firstName: true,
-                lastName: true,
-                email: true,
-                title: true,
-                id: true,
-              },
-            },
-          },
-        },
-      },
-    });
-  } else {
+  }
+  // else if (user.role === "CHILD") {
+  //   userObject = await prisma.user.findUnique({
+  //     where: {
+  //       id: user.id,
+  //     },
+  //     select: {
+  //       id: true,
+  //       firstName: true,
+  //       accessMessages: true,
+  //       accessSettings: true,
+  //       colorSettings: true,
+  //       leaveApp: true,
+  //       lastName: true,
+  //       childDateOfBirth: true,
+  //       diagnosis: true,
+  //       profilePic: true,
+  //       muteAllAssignments: true,
+  //       muteAllMessages: true,
+  //       videos: {
+  //         select: {
+  //           id: true,
+  //           contentfulID: true,
+  //           completed: true,
+  //           medals: {
+  //             select: {
+  //               id: true,
+  //               image: true,
+  //               description: true,
+  //               createdAt: true,
+  //               level: true,
+  //             },
+  //           },
+  //         },
+  //       },
+  //       childCarePlans: {
+  //         where: {
+  //           active: true,
+  //         },
+  //         select: {
+  //           id: true,
+  //           level: true,
+  //           allVideoStatus: true,
+  //           weeklyVideoStatus: true,
+  //           therapist: {
+  //             select: {
+  //               id: true,
+  //               firstName: true,
+  //               lastName: true,
+  //               email: true,
+  //             },
+  //           },
+  //           comments: {
+  //             orderBy: {
+  //               createdAt: "desc",
+  //             },
+  //             select: {
+  //               id: true,
+  //               content: true,
+  //               createdAt: true,
+  //               therapist: {
+  //                 select: {
+  //                   id: true,
+  //                 },
+  //               },
+  //               videoId: true,
+  //               assignmentId: true,
+  //             },
+  //           },
+  //           assignments: {
+  //             select: {
+  //               id: true,
+  //               createdAt: true,
+  //               dateStart: true,
+  //               dateDue: true,
+  //               seen: true,
+  //               notificationSent: true,
+  //               title: true,
+  //               description: true,
+  //               childCarePlan: {
+  //                 select: {
+  //                   childId: true
+  //                 }
+  //               },
+  //               videos: {
+  //                 select: {
+  //                   id: true,
+  //                   contentfulID: true,
+  //                   completed: true,
+  //                   medals: {
+  //                     select: {
+  //                       id: true,
+  //                       image: true,
+  //                       description: true,
+  //                       level: true,
+  //                       createdAt: true,
+  //                     },
+  //                   },
+  //                 },
+  //               },
+  //             },
+  //           },
+  //           therapist: {
+  //             select: {
+  //               firstName: true,
+  //               lastName: true,
+  //               email: true,
+  //               title: true,
+  //               id: true,
+  //             },
+  //           },
+  //         },
+  //       },
+  //     },
+  //   });
+  // } 
+  else {
     return null;
   }
 
