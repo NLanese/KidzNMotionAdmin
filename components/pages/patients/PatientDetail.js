@@ -193,8 +193,8 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
                       margin: "auto",
                     }}
                   >
-                    You will be redirect from this site to view/edit the
-                    document.
+                    To edit this document, please download the PDF and edit it
+                    on your computer.
                   </p>
                   <CalenderWrapper style={{ maxWidth: "290px" }}>
                     <Calendar
