@@ -6,18 +6,18 @@ try {
   admin.initializeApp({
     credential: admin.credential.cert({
       type: "service_account",
-      project_id: "kidznmotion-43590",
-      private_key_id: "ffbe2b97dea888c18fbc7c21c6ee81883b60d6d3",
+      project_id: "kidznmotion-7f5cf",
+      private_key_id: "4217ad818a7db980a382f04bb5c6bf1ffe9b2c0f",
       private_key:
-        "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCy2oL/fsiReaZ3\nh9ZjLIbF/0j5WKYnAnDxVKiJPJwWB3xQv8hh1YpQgsjhsRncpwGL+UwDbxl/V/pU\nIudP8dQqbBciBxPEkun556rzwvvM7qW3nxAKk3hT2hMtDdN5yHzASKS6h3Y0E/9q\nRAUkIGMyd/lf1PU0OJqYbnnr+18z2TE91fJ0Y/L1uXdwgyloTYk1eI1JxlhbjvZI\nYMlDtKZzHoAIe3U3waDG7VEaOFCfG1mVb3uURFfC9lhgvOM+TV35sQ7rSsKqiH7R\nSgvVNqV9o0yevymmxByuyHhJUshpI77pYSonMfsl4Ko4B9fNvvTTMMs49yYDtA+q\nu7PPhC67AgMBAAECggEASygWfy20M6l2gekjdlZKJh6h+CG/5Ema01abYdwFzR4F\nJ9uHZVE6B54Fsw1cTEQjmsG+Jv1DLid2qm9mW0pIOTFlwSdPL736s0ieJkPL0vB/\n07r0HzWcDURo5XhXYugUQCrmifmNetHidTGzJVy0wor20EXpajHVCPP3qOnfNiY8\nukhWZ/oX15Bb3e+vxSKbV/mSgwWG+1jhjrm2g1LrUigzgie8tQECyBtWuLggA9an\nHo2sF5yuEy14qSAKNwKL7yp2UKWjrFEdZsWz7hk1a3NAEDszeppwEG1b2eOmk+yI\nk0gQNBhdPdzhZgG4xZ+tlGxdFO8PhK1GNy3ZxEXXkQKBgQDmsrxV2wQaHmwtIjzB\ngw6+lou9xuimWU/oYT0fjPf4BnVE5vG4F3A0R2IBblqiJndCdDrfCaZF+zNjWb0v\nCTJadQBOfykIS6YLYaalP87VzhpYIX84xpQDYI8vzIcGoZZFpywRafSxBW6NdrGS\ng6Iop/gxD2R7Cvanvhonn2SEqwKBgQDGeCU6yVOUDkU44f9tIqKvBpBjSOD6Cbiq\nrK435q4xTZgwuvw0AKedq+zyKjvQCduB3bmb4ivm8AVeDem69KfeMacObmQbHJ8y\n6SfmeequYKi37EyBvgpvg/fBQWMIDfninkVn+YDIZK9EPWuINgGbCQb6ErQ+mFXv\no04+jbBeMQKBgQDZTsHTScQ6ai/R7+81BSPNaXfmYshhcb2wknAGGT63FjY+miBV\nHVbnF9p8qJudJAiww1V1JNzIDNCiJDTtaodQ5+dLCcL3+nJFRE26WTmW8lakb6Es\nNPnVmI4oI0uJdopbwBXlrV39pbU2cfjgnzgPffFvHSW0NWaUKaDvc9g2kwKBgGfF\nBeI4xaRR2cumDoEnbNwKmI/w2QCi+JT0eJrt2AIbSgmgmqEt/nWoINl1T5S0srqy\nDYv9s2qp8IR+zchchzDb0TbwbRLn4i0iTyRodlX6X/zaZh4oGRi5bV70Ky1Y8WCV\n1EBK6hTc3+7UFlc/tZM0Ixu5j9hymewT/KMkPiThAoGAYV9g2xth9xvAQv25nlkO\nvXuuU8jmEq25epPPE7hz5eR2jVOjGyCP1Uqyu8itQlcDCrr1AtM1Rl7lQIZe6NEU\nte5A+oKVLQJ31dbYs7bUeWiQOdZFUJjCJHZ+6wKdmwR3MmJWrue/1PGOf4WE5R/H\nGcpz292ccACkJR8lpi5yqHY=\n-----END PRIVATE KEY-----\n",
+        "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDULazBUK1XLq+m\n+3QvnoOLB9xM/3EIGtccizX7rBRX4h3wOOGIKF9mkcVKnDEuTwhOb7E0N0BIxKPF\n2rMjg6qEcMqZ3RRcVDeA9/+Gy+EXJbijcOYExWrQ7pFRN/Q2oFjtAkM9sM5XEqeQ\n0PLuwy1z9e5jdXPDgkjbZjGznbAXcaZM/mLttdKtqjEU3EdXQ4r0MIVecJY0D2I+\nnkssCYWLu6CLf3ar57Jp4Lp+ADgDDlZEOAd4g5H9gubc20WMYsK6AkdnWtlSsZoS\nl1M4LFbZyko37IcwD2kf8XEqdTgQrehEuvqb4HJxfOrCv3Lc996IBP91zMA6paXQ\nj3/eLmm7AgMBAAECggEAKvjJKSnGwYZyCraYlGBdMdY4tttxL/wHnv9OwpbaU+Y2\nvAU5IBNVJvfU5kR17XQSMZiLYhDikxpINPUTHNk4urQBRGIzEnP3/cW8WbeG8eIw\n3+EopMS62m/GvJVBf6K//9had+8MCzR6/WhkGxkqZnbjff82n90OFmk/HaqNFGIQ\nrcVJ5llbVi/k+nbkbeiqOPAgaBqTxDgrEUhaBhZYSENrOvZTrNZX16ms8qyNtX3j\nTC6be/BEag7dfv5AH9VSX1UPd9RRVEgPCA6fS/krTl0m/iVQN0/NA3fVfyvyRSXw\nQ1gqa8zMVtt5ksujujHN25jEYwJiZze3xiO61VzrKQKBgQDpqlQXC3TVEUxhYbdr\nQMqlkF0myk8GAGl+GJdzevszrwjPLA59wruHIaio3rhL7V8uQV8dr8MJkP/+9Uwr\nruDsfOPx8KVjYXlpbAzeqdnhnfjj2oYcLV+eoO4qzuVGGp4kg+KhICZ50vSPQPO2\nnYb6g3v18+pz+dcOm/baQtIgdwKBgQDodZJ7pWXHDk+rqgr6bjVPl+UCumqqILWM\nBCti0lHCn4F4s61oBYs0IoWNpuPGeUC9nwSpx0qB3CQFZcKxNf0UHnZxJKBWjOEt\n2gZ3NMMl6gME5obVO5V1JQ9UfsDFox9NYcAmBohhgpbGqXJFWE+yP7JU3fdBUy94\nhauWaB513QKBgFXJeBgB18IGGNHD63BQGFZSuzBrpDmi2xg1dR0rsKBYCdbt6OAZ\nJ3pETES7iFQv8PrteztN9UBE4Qe9DVsYWHHapGGGJWJoPggLaGozV8/yjJcy+nvL\n2MhHc0l6LkjfquHjHchkIlwlrC4P/ao1CYJd1ZwGEjTELEWr0yRs1fKfAoGAUFJX\nxBuZeFdslf9SfcfY6eCtQ+0P8CsPMAs8xo+vqpUc0o0bLOdFe0U2aoSxDaJWCW9J\n2DRBfW+IjsjjpgHmqa4A9QVX1bAmGobMVyJHD/G1C1twWXuWH/0nN+X4TBIaPc25\n7CmztCXAXXKtRmLGXuv9fa+YwNyyeW2OpZDifY0CgYEA3MPi7memeJMYM5eZpZa7\n6NpXoHSUH852MJX1BvPmaUNVsz/+zKiuFqbIM9gZCMCHDQjiR2ilXqUHSUAuQY/Z\nZuBZxTlWbPBLY3A9rKHptuYzF+D0kZyQI0zltAKLeKOVQ8w2CZMlV99UhvEkdAmf\noablGfsoxKkliCyjUwlJ9pM=\n-----END PRIVATE KEY-----\n",
       client_email:
-        "firebase-adminsdk-824iv@kidznmotion-43590.iam.gserviceaccount.com",
-      client_id: "115919668964716391608",
+        "firebase-adminsdk-duffz@kidznmotion-7f5cf.iam.gserviceaccount.com",
+      client_id: "105738133117841515457",
       auth_uri: "https://accounts.google.com/o/oauth2/auth",
       token_uri: "https://oauth2.googleapis.com/token",
       auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
       client_x509_cert_url:
-        "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-824iv%40kidznmotion-43590.iam.gserviceaccount.com",
+        "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-duffz%40kidznmotion-7f5cf.iam.gserviceaccount.com",
     }),
   });
   // console.log("Initialized.");
