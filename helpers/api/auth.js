@@ -672,6 +672,14 @@ export const getUserObject = async (user) => {
                     },
                   },
                 },
+                organizationInviteKeys: {
+                  where: {
+                    active: true
+                  },
+                  select: {
+                    id: true 
+                  }
+                }
               },
             },
           },
