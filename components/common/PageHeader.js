@@ -6,9 +6,10 @@ import { LeftOutlined } from "@ant-design/icons";
 import Router from "next/router";
 
 const PageHeaderWrapper = styled.div`
-  h3 {
+  h1 {
     margin-bottom: 0px !important;
     margin-bottom: -2px !important;
+    font-size: 30px;
   }
   & button {
     margin-right: 5px;
@@ -36,7 +37,7 @@ function PageHeader({
   return (
     <PageHeaderWrapper noBottomBorder={noBottomBorder}>
       <Row gutter={16} justify="space-between" align="middle">
-        <Col xs={20} sm={12} >
+        <Col xs={20} sm={12}>
           <Space direction="horizontal" align="center">
             {backURL && (
               <Button
@@ -46,7 +47,7 @@ function PageHeader({
                 icon={<LeftOutlined />}
               />
             )}
-            <Title level={3}>{title}</Title>
+            <Title level={1}>{title}</Title>
           </Space>
         </Col>
         <Col xs={4} sm={12}>

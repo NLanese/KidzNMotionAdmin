@@ -107,12 +107,12 @@ export default {
 
         const msg = {
           to: email, // Change to your recipient
-          from: "test@em8453.getfreelaundry.com", // Change to your verified sender
+          from: "noreply@em9019.kidz-n-motion.app", // Change to your verified sender
           subject: "Kidz-N-Motion Account Invite",
           html: `
                 <p>You have been invited to join ${context.user.firstName} ${context.user.lastName}'s organization: ${context.user.ownedOrganization.name}. Click the link below to sign up:</p>
                 <br />
-                <a href="https://kids-in-motion.vercel.app/authentication/get-started?role=${role}&key=${organizationInvite.id}">https://kids-in-motion.vercel.app/authentication/get-started?role=${role}&key=${organizationInvite.id}</a>
+                <a href="https://dashboard.kidz-n-motion.app/authentication/get-started?role=${role}&key=${organizationInvite.id}">https://dashboard.kidz-n-motion.app/authentication/get-started?role=${role}&key=${organizationInvite.id}</a>
                 <br />
                 <strong>If you did not request this password reset, you can ignore this message</strong>
             `,

@@ -158,7 +158,7 @@ function TopMenuAvatar() {
         trigger={["click"]}
         arrow={{ pointAtCenter: false }}
       >
-        <AvatarDetails>
+        <AvatarDetails role="User Details">
           {getUserAvatar()}
           <AvatarTextDetails>
             {user.firstName && user.lastName && (

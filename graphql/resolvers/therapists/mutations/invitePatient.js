@@ -182,18 +182,18 @@ export default {
 
       const msg = {
         to: baseUser.email, // Change to your recipient
-        from: "test@em8453.getfreelaundry.com", // Change to your verified sender
+        from: "noreply@em9019.kidz-n-motion.app", // Change to your verified sender
         subject: "Kidz-N-Motion Account Activation",
 
         html: `
             <p>Please click the link below to activate your accoujt</p>
             <br />
             <a href=${
-              "https://kids-in-motion.vercel.app/authentication/reset-password-from-key?key=" +
+              "https://dashboard.kidz-n-motion.app/authentication/reset-password-from-key?key=" +
               resetPasswordKey.id +
               "&create=true"
             }>${
-          "https://kids-in-motion.vercel.app/authentication/reset-password-from-key?key=" +
+          "https://dashboard.kidz-n-motion.app/authentication/reset-password-from-key?key=" +
           resetPasswordKey.id +
           "&create=true"
         }</a>

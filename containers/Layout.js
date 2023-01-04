@@ -155,12 +155,12 @@ const LayoutWrapper = styled.div`
   }
 `;
 
-const MainContentWrapper = styled.main`
+const MainContentWrapper = styled.div`
   position: relative;
   background: ${(props) => props.theme.colors.backgroundColor};
 `;
 
-const ChildrenContentWrapper = styled.div`
+const ChildrenContentWrapper = styled.main`
   margin-left: auto;
   margin-right: auto;
   min-height: 100vh;

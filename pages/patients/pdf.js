@@ -341,13 +341,13 @@ function ManagePatients({ router }) {
             <Document>
               <Page style={styles.body} size="A4">
                 <Text style={styles.header} fixed>
-                  Treatment Report
+                  Status Report
                 </Text>
-                <Text style={styles.header2} fixed>
+                {/* <Text style={styles.header2} fixed>
                   To edit this document, please download the PDF and edit it on
                   your computer.
                   <br />
-                </Text>
+                </Text> */}
 
                 <div
                   style={{
