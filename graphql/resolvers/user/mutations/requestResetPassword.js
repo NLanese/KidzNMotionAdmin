@@ -58,10 +58,10 @@ export default {
             <p>Please click the link below to reset your password</p>
             <br />
             <a href=${
-              "https://kids-in-motion.vercel.app/authentication/reset-password-from-key?key=" +
+              "https://dashboard.kidz-n-motion.app/authentication/reset-password-from-key?key=" +
               resetPasswordKey.id
             }>${
-          "https://kids-in-motion.vercel.app/authentication/reset-password-from-key?key=" +
+          "https://dashboard.kidz-n-motion.app/authentication/reset-password-from-key?key=" +
           resetPasswordKey.id
         }</a>
             <br />

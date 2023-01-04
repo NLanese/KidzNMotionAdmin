@@ -189,11 +189,11 @@ export default {
             <p>Please click the link below to activate your accoujt</p>
             <br />
             <a href=${
-              "https://kids-in-motion.vercel.app/authentication/reset-password-from-key?key=" +
+              "https://dashboard.kidz-n-motion.app/authentication/reset-password-from-key?key=" +
               resetPasswordKey.id +
               "&create=true"
             }>${
-          "https://kids-in-motion.vercel.app/authentication/reset-password-from-key?key=" +
+          "https://dashboard.kidz-n-motion.app/authentication/reset-password-from-key?key=" +
           resetPasswordKey.id +
           "&create=true"
         }</a>
