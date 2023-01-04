@@ -51,7 +51,7 @@ export default {
 
       const msg = {
         to: userResetingPassword.email, // Change to your recipient
-        from: "test@em8453.getfreelaundry.com", // Change to your verified sender
+        from: "noreply@em9019.kidz-n-motion.app", // Change to your verified sender
         subject: "Kidz-N-Motion Password Reset",
 
         html: `

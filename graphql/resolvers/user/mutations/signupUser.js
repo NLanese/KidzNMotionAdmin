@@ -4,6 +4,9 @@ import { UserInputError } from "apollo-server-errors";
 var CryptoJS = require("crypto-js");
 import { makeRandomString, changeTimeZone } from "@helpers/common";
 
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+
 export default {
   Mutation: {
     signUpUser: async (
@@ -338,6 +341,27 @@ export default {
           process.env.JWT_SECRET_KEY
         ).toString();
         // #endregion
+
+        const msg = {
+          to: email, // Change to your recipient
+          from: "noreply@em9019.kidz-n-motion.app", // Change to your verified sender
+          subject: "Welcome To Kidz-N-Motion",
+
+          html: `
+              <p>Welcome to Kidz-N-Motion!</p>
+              <p>Thank you for signing up for Kidz-N-Motion. We are excited to have you on board!</p>
+
+            
+          `,
+        };
+        await sgMail
+          .send(msg)
+          .then(() => {
+            // // console.log('Email sent')
+          })
+          .catch((error) => {
+            console.error(error.response.body);
+          });
 
         // Return the user object and jwt token for login
         return {
