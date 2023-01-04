@@ -348,10 +348,12 @@ export default {
           subject: "Welcome To Kidz-N-Motion",
 
           html: `
-              <p>Welcome to Kidz-N-Motion!</p>
-              <p>Thank you for signing up for Kidz-N-Motion. We are excited to have you on board!</p>
+              <p>Hi ${firstName},</p>
+              <p>Welcome to the Kidz-N-Motion community. We are delighted that you chose to enhance your physical therapy services. You now have access to an innovative resource via the website as well as the mobile app.</p>
+              <br />
+              <p>Thank you, </p>
+              <p>Team Kidz-N-Motion</p>
 
-            
           `,
         };
         await sgMail
@@ -362,6 +364,47 @@ export default {
           .catch((error) => {
             console.error(error.response.body);
           });
+
+        const msg2 = {
+          to: email, // Change to your recipient
+          from: "noreply@em9019.kidz-n-motion.app", // Change to your verified sender
+          subject: "Your free trial is officially active!",
+
+          html: `
+                <p>Hi ${firstName},</p>
+                <p>Welcome to Kidz-N-Motion! Your 7-day trial is officially active. You have access to some of the features and functions of the app as well as the website. We are delighted that you chose to enhance your physical therapy services.</p>
+                <br />
+                <p>
+                  <b>Here’s what you need to know:</b>
+                </p>
+                <ol>
+                  <li>
+                  You will have 7 days to explore the features and functions of the app. You can cancel at anytime during the trial period.
+                  </li>
+                  <li>
+                  If you don’t cancel within 7 days your paid subscription will automatically start on your selected plan.
+                  </li>
+                  <li>
+                  You can access the website to learn more at: https://kidz-n-motion.app/
+                  </li>
+                <ol>
+                <br />
+                <p>Thank you, </p>
+                <p>Team Kidz-N-Motion</p>
+  
+            `,
+        };
+
+        if (role === "THERAPIST" || role === "ADMIN") {
+          await sgMail
+            .send(msg2)
+            .then(() => {
+              // // console.log('Email sent')
+            })
+            .catch((error) => {
+              console.error(error.response.body);
+            });
+        }
 
         // Return the user object and jwt token for login
         return {
