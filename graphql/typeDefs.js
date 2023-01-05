@@ -372,6 +372,8 @@ const typeDefs = gql`
 
     claimPatient(patientUserID: String!): Boolean
 
+    deletePatient(patientUserID: String!): Boolean
+
     changeUserNotifications(
       userID: String!
       messagesMuted: Boolean!
