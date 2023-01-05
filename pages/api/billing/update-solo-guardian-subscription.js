@@ -47,7 +47,7 @@ export default async function handler(req, res) {
   const msg = {
     to: fullUserObject.email, // Change to your recipient
     from: "noreply@em9019.kidz-n-motion.app", // Change to your verified sender
-    subject: "Welcome To Kidz-N-Motion",
+    subject: "Welcome To Kidz-N-Motion 😊",
 
     html: `
         <div style="text-align: center">
