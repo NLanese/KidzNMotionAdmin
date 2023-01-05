@@ -66,7 +66,7 @@ function TopMenuAvatar() {
 
     if (!user.ownedOrganization.stripeSubscriptionID) {
       let daysLeft = parseInt(
-        16 -
+        8 -
           (new Date().getTime() -
             new Date(user.ownedOrganization.createdAt).getTime()) /
             (1000 * 3600 * 24)
