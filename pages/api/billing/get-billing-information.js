@@ -1,5 +1,6 @@
 import { handleAuth } from "@helpers/api/auth";
 import prisma from "@utils/prismaDB";
+import { updateSubscription } from "../../../helpers/api/billing";
 
 export default async function handler(req, res) {
   const body = req.body;
@@ -14,7 +15,7 @@ export default async function handler(req, res) {
   if (!user) {
     res.status(404).json({});
   }
-
+  await updateSubscription(user.id);
   const fullUserObject = await prisma.user.findUnique({
     where: {
       id: user.id,
@@ -61,7 +62,7 @@ export default async function handler(req, res) {
       expand: ["default_source", "default_payment_method"],
     }
   );
-  console.log(subscription);
+
   try {
     const invoices = await stripe.invoices.list({
       subscription: subscription.id,
@@ -78,6 +79,12 @@ export default async function handler(req, res) {
       return stripeInvoiceObject;
     });
 
+    let planTotal = subscription.quantity;
+    if (planTotal > 15) {
+      planTotal = 15 * 30 + (planTotal - 15) * 25;
+    } else {
+      planTotal = planTotal * 30;
+    }
     let response = {
       sessionURL: portalSession.url,
       paymentMethod: subscription.default_payment_method.card,
@@ -90,7 +97,7 @@ export default async function handler(req, res) {
           start: new Date(subscription.current_period_start * 1000),
           end: new Date(subscription.current_period_end * 1000),
         },
-        planTotal: subscription.plan.amount,
+        planTotal: planTotal * 100,
         planInterval: subscription.plan.interval,
         plantIntervalCount: subscription.plan.interval_count,
         invoices: invoiceObjects,
