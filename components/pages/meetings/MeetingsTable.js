@@ -127,7 +127,7 @@ function MeetingsTable({ meetings, userID }) {
           <Text>
             {dateFormat(
               changeTimeZone(
-                new Date(record.meetingDateTime),
+                new Date(record.meetingDateTime.toString().split(".000Z")[0]),
                 "America/New_York"
               ),
               "m/dd/yy hh:MM tt"
