@@ -8,6 +8,7 @@ var dateFormat = require("dateformat");
 import { Switch, Space } from "antd";
 const { Text } = Typography;
 import { changeTimeZone } from "@helpers/common";
+import moment from "moment";
 
 const MeetingTableWrapper = styled.div`
   position: relative;
@@ -123,14 +124,15 @@ function MeetingsTable({ meetings, userID }) {
       key: "meetingDateTime",
       render: (text, record, index) => (
         <span>
-          <Text>{dateFormat(record.meetingDateTime, "m/dd/yy hh:MM tt")}</Text>
           <Text>
             {dateFormat(
-              changeTimeZone(record.meetingDateTime, "America/New_York"),
+              changeTimeZone(
+                new Date(record.meetingDateTime),
+                "America/New_York"
+              ),
               "m/dd/yy hh:MM tt"
             )}
           </Text>
-          <Text>{record.meetingDateTime}</Text>
         </span>
       ),
     },
