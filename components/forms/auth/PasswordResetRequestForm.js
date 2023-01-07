@@ -4,7 +4,6 @@ import { PlainTextField } from "@fields";
 import { Col, Row, Button, Result, message } from "antd";
 import { emailIsValid } from "@helpers/forms";
 
-
 import { useMutation } from "@apollo/client";
 import { REQUEST_PASSWORD_RESET } from "@graphql/operations";
 
@@ -24,7 +23,9 @@ function PasswordResetRequestForm() {
         setRequestSent(true);
       })
       .catch((error) => {
-        message.error("Sorry, there was an error requesting this password update");
+        message.error(
+          "Sorry, there was an error requesting this password update"
+        );
       });
   };
 
@@ -90,7 +91,7 @@ function PasswordResetRequestForm() {
             size={"large"}
             disabled={invalid || pristine}
           >
-            Reset password
+            Set password
           </Button>
         </form>
       )}

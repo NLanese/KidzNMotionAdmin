@@ -186,7 +186,7 @@ export default {
         subject: "Kidz-N-Motion Account Activation",
 
         html: `
-            <p>Please click the link below to activate your accoujt</p>
+            <p>Please click the link below to activate your account</p>
             <br />
             <a href=${
               "https://dashboard.kidz-n-motion.app/authentication/reset-password-from-key?key=" +

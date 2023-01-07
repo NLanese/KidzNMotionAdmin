@@ -12,40 +12,32 @@ import Router from "next/router";
 import { useMutation } from "@apollo/client";
 import { RESET_PASSWORD_FROM_KEY } from "@graphql/operations";
 
-
 function PasswordResetFromKeyForm() {
   const [redirectLoading, setRedirectLoading] = useState(false);
 
   const [restPasswordFromKey] = useMutation(RESET_PASSWORD_FROM_KEY);
 
-
   const handlePasswordResetRequest = async (formValues) => {
     setRedirectLoading(true);
-
 
     const urlSearchParams = new URLSearchParams(window.location.search);
     const resetKey = urlSearchParams.get("key");
 
-
     await restPasswordFromKey({
       variables: {
         password: formValues.password,
-        resetPasswordKeyID: resetKey
+        resetPasswordKeyID: resetKey,
       },
     })
       .then(async (resolved) => {
         setRedirectLoading(false);
         message.success("Your password has been reset");
         Router.push("/authentication/login", null, { shallow: true });
-        
       })
       .catch((error) => {
         setRedirectLoading(false);
         message.error("Sorry, there was an error reseting your password");
       });
-
-  
-   
   };
 
   return (
@@ -60,7 +52,7 @@ function PasswordResetFromKeyForm() {
           }
           if (values.password) {
             if (!passwordIsValid(values.password).isValid) {
-              errors.password = "Required";              
+              errors.password = "Required";
             }
           }
           if (!values.confirmPassword) {
@@ -100,7 +92,7 @@ function PasswordResetFromKeyForm() {
                   autoComplete="password"
                   hideErrorText={true}
                 />
-              <PasswordValidation
+                <PasswordValidation
                   passwordValidationObject={passwordIsValid(values.password)}
                 />
               </Col>
@@ -126,7 +118,7 @@ function PasswordResetFromKeyForm() {
               size={"large"}
               disabled={invalid || pristine}
             >
-              Reset password
+              Set password
             </Button>
           </form>
         )}
