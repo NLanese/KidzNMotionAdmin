@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { LogoutOutlined } from "@ant-design/icons";
 import { useRecoilState } from "recoil";
@@ -10,6 +10,12 @@ import { Typography, Dropdown, Menu, message, Tag, Space } from "antd";
 import { getCheckoutURL } from "@helpers/billing";
 
 import Avatar from "@forms/profileSettings/Avatar";
+import { useMutation } from "@apollo/client";
+import {
+  GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK,
+  GENERATE_SOLO_GUARDIAN_PORTAL_LINK,
+} from "@graphql/operations";
+import { getBillingInformation } from "../../helpers/billing";
 
 const { Title } = Typography;
 
@@ -52,7 +58,9 @@ const AvatarTextDetails = styled.div`
 function TopMenuAvatar() {
   const [user, setUser] = useRecoilState(userState);
   const [loading, setLoading] = useState(false);
-
+  const [generateSoloGuardianCheckoutLink, {}] = useMutation(
+    GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK
+  );
   const handleSignOut = () => {
     setUser(null);
     message.success("Signed out");
@@ -61,6 +69,22 @@ function TopMenuAvatar() {
     location.reload();
   };
 
+  const checkSubStatus = async () => {
+    await getBillingInformation().then((data) => {
+      if (data) {
+        if (data.subscription) {
+          if (data.subscription.status !== "active") {
+            window.location = data.sessionURL;
+          }
+        }
+      }
+    });
+  };
+  useEffect(() => {
+    if (user.role === "GUARDIAN" && user.soloStripeSubscriptionID) {
+      checkSubStatus();
+    }
+  }, []);
   const renderFreeTrialTag = () => {
     if (!user.ownedOrganization) return;
 
@@ -90,6 +114,37 @@ function TopMenuAvatar() {
     }
   };
 
+  const renderGuardianFreeTrialTag = () => {
+    console.log(user);
+    if (!user.role === "GUARDIAN") return;
+
+    if (!user.solo) return;
+
+    if (!user.soloStripeSubscriptionID) {
+      let daysLeft = parseInt(
+        8 -
+          (new Date().getTime() - new Date(user.createdAt).getTime()) /
+            (1000 * 3600 * 24)
+      );
+      return (
+        <NakedButton onClick={() => guardianCheckout()}>
+          <Tag
+            style={{ fontWeight: 600 }}
+            icon={
+              loading ? <SyncOutlined spin /> : <ExclamationCircleOutlined />
+            }
+            color="processing"
+            size="large"
+          >
+            {daysLeft <= 0
+              ? "Your Trial Has Expired"
+              : `  ${daysLeft} Days Left On Trial (Activate)`}
+          </Tag>
+        </NakedButton>
+      );
+    }
+  };
+
   const checkout = async () => {
     setLoading(true);
     const session = await getCheckoutURL();
@@ -98,6 +153,16 @@ function TopMenuAvatar() {
     } else {
       window.location = session.checkoutURL;
     }
+  };
+
+  const guardianCheckout = async () => {
+    setLoading(true);
+    await generateSoloGuardianCheckoutLink()
+      .then(async (resolved) => {
+        window.location = resolved.data.generateSoloGuardianCheckoutLink;
+      })
+
+      .catch((error) => {});
   };
 
   const getUserAvatar = () => {
@@ -141,6 +206,7 @@ function TopMenuAvatar() {
   return (
     <Space>
       {renderFreeTrialTag()}
+      {renderGuardianFreeTrialTag()}
       <Dropdown
         overlay={
           <Menu

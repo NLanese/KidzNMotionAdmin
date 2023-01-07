@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { NextSeo } from "next-seo";
 import { withRouter } from "next/router";
-import Router from "next/router"
+import Router from "next/router";
 import { updateSoloGuardianSubscription } from "@helpers/billing";
 import AuthCard from "@components/pages/auth/AuthCard";
 import { Button } from "antd";
@@ -14,7 +14,11 @@ const AuthFormBackground = styled.div`
   width: 100%;
   height: 100%;
   background: rgb(24, 144, 255);
-  background:  linear-gradient(155deg,rgb(73 163 246) 25%,rgb(15 106 191) 100%);
+  background: linear-gradient(
+    155deg,
+    rgb(73 163 246) 25%,
+    rgb(15 106 191) 100%
+  );
 
   background-image: linear-gradient(
       to bottom,
@@ -47,7 +51,7 @@ const AuthPageContent = styled.div`
   margin-right: 10vw;
   margin-top: 40px;
   margin-bottom: 40px;
-  @media (max-width:576px) {
+  @media (max-width: 576px) {
     margin-top: 10vw;
     margin-right: 5vw;
     margin-left: 5vw;
@@ -57,15 +61,27 @@ function SubscriptionSuccess({ router }) {
   // Mutations
 
   const updatePaymentStatus = async (userID, sessionID) => {
+    console.log(userID, sessionID);
     await updateSoloGuardianSubscription(userID, sessionID);
   };
 
   useEffect(() => {
-    let userID = router.query.user_id;
-    let sessionID = router.query.session_id;
+    if (router.query) {
+      let userID = router.query.user_id;
+      let sessionID = router.query.session_id;
 
-    updatePaymentStatus(userID, sessionID);
-  }, [router]);
+      updatePaymentStatus(userID, sessionID);
+    }
+  }, [router.query]);
+
+  useEffect(() => {
+    if (router.query) {
+      let userID = router.query.user_id;
+      let sessionID = router.query.session_id;
+
+      updatePaymentStatus(userID, sessionID);
+    }
+  }, []);
 
   return (
     <>
@@ -78,10 +94,9 @@ function SubscriptionSuccess({ router }) {
             title="Subscription Updated"
             subTitle="Thanks for joining the Kidz-N-Motion family"
           >
-
-              <Button onClick={() => Router.push("/")} type="primary" block>
-                  Go Back To Site
-              </Button>
+            <Button onClick={() => Router.push("/")} type="primary" block>
+              Go Back To Site
+            </Button>
           </AuthCard>
         </AuthPageContent>
       </AuthContentWrapper>

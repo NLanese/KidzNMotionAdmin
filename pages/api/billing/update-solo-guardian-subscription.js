@@ -32,7 +32,7 @@ export default async function handler(req, res) {
   // Update the user owned organization with the stripe subscription informatio
   const fullUserObject = await prisma.user.findUnique({
     where: {
-      id: user.id,
+      id: userID,
     },
     select: {
       firstName: true,

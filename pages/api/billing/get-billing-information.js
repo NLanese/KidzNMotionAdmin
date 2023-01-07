@@ -20,6 +20,7 @@ export default async function handler(req, res) {
       id: user.id,
     },
     select: {
+      soloStripeSubscriptionID: true,
       ownedOrganization: {
         select: {
           stripeSubscriptionID: true,
@@ -28,15 +29,25 @@ export default async function handler(req, res) {
     },
   });
 
-  if (!fullUserObject.ownedOrganization) {
+  if (
+    !fullUserObject.ownedOrganization &&
+    !fullUserObject.soloStripeSubscriptionID
+  ) {
     res.status(404).json({});
+    return;
   }
 
   // GEt the customer object from
-  const customer = await stripe.customers.retrieve(fullUserObject.ownedOrganization.stripeSubscriptionID, {
-    expand: ["subscriptions", "sources"],
-  });
+  const customer = await stripe.customers.retrieve(
+    fullUserObject.soloStripeSubscriptionID
+      ? fullUserObject.soloStripeSubscriptionID
+      : fullUserObject.ownedOrganization.stripeSubscriptionID,
+    {
+      expand: ["subscriptions", "sources"],
+    }
+  );
 
+  console.log("-------");
   // Get the portal session for the user to click on the link to edit their payment settings
   const portalSession = await stripe.billingPortal.sessions.create({
     customer: customer.id,
@@ -50,40 +61,44 @@ export default async function handler(req, res) {
       expand: ["default_source", "default_payment_method"],
     }
   );
-
-  const invoices = await stripe.invoices.list({
-    subscription: subscription.id,
-  });
-
-  let invoiceObjects = [];
-  invoices.data.map((stripeInvoiceObject) => {
-    invoiceObjects.push({
-      amount: stripeInvoiceObject.amount_paid,
-      created: new Date(stripeInvoiceObject.created * 1000),
-      status: stripeInvoiceObject.status,
-      invoiceURL: stripeInvoiceObject.hosted_invoice_url,
+  console.log(subscription);
+  try {
+    const invoices = await stripe.invoices.list({
+      subscription: subscription.id,
     });
-    return stripeInvoiceObject;
-  });
 
-  let response = {
-    sessionURL: portalSession.url,
-    paymentMethod: subscription.default_payment_method.card,
-    subscription: {
-      id: subscription.id,
-      status: subscription.status,
-    },
-    bills: {
-      cycle: {
-        start: new Date(subscription.current_period_start * 1000),
-        end: new Date(subscription.current_period_end * 1000),
+    let invoiceObjects = [];
+    invoices.data.map((stripeInvoiceObject) => {
+      invoiceObjects.push({
+        amount: stripeInvoiceObject.amount_paid,
+        created: new Date(stripeInvoiceObject.created * 1000),
+        status: stripeInvoiceObject.status,
+        invoiceURL: stripeInvoiceObject.hosted_invoice_url,
+      });
+      return stripeInvoiceObject;
+    });
+
+    let response = {
+      sessionURL: portalSession.url,
+      paymentMethod: subscription.default_payment_method.card,
+      subscription: {
+        id: subscription.id,
+        status: subscription.status,
       },
-      planTotal: subscription.plan.amount,
-      planInterval: subscription.plan.interval,
-      plantIntervalCount: subscription.plan.interval_count,
-      invoices: invoiceObjects,
-    },
-  };
+      bills: {
+        cycle: {
+          start: new Date(subscription.current_period_start * 1000),
+          end: new Date(subscription.current_period_end * 1000),
+        },
+        planTotal: subscription.plan.amount,
+        planInterval: subscription.plan.interval,
+        plantIntervalCount: subscription.plan.interval_count,
+        invoices: invoiceObjects,
+      },
+    };
 
-  res.status(200).json(response);
+    res.status(200).json(response);
+  } catch {
+    res.status(200).json(subscription);
+  }
 }

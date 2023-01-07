@@ -54,7 +54,9 @@ function GuardianBilling() {
         window.location = resolved.data.generateSoloGuardianPortalLink;
       })
 
-      .catch((error) => {});
+      .catch((error) => {
+        console.log(error);
+      });
   };
   useEffect(() => {
     if (!user.soloStripeSubscriptionID) {

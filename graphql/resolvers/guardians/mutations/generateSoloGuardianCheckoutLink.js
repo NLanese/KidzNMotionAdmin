@@ -4,9 +4,12 @@ import { UserInputError } from "apollo-server-errors";
 export default {
   Mutation: {
     generateSoloGuardianCheckoutLink: async (_, {}, context) => {
+      console.log(process.env.NODE_ENV);
+      const host =
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:3000"
+          : "https://dashboard.kidz-n-motion.app";
 
-      const host = "http://localhost:3000"
-      
       if (!context.user) throw new UserInputError("Login required");
       if (context.user.role !== "GUARDIAN")
         throw new UserInputError("Only guardians can get checkout links");
@@ -22,7 +25,10 @@ export default {
         throw new UserInputError("This guardian already has a subscription");
 
       // Kidz-N-Motion Pro Plan Product ID
-      const priceId = "price_1LbnW6GjT1PBxtTZgowXZb4U";
+      const priceId =
+        process.env.NODE_ENV === "development"
+          ? "price_1MNeZIAbL8OcaqqPnT0M6mnf"
+          : "price_1MNeTmAbL8OcaqqPftvKBR6t";
 
       const session = await stripe.checkout.sessions.create({
         mode: "subscription",

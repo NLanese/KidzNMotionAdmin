@@ -53,7 +53,7 @@ const AuthCard = ({ children, title, subTitle, pageTitle }) => {
         }}
         target="_blank"
         rel="noopener noreferrer"
-        href="/legal/privacy-policy"
+        href="https://kidz-n-motion.app/legal/privacy-policy"
       >
         Privacy Policy
       </Link>

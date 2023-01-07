@@ -101,6 +101,7 @@ export const handleAuth = async (clientToken) => {
           lastName: true,
           role: true,
           solo: true,
+          createdAt: true,
           soloStripeSubscriptionID: true,
           soloSubscriptionStatus: true,
           ownedOrganization: {
@@ -139,6 +140,7 @@ export const getUserObject = async (user) => {
         lastName: true,
         username: true,
         role: true,
+        createdAt: true,
         email: true,
         phoneNumber: true,
         soloStripeSubscriptionID: true,
@@ -221,8 +223,8 @@ export const getUserObject = async (user) => {
                 childCarePlan: {
                   select: {
                     id: true,
-                    childId: true
-                  }
+                    childId: true,
+                  },
                 },
                 videos: {
                   select: {
@@ -342,8 +344,8 @@ export const getUserObject = async (user) => {
                     description: true,
                     childCarePlan: {
                       select: {
-                        childId: true
-                      }
+                        childId: true,
+                      },
                     },
                     videos: {
                       select: {
@@ -559,8 +561,8 @@ export const getUserObject = async (user) => {
                 description: true,
                 childCarePlan: {
                   select: {
-                    childId: true
-                  }
+                    childId: true,
+                  },
                 },
                 videos: {
                   select: {
@@ -674,12 +676,12 @@ export const getUserObject = async (user) => {
                 },
                 organizationInviteKeys: {
                   where: {
-                    active: true
+                    active: true,
                   },
                   select: {
-                    id: true 
-                  }
-                }
+                    id: true,
+                  },
+                },
               },
             },
           },
@@ -902,7 +904,7 @@ export const getUserObject = async (user) => {
   //       },
   //     },
   //   });
-  // } 
+  // }
   else {
     return null;
   }

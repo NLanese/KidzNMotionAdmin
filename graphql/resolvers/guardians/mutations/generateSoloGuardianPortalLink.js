@@ -4,7 +4,10 @@ import { UserInputError } from "apollo-server-errors";
 export default {
   Mutation: {
     generateSoloGuardianPortalLink: async (_, {}, context) => {
-      const host = "http://localhost:3000";
+      const host =
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:3000"
+          : "https://dashboard.kidz-n-motion.app";
 
       // console.log("hiijijiji")
       if (!context.user) throw new UserInputError("Login required");
