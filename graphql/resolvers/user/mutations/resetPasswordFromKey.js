@@ -14,7 +14,7 @@ export default {
       context
     ) => {
       // If the user is already logged in do not let them reset password
-      
+
       // Retreive the password reset key and check if its active
       const resetPasswordKey = await prisma.passwordResetKey.findUnique({
         where: {
