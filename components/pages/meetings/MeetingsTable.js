@@ -40,13 +40,12 @@ function getMeetingParticpants(users) {
 }
 
 function renderApprovalStatus(record) {
-  
   if (record.canceled) {
     return "CANCELLED";
   }
 
   if (!record.approved && !record.pendingApproval) {
-    return "NOT APPROVED"
+    return "NOT APPROVED";
   }
 
   if (record.approved) {
@@ -63,7 +62,7 @@ function renderApprovalStatusColor(record) {
     return "red";
   }
   if (!record.approved && !record.pendingApproval) {
-    return "red"
+    return "red";
   }
 
   if (record.approved) {
@@ -123,9 +122,7 @@ function MeetingsTable({ meetings, userID }) {
       key: "meetingDateTime",
       render: (text, record, index) => (
         <span>
-          <Text>
-            {dateFormat(new Date(record.meetingDateTime), "m/dd/yy hh:MM tt")}
-          </Text>
+          <Text>{dateFormat(record.meetingDateTime, "m/dd/yy hh:MM tt")}</Text>
         </span>
       ),
     },

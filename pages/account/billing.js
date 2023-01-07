@@ -21,7 +21,11 @@ import { NextSeo } from "next-seo";
 import PageHeader from "@common/PageHeader";
 import { userState } from "@atoms";
 import { useRecoilValue } from "recoil";
-import { getCheckoutURL, getBillingInformation, updateOrganizationSubscription } from "@helpers/billing";
+import {
+  getCheckoutURL,
+  getBillingInformation,
+  updateOrganizationSubscription,
+} from "@helpers/billing";
 import Router from "next/router";
 
 var dateFormat = require("dateformat");
@@ -76,7 +80,6 @@ function Billing() {
   const [onFreeTrial, setOnFreeTrial] = useState(true);
   const [billingInformation, setBillingInformation] = useState(null);
 
-
   const fetchAndSetBillingInformation = async () => {
     const billingInformation = await getBillingInformation();
     setBillingInformation(billingInformation);
@@ -84,7 +87,7 @@ function Billing() {
 
   useEffect(() => {
     if (!user.ownedOrganization) {
-        Router.push("/")
+      Router.push("/");
     }
 
     // ALL FOR DEVELOPMENT PURPOSES
@@ -96,8 +99,8 @@ function Billing() {
   }, []);
 
   const updatePaymentStatus = async (sessionID) => {
-    await updateOrganizationSubscription(sessionID)
-    window.location = "/account/billing"
+    await updateOrganizationSubscription(sessionID);
+    window.location = "/account/billing";
   };
 
   useEffect(() => {
@@ -308,7 +311,7 @@ function Billing() {
                   <Col span={20}>
                     <Space direction="horizontal" size={12}>
                       <SubscriptionIcon>
-                        <img src="/logos/LogoSVG.svg" />
+                        <img src="/logos/Main.png" />
                       </SubscriptionIcon>
                       <Space direction="vertical" size={3}>
                         <Text style={{ fontWeight: "600" }}>
@@ -342,9 +345,9 @@ function Billing() {
                 <Space direction="vertical" size="small">
                   <Text strong>Bills</Text>
                   <Text type="secondary">
-                    Your monthly bill is on a 30-day cycle. It includes your Kidz-N-Motion
-                    App subscription, app charges, shipping labels, and
-                    transaction fees.
+                    Your monthly bill is on a 30-day cycle. It includes your
+                    Kidz-N-Motion App subscription, app charges, shipping
+                    labels, and transaction fees.
                   </Text>
                 </Space>
               </ContentCard>
