@@ -93,7 +93,7 @@ function TopMenuAvatar() {
       }
     }
     if (user.subscriptionStatus === "expiredNotOwner") {
-      message.success(
+      alert(
         "Please contact your organization owner to update billing information"
       );
     }
@@ -104,6 +104,9 @@ function TopMenuAvatar() {
         router.push("/account/billing");
         message.success("Please update your billing information to continue");
       }
+    }
+    if (user.subscriptionStatus === "expiredNotOwner") {
+      alert("hgi");
     }
   }, [router]);
   const renderFreeTrialTag = () => {
