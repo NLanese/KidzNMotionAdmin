@@ -8,7 +8,7 @@ import { ExclamationCircleOutlined, SyncOutlined } from "@ant-design/icons";
 import NakedButton from "@common/NakedButton";
 import { Typography, Dropdown, Menu, message, Tag, Space } from "antd";
 import { getCheckoutURL } from "@helpers/billing";
-
+import { useRouter } from "next/router";
 import Avatar from "@forms/profileSettings/Avatar";
 import { useMutation } from "@apollo/client";
 import {
@@ -61,6 +61,7 @@ function TopMenuAvatar() {
   const [generateSoloGuardianCheckoutLink, {}] = useMutation(
     GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK
   );
+  const router = useRouter();
   const handleSignOut = () => {
     setUser(null);
     message.success("Signed out");
@@ -84,7 +85,22 @@ function TopMenuAvatar() {
     if (user.role === "GUARDIAN" && user.soloStripeSubscriptionID) {
       checkSubStatus();
     }
+
+    if (user.subscriptionStatus === "expiredOwner") {
+      if (!router.asPath.includes("billing")) {
+        router.push("/account/billing");
+        message.success("Please update your billing information to continue");
+      }
+    }
   }, []);
+  useEffect(() => {
+    if (user.subscriptionStatus === "expiredOwner") {
+      if (!router.asPath.includes("billing")) {
+        router.push("/account/billing");
+        message.success("Please update your billing information to continue");
+      }
+    }
+  }, [router]);
   const renderFreeTrialTag = () => {
     if (!user.ownedOrganization) return;
 
