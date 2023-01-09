@@ -288,7 +288,7 @@ const typeDefs = gql`
 
     requestResetPassword(email: String!): Boolean
 
-    requestAccountDeletion(userId: String!): Boolean
+    requestAccountDeletion(userId: String): Boolean
 
     updatePhoneToken(token: String!): Boolean
 

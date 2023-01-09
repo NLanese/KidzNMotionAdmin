@@ -97,6 +97,12 @@ export default {
         },
       });
 
+      await prisma.organizationUser.deleteMany({
+        where: {
+          userId: childUser.guardianId,
+        },
+      });
+
       await prisma.childCarePlan.deleteMany({
         where: {
           childId: patientUserID,
@@ -107,6 +113,12 @@ export default {
       await prisma.user.delete({
         where: {
           id: patientUserID,
+        },
+      });
+
+      await prisma.user.delete({
+        where: {
+          id: childUser.guardianId,
         },
       });
 
