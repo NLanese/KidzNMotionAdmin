@@ -92,6 +92,11 @@ function TopMenuAvatar() {
         message.success("Please update your billing information to continue");
       }
     }
+    if (user.subscriptionStatus === "expiredNotOwner") {
+      message.success(
+        "Please contact your organization owner to update billing information"
+      );
+    }
   }, []);
   useEffect(() => {
     if (user.subscriptionStatus === "expiredOwner") {

@@ -19,14 +19,18 @@ export default {
                 new Date(userObject.ownedOrganization.createdAt).getTime()) /
                 (1000 * 3600 * 24)
           );
-        }
-
-        if (daysLeft <= 0) {
-          subscriptionStatus = "expiredOwner";
+          if (daysLeft <= 0) {
+            subscriptionStatus = "expiredOwner";
+          } else {
+            subscriptionStatus = "trial";
+          }
         } else {
-          subscriptionStatus = "trial";
+          subscriptionStatus = "active";
         }
-      } else if (userObject.role === "GUARDIAN") {
+      } else if (
+        userObject.role === "GUARDIAN" &&
+        userObject.soloStripeSubscriptionID
+      ) {
         if (
           userObject.role === "GUARDIAN" &&
           userObject.soloStripeSubscriptionID
@@ -46,10 +50,33 @@ export default {
           }
         }
       } else {
+        if (userObject.organizations) {
+          if (userObject.organizations[0]) {
+            const organization = userObject.organizations[0].organization;
+
+            if (!organization.stripeSubscriptionID) {
+              daysLeft = parseInt(
+                8 -
+                  (new Date().getTime() -
+                    new Date(organization.createdAt).getTime()) /
+                    (1000 * 3600 * 24)
+              );
+              console.log(daysLeft);
+              if (daysLeft <= 0) {
+                subscriptionStatus = "expiredNotOwner";
+              } else {
+                subscriptionStatus = "trial";
+              }
+            } else {
+              subscriptionStatus = "active";
+            }
+          }
+        }
       }
 
       userObject.subscriptionStatus = subscriptionStatus;
 
+      console.log(subscriptionStatus);
       return userObject;
     },
   },

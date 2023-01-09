@@ -412,6 +412,7 @@ export const getUserObject = async (user) => {
                 stripeSubscriptionID: true,
                 subscriptionStatus: true,
                 phoneNumber: true,
+                createdAt: true,
               },
             },
           },
