@@ -15,6 +15,7 @@ const typeDefs = gql`
     soloStripeSubscriptionID: String
     soloSubscriptionStatus: String
     phoneNumber: String
+    subscriptionStatus: String
     fcmToken: String
     profilePic: JSON
     role: String

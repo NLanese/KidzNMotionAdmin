@@ -22,6 +22,7 @@ const GET_USER = gql`
       firstName
       lastName
       title
+      subscriptionStatus
       diagnosis
       phoneNumber
       solo
