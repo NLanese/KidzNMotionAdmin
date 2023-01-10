@@ -120,20 +120,22 @@ function TopMenuAvatar() {
             (1000 * 3600 * 24)
       );
       return (
-        <NakedButton onClick={() => checkout()}>
-          <Tag
-            style={{ fontWeight: 600 }}
-            icon={
-              loading ? <SyncOutlined spin /> : <ExclamationCircleOutlined />
-            }
-            color="processing"
-            size="large"
-          >
-            {daysLeft <= 0
-              ? "Your Trial Has Expired"
-              : `  ${daysLeft} Days Left On Trial (Activate)`}
-          </Tag>
-        </NakedButton>
+        <content>
+          <NakedButton onClick={() => checkout()}>
+            <Tag
+              style={{ fontWeight: 600 }}
+              icon={
+                loading ? <SyncOutlined spin /> : <ExclamationCircleOutlined />
+              }
+              color="processing"
+              size="large"
+            >
+              {daysLeft <= 0
+                ? "Your Trial Has Expired"
+                : `  ${daysLeft} Days Left On Trial (Activate)`}
+            </Tag>
+          </NakedButton>
+        </content>
       );
     }
   };
@@ -151,20 +153,22 @@ function TopMenuAvatar() {
             (1000 * 3600 * 24)
       );
       return (
-        <NakedButton onClick={() => guardianCheckout()}>
-          <Tag
-            style={{ fontWeight: 600 }}
-            icon={
-              loading ? <SyncOutlined spin /> : <ExclamationCircleOutlined />
-            }
-            color="processing"
-            size="large"
-          >
-            {daysLeft <= 0
-              ? "Your Trial Has Expired"
-              : `  ${daysLeft} Days Left On Trial (Activate)`}
-          </Tag>
-        </NakedButton>
+        <content>
+          <NakedButton onClick={() => guardianCheckout()}>
+            <Tag
+              style={{ fontWeight: 600 }}
+              icon={
+                loading ? <SyncOutlined spin /> : <ExclamationCircleOutlined />
+              }
+              color="processing"
+              size="large"
+            >
+              {daysLeft <= 0
+                ? "Your Trial Has Expired"
+                : `  ${daysLeft} Days Left On Trial (Activate)`}
+            </Tag>
+          </NakedButton>
+        </content>
       );
     }
   };
@@ -231,6 +235,7 @@ function TopMenuAvatar() {
     <Space>
       {renderFreeTrialTag()}
       {renderGuardianFreeTrialTag()}
+
       <Dropdown
         overlay={
           <Menu

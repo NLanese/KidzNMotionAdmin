@@ -41,7 +41,7 @@ function Index() {
         <Col xs={24} sm={24}>
           <ContentCard>
             <Space direction="vertical">
-              <Title style={{ margin: "0px" }} level={5}>
+              <Title style={{ margin: "0px", fontSize: "20px" }} level={2}>
                 <InfoCircleOutlined /> Learn how to make the most out of
                 Kidz-N-Motion
               </Title>
