@@ -110,6 +110,7 @@ export default {
               id: true,
               content: true,
               createdAt: true,
+              videoId: true,
             },
           },
         },
