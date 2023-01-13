@@ -138,7 +138,7 @@ function Billing() {
                 onClick={() => checkout()}
                 size={"large"}
               >
-                Actvate Subscription
+                Activate Subscription
               </Button>
             }
           />

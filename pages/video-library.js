@@ -137,7 +137,7 @@ function Index() {
                   key="console"
                   size={"large"}
                 >
-                  Actvate Subscription
+                  Activate Subscription
                 </Button>
               }
             />
@@ -209,7 +209,7 @@ function Index() {
           return fullVideoFeed;
         } else {
           return videosToWatch.map((videoID) => {
-            let videoObject = VIDEOS[videoID]
+            let videoObject = VIDEOS[videoID];
             return (
               <Col xs={24} sm={24} key={videoObject.id}>
                 <>
