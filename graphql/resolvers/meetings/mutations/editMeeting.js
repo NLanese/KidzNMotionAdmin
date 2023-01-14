@@ -77,12 +77,12 @@ export default {
         throw new UserInputError("Access denied");
       }
 
-      if (!cancelled && !completed) {
-        // Check to make sure the meeting is not in the past
-        if (new Date(meetingDateTime) <= new Date()) {
-          throw new UserInputError("Meetings can only be made in the future");
-        }
-      }
+      // if (!cancelled && !completed) {
+      //   // Check to make sure the meeting is not in the past
+      //   if (new Date(meetingDateTime) <= new Date()) {
+      //     throw new UserInputError("Meetings can only be made in the future");
+      //   }
+      // }
 
       if (type !== "PHONE" && type !== "IN_PERSON") {
         throw new UserInputError(
