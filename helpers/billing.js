@@ -11,6 +11,7 @@ export const getCheckoutURL = async () => {
         "//" +
         window.location.host +
         "/account/billing",
+      token: localStorage.getItem("token"),
     },
   })
     .then(({ data }) => {
