@@ -241,17 +241,6 @@ function Index() {
     <IndexWrapper>
       <PageHeader title="Kidz-N-Motion Video Library" />
       {determineVideoLibrary()}
-      <Divider />
-      <br />
-      <h1>FOR TESTING PURPOSES ONLY</h1>
-      {!videos ? (
-        <LoadingBlock />
-      ) : (
-        <>
-          {renderVideoLevel(1)}
-          {renderVideoLevel(2)}
-        </>
-      )}
     </IndexWrapper>
   );
 }
