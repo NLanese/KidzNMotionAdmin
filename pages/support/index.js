@@ -61,14 +61,13 @@ function Support() {
       </Row>
 
       <Divider />
-      {user.role === "GUARDIAN" && (
-        <>
-          <Row gutter={[16, 16]}>
-            <Col md={24}>
-              <Title level={2}>Platform Features</Title>
-            </Col>
+      <>
+        <Row gutter={[16, 16]}>
+          <Col md={24}>
+            <Title level={2}>Platform Features</Title>
+          </Col>
 
-            {/* <Col md={12}>
+          {/* <Col md={12}>
               <SupportArticleIcon
                 title="Viewing Assignments"
                 href="/support/example-article"
@@ -76,34 +75,35 @@ function Support() {
                 icon={<ReconciliationTwoTone />}
               /> 
             </Col>*/}
-            <Col md={12}>
-              <SupportArticleIcon
-                title="Access Assigned Videos"
-                href="/support/access-assigned-videos"
-                description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
-                icon={<VideoCameraTwoTone />}
-              />
-            </Col>
-            <Col md={12}>
-              <SupportArticleIcon
-                title="Requesting Meetings"
-                href="/support/request-meeting"
-                description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
-                icon={<CalendarTwoTone />}
-              />
-            </Col>
-            <Col md={12}>
-              <SupportArticleIcon
-                title="Message Therapists"
-                href="/support/message-therapist"
-                description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
-                icon={<MessageTwoTone />}
-              />
-            </Col>
-          </Row>
-          <Divider />
-        </>
-      )}
+          <Col md={12}>
+            <SupportArticleIcon
+              title="Access Assigned Videos"
+              href="/support/access-assigned-videos"
+              description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
+              icon={<VideoCameraTwoTone />}
+            />
+          </Col>
+          <Col md={12}>
+            <SupportArticleIcon
+              title="Requesting Meetings"
+              href="/support/request-meeting"
+              description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
+              icon={<CalendarTwoTone />}
+            />
+          </Col>
+          <Col md={12}>
+            <SupportArticleIcon
+              title="Message Therapists"
+              href="/support/message-therapist"
+              description="Follow one of our step-by-step guides and set your team up on Kidz-N-Motion."
+              icon={<MessageTwoTone />}
+            />
+          </Col>
+        </Row>
+        <Divider />
+      </>
+      {/* {user.role === "GUARDIAN" && (
+      )} */}
       {user.role === "THERAPIST" && (
         <>
           <Row gutter={[16, 16]}>
