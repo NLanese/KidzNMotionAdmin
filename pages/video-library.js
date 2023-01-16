@@ -127,7 +127,7 @@ function Index() {
           <LoadingBlock />
         ) : (
           <>
-            {renderVideoLevel(1, true)}
+            {renderVideoLevel(1, false)}
             <Result
               title="Activate your subscription to  view the full video library"
               extra={
@@ -152,8 +152,8 @@ function Index() {
           <LoadingBlock />
         ) : (
           <>
-            {renderVideoLevel(1, true)}
-            <Result title="Your organization admin needs to activate their subscription view the full video library" />
+            {renderVideoLevel(1, false)}
+            <Result title="The organization admin needs to activate their subscription to view the full video library" />
           </>
         )}
       </>
