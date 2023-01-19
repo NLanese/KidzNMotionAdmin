@@ -89,8 +89,8 @@ function ManagePatients({ router }) {
       <NextSeo title={"Manage Patients"} />
       <PageHeader
         title={"Manage Patients"}
-        createURL={user.ownedOrganization && "/patients/manage?invite=true"}
-        createTitle={user.ownedOrganization && "Invite Patients"}
+        createURL={"/patients/manage?invite=true"}
+        createTitle={"Invite Patients"}
       />
       <ContentCard modifiers={["tightPadding"]}>
         <PatientTable patientData={renderPatientData()} user={user} />
@@ -100,13 +100,15 @@ function ManagePatients({ router }) {
           user={user}
           router={router}
         />
-        {user.ownedOrganization && (
-          <InviteUserDrawer
-            therapistMode={true}
-            inviteUserDrawerOpen={router.query.invite}
-            organizationUsers={user.ownedOrganization.organizationUsers}
-          />
-        )}
+        <InviteUserDrawer
+          therapistMode={true}
+          inviteUserDrawerOpen={router.query.invite}
+          organizationUsers={
+            user.ownedOrganization
+              ? user.ownedOrganization.organizationUsers
+              : [{ user: user }]
+          }
+        />
       </ContentCard>
     </IndexWrapper>
   );

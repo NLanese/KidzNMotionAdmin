@@ -204,16 +204,25 @@ function InvitePatientForm({ organizationUsers, therapistMode }) {
                   component={SelectField}
                   htmlType="text"
                   label="User Role"
-                  options={[
-                    {
-                      value: "GUARDIAN",
-                      text: "Guardian",
-                    },
-                    {
-                      value: "THERAPIST",
-                      text: "Therapist",
-                    },
-                  ]}
+                  options={
+                    user.ownedOrganization
+                      ? [
+                          {
+                            value: "GUARDIAN",
+                            text: "Guardian",
+                          },
+                          {
+                            value: "THERAPIST",
+                            text: "Therapist",
+                          },
+                        ]
+                      : [
+                          {
+                            value: "GUARDIAN",
+                            text: "Guardian",
+                          },
+                        ]
+                  }
                   size={"large"}
                   required={true}
                 />

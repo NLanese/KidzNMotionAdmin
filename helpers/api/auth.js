@@ -104,6 +104,15 @@ export const handleAuth = async (clientToken) => {
           createdAt: true,
           soloStripeSubscriptionID: true,
           soloSubscriptionStatus: true,
+          organizations: {
+            select: {
+              organization: {
+                select: {
+                  id: true,
+                },
+              },
+            },
+          },
           ownedOrganization: {
             select: {
               id: true,

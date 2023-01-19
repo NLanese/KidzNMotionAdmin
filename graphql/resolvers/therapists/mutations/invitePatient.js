@@ -29,6 +29,8 @@ export default {
           "Only therapists can edit notification settings"
         );
 
+      let organizationID = context.user.organizations[0].organization.id;
+
       // Check if the user exists
       let existingUserObject = null;
       // Check to see if the user exists or not
@@ -102,7 +104,7 @@ export default {
           },
           organization: {
             connect: {
-              id: context.user.ownedOrganization.id,
+              id: organizationID,
             },
           },
         },
@@ -117,7 +119,7 @@ export default {
           },
           organization: {
             connect: {
-              id: context.user.ownedOrganization.id,
+              id: organizationID,
             },
           },
         },
