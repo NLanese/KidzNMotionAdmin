@@ -230,7 +230,7 @@ function Support() {
               Kidz-N-Motion with a therapist link has a free subscription while
               under the care and supervision of a physical therapist. If a
               parent joins the platform without a therapist link, the monthly
-              subscription will be $5/ month.{" "}
+              subscription will be $25/ month.{" "}
               <b>
                 It is recommended to consult with a medical professional before
                 initiating an exercise plan.{" "}
