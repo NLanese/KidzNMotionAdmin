@@ -38,10 +38,11 @@ const AvatarTextDetails = styled.div`
   justify-content: center;
   align-items: flex-end;
   display: flex;
+
   flex-direction: column;
-  & h5 {
+  & h2 {
     margin: 0px;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 15px;
   }
   & span {
@@ -257,10 +258,12 @@ function TopMenuAvatar() {
           {getUserAvatar()}
           <AvatarTextDetails>
             {user.firstName && user.lastName && (
-              <Title level={5}>
-                {capitalizeFirstLetter(user.firstName)}{" "}
-                {capitalizeFirstLetter(user.lastName)}
-              </Title>
+              <content>
+                <Title level={2}>
+                  {capitalizeFirstLetter(user.firstName)}{" "}
+                  {capitalizeFirstLetter(user.lastName)}
+                </Title>
+              </content>
             )}
           </AvatarTextDetails>
         </AvatarDetails>

@@ -56,7 +56,7 @@ const SideMenuOuterWrapper = styled.div`
   }
 `;
 
-const SideMenuWrapper = styled.div`
+const SideMenuWrapper = styled.nav`
   background: ${(props) => props.theme.colors.backgroundColor};
   border-right: 2px solid #ebebeb;
   bottom: 0;
@@ -92,9 +92,11 @@ const SideMenuWrapper = styled.div`
   .ant-menu-light .ant-menu-submenu-title:hover {
     color: ${(props) => props.theme.colors.primary} !important;
   }
-  .ant-menu-submenu:hover > .ant-menu-submenu-title > .ant-menu-submenu-expand-icon, .ant-menu-submenu:hover > .ant-menu-submenu-title > .ant-menu-submenu-arrow {
+  .ant-menu-submenu:hover
+    > .ant-menu-submenu-title
+    > .ant-menu-submenu-expand-icon,
+  .ant-menu-submenu:hover > .ant-menu-submenu-title > .ant-menu-submenu-arrow {
     color: ${(props) => props.theme.colors.primary} !important;
-
   }
 `;
 
@@ -265,15 +267,16 @@ function SideMenu({ router, user }) {
           </Menu.Item>
         )}
 
-        {(user.role === "THERAPIST" || user.role === "GUARDIAN") && !user.solo && (
-          <Menu.Item
-            onClick={() => pushLink("/meetings")}
-            key="/meetings"
-            icon={<GroupOutlined style={{ fontSize: "20px" }} />}
-          >
-            Meetings
-          </Menu.Item>
-        )}
+        {(user.role === "THERAPIST" || user.role === "GUARDIAN") &&
+          !user.solo && (
+            <Menu.Item
+              onClick={() => pushLink("/meetings")}
+              key="/meetings"
+              icon={<GroupOutlined style={{ fontSize: "20px" }} />}
+            >
+              Meetings
+            </Menu.Item>
+          )}
         <Menu.Item
           onClick={() => pushLink("/messaging")}
           key="/messaging"
@@ -287,8 +290,7 @@ function SideMenu({ router, user }) {
           key="/video-library"
           icon={<VideoCameraOutlined style={{ fontSize: "20px" }} />}
         >
-            {user.role === "GUARDIAN" ? "Assigned Videos" : " Video Library"}
-         
+          {user.role === "GUARDIAN" ? "Assigned Videos" : " Video Library"}
         </Menu.Item>
       </StyledMenu>
       <Divider />
