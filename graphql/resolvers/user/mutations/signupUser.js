@@ -35,7 +35,9 @@ export default {
       },
       context
     ) => {
-      // // console.log(title);
+      console.log(organizationName);
+      console.log(title)
+      console.log(role)
 
       // Define a base child user to user later in create organizatino user
       let childUser;
@@ -114,6 +116,7 @@ export default {
 
         // #region Create the User & required information
         // Create the base user
+        console.log("creating user")
         let baseUser = await prisma.user.create({
           data: {
             email: email,
@@ -127,6 +130,7 @@ export default {
           },
         });
 
+        console.log("user created")
         // Create the role specific values
         if (role === "GUARDIAN") {
           // The guardian is signing up without an organization invite key, mark their account as solo
@@ -161,8 +165,10 @@ export default {
           // If organization invite link - add them to the organization as an organization user
           // TODO
         } else if (role === "THERAPIST" || role == "ADMIN") {
+          console.log("therapist")
           // If they were not invited and do not have an invite link then create their own organization
           if (!organizationInviteKey) {
+            console.log("No invite key")
             // Create the organization for the therapist
             let baseOrganization = await prisma.organization.create({
               data: {
@@ -196,7 +202,9 @@ export default {
               },
             });
           }
+          console.log("passed key check")
         }
+        console.log("passed all org stuff")
         // #endregion
 
         // If there is an organization invite key then add them to the organization
