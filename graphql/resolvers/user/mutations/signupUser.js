@@ -177,6 +177,8 @@ export default {
               },
             });
 
+            console.log(baseOrganization)
+
             // Add them as the initial organization user
             await prisma.organizationUser.create({
               data: {
