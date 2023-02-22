@@ -127,6 +127,7 @@ export default {
             phoneNumber: phoneNumber,
             firstName: firstName,
             lastName: lastName,
+            soloSubscriptionStatus: "Trial"
           },
         });
 

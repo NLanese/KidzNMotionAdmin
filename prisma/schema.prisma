@@ -131,7 +131,7 @@ model Organization {
   phoneNumber            String?
   name                   String?
   stripeSubscriptionID   String?
-  subscriptionStatus     String?
+  subscriptionStatus     String?                
   active                 Boolean                 @default(true)
   owner                  User                    @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   ownerId                String                  @unique
