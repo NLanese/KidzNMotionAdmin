@@ -212,7 +212,7 @@ export default {
           }
 
           console.log(subscriptionStatus)
-          userToLogin = {...userToLogin, subscriptionStatus: subscriptionStatus}
+          userToLogin = {...userToLogin, soloSubscriptionStatus: subscriptionStatus}
 
           // Return token and truncated user object
           try {
