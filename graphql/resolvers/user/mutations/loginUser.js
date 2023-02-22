@@ -26,8 +26,6 @@ export default {
           });
         }
 
-        // console.log("POTENTIAL USERS:", potentialUsers)
-
         // Loop through to find user
         let userToLogin = null;
         potentialUsers.map((userObject) => {
@@ -43,7 +41,6 @@ export default {
 
         // If no user can be found with this email address, return an error
         if (!userToLogin) {
-          // console.log("NO USER TO LOGIN")
           throw new UserInputError("Email/Password are incorrect.");
         }
 
@@ -78,7 +75,7 @@ export default {
         );
         let decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
 
-        // If the passwords match
+        // If the passwords match (JWT Actions)
         if (decryptedPassword === password) {
           // Create the client string
           const jwtTokenString = makeRandomString(60);
@@ -111,6 +108,103 @@ export default {
             process.env.JWT_SECRET_KEY
           ).toString();
 
+
+          ///////////////////////////////
+          // SUBSCRIPTION STATUS CHECK //
+          let subscriptionStatus;
+          let daysLeft;
+
+                // IF //
+          // Organization Owner //
+          if (userObject.ownedOrganization) {
+
+                    // IF //
+            //  No Subscription ID (no Payment) //
+            if (!userObject.ownedOrganization.stripeSubscriptionID) {
+
+              // Days since Org.CreateAt
+              daysLeft = parseInt(
+                8 -
+                  (new Date().getTime() -
+                    new Date(userObject.ownedOrganization.createdAt).getTime()) /
+                    (1000 * 3600 * 24)
+              )
+
+              if (daysLeft <= 0) {
+                subscriptionStatus = "expiredOwner";
+              } 
+              else {
+                subscriptionStatus = "trial";
+              }
+
+            } 
+            
+                    // IF //
+            //  No Subscription ID (no Payment) //
+            else {
+              subscriptionStatus = "active";
+            }
+          } 
+          
+                // IF //
+          // Guardian User //      
+          else if (
+            userObject.role === "GUARDIAN" &&
+            userObject.soloStripeSubscriptionID // Delete this once user payment is added
+          ) {
+
+                  // IF //
+            // User Paid //
+            if (userObject.soloStripeSubscriptionID) {
+              subscriptionStatus = "active";
+            } 
+
+                  // IF //
+            // User Did not Pay //
+            else {
+              daysLeft = parseInt(
+                8 -
+                  (new Date().getTime() -
+                    new Date(userObject.createdAt).getTime()) /
+                    (1000 * 3600 * 24)
+              );
+              if (daysLeft <= 0) {
+                subscriptionStatus = "expiredUser";
+              } else {
+                subscriptionStatus = "trial";
+              }
+            }
+          } 
+          
+                // IF //
+          // Therapist User //
+          else {
+            if (userObject.organizations) {
+              if (userObject.organizations[0]) {
+                const organization = userObject.organizations[0].organization;
+
+                if (!organization.stripeSubscriptionID) {
+                  daysLeft = parseInt(
+                    8 -
+                      (new Date().getTime() -
+                        new Date(organization.createdAt).getTime()) /
+                        (1000 * 3600 * 24)
+                  );
+                  console.log(daysLeft);
+                  if (daysLeft <= 0) {
+                    subscriptionStatus = "expiredNotOwner";
+                  } else {
+                    subscriptionStatus = "trial";
+                  }
+                } else {
+                  subscriptionStatus = "active";
+                }
+              }
+            }
+          }
+
+          userToLogin = {...userToLogin, subscriptionStatus: subscriptionStatus}
+
           // Return token and truncated user object
           try {
             return {
@@ -120,8 +214,13 @@ export default {
           } catch (err) {
             // // console.log(err)
           }
-        } else {
+        } 
+        
+        // Password is Does Not Match User
+        // - Checks to see if Child Login or returns failed attempt
+        else {
           if (userToLogin && userToLogin.role === "GUARDIAN") {
+
             // Get the guardian and check against their children
             let guradianUser = await prisma.user.findUnique({
               where: {
@@ -144,6 +243,7 @@ export default {
                 },
               },
             });
+
 
             if (guradianUser.username !== username) {
               if (guradianUser.children) {
@@ -221,6 +321,8 @@ export default {
           // console.log("Wrong Password")
           throw new UserInputError("Email/Password are incorrect.");
         }
+
+
       } catch (error) {
         // console.log(error)
         throw new Error(error);

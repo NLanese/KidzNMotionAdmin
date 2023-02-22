@@ -5,41 +5,67 @@ export default {
   Query: {
     getUser: async (_, {}, context) => {
 
-      console.log(context)
-
+      /////////////////
+      // LOGIN CHECK //
       if (!context.user) throw new UserInputError("Login required");
 
-      // Check the user status and then determine what fields we will allow
+      //////////////////////////
+      // SELECTS VALID FIELDS //
       let userObject = await getUserObject(context.user);
 
-      let subscriptionStatus = "trial";
+      ///////////////////////////////
+      // SUBSCRIPTION STATUS CHECK //
+      let subscriptionStatus;
       let daysLeft;
+
+             // IF //
+      // Organization Owner //
       if (userObject.ownedOrganization) {
+
+                // IF //
+        //  No Subscription ID (no Payment) //
         if (!userObject.ownedOrganization.stripeSubscriptionID) {
+
+          // Days since Org.CreateAt
           daysLeft = parseInt(
             8 -
               (new Date().getTime() -
                 new Date(userObject.ownedOrganization.createdAt).getTime()) /
                 (1000 * 3600 * 24)
-          );
+          )
+
           if (daysLeft <= 0) {
             subscriptionStatus = "expiredOwner";
-          } else {
+          } 
+          else {
             subscriptionStatus = "trial";
           }
-        } else {
+
+        } 
+        
+                // IF //
+        //  No Subscription ID (no Payment) //
+        else {
           subscriptionStatus = "active";
         }
-      } else if (
+      } 
+      
+             // IF //
+      // Guardian User //      
+      else if (
         userObject.role === "GUARDIAN" &&
-        userObject.soloStripeSubscriptionID
+        userObject.soloStripeSubscriptionID // Delete this once user payment is added
       ) {
-        if (
-          userObject.role === "GUARDIAN" &&
-          userObject.soloStripeSubscriptionID
-        ) {
+
+              // IF //
+        // User Paid //
+        if (userObject.soloStripeSubscriptionID) {
           subscriptionStatus = "active";
-        } else {
+        } 
+
+              // IF //
+        // User Did not Pay //
+        else {
           daysLeft = parseInt(
             8 -
               (new Date().getTime() -
@@ -47,12 +73,16 @@ export default {
                 (1000 * 3600 * 24)
           );
           if (daysLeft <= 0) {
-            subscriptionStatus = "expiredOwner";
+            subscriptionStatus = "expiredUser";
           } else {
             subscriptionStatus = "trial";
           }
         }
-      } else {
+      } 
+      
+             // IF //
+      // Therapist User //
+      else {
         if (userObject.organizations) {
           if (userObject.organizations[0]) {
             const organization = userObject.organizations[0].organization;
@@ -79,7 +109,6 @@ export default {
 
       userObject.subscriptionStatus = subscriptionStatus;
 
-      console.log(subscriptionStatus);
       return userObject;
     },
   },
