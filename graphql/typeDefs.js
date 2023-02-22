@@ -143,6 +143,7 @@ const typeDefs = gql`
 
   type UserPayLoad {
     token: String
+    subscriptionStatus: String
     user: User
   }
 

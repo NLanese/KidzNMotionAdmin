@@ -41,6 +41,7 @@ export default {
 
         // If no user can be found with this email address, return an error
         if (!userToLogin) {
+          console.log("No email found")
           throw new UserInputError("Email/Password are incorrect.");
         }
 
@@ -68,12 +69,19 @@ export default {
         //   );
         // }
 
+        console.log(userToLogin, "UserToLogin")
+        console.log(process.env.PASSWORD_SECRET_KEY, "KEY")
+
         // Check the password against the password attempt
         let bytes = CryptoJS.AES.decrypt(
           userToLogin.password,
           process.env.PASSWORD_SECRET_KEY
         );
+        console.log(bytes)
         let decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
+
+        console.log(password, "Input password")
+        console.log(decryptedPassword, "Decrypted")
 
         // If the passwords match (JWT Actions)
         if (decryptedPassword === password) {
@@ -114,7 +122,7 @@ export default {
           let subscriptionStatus;
           let daysLeft;
 
-                // IF //
+            // IF //
           // Organization Owner //
           if (userObject.ownedOrganization) {
 
@@ -146,7 +154,7 @@ export default {
             }
           } 
           
-                // IF //
+            // IF //
           // Guardian User //      
           else if (
             userObject.role === "GUARDIAN" &&
@@ -176,7 +184,7 @@ export default {
             }
           } 
           
-                // IF //
+            // IF //
           // Therapist User //
           else {
             if (userObject.organizations) {
