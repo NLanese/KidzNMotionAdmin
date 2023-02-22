@@ -119,22 +119,22 @@ export default {
 
           ///////////////////////////////
           // SUBSCRIPTION STATUS CHECK //
-          let subscriptionStatus;
+          let subscriptionStatus = "active";
           let daysLeft;
 
             // IF //
           // Organization Owner //
-          if (userObject.ownedOrganization) {
+          if (userToLogin.ownedOrganization) {
 
                     // IF //
             //  No Subscription ID (no Payment) //
-            if (!userObject.ownedOrganization.stripeSubscriptionID) {
+            if (!userToLogin.ownedOrganization.stripeSubscriptionID) {
 
               // Days since Org.CreateAt
               daysLeft = parseInt(
                 8 -
                   (new Date().getTime() -
-                    new Date(userObject.ownedOrganization.createdAt).getTime()) /
+                    new Date(userToLogin.ownedOrganization.createdAt).getTime()) /
                     (1000 * 3600 * 24)
               )
 
@@ -157,13 +157,13 @@ export default {
             // IF //
           // Guardian User //      
           else if (
-            userObject.role === "GUARDIAN" &&
-            userObject.soloStripeSubscriptionID // Delete this once user payment is added
+            userToLogin.role === "GUARDIAN" &&
+            userToLogin.soloStripeSubscriptionID // Delete this once user payment is added
           ) {
 
                   // IF //
             // User Paid //
-            if (userObject.soloStripeSubscriptionID) {
+            if (userToLogin.soloStripeSubscriptionID) {
               subscriptionStatus = "active";
             } 
 
@@ -173,7 +173,7 @@ export default {
               daysLeft = parseInt(
                 8 -
                   (new Date().getTime() -
-                    new Date(userObject.createdAt).getTime()) /
+                    new Date(userToLogin.createdAt).getTime()) /
                     (1000 * 3600 * 24)
               );
               if (daysLeft <= 0) {
@@ -187,9 +187,9 @@ export default {
             // IF //
           // Therapist User //
           else {
-            if (userObject.organizations) {
-              if (userObject.organizations[0]) {
-                const organization = userObject.organizations[0].organization;
+            if (userToLogin.organizations) {
+              if (userToLogin.organizations[0]) {
+                const organization = userOuserToLoginbject.organizations[0].organization;
 
                 if (!organization.stripeSubscriptionID) {
                   daysLeft = parseInt(
@@ -211,6 +211,7 @@ export default {
             }
           }
 
+          console.log(subscriptionStatus)
           userToLogin = {...userToLogin, subscriptionStatus: subscriptionStatus}
 
           // Return token and truncated user object
@@ -219,8 +220,11 @@ export default {
               token: clientToken,
               user: userToLogin,
             };
-          } catch (err) {
-            // // console.log(err)
+          } 
+          
+          // Failed Return
+          catch (err) {
+            console.log(err)
           }
         } 
         
