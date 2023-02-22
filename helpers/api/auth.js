@@ -125,7 +125,8 @@ export const handleAuth = async (clientToken) => {
       userObject.tokenId = userJWTToken.id;
 
       return userObject;
-    } else {
+    } 
+    else {
       // If not then reurn an access denied
       return null;
     }
