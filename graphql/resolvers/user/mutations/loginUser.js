@@ -117,6 +117,7 @@ export default {
           ).toString();
 
 
+          // test //
           ///////////////////////////////
           // SUBSCRIPTION STATUS CHECK //
           let subscriptionStatus = "active";
