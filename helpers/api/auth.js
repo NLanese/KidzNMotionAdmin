@@ -127,16 +127,16 @@ export const handleAuth = async (clientToken) => {
           createdAt: true,
           soloStripeSubscriptionID: true,
           soloSubscriptionStatus: true,
-          // organizations: {
-          //   select: {
-          //     organization: {
-          //       select: {
-          //         id: true,
-          //         subscriptionStatus
-          //       },
-          //     },
-          //   },
-          // },
+          organizations: {
+            select: {
+              organization: {
+                select: {
+                  id: true,
+                  subscriptionStatus: true
+                },
+              },
+            },
+          },
           ownedOrganization: {
             select: {
               id: true,
