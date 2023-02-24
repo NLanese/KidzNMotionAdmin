@@ -5,6 +5,8 @@ export default {
   Query: {
     getUser: async (_, {}, context) => {
 
+      console.log("GET_USER CONTEXT ::: ", context)
+
       /////////////////
       // LOGIN CHECK //
       if (!context.user) throw new UserInputError("Login required");
@@ -48,12 +50,13 @@ export default {
         else {
           subscriptionStatus = "active";
         }
+
       } 
       
              // IF //
       // Guardian User //      
       else if (
-        userObject.role === "GUARDIAN" &&
+        userObject.role === "GUARDIAN" && 
         userObject.soloStripeSubscriptionID // Delete this once user payment is added
       ) {
 
