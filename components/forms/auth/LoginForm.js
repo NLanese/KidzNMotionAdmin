@@ -39,7 +39,6 @@ function LoginForm() {
             fetchPolicy: "network-only",
           })
           .then(async (resolved) => {
-            // // console.log(resolved)
             setUser(resolved.data.getUser);
           })
           .catch((error) => {

@@ -5,7 +5,7 @@ export default {
   Query: {
     getUser: async (_, {}, context) => {
 
-      console.log("GET_USER CONTEXT ::: ", context)
+      // console.log("GET_USER CONTEXT ::: ", context)
 
       /////////////////
       // LOGIN CHECK //

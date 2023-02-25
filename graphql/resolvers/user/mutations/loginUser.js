@@ -17,6 +17,34 @@ export default {
           where: {
             email: email,
           },
+          select: {
+            id: true,
+            soloStripeSubscriptionID: true,
+            soloSubscriptionStatus: true,
+            username: true,
+            email: true,
+            password: true,
+            solo: true,
+            organizations: {
+              select: {
+                organization: {
+                  select: {
+                    id: true,
+                    subscriptionStatus: true,
+                    stripeSubscriptionID: true
+                  }
+                }
+              }
+            },
+            ownedOrganization: {
+              select: {
+                // userId: true,
+                id: true,
+                subscriptionStatus: true,
+                stripeSubscriptionID: true
+              }
+            }
+          }
         });
 
         // If there was no user with the email, looks for one with the username
@@ -43,7 +71,6 @@ export default {
 
         // If no user can be found with this email address, return an error
         if (!userToLogin) {
-          console.log("No email found")
           throw new UserInputError("Email/Password are incorrect.");
         }
 
@@ -71,19 +98,13 @@ export default {
         //   );
         // }
 
-        console.log(userToLogin, "UserToLogin")
-        console.log(process.env.PASSWORD_SECRET_KEY, "KEY")
 
         // Check the password against the password attempt
         let bytes = CryptoJS.AES.decrypt(
           userToLogin.password,
           process.env.PASSWORD_SECRET_KEY
         );
-        console.log(bytes)
         let decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
-
-        console.log(password, "Input password")
-        console.log(decryptedPassword, "Decrypted")
 
         // If the passwords match (JWT Actions)
         if (decryptedPassword === password) {
@@ -119,19 +140,24 @@ export default {
           ).toString();
 
 
-          // test //
           ///////////////////////////////
           // SUBSCRIPTION STATUS CHECK //
-          let subscriptionStatus = "active";
+          console.log(userToLogin)
+
+          let subscriptionStatus = "expired";
           let daysLeft;
 
             // IF //
           // Organization Owner //
           if (userToLogin.ownedOrganization) {
 
+            console.log("User owns the org")
+
                     // IF //
             //  No Subscription ID (no Payment) //
             if (!userToLogin.ownedOrganization.stripeSubscriptionID) {
+
+              console.log("No stripe ID")
 
               // Days since Org.CreateAt
               daysLeft = parseInt(
@@ -145,6 +171,7 @@ export default {
                 subscriptionStatus = "expiredOwner";
               } 
               else {
+                console.log("trial")
                 subscriptionStatus = "trial";
               }
 
@@ -153,6 +180,7 @@ export default {
                     // IF //
             //  No Subscription ID (no Payment) //
             else {
+              console.log("Has stripe ID")
               subscriptionStatus = "active";
             }
           } 
@@ -171,7 +199,7 @@ export default {
             } 
 
                   // IF //
-            // User Did not Pay //
+            // User and Org Did not Pay //
             else {
               daysLeft = parseInt(
                 8 -
@@ -192,7 +220,7 @@ export default {
           else {
             if (userToLogin.organizations) {
               if (userToLogin.organizations[0]) {
-                const organization = userOuserToLoginbject.organizations[0].organization;
+                const organization = userToLogin.organizations[0].organization;
 
                 if (!organization.stripeSubscriptionID) {
                   daysLeft = parseInt(

@@ -9,7 +9,6 @@ import { Typography, Divider, Space, Col, Row, Button, Spin } from "antd";
 const { Text } = Typography;
 
 function ColorThemeSettingsForm({ submitOrganizationSettings, initialValues }) {
-  // // console.log(initialValues)
   const user = useRecoilValue(userState);
   const [color, setColor] = useState("#ff9800");
   const [formLoading, setFormLoading] = useState(false);

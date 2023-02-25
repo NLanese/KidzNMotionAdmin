@@ -66,9 +66,6 @@ function EditChildCareDetailsForm({ getUser, initialValues, returnUrl }) {
     }
 
     options = options.sort(compare); // b - a for reverse sort
-
-    // console.log(options);
-
     return options;
   };
 

@@ -40,13 +40,10 @@ const findPath = (ob, key) => {
 };
 
 export const handleAuth = async (clientToken) => {
-  console.log("HandleAuth Token ::: ", clientToken)
   try {
     // Decrypt the client side token
     let bytes = CryptoJS.AES.decrypt(clientToken, process.env.JWT_SECRET_KEY);
     let decryptedJWTToken = bytes.toString(CryptoJS.enc.Utf8);
-
-    console.log("decrypted handleAuth token ::: ", decryptedJWTToken)
 
     // Get the list of potential tokens
     const potentialJWTTokens = await prisma.jWTToken.findMany({
@@ -56,8 +53,6 @@ export const handleAuth = async (clientToken) => {
       },
     });
     
-    console.log("Potential JWT Tokens ::: ", potentialJWTTokens)
-
     // Loop through tokens to ensure exact match
     let userJWTToken = null;
     potentialJWTTokens.map((tokenObject) => {
@@ -65,8 +60,6 @@ export const handleAuth = async (clientToken) => {
         userJWTToken = tokenObject;
       }
     });
-
-    console.log("UserJWTToken Found? ::: ", userJWTToken)
 
     // If there is a Valid token then find the user object and return.
     if (userJWTToken) {
@@ -76,11 +69,6 @@ export const handleAuth = async (clientToken) => {
         new Date(new Date().getTime() - 24 * 10 * 60 * 60 * 1000),
         "America/New_York"
       );
-
-      console.log("Before 'age range'")
-      console.log("Age Range: ", ageRange)
-      console.log("Token created at", userJWTToken.createdAt)
-      console.log("Todays date, new Date()", new Date(Date.now()))
       if (userJWTToken.createdAt <= ageRange) {
 
         await prisma.jWTToken.update({
@@ -91,9 +79,6 @@ export const handleAuth = async (clientToken) => {
             active: false,
           },
         });
-
-        console.log("Return null")
-
         return null;
       } 
 
@@ -109,8 +94,6 @@ export const handleAuth = async (clientToken) => {
         });
       }
 
-      console.log("Finding user to return")
-      console.log(userJWTToken.userId)
 
       // Get the user object and return into the apollo context
       const userObject = await prisma.user.findUnique({
@@ -146,21 +129,15 @@ export const handleAuth = async (clientToken) => {
         },
       })
       .catch(error => {
-        console.log("ERROR AT THE END ::: ", error)
       });
 
-      console.log("Found user to return")
-
       userObject.tokenId = userJWTToken.id;
-
-      console.log("About to return userObject")
 
       return userObject;
     } 
 
     // No Valid Token
     else {
-      console.log("No valid token")
       // If not then reurn an access denied
       return null;
     }
