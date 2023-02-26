@@ -41,7 +41,8 @@ export default {
                 // userId: true,
                 id: true,
                 subscriptionStatus: true,
-                stripeSubscriptionID: true
+                stripeSubscriptionID: true,
+                createdAt: true
               }
             }
           }
@@ -166,6 +167,12 @@ export default {
                     new Date(userToLogin.ownedOrganization.createdAt).getTime()) /
                     (1000 * 3600 * 24)
               )
+
+              console.log("TODAY ::: ", new Date().getTime())
+              console.log(userToLogin.ownedOrganization.createdAt)
+              console.log("ORG CREATION ::: ", new Date(userToLogin.ownedOrganization.createdAt).getTime())
+
+              console.log(daysLeft)
 
               if (daysLeft <= 0) {
                 subscriptionStatus = "expiredOwner";
