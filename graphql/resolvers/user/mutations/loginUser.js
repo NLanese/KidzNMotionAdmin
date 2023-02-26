@@ -172,7 +172,7 @@ export default {
               } 
               else {
                 console.log("trial")
-                subscriptionStatus = "trial";
+                subscriptionStatus = "trial - owner";
               }
 
             } 
