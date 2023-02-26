@@ -210,7 +210,7 @@ export default {
               if (daysLeft <= 0) {
                 subscriptionStatus = "expiredUser";
               } else {
-                subscriptionStatus = "trial";
+                subscriptionStatus = "trial - guardian";
               }
             }
           } 
@@ -233,7 +233,7 @@ export default {
                   if (daysLeft <= 0) {
                     subscriptionStatus = "expiredNotOwner";
                   } else {
-                    subscriptionStatus = "trial";
+                    subscriptionStatus = "trial - therapist";
                   }
                 } else {
                   subscriptionStatus = "active";
