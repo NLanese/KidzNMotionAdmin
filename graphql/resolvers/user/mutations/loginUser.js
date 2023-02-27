@@ -195,13 +195,17 @@ export default {
             // IF //
           // Guardian User //      
           else if (
-            userToLogin.role === "GUARDIAN" &&
-            userToLogin.soloStripeSubscriptionID // Delete this once user payment is added
-          ) {
+            userToLogin.role === "GUARDIAN") {
 
                   // IF //
             // User Paid //
             if (userToLogin.soloStripeSubscriptionID) {
+
+              // Checks Organization Subscription Status //
+              console.log("UserToLogin's organization")
+              console.log(userToLogin.organizations[0])
+
+              // if (userToLogin.organizations[0].s)
               subscriptionStatus = "active";
             } 
 
