@@ -45,7 +45,7 @@ export default {
 
         } 
         
-                // IF //
+          // IF //
         //  No Subscription ID (no Payment) //
         else {
           subscriptionStatus = "active";
@@ -55,10 +55,7 @@ export default {
       
              // IF //
       // Guardian User //      
-      else if (
-        userObject.role === "GUARDIAN" && 
-        userObject.soloStripeSubscriptionID // Delete this once user payment is added
-      ) {
+      else if (userObject.role === "GUARDIAN") {
 
               // IF //
         // User Paid //

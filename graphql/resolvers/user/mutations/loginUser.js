@@ -152,13 +152,9 @@ export default {
           // Organization Owner //
           if (userToLogin.ownedOrganization) {
 
-            console.log("User owns the org")
-
-                    // IF //
+              // IF //
             //  No Subscription ID (no Payment) //
             if (!userToLogin.ownedOrganization.stripeSubscriptionID) {
-
-              console.log("No stripe ID")
 
               // Days since Org.CreateAt
               daysLeft = parseInt(
@@ -167,12 +163,6 @@ export default {
                     new Date(userToLogin.ownedOrganization.createdAt).getTime()) /
                     (1000 * 3600 * 24)
               )
-
-              console.log("TODAY ::: ", new Date().getTime())
-              console.log(userToLogin.ownedOrganization.createdAt)
-              console.log("ORG CREATION ::: ", new Date(userToLogin.ownedOrganization.createdAt).getTime())
-
-              console.log(daysLeft)
 
               if (daysLeft <= 0) {
                 subscriptionStatus = "expiredOwner";
@@ -184,35 +174,26 @@ export default {
 
             } 
             
-                    // IF //
+              // IF //
             //  No Subscription ID (no Payment) //
             else {
-              console.log("Has stripe ID")
               subscriptionStatus = "active";
             }
           } 
           
             // IF //
           // Guardian User //      
-          else if (
-            userToLogin.role === "GUARDIAN") {
+          else if (userToLogin.role === "GUARDIAN") {
 
                   // IF //
             // User Paid //
             if (userToLogin.soloStripeSubscriptionID) {
-
-              // Checks Organization Subscription Status //
-              // console.log("UserToLogin's organization")
-              // console.log(userToLogin.organizations[0])
-
-              // if (userToLogin.organizations[0].s)
               subscriptionStatus = "active";
             } 
 
                   // IF //
             // User and Org Did not Pay //
             else {
-              console.log("No sub")
               daysLeft = parseInt(
                 8 -
                   (new Date().getTime() -
@@ -255,7 +236,6 @@ export default {
             }
           }
 
-          console.log(subscriptionStatus)
           userToLogin = {...userToLogin, soloSubscriptionStatus: subscriptionStatus}
 
           // Return token and truncated user object

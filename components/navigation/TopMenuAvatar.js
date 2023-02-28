@@ -82,6 +82,8 @@ function TopMenuAvatar() {
       }
     });
   };
+
+  
   useEffect(() => {
     if (user.role === "GUARDIAN" && user.soloStripeSubscriptionID) {
       checkSubStatus();
@@ -99,6 +101,7 @@ function TopMenuAvatar() {
       );
     }
   }, []);
+
   useEffect(() => {
     if (user.subscriptionStatus === "expiredOwner") {
       if (!router.asPath.includes("billing")) {
@@ -107,7 +110,7 @@ function TopMenuAvatar() {
       }
     }
     if (user.subscriptionStatus === "expiredNotOwner") {
-      alert("hgi");
+      alert("Account Expired!");
     }
   }, [router]);
   const renderFreeTrialTag = () => {
