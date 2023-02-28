@@ -202,8 +202,8 @@ export default {
             if (userToLogin.soloStripeSubscriptionID) {
 
               // Checks Organization Subscription Status //
-              console.log("UserToLogin's organization")
-              console.log(userToLogin.organizations[0])
+              // console.log("UserToLogin's organization")
+              // console.log(userToLogin.organizations[0])
 
               // if (userToLogin.organizations[0].s)
               subscriptionStatus = "active";
@@ -212,12 +212,14 @@ export default {
                   // IF //
             // User and Org Did not Pay //
             else {
+              console.log("No sub")
               daysLeft = parseInt(
                 8 -
                   (new Date().getTime() -
                     new Date(userToLogin.createdAt).getTime()) /
                     (1000 * 3600 * 24)
               );
+              console.log(daysLeft)
               if (daysLeft <= 0) {
                 subscriptionStatus = "expiredUser";
               } else {
