@@ -68,7 +68,7 @@ export default {
         // User Did not Pay //
         else {
           daysLeft = parseInt(
-            0 -
+            8 -
               (new Date().getTime() -
                 new Date(userObject.createdAt).getTime()) /
                 (1000 * 3600 * 24)

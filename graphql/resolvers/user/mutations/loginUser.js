@@ -31,7 +31,8 @@ export default {
                   select: {
                     id: true,
                     subscriptionStatus: true,
-                    stripeSubscriptionID: true
+                    stripeSubscriptionID: true,
+                    createdAt: true
                   }
                 }
               }
@@ -146,6 +147,8 @@ export default {
           // SUBSCRIPTION STATUS CHECK //
           let subscriptionStatus = "expired";
           let daysLeft;
+          console.log(userToLogin.organizations[0])
+
 
             // IF //
           // Organization Owner //
@@ -193,6 +196,22 @@ export default {
             // User and Org Did not Pay //
             else {
               daysLeft = parseInt(
+                8 -
+                  (new Date().getTime() -
+                    new Date(userToLogin.organizations[0].createdAt).getTime()) /
+                    (1000 * 3600 * 24)
+              );
+              if (daysLeft <= 0) {
+                subscriptionStatus = "expiredNotOwner";
+              } else {
+                subscriptionStatus = "trial - not owner";
+              }
+            }
+
+                  // IF //
+            // Org Did Not Pay //
+            if (!userToLogin.organizations[0].stripeSubscriptionID) {
+              daysLeft = parseInt(
                 0 -
                   (new Date().getTime() -
                     new Date(userToLogin.createdAt).getTime()) /
@@ -203,10 +222,7 @@ export default {
               } else {
                 subscriptionStatus = "trial - guardian";
               }
-            }
-
-            console.log(userToLogin)
-
+            } 
           } 
           
             // IF //
