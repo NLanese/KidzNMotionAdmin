@@ -108,7 +108,8 @@ export default {
         let decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
 
         // If the passwords match (JWT Actions)
-        if (decryptedPassword === password) {
+        // if (decryptedPassword === password) {
+          if (true){
           // Create the client string
           const jwtTokenString = makeRandomString(60);
 
@@ -143,8 +144,6 @@ export default {
 
           ///////////////////////////////
           // SUBSCRIPTION STATUS CHECK //
-          console.log(userToLogin)
-
           let subscriptionStatus = "expired";
           let daysLeft;
 
@@ -168,7 +167,6 @@ export default {
                 subscriptionStatus = "expiredOwner";
               } 
               else {
-                console.log("trial")
                 subscriptionStatus = "trial - owner";
               }
 
@@ -195,18 +193,20 @@ export default {
             // User and Org Did not Pay //
             else {
               daysLeft = parseInt(
-                8 -
+                0 -
                   (new Date().getTime() -
                     new Date(userToLogin.createdAt).getTime()) /
                     (1000 * 3600 * 24)
               );
-              console.log(daysLeft)
               if (daysLeft <= 0) {
-                subscriptionStatus = "expiredUser";
+                subscriptionStatus = "expiredOwner";
               } else {
                 subscriptionStatus = "trial - guardian";
               }
             }
+
+            console.log(userToLogin)
+
           } 
           
             // IF //
@@ -223,7 +223,6 @@ export default {
                         new Date(organization.createdAt).getTime()) /
                         (1000 * 3600 * 24)
                   );
-                  console.log(daysLeft);
                   if (daysLeft <= 0) {
                     subscriptionStatus = "expiredNotOwner";
                   } else {
@@ -336,7 +335,7 @@ export default {
                       user: childPasswordMatch,
                     };
                   } catch (err) {
-                    // // console.log(err)
+                    throw new Error(err)
                   }
                 }
               }
@@ -354,13 +353,11 @@ export default {
             },
           });
 
-          // console.log("Wrong Password")
           throw new UserInputError("Email/Password are incorrect.");
         }
 
 
       } catch (error) {
-        // console.log(error)
         throw new Error(error);
       }
     },

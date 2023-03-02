@@ -19,6 +19,7 @@ import { getBillingInformation } from "../../helpers/billing";
 
 const { Title } = Typography;
 
+// Avatar Styles
 const AvatarDetails = styled.div`
   display: flex;
   cursor: pointer;
@@ -32,6 +33,8 @@ const AvatarDetails = styled.div`
     background-color: ${(props) => props.theme.colors.primary} !important;
   }
 `;
+
+// Avatar And Profile Name
 const AvatarTextDetails = styled.div`
   text-align: right;
   padding-left: 8px;
@@ -56,6 +59,12 @@ const AvatarTextDetails = styled.div`
   }
 `;
 
+
+////////////////////
+//                //
+//   COMPONENT    //
+//                //
+////////////////////
 function TopMenuAvatar() {
   const [user, setUser] = useRecoilState(userState);
   const [loading, setLoading] = useState(false);
@@ -83,7 +92,7 @@ function TopMenuAvatar() {
     });
   };
 
-  
+
   useEffect(() => {
     if (user.role === "GUARDIAN" && user.soloStripeSubscriptionID) {
       checkSubStatus();

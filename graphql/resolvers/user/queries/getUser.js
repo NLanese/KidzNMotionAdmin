@@ -1,5 +1,6 @@
 import { UserInputError } from "apollo-server-errors";
 import { getUserObject } from "@helpers/api/auth";
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 export default {
   Query: {
@@ -45,7 +46,7 @@ export default {
 
         } 
         
-          // IF //
+            // IF //
         //  No Subscription ID (no Payment) //
         else {
           subscriptionStatus = "active";
@@ -57,7 +58,7 @@ export default {
       // Guardian User //      
       else if (userObject.role === "GUARDIAN") {
 
-              // IF //
+          // IF //
         // User Paid //
         if (userObject.soloStripeSubscriptionID) {
           subscriptionStatus = "active";
@@ -67,14 +68,16 @@ export default {
         // User Did not Pay //
         else {
           daysLeft = parseInt(
-            8 -
+            0 -
               (new Date().getTime() -
                 new Date(userObject.createdAt).getTime()) /
                 (1000 * 3600 * 24)
           );
           if (daysLeft <= 0) {
-            subscriptionStatus = "expiredUser";
+            console.log("Expired USer")
+            subscriptionStatus = "expiredOwner";
           } else {
+            console.log("Trial Guardian")
             subscriptionStatus = "trial";
           }
         }
