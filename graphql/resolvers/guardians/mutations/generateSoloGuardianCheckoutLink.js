@@ -4,10 +4,10 @@ import { UserInputError } from "apollo-server-errors";
 export default {
   Mutation: {
     generateSoloGuardianCheckoutLink: async (_, {}, context) => {
-      console.log(process.env.NODE_ENV);
       const host =
         process.env.NODE_ENV === 
         "development"
+        // false
           ? "http://localhost:3000"
           : "https://dashboard.kidz-n-motion.app";
 
@@ -31,7 +31,9 @@ export default {
 
       // Kidz-N-Motion Pro Plan Product ID
       const priceId =
-        process.env.NODE_ENV === "development"
+        process.env.NODE_ENV === 
+        "development"
+        // false
           ? "price_1MNeZIAbL8OcaqqPnT0M6mnf"
           : "price_1MNeTmAbL8OcaqqPftvKBR6t";
 
