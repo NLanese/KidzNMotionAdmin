@@ -66,12 +66,22 @@ const AvatarTextDetails = styled.div`
 //                //
 ////////////////////
 function TopMenuAvatar() {
+
+  // User
   const [user, setUser] = useRecoilState(userState);
+
+  // Loading
   const [loading, setLoading] = useState(false);
+
+  // Link to Guardian Stripe
   const [generateSoloGuardianCheckoutLink, {}] = useMutation(
     GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK
   );
+
+  // Navigation to Stripe
   const router = useRouter();
+
+  // Handles Signing Out
   const handleSignOut = () => {
     setUser(null);
     message.success("Signed out");
@@ -82,6 +92,7 @@ function TopMenuAvatar() {
 
   const checkSubStatus = async () => {
     await getBillingInformation().then((data) => {
+      console.log("DATA FROM CHECK SUB STATUS ::: ", data)
       if (data) {
         if (data.subscription) {
           if (data.subscription.status !== "active") {
@@ -94,7 +105,7 @@ function TopMenuAvatar() {
 
 
   useEffect(() => {
-    if (user.role === "GUARDIAN" && user.soloStripeSubscriptionID) {
+    if (user.role === "GUARDIAN") {
       checkSubStatus();
     }
 
