@@ -69,6 +69,7 @@ function TopMenuAvatar() {
 
   // User
   const [user, setUser] = useRecoilState(userState);
+  console.log(user)
 
   // Loading
   const [loading, setLoading] = useState(false);
@@ -76,6 +77,7 @@ function TopMenuAvatar() {
   // Link to Guardian Stripe
   const [generateSoloGuardianCheckoutLink, {}] = useMutation(
     GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK
+    // GENERATE_SOLO_GUARDIAN_PORTAL_LINK
   );
 
   // Navigation to Stripe
@@ -105,6 +107,8 @@ function TopMenuAvatar() {
 
 
   useEffect(() => {
+    console.log("UseEffect for SubStatus")
+    console.log("Subscription Status ::: ", user.subscriptionStatus)
     if (user.role === "GUARDIAN") {
       checkSubStatus();
     }
@@ -164,11 +168,12 @@ function TopMenuAvatar() {
     }
   };
 
+  // Renders Guardian Free Trial Space
   const renderGuardianFreeTrialTag = () => {
     console.log(user);
     if (!user.role === "GUARDIAN") return;
 
-    if (!user.solo) return;
+    // if (!user.solo) return;
 
     if (!user.soloStripeSubscriptionID) {
       let daysLeft = parseInt(
@@ -211,12 +216,14 @@ function TopMenuAvatar() {
     setLoading(true);
     await generateSoloGuardianCheckoutLink()
       .then(async (resolved) => {
+        console.log("Resolved inside Guardian Checkout ::: ", resolved)
         window.location = resolved.data.generateSoloGuardianCheckoutLink;
       })
 
       .catch((error) => {});
   };
 
+  // Renders User Avatar
   const getUserAvatar = () => {
     let interumProfilePic = {
       body: "body1",
@@ -254,7 +261,11 @@ function TopMenuAvatar() {
     );
   };
 
-  // // console.log(user)
+
+
+  ////////////
+  //  MAIN  //
+  ////////////
   return (
     <Space>
       {renderFreeTrialTag()}

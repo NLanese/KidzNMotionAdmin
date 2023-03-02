@@ -7,6 +7,7 @@ import { useSetRecoilState } from "recoil";
 import TopMenuAvatar from "./TopMenuAvatar";
 import { menuState } from "@atoms";
 
+// Styles
 const HeaderMenuWrapper = styled.div`
   height: 65px;
   position: fixed;
@@ -38,6 +39,7 @@ const HeaderMenuWrapper = styled.div`
   }
 `;
 
+// Styles
 const LeftSide = styled.div`
   display: flex;
   justify-content: center;
@@ -48,6 +50,7 @@ const LeftSide = styled.div`
   }
 `;
 
+// Styles
 const LeftSideMobile = styled(LeftSide)`
   display: none;
   @media (max-width: ${(props) => props.theme.breakPoints.md}) {
@@ -55,6 +58,7 @@ const LeftSideMobile = styled(LeftSide)`
   }
 `;
 
+// Styles
 const Center = styled.div`
   display: flex;
   justify-content: center;
@@ -70,6 +74,7 @@ const Center = styled.div`
   }
 `;
 
+// Styles 
 const RightSide = styled.div`
   display: flex;
   justify-content: center;
