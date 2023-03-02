@@ -6,20 +6,25 @@ export default {
     generateSoloGuardianCheckoutLink: async (_, {}, context) => {
       console.log(process.env.NODE_ENV);
       const host =
-        process.env.NODE_ENV === "development"
+        process.env.NODE_ENV === 
+        "development"
           ? "http://localhost:3000"
           : "https://dashboard.kidz-n-motion.app";
 
+      // Checks User
       if (!context.user) throw new UserInputError("Login required");
+
+      // Checks Role
       if (context.user.role !== "GUARDIAN")
         throw new UserInputError("Only guardians can get checkout links");
 
+
       const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
-      if (!context.user.solo)
-        throw new UserInputError(
-          "Only solo guardians can generate checkout URLs"
-        );
+      // if (!context.user.solo)
+      //   throw new UserInputError(
+      //     "Only solo guardians can generate checkout URLs"
+      //   );
 
       if (context.user.soloStripeSubscriptionID)
         throw new UserInputError("This guardian already has a subscription");
