@@ -54,7 +54,7 @@ export default {
 
       } 
       
-             // IF //
+          // IF //
       // Guardian User //      
       else if (userObject.role === "GUARDIAN") {
 
@@ -64,7 +64,7 @@ export default {
           subscriptionStatus = "active";
         } 
 
-              // IF //
+          // IF //
         // User Did not Pay //
         else {
           daysLeft = parseInt(
@@ -74,16 +74,37 @@ export default {
                 (1000 * 3600 * 24)
           );
           if (daysLeft <= 0) {
-            console.log("Expired USer")
             subscriptionStatus = "expiredOwner";
           } else {
-            console.log("Trial Guardian")
             subscriptionStatus = "trial";
           }
         }
+
+        let orgStatus = userObject.organizations[0].organization.stripeSubscriptionID
+
+          // IF //
+        // Org Did Not Pay //
+        if (orgStatus) {
+        }
+        else{
+          daysLeft = parseInt(
+            8 -
+              (new Date().getTime() -
+                new Date(userObject.createdAt).getTime()) /
+                (1000 * 3600 * 24)
+          );
+          if (daysLeft <= 0) {
+            console.log("Expired Org Owner")
+            subscriptionStatus = "expiredNotOwner";
+          } else {
+            console.log("Not owner trial")
+            subscriptionStatus = "trial - not owner";
+          }
+        }
+
       } 
       
-             // IF //
+        // IF //
       // Therapist User //
       else {
         if (userObject.organizations) {

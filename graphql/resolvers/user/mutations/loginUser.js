@@ -18,6 +18,7 @@ export default {
             email: email,
           },
           select: {
+            createdAt: true,
             id: true,
             soloStripeSubscriptionID: true,
             soloSubscriptionStatus: true,
@@ -186,33 +187,34 @@ export default {
           // Guardian User //      
           else if (userToLogin.role === "GUARDIAN") {
 
-                  // IF //
+              // IF //
             // User Paid //
             if (userToLogin.soloStripeSubscriptionID) {
               subscriptionStatus = "active";
             } 
 
-                  // IF //
-            // User and Org Did not Pay //
+              // IF //
+            // User Did not Pay //
             else {
               daysLeft = parseInt(
                 8 -
                   (new Date().getTime() -
-                    new Date(userToLogin.organizations[0].createdAt).getTime()) /
+                    new Date(userToLogin.createdAt).getTime()) /
                     (1000 * 3600 * 24)
               );
               if (daysLeft <= 0) {
                 subscriptionStatus = "expiredNotOwner";
               } else {
-                subscriptionStatus = "trial - not owner";
+                console.log("user trial")
+                subscriptionStatus = "trial - guardian";
               }
             }
 
-                  // IF //
+              // IF //
             // Org Did Not Pay //
             if (!userToLogin.organizations[0].stripeSubscriptionID) {
               daysLeft = parseInt(
-                0 -
+                8 -
                   (new Date().getTime() -
                     new Date(userToLogin.createdAt).getTime()) /
                     (1000 * 3600 * 24)
@@ -220,7 +222,8 @@ export default {
               if (daysLeft <= 0) {
                 subscriptionStatus = "expiredOwner";
               } else {
-                subscriptionStatus = "trial - guardian";
+                console.log("Not owner trial")
+                subscriptionStatus = "trial - not owner";
               }
             } 
           } 
