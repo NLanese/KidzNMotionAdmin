@@ -233,9 +233,10 @@ export default {
           // Therapist User //
           else {
             if (userToLogin.organizations) {
+              console.log("therapist")
               if (userToLogin.organizations[0]) {
                 const organization = userToLogin.organizations[0].organization;
-
+                console.log("Found organization ", organization)
                 if (!organization.stripeSubscriptionID) {
                   daysLeft = parseInt(
                     8 -
@@ -250,6 +251,20 @@ export default {
                   }
                 } else {
                   subscriptionStatus = "active";
+                }
+              }
+              else {
+                daysLeft = parseInt(
+                  8 -
+                    (new Date().getTime() -
+                      new Date(userToLogin.createdAt).getTime()) /
+                      (1000 * 3600 * 24)
+                );
+                if (daysLeft <= 0) {
+                  subscriptionStatus = "expiredNotOwner";
+                } else {
+                  console.log("user trial")
+                  subscriptionStatus = "trial - therapist";
                 }
               }
             }
