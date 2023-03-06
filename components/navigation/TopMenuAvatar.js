@@ -106,19 +106,33 @@ function TopMenuAvatar() {
   };
 
 
+////////////////////
+//                //
+//   UseEffects   //
+//                //
+////////////////////
+
+  //////////////////////////////////
+  // Checking Subscription Status //
+  //////////////////////////////////
   useEffect(() => {
     console.log("UseEffect for SubStatus")
     console.log("Subscription Status ::: ", user.subscriptionStatus)
+
+    // Guardian
     if (user.role === "GUARDIAN") {
       checkSubStatus();
     }
 
+    // Therapist / Admin who has Org control AND it is expired
     if (user.subscriptionStatus === "expiredOwner") {
       if (!router.asPath.includes("billing")) {
         router.push("/account/billing");
         message.success("Please update your billing information to continue");
       }
     }
+
+    // Expired Organization as a Therapist or User
     if (user.subscriptionStatus === "expiredNotOwner") {
       alert(
         "Please contact your organization owner to update billing information"
@@ -126,6 +140,9 @@ function TopMenuAvatar() {
     }
   }, []);
 
+  ////////////////////////////
+  // User has expired Trial //
+  ////////////////////////////
   useEffect(() => {
     if (user.subscriptionStatus === "expiredOwner") {
       if (!router.asPath.includes("billing")) {
@@ -134,12 +151,18 @@ function TopMenuAvatar() {
       }
     }
     if (user.subscriptionStatus === "expiredNotOwner") {
-      alert("Account Expired!");
+      alert("Organization Account Expired!");
     }
   }, [router]);
-  const renderFreeTrialTag = () => {
+
+  //////////////////////////////////////////////////
+  // Renders the Free Trial Tag for Organizations //
+  const renderOrgFreeTrialTag = () => {
+
+    // Exit out if user is not an organization owner
     if (!user.ownedOrganization) return;
 
+    // If the user's owned organization does not have a stripeID
     if (!user.ownedOrganization.stripeSubscriptionID) {
       let daysLeft = parseInt(
         8 -
@@ -168,13 +191,16 @@ function TopMenuAvatar() {
     }
   };
 
+
   // Renders Guardian Free Trial Space
   const renderGuardianFreeTrialTag = () => {
-    console.log(user);
-    if (!user.role === "GUARDIAN") return;
 
-    // if (!user.solo) return;
+    // Exit out id not a Guardian
+    if (!user.role === "GUARDIAN"){
+      return;
+    }
 
+    // If the user does not have a stripeId
     if (!user.soloStripeSubscriptionID) {
       let daysLeft = parseInt(
         8 -
@@ -201,6 +227,16 @@ function TopMenuAvatar() {
       );
     }
   };
+
+  // Renders the Free Trial Tag
+  function renderFreeTrialTag(){
+    if (user.role === "GUARDIAN"){
+      return renderGuardianFreeTrialTag()
+    }
+    else if (user.role === "THERAPIST" || user.role === "ADMIN"){
+      return renderOrgFreeTrialTag()
+    }
+  }
 
   const checkout = async () => {
     setLoading(true);
@@ -268,8 +304,9 @@ function TopMenuAvatar() {
   ////////////
   return (
     <Space>
+      {/* {renderOrgFreeTrialTag()}
+      {renderGuardianFreeTrialTag()} */}
       {renderFreeTrialTag()}
-      {renderGuardianFreeTrialTag()}
 
       <Dropdown
         overlay={
