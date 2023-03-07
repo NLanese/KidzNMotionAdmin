@@ -69,7 +69,6 @@ function TopMenuAvatar() {
 
   // User
   const [user, setUser] = useRecoilState(userState);
-  console.log(user)
 
   // Loading
   const [loading, setLoading] = useState(false);
@@ -155,6 +154,13 @@ function TopMenuAvatar() {
     }
   }, [router]);
 
+
+//////////////////
+//              //
+//  Renderings  //
+//              //
+//////////////////
+
   //////////////////////////////////////////////////
   // Renders the Free Trial Tag for Organizations //
   const renderOrgFreeTrialTag = () => {
@@ -238,16 +244,29 @@ function TopMenuAvatar() {
     }
   }
 
+////////////////
+//            //
+//  Handlers  //
+//            //
+////////////////
+
+
+  // Redirect to Stripe for Organization Checkout
   const checkout = async () => {
     setLoading(true);
     const session = await getCheckoutURL();
+    console.log(session.checkoutURL)
     if (!session) {
       setLoading(false);
-    } else {
+    } 
+    else {
       window.location = session.checkoutURL;
+      console.log("checkout")
     }
   };
 
+
+  // Redirect to Stripe for Guardian Checkout
   const guardianCheckout = async () => {
     setLoading(true);
     await generateSoloGuardianCheckoutLink()
