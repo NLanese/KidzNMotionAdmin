@@ -39,12 +39,20 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
       message.error("This email is already in use");
     } else if (error.includes("owner does")) {
       message.error("This owner does not exist");
-    } else {
+    } else if (error.includes("Invalid Therapist Org")){
+      message.error("A therapist needs to join an organization via an email or invite key, or create a new organization.")
+    }
+    else {
       message.error("Sorry, there was an error with your sign up");
     }
   };
 
   const handleSignUp = async (formValues) => {
+    if (role === "THERAPIST"){
+      if (!formValues.organizationInviteKey && !formValues.organizationName){
+        handleSignUpFail("Invalid Therapist Org")
+      }
+    }
     await signUpUser({
       variables: {
         email: formValues.email,
