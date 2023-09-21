@@ -34,7 +34,7 @@ export default {
         process.env.NODE_ENV === 
         "development"
         // false
-          ? "price_1Nsa8JAbL8OcaqqPU1YRjX8Q"
+          ? "price_1NsefSAbL8OcaqqPvIGznHIg"
           : "price_1Nsa8JAbL8OcaqqPU1YRjX8Q";
 
       const session = await stripe.checkout.sessions.create({

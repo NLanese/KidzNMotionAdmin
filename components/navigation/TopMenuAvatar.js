@@ -224,6 +224,10 @@ function TopMenuAvatar() {
   // Renders Guardian Free Trial Space
   const renderGuardianFreeTrialTag = () => {
 
+    if (showSubscriptionToggle){
+      return renderAnnualOrMonthlyOptions()
+    }
+
     // Exit out id not a Guardian
     if (!user.role === "GUARDIAN"){
       return;
@@ -271,12 +275,12 @@ function TopMenuAvatar() {
     if (showSubscriptionToggle){
       return(
           <content>
-            <NakedButton onClick={() => guardianCheckout("Monthly")}>
+            <NakedButton onClick={() => determineUserTypeForSubscription("Monthly")}>
               <Tag>
                 Monthly Subscription
               </Tag>
             </NakedButton>
-            <NakedButton onClick={() => guardianCheckout("Annual")}>
+            <NakedButton onClick={() => determineUserTypeForSubscription("Annual")}>
               <Tag>
                 Annual Subscription (One Month Free)
               </Tag>
@@ -295,8 +299,18 @@ function TopMenuAvatar() {
 
   // PAYMENTS // 
 
+    function determineUserTypeForSubscription(subType){
+      if (user.role === "GUARDIAN"){
+        return guardianCheckout(subType)
+      }
+      else{
+        checkout(subType)
+      }
+    }
+
     // Redirect to Stripe for Organization Checkout
-    const checkout = async () => {
+    const checkout = async (subType) => {
+      console.log("Checkout")
       setLoading(true);
       const session = await getCheckoutURL();
       console.log(session.checkoutURL)
