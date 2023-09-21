@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { View } from "react";
 import styled from "styled-components";
 import { LogoutOutlined } from "@ant-design/icons";
 import { useRecoilState } from "recoil";
@@ -6,13 +7,14 @@ import { userState } from "@atoms";
 import { capitalizeFirstLetter } from "@helpers/common";
 import { ExclamationCircleOutlined, SyncOutlined } from "@ant-design/icons";
 import NakedButton from "@common/NakedButton";
-import { Typography, Dropdown, Menu, message, Tag, Space } from "antd";
+import { Typography, Dropdown, Menu, message, Tag, Space, Modal } from "antd";
 import { getCheckoutURL } from "@helpers/billing";
 import { useRouter } from "next/router";
 import Avatar from "@forms/profileSettings/Avatar";
 import { useMutation } from "@apollo/client";
 import {
   GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK,
+  GENERATE_ANNUAL_SOLO_GUARDIAN_CHECKOUT_LINK,
   GENERATE_SOLO_GUARDIAN_PORTAL_LINK,
 } from "@graphql/operations";
 import { getBillingInformation } from "../../helpers/billing";
@@ -67,30 +69,49 @@ const AvatarTextDetails = styled.div`
 ////////////////////
 function TopMenuAvatar() {
 
-  // User
-  const [user, setUser] = useRecoilState(userState);
 
-  // Loading
-  const [loading, setLoading] = useState(false);
+  /////////////////
+  // PRELIMINARY //
+  /////////////////
 
-  // Link to Guardian Stripe
-  const [generateSoloGuardianCheckoutLink, {}] = useMutation(
-    GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK
-    // GENERATE_SOLO_GUARDIAN_PORTAL_LINK
-  );
+  ////////////
+  // States //
+  ////////////
 
-  // Navigation to Stripe
-  const router = useRouter();
+    // User
+    const [user, setUser] = useRecoilState(userState);
 
-  // Handles Signing Out
-  const handleSignOut = () => {
-    setUser(null);
-    message.success("Signed out");
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    location.reload();
-  };
+    // Loading
+    const [loading, setLoading] = useState(false);
 
+    // Annual / Monthly Optionbar Toggle
+    const [showSubscriptionToggle, setShowSubscriptiontoggle] = useState(false)
+
+  ///////////////
+  // Mutations //
+  ///////////////
+
+    // Link to Guardian Stripe (Monthly)
+    const [generateSoloGuardianCheckoutLink, {}] = useMutation(
+      GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK
+      // GENERATE_SOLO_GUARDIAN_PORTAL_LINK
+    );
+
+    // Link to Guardian Stripe (Yearly)
+    const [generateAnnualSoloGuardianCheckoutLink, {}] = useMutation(
+      GENERATE_ANNUAL_SOLO_GUARDIAN_CHECKOUT_LINK
+      // GENERATE_SOLO_GUARDIAN_PORTAL_LINK
+    );
+
+  ///////////////
+  // Constants //
+  ///////////////
+
+    // Navigation to Stripe
+    const router = useRouter();
+
+
+  // Checks subscription Status
   const checkSubStatus = async () => {
     await getBillingInformation().then((data) => {
       console.log("DATA FROM CHECK SUB STATUS ::: ", data)
@@ -161,8 +182,7 @@ function TopMenuAvatar() {
 //              //
 //////////////////
 
-  //////////////////////////////////////////////////
-  // Renders the Free Trial Tag for Organizations //
+  // Renders the Free Trial Tag for Organizations
   const renderOrgFreeTrialTag = () => {
 
     // Exit out if user is not an organization owner
@@ -244,6 +264,35 @@ function TopMenuAvatar() {
     }
   }
 
+  function renderAnnualOrMonthlyOptions(){
+    if (showSubscriptionToggle){
+      return(
+        <Modal
+          open={showSubscriptionToggle}
+          onCancel={setShowSubscriptiontoggle(false)}
+          footer={[
+            <Button key="back" onClick={setShowSubscriptiontoggle(false)}>
+              Return
+            </Button>,
+          ]}
+        >
+          <View>
+            <NakedButton onClick={() => guardianCheckout("Monthly")}>
+              <Tag>
+                Monthly Subscription
+              </Tag>
+            </NakedButton>
+            <NakedButton onClick={() => guardianCheckout("Annual")}>
+              <Tag>
+                Annual Subscription (One Month Free)
+              </Tag>
+            </NakedButton>
+          </View>
+        </Modal>
+      )
+    }
+  }
+
 ////////////////
 //            //
 //  Handlers  //
@@ -251,72 +300,83 @@ function TopMenuAvatar() {
 ////////////////
 
 
-  // Redirect to Stripe for Organization Checkout
-  const checkout = async () => {
-    setLoading(true);
-    const session = await getCheckoutURL();
-    console.log(session.checkoutURL)
-    if (!session) {
-      setLoading(false);
-    } 
-    else {
-      window.location = session.checkoutURL;
-      console.log("checkout")
-    }
-  };
+  // PAYMENTS // 
 
-
-  // Redirect to Stripe for Guardian Checkout
-  const guardianCheckout = async () => {
-    setLoading(true);
-    await generateSoloGuardianCheckoutLink()
-      .then(async (resolved) => {
-        console.log("Resolved inside Guardian Checkout ::: ", resolved)
-        window.location = resolved.data.generateSoloGuardianCheckoutLink;
-      })
-
-      .catch((error) => {});
-  };
-
-  // Renders User Avatar
-  const getUserAvatar = () => {
-    let interumProfilePic = {
-      body: "body1",
-      eyes: "eyes3",
-      facialHair: "facialHair0",
-      mouth: "mouth4",
-      nose: "nose2",
-      hair: "hair5",
-
-      bodyColor: "bc1",
-      facialHairColor: "fhc6",
-      hairColor: "hc1",
-      skinColor: "sc1",
-      backgroundColor: "bgc1",
+    // Redirect to Stripe for Organization Checkout
+    const checkout = async () => {
+      setLoading(true);
+      const session = await getCheckoutURL();
+      console.log(session.checkoutURL)
+      if (!session) {
+        setLoading(false);
+      } 
+      else {
+        window.location = session.checkoutURL;
+        console.log("checkout")
+      }
     };
 
-    if (user.profilePic) {
-      interumProfilePic = user.profilePic;
-    }
-    return (
-      <Avatar
-        size={40}
-        bodyType={interumProfilePic.body}
-        bodyColor={interumProfilePic.bodyColor}
-        eyeType={interumProfilePic.eyes}
-        facialHairType={interumProfilePic.facialHair}
-        facialHairColor={interumProfilePic.facialHairColor}
-        hairType={interumProfilePic.hair}
-        hairColor={interumProfilePic.hairColor}
-        mouthType={interumProfilePic.mouth}
-        noseType={interumProfilePic.nose}
-        skinColor={interumProfilePic.skinColor}
-        backgroundColor={interumProfilePic.backgroundColor}
-      />
-    );
-  };
+    // Redirect to Stripe for Guardian Checkout
+    const guardianCheckout = async () => {
+      setLoading(true);
+      await generateSoloGuardianCheckoutLink()
+        .then(async (resolved) => {
+          console.log("Resolved inside Guardian Checkout ::: ", resolved)
+          window.location = resolved.data.generateSoloGuardianCheckoutLink;
+        })
+
+        .catch((error) => {});
+    };
 
 
+  // PROFILE // 
+
+    // Handles Signing Out
+    const handleSignOut = () => {
+      setUser(null);
+      message.success("Signed out");
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      location.reload();
+    };
+
+    // Renders User Avatar
+    const getUserAvatar = () => {
+      let interumProfilePic = {
+        body: "body1",
+        eyes: "eyes3",
+        facialHair: "facialHair0",
+        mouth: "mouth4",
+        nose: "nose2",
+        hair: "hair5",
+
+        bodyColor: "bc1",
+        facialHairColor: "fhc6",
+        hairColor: "hc1",
+        skinColor: "sc1",
+        backgroundColor: "bgc1",
+      };
+
+      if (user.profilePic) {
+        interumProfilePic = user.profilePic;
+      }
+      return (
+        <Avatar
+          size={40}
+          bodyType={interumProfilePic.body}
+          bodyColor={interumProfilePic.bodyColor}
+          eyeType={interumProfilePic.eyes}
+          facialHairType={interumProfilePic.facialHair}
+          facialHairColor={interumProfilePic.facialHairColor}
+          hairType={interumProfilePic.hair}
+          hairColor={interumProfilePic.hairColor}
+          mouthType={interumProfilePic.mouth}
+          noseType={interumProfilePic.nose}
+          skinColor={interumProfilePic.skinColor}
+          backgroundColor={interumProfilePic.backgroundColor}
+        />
+      );
+    };
 
   ////////////
   //  MAIN  //
@@ -326,6 +386,7 @@ function TopMenuAvatar() {
       {/* {renderOrgFreeTrialTag()}
       {renderGuardianFreeTrialTag()} */}
       {renderFreeTrialTag()}
+      {renderAnnualOrMonthlyOptions()}
 
       <Dropdown
         overlay={
