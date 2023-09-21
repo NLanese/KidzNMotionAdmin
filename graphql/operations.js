@@ -397,6 +397,7 @@ const CREATE_MEETING = gql`
     }
   }
 `;
+
 const EDIT_MEETING = gql`
   mutation Mutation(
     $title: String!
@@ -432,6 +433,12 @@ const APPROVE_MEETING = gql`
 const GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK = gql`
   mutation Mutation {
     generateSoloGuardianCheckoutLink
+  }
+`;
+
+const GENERATE_ANNUAL_SOLO_GUARDIAN_CHECKOUT_LINK = gql`
+  mutation Mutation {
+    generateAnnualSoloGuardianCheckoutLink
   }
 `;
 

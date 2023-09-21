@@ -355,6 +355,8 @@ const typeDefs = gql`
 
     generateSoloGuardianCheckoutLink: String
 
+    generateAnnualSoloGuardianCheckoutLink: String
+
     generateSoloGuardianPortalLink: String
 
     editUserNotificationSettings(
