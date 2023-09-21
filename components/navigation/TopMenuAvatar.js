@@ -7,7 +7,7 @@ import { userState } from "@atoms";
 import { capitalizeFirstLetter } from "@helpers/common";
 import { ExclamationCircleOutlined, SyncOutlined } from "@ant-design/icons";
 import NakedButton from "@common/NakedButton";
-import { Typography, Dropdown, Menu, message, Tag, Space, Modal } from "antd";
+import { Typography, Dropdown, Menu, message, Tag, Space, Modal, Button } from "antd";
 import { getCheckoutURL } from "@helpers/billing";
 import { useRouter } from "next/router";
 import Avatar from "@forms/profileSettings/Avatar";
@@ -185,6 +185,10 @@ function TopMenuAvatar() {
   // Renders the Free Trial Tag for Organizations
   const renderOrgFreeTrialTag = () => {
 
+    if (showSubscriptionToggle){
+      return renderAnnualOrMonthlyOptions()
+    }
+
     // Exit out if user is not an organization owner
     if (!user.ownedOrganization) return;
 
@@ -198,7 +202,7 @@ function TopMenuAvatar() {
       );
       return (
         <content>
-          <NakedButton onClick={() => checkout()}>
+          <NakedButton onClick={() => setShowSubscriptiontoggle(true)}>
             <Tag
               style={{ fontWeight: 600 }}
               icon={
@@ -217,7 +221,6 @@ function TopMenuAvatar() {
     }
   };
 
-
   // Renders Guardian Free Trial Space
   const renderGuardianFreeTrialTag = () => {
 
@@ -235,7 +238,7 @@ function TopMenuAvatar() {
       );
       return (
         <content>
-          <NakedButton onClick={() => guardianCheckout()}>
+          <NakedButton onClick={() => setShowSubscriptiontoggle(true)}>
             <Tag
               style={{ fontWeight: 600 }}
               icon={
@@ -267,16 +270,7 @@ function TopMenuAvatar() {
   function renderAnnualOrMonthlyOptions(){
     if (showSubscriptionToggle){
       return(
-        <Modal
-          open={showSubscriptionToggle}
-          onCancel={setShowSubscriptiontoggle(false)}
-          footer={[
-            <Button key="back" onClick={setShowSubscriptiontoggle(false)}>
-              Return
-            </Button>,
-          ]}
-        >
-          <View>
+          <content>
             <NakedButton onClick={() => guardianCheckout("Monthly")}>
               <Tag>
                 Monthly Subscription
@@ -287,8 +281,7 @@ function TopMenuAvatar() {
                 Annual Subscription (One Month Free)
               </Tag>
             </NakedButton>
-          </View>
-        </Modal>
+          </content>
       )
     }
   }
@@ -317,15 +310,32 @@ function TopMenuAvatar() {
     };
 
     // Redirect to Stripe for Guardian Checkout
-    const guardianCheckout = async () => {
+    const guardianCheckout = async (subType) => {
+      console.log("Guardian Checkout")
       setLoading(true);
-      await generateSoloGuardianCheckoutLink()
+      if (subType === "Monthly"){
+        console.log("Monthly")
+        await generateSoloGuardianCheckoutLink()
         .then(async (resolved) => {
           console.log("Resolved inside Guardian Checkout ::: ", resolved)
           window.location = resolved.data.generateSoloGuardianCheckoutLink;
         })
 
         .catch((error) => {});
+      }
+      else if (subType === "Annual"){
+        console.log("Annual")
+        await generateSoloGuardianCheckoutLink()
+        .then(async (resolved) => {
+          console.log("Resolved inside Guardian Checkout ::: ", resolved)
+          window.location = resolved.data.generateSoloGuardianCheckoutLink;
+        })
+
+        .catch((error) => {});
+      }
+      else{
+        console.log("Failed param")
+      }
     };
 
 
@@ -386,7 +396,6 @@ function TopMenuAvatar() {
       {/* {renderOrgFreeTrialTag()}
       {renderGuardianFreeTrialTag()} */}
       {renderFreeTrialTag()}
-      {renderAnnualOrMonthlyOptions()}
 
       <Dropdown
         overlay={
