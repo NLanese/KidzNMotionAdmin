@@ -367,6 +367,7 @@ const typeDefs = gql`
     #############################
     #### THERAPIST MUTATIONS ####
     #############################
+    
     editNotificationSettings(
       patientUserID: String!
       muteMessageNotifications: Boolean!
