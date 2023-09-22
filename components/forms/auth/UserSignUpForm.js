@@ -51,7 +51,6 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
     if (role === "THERAPIST"){
       if (!formValues.organizationInviteKey && !formValues.organizationName){
         handleSignUpFail("Invalid Therapist Org")
-        return null
       }
     }
     await signUpUser({
