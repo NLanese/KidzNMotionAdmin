@@ -6,6 +6,7 @@ import swapToChildAccount from './mutations/swapToChildAccount.js';
 import addChild from './mutations/addChild';
 import changeChildPassword from './mutations/changeChildPassword';
 import generateSoloGuardianCheckoutLink from './mutations/generateSoloGuardianCheckoutLink';
+import generateAnnualSoloGuardianCheckoutLink from './mutations/generateAnnualGuardianCheckoutLink.js'
 import generateSoloGuardianPortalLink from './mutations/generateSoloGuardianPortalLink';
 
 export default {
@@ -16,6 +17,7 @@ export default {
         ...addChild.Mutation,
         ...changeChildPassword.Mutation,
         ...generateSoloGuardianCheckoutLink.Mutation,
+        ...generateAnnualSoloGuardianCheckoutLink.Mutation,
         ...generateSoloGuardianPortalLink.Mutation,
     },
     JSON: GraphQLJSON,

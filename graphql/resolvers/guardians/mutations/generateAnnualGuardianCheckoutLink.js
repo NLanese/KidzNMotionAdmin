@@ -8,7 +8,8 @@ export default {
         process.env.NODE_ENV === 
         "development"
         // false
-          ? "http://localhost:3000"
+          // ? "http://localhost:3000"
+          ? "https://dashboard.kidz-n-motion.app"
           : "https://dashboard.kidz-n-motion.app";
 
       // Checks User
@@ -34,9 +35,13 @@ export default {
         process.env.NODE_ENV === 
         "development"
         // false
-          ? "price_1NsefSAbL8OcaqqPvIGznHIg"
+          // ? "price_1NsefSAbL8OcaqqPvIGznHIg"
+          ? "price_1Nsa8JAbL8OcaqqPU1YRjX8Q"
           : "price_1Nsa8JAbL8OcaqqPU1YRjX8Q";
 
+      console.log("Price ID console log")
+      console.log(priceId)
+      
       const session = await stripe.checkout.sessions.create({
         mode: "subscription",
         line_items: [

@@ -185,10 +185,6 @@ function TopMenuAvatar() {
   // Renders the Free Trial Tag for Organizations
   const renderOrgFreeTrialTag = () => {
 
-    if (showSubscriptionToggle){
-      return renderAnnualOrMonthlyOptions()
-    }
-
     // Exit out if user is not an organization owner
     if (!user.ownedOrganization) return;
 
@@ -223,11 +219,7 @@ function TopMenuAvatar() {
 
   // Renders Guardian Free Trial Space
   const renderGuardianFreeTrialTag = () => {
-
-    if (showSubscriptionToggle){
-      return renderAnnualOrMonthlyOptions()
-    }
-
+     
     // Exit out id not a Guardian
     if (!user.role === "GUARDIAN"){
       return;
@@ -263,7 +255,10 @@ function TopMenuAvatar() {
 
   // Renders the Free Trial Tag
   function renderFreeTrialTag(){
-    if (user.role === "GUARDIAN"){
+    if (showSubscriptionToggle){
+      return renderAnnualOrMonthlyOptions()
+    }
+    else if (user.role === "GUARDIAN"){
       return renderGuardianFreeTrialTag()
     }
     else if (user.role === "THERAPIST" || user.role === "ADMIN"){
@@ -271,6 +266,7 @@ function TopMenuAvatar() {
     }
   }
 
+  // Renders the Annual or Monthly Options on the TopMenuBar in place of the Free Trial button
   function renderAnnualOrMonthlyOptions(){
     if (showSubscriptionToggle){
       return(
@@ -311,6 +307,7 @@ function TopMenuAvatar() {
     // Redirect to Stripe for Organization Checkout
     const checkout = async (subType) => {
       console.log("Checkout")
+      console.log(subType)
       setLoading(true);
       const session = await getCheckoutURL();
       console.log(session.checkoutURL)
@@ -326,6 +323,7 @@ function TopMenuAvatar() {
     // Redirect to Stripe for Guardian Checkout
     const guardianCheckout = async (subType) => {
       console.log("Guardian Checkout")
+      console.log(subType)
       setLoading(true);
       if (subType === "Monthly"){
         console.log("Monthly")
