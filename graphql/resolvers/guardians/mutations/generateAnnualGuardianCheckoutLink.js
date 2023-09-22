@@ -8,8 +8,8 @@ export default {
         process.env.NODE_ENV === 
         "development"
         // false
-          // ? "http://localhost:3000"
-          ? "https://dashboard.kidz-n-motion.app"
+          ? "http://localhost:3000"
+          // ? "https://dashboard.kidz-n-motion.app"
           : "https://dashboard.kidz-n-motion.app";
 
       // Checks User
@@ -22,11 +22,6 @@ export default {
 
       const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
-      // if (!context.user.solo)
-      //   throw new UserInputError(
-      //     "Only solo guardians can generate checkout URLs"
-      //   );
-
       if (context.user.soloStripeSubscriptionID)
         throw new UserInputError("This guardian already has a subscription");
 
@@ -35,9 +30,8 @@ export default {
         process.env.NODE_ENV === 
         "development"
         // false
-          // ? "price_1NsefSAbL8OcaqqPvIGznHIg"
-          ? "price_1Nsa8JAbL8OcaqqPU1YRjX8Q"
-          : "price_1Nsa8JAbL8OcaqqPU1YRjX8Q";
+          ? "price_1MNeZIAbL8OcaqqPnT0M6mnf"
+          : "price_1Nt9TnAbL8OcaqqPMmIMlQt2";
 
       console.log("Price ID console log")
       console.log(priceId)
