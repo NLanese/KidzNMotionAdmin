@@ -26,21 +26,22 @@ export default {
         throw new UserInputError("This guardian already has a subscription");
 
       // Kidz-N-Motion Pro Plan Product ID
-      const priceId =
-        process.env.NODE_ENV === 
-        "development"
-        // false
-          ? "price_1MNeZIAbL8OcaqqPnT0M6mnf"
-          : "price_1Nt9TnAbL8OcaqqPMmIMlQt2";
+      // const priceId =
+      //   process.env.NODE_ENV === 
+      //   "development"
+      //   // false
+      //     ? "price_1MNeZIAbL8OcaqqPnT0M6mnf"
+      //     : "price_1Nt9TnAbL8OcaqqPMmIMlQt2";
 
-      console.log("Price ID console log")
-      console.log(priceId)
+      // console.log("Price ID console log")
+      // console.log(priceId)
       
       const session = await stripe.checkout.sessions.create({
         mode: "subscription",
         line_items: [
           {
-            price: priceId,
+            // price: priceId,
+            price: price_1Nsa8JAbL8OcaqqPU1YRjX8Q,
             quantity: 1,
           },
         ],
