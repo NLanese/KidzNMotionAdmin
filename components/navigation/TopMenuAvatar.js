@@ -337,7 +337,7 @@ function TopMenuAvatar() {
       }
       else if (subType === "Annual"){
         console.log("Annual")
-        await generateSoloGuardianCheckoutLink()
+        await generateAnnualSoloGuardianCheckoutLink()
         .then(async (resolved) => {
           console.log("Resolved inside Guardian Checkout ::: ", resolved)
           window.location = resolved.data.generateSoloGuardianCheckoutLink;
