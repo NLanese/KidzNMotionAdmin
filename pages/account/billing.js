@@ -32,71 +32,98 @@ var dateFormat = require("dateformat");
 
 import BillingInformationRow from "@components/pages/billing/BillingInformationRow";
 
-const BillingWrapper = styled.div`
-  max-width: ${(props) => props.theme.contentSize.extraTight};
-  margin: auto;
-  .ant-typography strong {
-    font-size: 16.5px;
-  }
+//////////////
+/// STYLES ///
+//////////////
 
-  @media (max-width: ${(props) => props.theme.breakPoints.sm}) {
-    .ant-divider {
-      margin: 2px 0px;
+  const BillingWrapper = styled.div`
+    max-width: ${(props) => props.theme.contentSize.extraTight};
+    margin: auto;
+    .ant-typography strong {
+      font-size: 16.5px;
     }
-  }
-`;
 
-const PaymentIcon = styled.div`
-  width: 40px;
-  & img {
-    width: 100%;
-  }
-`;
+    @media (max-width: ${(props) => props.theme.breakPoints.sm}) {
+      .ant-divider {
+        margin: 2px 0px;
+      }
+    }
+  `;
 
-const SubscriptionIcon = styled.div`
-  width: 70px;
-  & img {
-    width: 100%;
-  }
-`;
+  const PaymentIcon = styled.div`
+    width: 40px;
+    & img {
+      width: 100%;
+    }
+  `;
 
-const BillingRow = styled(Row)`
-  padding: 10px 0px 10px;
-  border-top: 1px solid ${(props) => props.theme.colors.backgroundColor};
-  border-bottom: 1px solid ${(props) => props.theme.colors.backgroundColor};
-  transition: ${(props) => props.theme.transitions.standard};
-  a {
-    text-decoration: none !important;
-  }
-  :hover {
-    background: ${(props) => props.theme.colors.backgroundColor};
+  const SubscriptionIcon = styled.div`
+    width: 70px;
+    & img {
+      width: 100%;
+    }
+  `;
+
+  const BillingRow = styled(Row)`
+    padding: 10px 0px 10px;
+    border-top: 1px solid ${(props) => props.theme.colors.backgroundColor};
+    border-bottom: 1px solid ${(props) => props.theme.colors.backgroundColor};
     transition: ${(props) => props.theme.transitions.standard};
-  }
-`;
+    a {
+      text-decoration: none !important;
+    }
+    :hover {
+      background: ${(props) => props.theme.colors.backgroundColor};
+      transition: ${(props) => props.theme.transitions.standard};
+    }
+  `;
+
+///////////////
+// COMPONENT //
+///////////////
 
 function Billing() {
-  const user = useRecoilValue(userState);
-  const [loading, setLoading] = useState(false);
-  const [onFreeTrial, setOnFreeTrial] = useState(true);
-  const [billingInformation, setBillingInformation] = useState(null);
 
-  const fetchAndSetBillingInformation = async () => {
-    const billingInformation = await getBillingInformation();
-    setBillingInformation(billingInformation);
-  };
+  ////////////
+  // States //
+  ////////////
 
-  useEffect(() => {
-    if (!user.ownedOrganization) {
-      Router.push("/");
-    }
+    // User
+    const user = useRecoilValue(userState);
 
-    // ALL FOR DEVELOPMENT PURPOSES
-    if (user.ownedOrganization && user.ownedOrganization.stripeSubscriptionID) {
-      setOnFreeTrial(false);
-      fetchAndSetBillingInformation();
-      return;
-    }
-  }, []);
+    // Loading
+    const [loading, setLoading] = useState(false);
+
+    // Free Trial Determination
+    const [onFreeTrial, setOnFreeTrial] = useState(true);
+
+    // Billing Info for Stripe
+    const [billingInformation, setBillingInformation] = useState(null);
+
+    // Populates Billing Info
+    const fetchAndSetBillingInformation = async () => {
+      const billingInformation = await getBillingInformation();
+      setBillingInformation(billingInformation);
+    };
+  
+
+  ////////////////
+  // UseEffects //
+  ////////////////
+
+    // Reroutes unauthorized Users from accessing this page
+    useEffect(() => {
+      if (!user.ownedOrganization) {
+        Router.push("/");
+      }
+
+      // ALL FOR DEVELOPMENT PURPOSES
+      if (user.ownedOrganization && user.ownedOrganization.stripeSubscriptionID) {
+        setOnFreeTrial(false);
+        fetchAndSetBillingInformation();
+        return;
+      }
+    }, []);
 
   const updatePaymentStatus = async (sessionID) => {
     await updateOrganizationSubscription(sessionID);
