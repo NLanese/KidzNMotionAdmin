@@ -6,7 +6,7 @@ import swapToChildAccount from './mutations/swapToChildAccount.js';
 import addChild from './mutations/addChild';
 import changeChildPassword from './mutations/changeChildPassword';
 import generateSoloGuardianCheckoutLink from './mutations/generateSoloGuardianCheckoutLink';
-import generateAnnualSoloGuardianCheckoutLink from './mutations/generateAnnualGuardianCheckoutLink.js'
+import generateAnnualSoloGuardianCheckoutLink from './mutations/generateAnnualGuardianCheckoutLink'
 import generateSoloGuardianPortalLink from './mutations/generateSoloGuardianPortalLink';
 
 export default {

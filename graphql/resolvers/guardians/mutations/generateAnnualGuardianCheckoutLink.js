@@ -8,8 +8,8 @@ export default {
         process.env.NODE_ENV === 
         "development"
         // false
-          ? "http://localhost:3000"
-          // ? "https://dashboard.kidz-n-motion.app"
+          // ? "http://localhost:3000"
+          ? "https://dashboard.kidz-n-motion.app"
           : "https://dashboard.kidz-n-motion.app";
 
       // Checks User
@@ -41,7 +41,7 @@ export default {
         line_items: [
           {
             // price: priceId,
-            price: price_1Nsa8JAbL8OcaqqPU1YRjX8Q,
+            price: "price_1Nsa8JAbL8OcaqqPU1YRjX8Q",
             quantity: 1,
           },
         ],
