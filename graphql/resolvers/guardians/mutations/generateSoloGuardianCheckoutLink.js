@@ -5,11 +5,12 @@ export default {
   Mutation: {
     generateSoloGuardianCheckoutLink: async (_, {}, context) => {
       const host =
-        process.env.NODE_ENV === 
-        "development"
-        // false
-          ? "http://localhost:3000"
-          : "https://dashboard.kidz-n-motion.app";
+        // process.env.NODE_ENV === 
+        // "development"
+        // // false
+        //   ? "http://localhost:3000"
+        //   : 
+          "https://dashboard.kidz-n-motion.app";
 
       // Checks User
       if (!context.user) throw new UserInputError("Login required");
@@ -31,11 +32,12 @@ export default {
 
       // Kidz-N-Motion Pro Plan Product ID
       const priceId =
-        process.env.NODE_ENV === 
-        "development"
-        // false
-          ? "price_1MNeZIAbL8OcaqqPnT0M6mnf"
-          : "price_1MNeTmAbL8OcaqqPftvKBR6t";
+        // process.env.NODE_ENV === 
+        // "development"
+        // // false
+        //   ? "price_1MNeZIAbL8OcaqqPnT0M6mnf"
+        //   : 
+          "price_1Nsa8JAbL8OcaqqPU1YRjX8Q";
 
       const session = await stripe.checkout.sessions.create({
         mode: "subscription",

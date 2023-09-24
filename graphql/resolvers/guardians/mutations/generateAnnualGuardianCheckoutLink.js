@@ -5,12 +5,13 @@ export default {
   Mutation: {
     generateAnnualSoloGuardianCheckoutLink: async (_, {}, context) => {
       const host =
-        process.env.NODE_ENV === 
-        "development"
-        // false
-          // ? "http://localhost:3000"
-          ? "https://dashboard.kidz-n-motion.app"
-          : "https://dashboard.kidz-n-motion.app";
+        // process.env.NODE_ENV === 
+        // "development"
+        // // false
+        //   // ? "http://localhost:3000"
+        //   ? "https://dashboard.kidz-n-motion.app"
+        //   : 
+          "https://dashboard.kidz-n-motion.app";
 
       // Checks User
       if (!context.user) throw new UserInputError("Login required");
