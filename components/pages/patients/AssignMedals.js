@@ -41,7 +41,6 @@ function AssignMedalsForm({ router, getUser }) {
   };
 
   const getStatus = () => {
-    // console.log(instructions, neededBreak, seconds);
     if (instructions === "yes" && neededBreak === "yes") {
       return "bronze";
     }

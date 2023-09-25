@@ -114,7 +114,6 @@ function TopMenuAvatar() {
   // Checks subscription Status
   const checkSubStatus = async () => {
     await getBillingInformation().then((data) => {
-      console.log("DATA FROM CHECK SUB STATUS ::: ", data)
       if (data) {
         if (data.subscription) {
           if (data.subscription.status !== "active") {
@@ -136,8 +135,6 @@ function TopMenuAvatar() {
   // Checking Subscription Status //
   //////////////////////////////////
   useEffect(() => {
-    console.log("UseEffect for SubStatus")
-    console.log("Subscription Status ::: ", user.subscriptionStatus)
 
     // Guardian
     if (user.role === "GUARDIAN") {
@@ -306,40 +303,34 @@ function TopMenuAvatar() {
 
     // Redirect to Stripe for Organization Checkout
     const checkout = async (subType) => {
-      console.log("Checkout")
-      console.log(subType)
       setLoading(true);
-      const session = await getCheckoutURL();
-      console.log(session.checkoutURL)
+      let annual = false
+      if (subType === "Annual"){
+        annual = true
+      }
+      const session = await getCheckoutURL(annual);
       if (!session) {
         setLoading(false);
       } 
       else {
         window.location = session.checkoutURL;
-        console.log("checkout")
       }
     };
 
     // Redirect to Stripe for Guardian Checkout
     const guardianCheckout = async (subType) => {
-      console.log("Guardian Checkout")
-      console.log(subType)
       setLoading(true);
       if (subType === "Monthly"){
-        console.log("Monthly")
         await generateSoloGuardianCheckoutLink()
         .then(async (resolved) => {
-          console.log("Resolved inside Guardian Checkout ::: ", resolved)
           window.location = resolved.data.generateSoloGuardianCheckoutLink;
         })
 
         .catch((error) => {});
       }
       else if (subType === "Annual"){
-        console.log("Annual")
         await generateAnnualSoloGuardianCheckoutLink()
         .then(async (resolved) => {
-          console.log("Resolved inside Guardian Checkout ::: ", resolved)
           window.location = resolved.data.generateSoloGuardianCheckoutLink;
         })
 

@@ -3,7 +3,6 @@ import { handleAuth } from "@helpers/api/auth";
 
 export default async function handler(req, res) {
 
-  console.log("HANDLER REQUEST...")
   const body = req.body;
   const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
@@ -21,13 +20,12 @@ export default async function handler(req, res) {
 
   const user = await handleAuth(body.token);
 
-  console.log(user);
 
   // Kidz-N-Motion Pro Plan Product ID
   const priceId =
     process.env.NODE_ENV === "development"
-      ? "price_1MNeaIAbL8OcaqqPql1CgC36"
-      : "price_1MNeVyAbL8OcaqqPUtXzrBYf";
+      ? "price_1NszG1AbL8OcaqqPO3rJh55k"
+      : "price_1NsaA0AbL8OcaqqPtvboBZLR";
 
   let userCount = 0;
 

@@ -200,7 +200,6 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
   };
 
   const createNewChatRoom = async (otherParticipantID) => {
-    // console.log(otherParticipantID);
     await createChatRoom({
       variables: {
         otherParticipantID: otherParticipantID,
@@ -216,8 +215,6 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
   };
 
   const renderPossibleChats = (intOnly) => {
-    // // console.clear()
-    // console.log(user);
     let possibleUserChats = [];
 
     if (user.role === "THERAPIST") {
@@ -236,12 +233,9 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
         });
       });
     } else if (user.role === "GUARDIAN") {
-      // console.log(user.children);
-      // console.clear()
       user.children.map((childObject) => {
         if (childObject.childCarePlans) {
           childObject.childCarePlans.map((childCarePlanObject) => {
-            // console.log(childCarePlanObject);
             possibleUserChats.push({
               id: childCarePlanObject.therapist.id,
               firstName: childCarePlanObject.therapist.firstName,
@@ -269,7 +263,6 @@ function ChatsList({ chatRooms, selectedChatRoom }) {
     }
 
     return possibleUserChats.map((possibleChatUser) => {
-      // console.log(possibleChatUser);
       return (
         <div
           onClick={() => createNewChatRoom(possibleChatUser.id)}

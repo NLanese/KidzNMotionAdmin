@@ -32,7 +32,6 @@ function MainOrganizationSettingsForm({
   submitOrganizationSettings,
   initialValues,
 }) {
-  // // console.log(initialValues)
   const user = useRecoilValue(userState);
   const [formLoading, setFormLoading] = useState(false);
 

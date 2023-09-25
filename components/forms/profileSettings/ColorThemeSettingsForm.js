@@ -26,7 +26,6 @@ function ColorThemeSettingsForm({ submitOrganizationSettings, initialValues }) {
       },
     })
       .then(({ data }) => {
-        // console.log("success");
         window.location.reload();
       })
       .catch(({ response }) => {

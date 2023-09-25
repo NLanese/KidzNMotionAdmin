@@ -1,10 +1,14 @@
 import axios from "axios";
 
 // Calls the Stripe api and gets the checkout urls
-export const getCheckoutURL = async () => {
+export const getCheckoutURL = async (annual) => {
+  let url = "/api/billing/get-checkout-url"
+  if (annual){
+    url = "/api/billing/get-annual-checkout-url"
+  }
   return await axios({
     method: "post",
-    url: "/api/billing/get-checkout-url",
+    url: url,
     data: {
       host:
         window.location.protocol +

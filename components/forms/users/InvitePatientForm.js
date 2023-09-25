@@ -35,8 +35,6 @@ function InvitePatientForm({ organizationUsers, therapistMode }) {
         },
       })
         .then(async (resolved) => {
-          // console.clear();
-          // console.log(resolved);
           message.success("Successfully Created User");
           Router.push("/patients/manage?id=" + resolved.data.invitePatient);
 
@@ -115,7 +113,6 @@ function InvitePatientForm({ organizationUsers, therapistMode }) {
 
       return orgUser;
     });
-    // console.log(therapists);
     return therapists;
   };
 

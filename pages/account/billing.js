@@ -105,6 +105,9 @@ function Billing() {
       const billingInformation = await getBillingInformation();
       setBillingInformation(billingInformation);
     };
+
+    // Annual / Monthly Optionbar Toggle
+    const [showSubscriptionToggle, setShowSubscriptionToggle] = useState(false)
   
 
   ////////////////
@@ -125,36 +128,84 @@ function Billing() {
       }
     }, []);
 
-  const updatePaymentStatus = async (sessionID) => {
-    await updateOrganizationSubscription(sessionID);
-    window.location = "/account/billing";
-  };
+    //  Handles Session Information to validate payment if necessary
+    useEffect(() => {
+      // Check for successful session
+      const urlSearchParams = new URLSearchParams(window.location.search);
+      const sessionID = urlSearchParams.get("session_id");
+      const sessionResult = urlSearchParams.get("success");
 
-  useEffect(() => {
-    // Check for successful session
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    const sessionID = urlSearchParams.get("session_id");
-    const sessionResult = urlSearchParams.get("success");
+      if (sessionResult === "true") {
+        setLoading(true);
+        setOnFreeTrial(false);
+        updatePaymentStatus(sessionID);
+      }
+    }, []);
 
-    if (sessionResult === "true") {
+  //////////////////////
+  // Payment Handlers //
+  //////////////////////
+
+    // Updates Payment Status
+    const updatePaymentStatus = async (sessionID) => {
+      await updateOrganizationSubscription(sessionID);
+      window.location = "/account/billing";
+    };
+
+    // Redirects to Stripe
+    const checkout = async (annual) => {
       setLoading(true);
-      setOnFreeTrial(false);
-      updatePaymentStatus(sessionID);
-    }
-  }, []);
+      const session = await getCheckoutURL(annual);
+      window.location = session.checkoutURL;
+    };
 
-  const checkout = async () => {
-    setLoading(true);
-    const session = await getCheckoutURL();
-    window.location = session.checkoutURL;
-  };
+  ////////////////
+  // Renderings //
+  ////////////////
 
-  if (onFreeTrial) {
-    return (
-      <BillingWrapper>
-        <NextSeo title="Billing" />
-        <PageHeader title="Billing & Subscription" />
-        <ContentCard>
+    const renderPurchaseButtons = () => {
+      if (showSubscriptionToggle){
+        return(
+          <ContentCard>
+             <Result
+              title="Select a Payment Plan"
+              extra
+              />
+                <Row style={{width: '100%', justifyContent: 'center', alignItems: 'center'}}>
+
+                  <Col style={{width: '50%', justifyContent: 'center', alignItems: 'center'}}>
+                    <Button
+                    style={{width: '80%'}}
+                    type="primary"
+                    key="console"
+                    loading={loading}
+                    onClick={() => checkout(true)}
+                    size={"large"}
+                    >
+                      {"Annual \n(One Month Free)"}
+                    </Button>
+                  </Col>
+
+                  <Col style={{width: '50%', justifyContent: 'center', alignItems: 'center'}}>
+                    <Button
+                    style={{width: '80%'}}
+                    type="primary"
+                    key="console"
+                    loading={loading}
+                    onClick={() => checkout(false)}
+                    size={"large"}
+                    >
+                      Monthly
+                  </Button>
+                  </Col>
+
+                </Row> 
+          </ContentCard>
+        )
+      }
+      else{
+        return(
+          <ContentCard>
           <Result
             title="Activate your subscription to manage your billing settings"
             extra={
@@ -162,7 +213,7 @@ function Billing() {
                 type="primary"
                 key="console"
                 loading={loading}
-                onClick={() => checkout()}
+                onClick={() => setShowSubscriptionToggle(true)}
                 size={"large"}
               >
                 Activate Subscription
@@ -170,6 +221,23 @@ function Billing() {
             }
           />
         </ContentCard>
+        )
+      }
+    }
+
+
+  /////////////////
+  //             //
+  // MAIN RETURN //
+  //             //
+  /////////////////
+
+  if (onFreeTrial) {
+    return (
+      <BillingWrapper>
+        <NextSeo title="Billing" />
+        <PageHeader title="Billing & Subscription" />
+        {renderPurchaseButtons()}
       </BillingWrapper>
     );
   }
