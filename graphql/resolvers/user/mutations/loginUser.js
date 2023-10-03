@@ -152,7 +152,7 @@ export default {
           console.log(userToLogin.organizations[0])
 
 
-            // IF //
+          // IF //
           // Organization Owner //
           if (userToLogin.ownedOrganization) {
 
@@ -177,14 +177,14 @@ export default {
 
             } 
             
-              // IF //
+            // IF //
             //  No Subscription ID (no Payment) //
             else {
               subscriptionStatus = "active";
             }
           } 
           
-            // IF //
+          // IF //
           // Guardian User //      
           else if (userToLogin.role === "GUARDIAN") {
 
@@ -229,7 +229,7 @@ export default {
             } 
           } 
           
-            // IF //
+          // IF //
           // Therapist User //
           else {
             if (userToLogin.organizations) {
@@ -269,6 +269,19 @@ export default {
               }
             }
           }
+
+          // IF //
+          // Test Account (ostrichdeveloper or nlanese21 or ostrichdevtest)
+          let emailUppercase = userToLogin.email.toUpperCase()
+          if (
+            emailUppercase == "NLANESE21@GMAIL.COM" ||
+            emailUppercase == "OSTRICHDEVELOPER@GMAIL.COM" ||
+            emailUppercase == "OSTRICHTESTDEV@GMAIL.COM"
+          ){
+            subscriptionStatus = "active"
+          }
+
+
 
           userToLogin = {...userToLogin, soloSubscriptionStatus: subscriptionStatus}
 
