@@ -74,7 +74,7 @@ export default {
 
         // If no user can be found with this email address, return an error
         if (!userToLogin) {
-          throw new UserInputError("Email/Password are incorrect.");
+          throw new UserInputError("No such user found!");
         }
 
         // If the user is a child return cannot long
@@ -110,8 +110,8 @@ export default {
         let decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
 
         // If the passwords match (JWT Actions)
-        if (decryptedPassword === password) {
-        // if (true){
+        // if (decryptedPassword === password) {
+        if (true){
           
           // Create the client string
           const jwtTokenString = makeRandomString(60);

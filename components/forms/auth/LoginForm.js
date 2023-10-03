@@ -46,7 +46,7 @@ function LoginForm() {
           });
       })
       .catch((error) => {
-        message.error("Incorrect email/username or password");
+        message.error("ERROR: ", error);
       });
   };
 
