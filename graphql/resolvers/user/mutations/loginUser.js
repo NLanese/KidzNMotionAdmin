@@ -61,14 +61,17 @@ export default {
 
         // Loop through to find user
         let userToLogin = null;
+        let usernameLowercase
         potentialUsers.map((userObject) => {
           if (!userObject) {
             return;
           }
           if (userObject.email.toLowerCase() === email.toLowerCase()) {
             userToLogin = userObject;
+            usernameLowercase = userObject.email.toLowerCase()
           } else if (userObject.username === email) {
             userToLogin = userObject;
+            usernameLowercase = userObject.username.toLowerCase()
           }
         });
 
@@ -110,8 +113,8 @@ export default {
         let decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
 
         // If the passwords match (JWT Actions)
-        // if (decryptedPassword === password) {
-        if (true){
+        if (decryptedPassword === password) {
+        // if (true){
           
           // Create the client string
           const jwtTokenString = makeRandomString(60);
@@ -272,11 +275,10 @@ export default {
 
           // IF //
           // Test Account (ostrichdeveloper or nlanese21 or ostrichdevtest)
-          let emailUppercase = userToLogin.email.toUpperCase()
           if (
-            emailUppercase == "NLANESE21@GMAIL.COM" ||
-            emailUppercase == "OSTRICHDEVELOPER@GMAIL.COM" ||
-            emailUppercase == "OSTRICHTESTDEV@GMAIL.COM"
+            usernameLowercase == "ostrichdeveloper@gmail.com" ||
+            usernameLowercase == "nlanese21@gmail.com" ||
+            usernameLowercase == "ostrichdevtest@gmail.com"
           ){
             subscriptionStatus = "active"
           }
