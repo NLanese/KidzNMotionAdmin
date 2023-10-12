@@ -155,7 +155,7 @@ function TopMenuAvatar() {
     // Therapist / Admin who has Org control AND it is expired
     if (user.subscriptionStatus === "expiredOwner") {
       if (!router.asPath.includes("billing")) {
-        router.push("/account/billing");
+        // router.push("/account/billing");
         message.success("Please update your billing information to continue");
       }
     }
