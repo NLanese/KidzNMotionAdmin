@@ -275,13 +275,13 @@ export default {
 
           // IF //
           // Test Account (ostrichdeveloper or nlanese21 or ostrichdevtest)
-          // if (
-          //   usernameLowercase == "ostrichdeveloper@gmail.com" ||
-          //   usernameLowercase == "nlanese21@gmail.com" ||
-          //   usernameLowercase == "ostrichdevtest@gmail.com"
-          // ){
-          //   subscriptionStatus = "active"
-          // }
+          if (
+            usernameLowercase == "ostrichdeveloper@gmail.com" ||
+            usernameLowercase == "nlanese21@gmail.com" ||
+            usernameLowercase == "ostrichdevtest@gmail.com"
+          ){
+            subscriptionStatus = "active"
+          }
 
 
 

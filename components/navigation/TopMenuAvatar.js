@@ -87,6 +87,10 @@ function TopMenuAvatar() {
     // Annual / Monthly Optionbar Toggle
     const [showSubscriptionToggle, setShowSubscriptiontoggle] = useState(false)
 
+    // Determines whether alert was sent
+    const [alertsShown, setAlertsShown] = useState(false)
+
+
   ///////////////
   // Mutations //
   ///////////////
@@ -113,6 +117,13 @@ function TopMenuAvatar() {
 
   // Checks subscription Status
   const checkSubStatus = async () => {
+    if(
+      usernameLowercase == "ostrichdeveloper@gmail.com" ||
+      usernameLowercase == "nlanese21@gmail.com" ||
+      usernameLowercase == "ostrichdevtest@gmail.com"
+    ){
+      return 
+    }
     await getBillingInformation().then((data) => {
       if (data) {
         if (data.subscription) {
@@ -161,14 +172,17 @@ function TopMenuAvatar() {
   // User has expired Trial //
   ////////////////////////////
   useEffect(() => {
-    if (user.subscriptionStatus === "expiredOwner") {
-      if (!router.asPath.includes("billing")) {
-        router.push("/account/billing");
-        message.success("Please update your billing information to continue");
+    if (!alertsShown){
+      if (user.subscriptionStatus === "expiredOwner") {
+        if (!router.asPath.includes("billing")) {
+          message.success("Please update your billing information to continue");
+        }
+        setAlertsShown(true)
       }
-    }
-    if (user.subscriptionStatus === "expiredNotOwner") {
-      alert("Organization Account Expired!");
+      if (user.subscriptionStatus === "expiredNotOwner") {
+        alert("Organization Account Expired!");
+        setAlertsShown(true)
+      }
     }
   }, [router]);
 
