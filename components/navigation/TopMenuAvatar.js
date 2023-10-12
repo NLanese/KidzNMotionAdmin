@@ -168,23 +168,23 @@ function TopMenuAvatar() {
     }
   }, []);
 
-  ////////////////////////////
-  // User has expired Trial //
-  ////////////////////////////
-  useEffect(() => {
-    if (!alertsShown){
-      if (user.subscriptionStatus === "expiredOwner") {
-        if (!router.asPath.includes("billing")) {
-          message.success("Please update your billing information to continue");
-        }
-        setAlertsShown(true)
-      }
-      if (user.subscriptionStatus === "expiredNotOwner") {
-        alert("Organization Account Expired!");
-        setAlertsShown(true)
-      }
-    }
-  }, [router]);
+  // ////////////////////////////
+  // // User has expired Trial //
+  // ////////////////////////////
+  // useEffect(() => {
+  //   if (!alertsShown){
+  //     if (user.subscriptionStatus === "expiredOwner") {
+  //       if (!router.asPath.includes("billing")) {
+  //         message.success("Please update your billing information to continue");
+  //       }
+  //       setAlertsShown(true)
+  //     }
+  //     if (user.subscriptionStatus === "expiredNotOwner") {
+  //       alert("Organization Account Expired!");
+  //       setAlertsShown(true)
+  //     }
+  //   }
+  // }, [router]);
 
 
 //////////////////
