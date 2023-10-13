@@ -147,6 +147,15 @@ function TopMenuAvatar() {
   //////////////////////////////////
   useEffect(() => {
 
+    // Super User
+    if (
+        user.username.toLowerCase() === "nlanese21@gmail.com" ||
+        user.username.toLowerCase() === "ostrichdeveloper@gmail.com" ||
+        user.username.toLowerCase() === "ostrichtestdev@gmail.com"
+      ){
+        return null
+      }
+
     // Guardian
     if (user.role === "GUARDIAN") {
       checkSubStatus();

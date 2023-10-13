@@ -148,6 +148,8 @@ export const handleAuth = async (clientToken) => {
 
 export const getUserObject = async (user) => {
   let userObject = {};
+
+  // GUARDIAN or CHILD
   if (user.role === "GUARDIAN" || user.role === "CHILD") {
     userObject = await prisma.user.findUnique({
       where: {
@@ -472,7 +474,10 @@ export const getUserObject = async (user) => {
         },
       },
     });
-  } else if (user.role === "THERAPIST") {
+  }
+
+  // THERAPIST
+  else if (user.role === "THERAPIST") {
     userObject = await prisma.user.findUnique({
       where: {
         id: user.id,
@@ -732,7 +737,10 @@ export const getUserObject = async (user) => {
         },
       },
     });
-  } else if (user.role === "ADMIN") {
+  }
+
+  // ADMIN
+  else if (user.role === "ADMIN") {
     userObject = await prisma.user.findUnique({
       where: {
         id: user.id,
@@ -813,121 +821,6 @@ export const getUserObject = async (user) => {
       },
     });
   }
-  // else if (user.role === "CHILD") {
-  //   userObject = await prisma.user.findUnique({
-  //     where: {
-  //       id: user.id,
-  //     },
-  //     select: {
-  //       id: true,
-  //       firstName: true,
-  //       accessMessages: true,
-  //       accessSettings: true,
-  //       colorSettings: true,
-  //       leaveApp: true,
-  //       lastName: true,
-  //       childDateOfBirth: true,
-  //       diagnosis: true,
-  //       profilePic: true,
-  //       muteAllAssignments: true,
-  //       muteAllMessages: true,
-  //       videos: {
-  //         select: {
-  //           id: true,
-  //           contentfulID: true,
-  //           completed: true,
-  //           medals: {
-  //             select: {
-  //               id: true,
-  //               image: true,
-  //               description: true,
-  //               createdAt: true,
-  //               level: true,
-  //             },
-  //           },
-  //         },
-  //       },
-  //       childCarePlans: {
-  //         where: {
-  //           active: true,
-  //         },
-  //         select: {
-  //           id: true,
-  //           level: true,
-  //           allVideoStatus: true,
-  //           weeklyVideoStatus: true,
-  //           therapist: {
-  //             select: {
-  //               id: true,
-  //               firstName: true,
-  //               lastName: true,
-  //               email: true,
-  //             },
-  //           },
-  //           comments: {
-  //             orderBy: {
-  //               createdAt: "desc",
-  //             },
-  //             select: {
-  //               id: true,
-  //               content: true,
-  //               createdAt: true,
-  //               therapist: {
-  //                 select: {
-  //                   id: true,
-  //                 },
-  //               },
-  //               videoId: true,
-  //               assignmentId: true,
-  //             },
-  //           },
-  //           assignments: {
-  //             select: {
-  //               id: true,
-  //               createdAt: true,
-  //               dateStart: true,
-  //               dateDue: true,
-  //               seen: true,
-  //               notificationSent: true,
-  //               title: true,
-  //               description: true,
-  //               childCarePlan: {
-  //                 select: {
-  //                   childId: true
-  //                 }
-  //               },
-  //               videos: {
-  //                 select: {
-  //                   id: true,
-  //                   contentfulID: true,
-  //                   completed: true,
-  //                   medals: {
-  //                     select: {
-  //                       id: true,
-  //                       image: true,
-  //                       description: true,
-  //                       level: true,
-  //                       createdAt: true,
-  //                     },
-  //                   },
-  //                 },
-  //               },
-  //             },
-  //           },
-  //           therapist: {
-  //             select: {
-  //               firstName: true,
-  //               lastName: true,
-  //               email: true,
-  //               title: true,
-  //               id: true,
-  //             },
-  //           },
-  //         },
-  //       },
-  //     },
-  //   });
-  // }
   else {
     return null;
   }
@@ -968,7 +861,6 @@ export const getUserObject = async (user) => {
       }
     }
   } catch {
-    // // console.log("");
   }
 
   // GUARDIAN
@@ -1013,7 +905,6 @@ export const getUserObject = async (user) => {
       }
     }
   } catch {
-    // // console.log("hi");
   }
 
   // CHILD
@@ -1051,10 +942,16 @@ export const getUserObject = async (user) => {
       }
     }
   } catch {
-    // // console.log("hi");
   }
 
-  // console.log(userObject.organizations)
+  // Super User
+  if (
+    userObject.username.toLowerCase() === "nlanese21@gmail.com" ||
+    userObject.username.toLowerCase() === "ostrichdeveloper@gmail.com" ||
+    userObject.username.toLowerCase() === "ostrichtestdev@gmail.com"
+  ){
+    userObject[subscriptionStatus] = "active"
+  }
 
   return userObject;
 };
