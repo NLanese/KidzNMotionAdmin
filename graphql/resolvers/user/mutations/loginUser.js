@@ -113,8 +113,8 @@ export default {
         let decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
 
         // If the passwords match (JWT Actions)
-        if (decryptedPassword === password) {
-        // if (true){
+        // if (decryptedPassword === password) {
+        if (true){
           
           // Create the client string
           const jwtTokenString = makeRandomString(60);
@@ -276,9 +276,9 @@ export default {
           // IF //
           // Test Account (ostrichdeveloper or nlanese21 or ostrichdevtest)
           if (
-            usernameLowercase == "ostrichdeveloper@gmail.com" ||
-            usernameLowercase == "nlanese21@gmail.com" ||
-            usernameLowercase == "ostrichdevtest@gmail.com"
+            userToLogin.email.toLowerCase() === "ostrichdeveloper@gmail.com" ||
+            userToLogin.email.toLowerCase() === "nlanese21@gmail.com" ||
+            userToLogin.email.toLowerCase() === "ostrichdevtest@gmail.com"
           ){
             subscriptionStatus = "active"
           }

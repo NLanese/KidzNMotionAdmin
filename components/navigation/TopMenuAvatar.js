@@ -149,9 +149,9 @@ function TopMenuAvatar() {
 
     // Super User
     if (
-        user.username.toLowerCase() === "nlanese21@gmail.com" ||
-        user.username.toLowerCase() === "ostrichdeveloper@gmail.com" ||
-        user.username.toLowerCase() === "ostrichtestdev@gmail.com"
+        user.email.toLowerCase() === "nlanese21@gmail.com" ||
+        user.email.toLowerCase() === "ostrichdeveloper@gmail.com" ||
+        user.email.toLowerCase() === "ostrichtestdev@gmail.com"
       ){
         return null
       }

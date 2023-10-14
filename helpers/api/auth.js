@@ -945,12 +945,19 @@ export const getUserObject = async (user) => {
   }
 
   // Super User
+  console.log(userObject.email.toLowerCase())
   if (
-    userObject.username.toLowerCase() === "nlanese21@gmail.com" ||
-    userObject.username.toLowerCase() === "ostrichdeveloper@gmail.com" ||
-    userObject.username.toLowerCase() === "ostrichtestdev@gmail.com"
+    userObject.email.toLowerCase() === "nlanese21@gmail.com" ||
+    userObject.email.toLowerCase() === "ostrichdeveloper@gmail.com" ||
+    userObject.email.toLowerCase() === "ostrichtestdev@gmail.com"
   ){
-    userObject[subscriptionStatus] = "active"
+    userObject.subscriptionStatus = "active"
+    if (userObject.ownedOrganization){
+      userObject.ownedOrganization.subscriptionStatus = "active"
+    }
+    if (userObject.organization){
+      userObject.organization = "true"
+    }
   }
 
   return userObject;
