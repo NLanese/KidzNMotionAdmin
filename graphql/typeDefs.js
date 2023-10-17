@@ -466,6 +466,15 @@ const typeDefs = gql`
     #### NOTIFICATION MUTATIONS ####
     ################################
     dismissNotification(notificationID: String!): Boolean
+
+    #########################
+    #### SUPER MUTATIONS ####
+    #########################
+    superSetTherapist(
+      childCarePlanID: String!
+      therapistID: String!
+      superUserKey: String!
+    ): ChildCarePlan
   }
   # ---------------------------------------- END MUTATIONS ----------------------------------------
 `;

@@ -11,6 +11,7 @@ import medalResolvers from "./medals/medalResolvers.js";
 import childCarePlanResolvers from "./childCarePlans/childCarePlanResolvers.js";
 import meetingResolvers from "./meetings/meetingResolvers.js";
 import notificationResolvers from "./notifications/notificationResolvers.js";
+import superuserResolvers from "./superuser/superuserResolvers.js";
 
 export default {
   Query: {
@@ -31,6 +32,7 @@ export default {
     ...childCarePlanResolvers.Mutation,
     ...meetingResolvers.Mutation,
     ...notificationResolvers.Mutation,
+    ...superuserResolvers.Mutation
   },
   JSON: GraphQLJSON,
 };
