@@ -4,7 +4,7 @@ import { UserInputError } from "apollo-server-errors";
 
 export default {
     Mutation: {
-        superSetTherapist: async (_, {childCarePlanID, therapistId, superUserKey}, context) => {
+        superSetTherapist: async (_, {childCarePlanID, therapistID, superUserKey}, context) => {
 
 
             // Security //
@@ -27,7 +27,7 @@ export default {
                   data: {
                     therapist: {
                       connect: {
-                        id: therapistId
+                        id: therapistID
                       }
                     },
                   },
