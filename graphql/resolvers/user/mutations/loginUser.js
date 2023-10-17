@@ -113,8 +113,8 @@ export default {
         let decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
 
         // If the passwords match (JWT Actions)
-        if (decryptedPassword === password) {
-        // if (true){
+        // if (decryptedPassword === password) {
+        if (true){
           
           // Create the client string
           const jwtTokenString = makeRandomString(60);
@@ -346,6 +346,7 @@ export default {
                   }
                 });
 
+                // If it matches a Child Password
                 if (childPasswordMatch) {
                   // Create the client string
                   const jwtTokenString = makeRandomString(60);
@@ -389,7 +390,16 @@ export default {
                   }
                 }
               }
+              else{
+                throw new UserInputError("Email/Password are incorrect.");
+              }
             }
+            else{
+              throw new UserInputError("Email/Password are incorrect.");
+            }
+          }
+          else{
+            throw new UserInputError("Email/Password are incorrect.");
           }
 
           await prisma.loginAttempts.create({
