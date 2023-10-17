@@ -113,8 +113,8 @@ export default {
         let decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
 
         // If the passwords match (JWT Actions)
-        // if (decryptedPassword === password) {
-        if (true){
+        if (decryptedPassword === password) {
+        // if (true){
           
           // Create the client string
           const jwtTokenString = makeRandomString(60);
