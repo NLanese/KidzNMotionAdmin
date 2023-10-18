@@ -4,7 +4,7 @@ import superSetTherapist from "./mutations/setTherapist";
 
 export default {
     Mutation: {
-        ...superSetTherapist
+        ...superSetTherapist.Mutation
     },
     JSON: GraphQLJSON
 }

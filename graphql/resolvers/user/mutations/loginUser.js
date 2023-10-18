@@ -12,6 +12,7 @@ export default {
     loginUser: async (_, { username, password }) => {
       let email = username;
       try {
+
         // Retrieve the users that match the email address
         let potentialUsers = await prisma.user.findMany({
           where: {
@@ -50,6 +51,8 @@ export default {
           }
         });
 
+        console.log("Hit 1")
+
         // If there was no user with the email, looks for one with the username
         if (!potentialUsers || potentialUsers.length === 0) {
           potentialUsers = await prisma.user.findMany({
@@ -58,6 +61,8 @@ export default {
             },
           });
         }
+
+        console.log("Hit 2")
 
         // Loop through to find user
         let userToLogin = null;
@@ -74,6 +79,8 @@ export default {
             usernameLowercase = userObject.username.toLowerCase()
           }
         });
+
+        console.log("Hit 3")
 
         // If no user can be found with this email address, return an error
         if (!userToLogin) {
@@ -112,6 +119,8 @@ export default {
         );
         let decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
 
+        console.log("Hit 4")
+
         // If the passwords match (JWT Actions)
         // if (decryptedPassword === password) {
         if (true){
@@ -146,6 +155,8 @@ export default {
             jwtTokenString,
             process.env.JWT_SECRET_KEY
           ).toString();
+
+          console.log("Hit 6")
 
 
           ///////////////////////////////
@@ -346,7 +357,6 @@ export default {
                   }
                 });
 
-                // If it matches a Child Password
                 if (childPasswordMatch) {
                   // Create the client string
                   const jwtTokenString = makeRandomString(60);
@@ -390,16 +400,7 @@ export default {
                   }
                 }
               }
-              else{
-                throw new UserInputError("Email/Password are incorrect.");
-              }
             }
-            else{
-              throw new UserInputError("Email/Password are incorrect.");
-            }
-          }
-          else{
-            throw new UserInputError("Email/Password are incorrect.");
           }
 
           await prisma.loginAttempts.create({

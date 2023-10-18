@@ -1,4 +1,4 @@
-function SuperUI() {
+function SuperUI({ router }) {
     return (
       <div>
         <h1>Super UI Page</h1>
@@ -7,4 +7,4 @@ function SuperUI() {
     );
   }
   
-  export default SuperUI;
+  export default withRouter(SuperUI);
