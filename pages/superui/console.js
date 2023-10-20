@@ -33,6 +33,23 @@ const { clientsLoading, clientsError, clientsData } = useQuery(SUPER_GET_ALL_CLI
 
 const { therapistsLoading, therapistsError, therapistsData } = useQuery(SUPER_GET_ALL_THERAPISTS);
 
+/////////////////
+// Use Effects //
+/////////////////
+
+  useEffect(() => {
+    if (!clientsError){
+      console.log("CLIENTS DATA::: ")
+      console.log(clientsData)
+      setClients(clientsData)
+    }
+  }, [clientsData])
+
+  useEffect(() => {
+    if (!therapistsError){
+      setClients(therapistsData)
+    }
+  }, [therapistsData])
 
 
 ////////////////
@@ -40,7 +57,19 @@ const { therapistsLoading, therapistsError, therapistsData } = useQuery(SUPER_GE
 ////////////////
 
   const renderAllClients = () => {
-
+    return clients.map( (cli, index) => {
+      return(
+        <Button
+          type="primary"
+          size="small"
+          onClick={() => {
+            return
+          }}
+        >
+          {cli.firstName} {cli.lastName}
+        </Button>
+      )
+    })
   }
 
   /////////////////
@@ -67,14 +96,22 @@ const { therapistsLoading, therapistsError, therapistsData } = useQuery(SUPER_GE
         </div>
       );
     }
+
+    // Both Queries Completed
+    else{
+      return (
+        <div>
+          <h1>Super console</h1>
+          <p>
+            {renderAllClients()}
+          </p>
+        </div>
+      );
+    }
   }
+
   
-  return (
-    <div>
-      <h1>Super console</h1>
-      
-    </div>
-  );
+  return MAIN();
 }
   
 export default Console;
