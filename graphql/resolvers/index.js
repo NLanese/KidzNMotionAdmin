@@ -22,6 +22,7 @@ export default {
     ...childCarePlanResolvers.Query,
     ...meetingResolvers.Query,
     ...notificationResolvers.Query,
+    ...superuserResolvers.Query
   },
   Mutation: {
     ...userResolvers.Mutation,

@@ -255,6 +255,14 @@ const typeDefs = gql`
     ##############################
 
     getNotifications: [Notification]
+
+    ############################
+    #### SUPER USER QUERIES ####
+    ############################
+
+    getAllClients: [User]
+    getAllTherapists: [User]
+
   }
 
   # ---------------------------------------- END QUERY ----------------------------------------

@@ -8,7 +8,7 @@ export default {
     Mutation: {
         ...superSetTherapist.Mutation
     },
-    Queuery: {
+    Query: {
         ...getAllClients.Query,
         ...getAllTherapists.Query
     },
