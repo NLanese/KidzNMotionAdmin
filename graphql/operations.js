@@ -215,6 +215,410 @@ const GET_USER = gql`
   }
 `;
 
+const SUPER_GET_ALL_CLIETS = gql`
+  query Query {
+    getAllClients {
+      id
+      email
+      username
+      firstName
+      lastName
+      title
+      subscriptionStatus
+      diagnosis
+      phoneNumber
+      solo
+      profilePic
+      webAppColorSettings
+      soloStripeSubscriptionID
+      soloSubscriptionStatus
+      role
+      createdAt
+
+      msgNotifications
+      missedDateNotifications
+      appointmentNotifications
+
+      patientCarePlans {
+        id
+        childId
+        therapist {
+          id
+          email
+          firstName
+          lastName
+        }
+        level
+        active
+        allVideoStatus
+        blockedVideos
+        weeklyVideoStatus
+        assignments {
+          id
+          createdAt
+          dateStart
+          dateDue
+          seen
+          notificationSent
+          title
+          description
+          videos {
+            id
+            contentfulID
+            completed
+            file {
+              id
+              level
+              title
+              description
+              videoURL
+              previewPictureURL
+            }
+            medals {
+              id
+              title
+              image
+              description
+              createdAt
+              level
+            }
+          }
+        }
+        comments {
+          id
+          content
+          createdAt
+          assignmentId
+          videoId
+        }
+        child {
+          id
+          firstName
+          lastName
+          diagnosis
+          guardian {
+            id
+            firstName
+            lastName
+            phoneNumber
+            email
+          }
+        }
+      }
+
+      organizations {
+        id
+        organization {
+          id
+          active
+          name
+          stripeSubscriptionID
+          subscriptionStatus
+          organizationUsers {
+            user {
+              role
+              firstName
+              lastName
+              id
+              childDateOfBirth
+              phoneNumber
+              email
+              profilePic
+              guardianId
+              childCarePlans {
+                id
+              }
+            }
+          }
+        }
+      }
+      ownedOrganization {
+        id
+        createdAt
+        organizationType
+        phoneNumber
+        name
+        name
+        stripeSubscriptionID
+        subscriptionStatus
+        active
+
+        organizationUsers {
+          id
+          active
+          user {
+            id
+            role
+            firstName
+            lastName
+            email
+          }
+        }
+      }
+
+      children {
+        id
+        firstName
+        lastName
+        diagnosis
+        childDateOfBirth
+        childCarePlans {
+          id
+          level
+          allVideoStatus
+          assignments {
+            id
+            createdAt
+            dateStart
+            dateDue
+            seen
+            title
+            description
+            videos {
+              id
+              contentfulID
+              completed
+              file {
+                id
+                level
+                title
+                description
+                videoURL
+                previewPictureURL
+              }
+              medals {
+                id
+                title
+                image
+                description
+                level
+              }
+            }
+          }
+          therapist {
+            id
+            firstName
+            lastName
+          }
+          child {
+            id
+            firstName
+            lastName
+            guardian {
+              id
+              firstName
+              lastName
+              email
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const SUPER_GET_ALL_THERAPISTS = gql`
+  query Query {
+    getAllTherapists {
+      id
+      email
+      username
+      firstName
+      lastName
+      title
+      subscriptionStatus
+      diagnosis
+      phoneNumber
+      solo
+      profilePic
+      webAppColorSettings
+      soloStripeSubscriptionID
+      soloSubscriptionStatus
+      role
+      createdAt
+
+      msgNotifications
+      missedDateNotifications
+      appointmentNotifications
+
+      patientCarePlans {
+        id
+        childId
+        therapist {
+          id
+          email
+          firstName
+          lastName
+        }
+        level
+        active
+        allVideoStatus
+        blockedVideos
+        weeklyVideoStatus
+        assignments {
+          id
+          createdAt
+          dateStart
+          dateDue
+          seen
+          notificationSent
+          title
+          description
+          videos {
+            id
+            contentfulID
+            completed
+            file {
+              id
+              level
+              title
+              description
+              videoURL
+              previewPictureURL
+            }
+            medals {
+              id
+              title
+              image
+              description
+              createdAt
+              level
+            }
+          }
+        }
+        comments {
+          id
+          content
+          createdAt
+          assignmentId
+          videoId
+        }
+        child {
+          id
+          firstName
+          lastName
+          diagnosis
+          guardian {
+            id
+            firstName
+            lastName
+            phoneNumber
+            email
+          }
+        }
+      }
+
+      organizations {
+        id
+        organization {
+          id
+          active
+          name
+          stripeSubscriptionID
+          subscriptionStatus
+          organizationUsers {
+            user {
+              role
+              firstName
+              lastName
+              id
+              childDateOfBirth
+              phoneNumber
+              email
+              profilePic
+              guardianId
+              childCarePlans {
+                id
+              }
+            }
+          }
+        }
+      }
+      ownedOrganization {
+        id
+        createdAt
+        organizationType
+        phoneNumber
+        name
+        name
+        stripeSubscriptionID
+        subscriptionStatus
+        active
+
+        organizationUsers {
+          id
+          active
+          user {
+            id
+            role
+            firstName
+            lastName
+            email
+          }
+        }
+      }
+
+      children {
+        id
+        firstName
+        lastName
+        diagnosis
+        childDateOfBirth
+        childCarePlans {
+          id
+          level
+          allVideoStatus
+          assignments {
+            id
+            createdAt
+            dateStart
+            dateDue
+            seen
+            title
+            description
+            videos {
+              id
+              contentfulID
+              completed
+              file {
+                id
+                level
+                title
+                description
+                videoURL
+                previewPictureURL
+              }
+              medals {
+                id
+                title
+                image
+                description
+                level
+              }
+            }
+          }
+          therapist {
+            id
+            firstName
+            lastName
+          }
+          child {
+            id
+            firstName
+            lastName
+            guardian {
+              id
+              firstName
+              lastName
+              email
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 const REQUEST_PASSWORD_RESET = gql`
   mutation Mutation($email: String!) {
     requestResetPassword(email: $email)
@@ -565,6 +969,10 @@ export {
   REQUEST_PASSWORD_RESET,
   RESET_PASSWORD_FROM_KEY,
   EDIT_USER,
+
+  // Super User
+  SUPER_GET_ALL_CLIETS,
+  SUPER_GET_ALL_THERAPISTS,
 
   // Organization
   EDIT_ORGANIZATION_SETTINGS,
