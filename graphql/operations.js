@@ -13,6 +13,46 @@ const LOGIN_USER = gql`
   }
 `;
 
+const USER_SIGN_UP = gql`
+  mutation signUpUser(
+    $email: String!
+    $password: String!
+    $firstName: String!
+    $lastName: String!
+    $phoneNumber: String!
+    $role: String!
+    $childFirstName: String
+    $childLastName: String
+    $childDateOfBirth: String
+    $organizationName: String
+    $title: String
+    $organizationInviteKey: String
+  ) {
+    signUpUser(
+      email: $email
+      password: $password
+      firstName: $firstName
+      lastName: $lastName
+      phoneNumber: $phoneNumber
+      role: $role
+
+      childFirstName: $childFirstName
+      childLastName: $childLastName
+      childDateOfBirth: $childDateOfBirth
+      title: $title
+
+      organizationName: $organizationName
+      organizationInviteKey: $organizationInviteKey
+    ) {
+      token
+    }
+  }
+`;
+
+/////////////
+// QUERIES //
+/////////////
+
 const GET_USER = gql`
   query Query {
     getUser {
@@ -619,6 +659,11 @@ const GET_ALL_THERAPISTS = gql`
   }
 `;
 
+
+//////////////
+// SECURITY //
+//////////////
+
 const REQUEST_PASSWORD_RESET = gql`
   mutation Mutation($email: String!) {
     requestResetPassword(email: $email)
@@ -634,41 +679,21 @@ const RESET_PASSWORD_FROM_KEY = gql`
   }
 `;
 
-const USER_SIGN_UP = gql`
-  mutation signUpUser(
-    $email: String!
-    $password: String!
-    $firstName: String!
-    $lastName: String!
-    $phoneNumber: String!
-    $role: String!
-    $childFirstName: String
-    $childLastName: String
-    $childDateOfBirth: String
-    $organizationName: String
-    $title: String
-    $organizationInviteKey: String
-  ) {
-    signUpUser(
-      email: $email
-      password: $password
-      firstName: $firstName
-      lastName: $lastName
-      phoneNumber: $phoneNumber
-      role: $role
+/////////////////////
+// SUPER MUTATIONS //
+/////////////////////
 
-      childFirstName: $childFirstName
-      childLastName: $childLastName
-      childDateOfBirth: $childDateOfBirth
-      title: $title
-
-      organizationName: $organizationName
-      organizationInviteKey: $organizationInviteKey
-    ) {
-      token
-    }
+const SUPER_SET_THERAPIST = gql`
+  mutation Mutation($childCarePlanID: Stirng, $therapistID: String, $superUserKey: String){
+    superSetTherapist(
+      childCarePlanID: $childCarePlanID,
+      therapistID: $therapistID,
+      superUserKey: $superUserKey
+    )
   }
-`;
+`
+
+
 
 const EDIT_USER = gql`
   mutation Mutation(
@@ -973,6 +998,7 @@ export {
   // Super User
   GET_ALL_CLIENTS,
   GET_ALL_THERAPISTS,
+  SUPER_SET_THERAPIST,
 
   // Organization
   EDIT_ORGANIZATION_SETTINGS,

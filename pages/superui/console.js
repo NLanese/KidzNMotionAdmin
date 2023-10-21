@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 
 // Mutations and Queries
 import { useMutation } from "@apollo/client";
-import {GET_ALL_CLIENTS, GET_ALL_THERAPISTS} from "../../graphql/operations"
+import {GET_ALL_CLIENTS, GET_ALL_THERAPISTS, SUPER_SET_THERAPIST } from "../../graphql/operations"
 import client from "@utils/apolloClient";
 
 // Ant Design
@@ -17,16 +17,24 @@ function Console() {
   // State and Constants //
   /////////////////////////
 
+  // Client Query Data
   const [clients, setClients] = useState(false)
   const [clientsLoading, setClientsLoading] = useState(true)
   const [clientsError, setClientsError] = useState(false)
 
+  // Selected Client
+  const [selectedClient, setSelectedClient] = useState(false)
+
+
+  // Therapist Query Data
   const [therapists, setTherapists] = useState(false)
   const [therapistsLoading, setTherapistsLoading] = useState(true)
   const [therapistsError, setTherapistsError] = useState(false)
 
 
-  // This determines which inforomation is displayed on-screen. | None | Clients | Therapists | 
+  // This determines which inforomation is displayed on-screen.
+  //  - None (default)
+  //  - setTherapist 
   const [consoleState, setConsoleState] = useState("None")  
 
 
@@ -79,6 +87,7 @@ function Console() {
 // Renderings //
 ////////////////
 
+  // Renders all Clients
   const renderAllClients = () => {
     return clients.map( (cli, index) => {
       return(
@@ -87,10 +96,33 @@ function Console() {
           type="primary"
           size="small"
           onClick={() => {
-            return
+            setSelectedClient(cli)
+            setConsoleState("setTherapist")
           }}
           >
             {cli.firstName} {cli.lastName}
+          </Button>
+        </Row>
+      )
+    })
+  }
+
+  // Renders all Therapists
+  const renderAllTherapists = () => {
+    if (consoleState !== "setTherapist"){
+      return
+    }
+    return therapists.map( (thr, index) => {
+      return(
+        <Row>
+          <Button
+          type="primary"
+          size="small"
+          onClick={() => {
+            
+          }}
+          >
+            {thr.firstName} {thr.lastName}
           </Button>
         </Row>
       )
@@ -127,11 +159,16 @@ function Console() {
       return (
         <div>
           <h1>Super console</h1>
-          <Col>
-            {renderAllClients()}
-          </Col>
-          <Col>
-          </Col>
+          <Row>
+            <Col>
+              {renderAllClients()}
+            </Col>
+            <Col>
+              <h2>Select a Therapist for this user</h2>
+              {renderAllTherapists()}
+            </Col>
+          </Row>
+          
         </div>
       );
     }
