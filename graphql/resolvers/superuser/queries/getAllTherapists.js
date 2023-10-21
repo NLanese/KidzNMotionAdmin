@@ -11,11 +11,15 @@ export default {
                 throw new UserInputError("You do not have Super User Access. Do not try again.")
             }
 
-            let therapists = await prisma.user.findMany({
+            // let therapists = await prisma.user.findMany({
+            return prisma.user.findMany({
                 where: {
                     role: "THERAPIST"
                 }
             })
+
+            console.log("THERAPIST DATA:::")
+            console.log(therapists)
 
             return therapists
         }

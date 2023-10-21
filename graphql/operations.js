@@ -215,7 +215,7 @@ const GET_USER = gql`
   }
 `;
 
-const SUPER_GET_ALL_CLIETS = gql`
+const GET_ALL_CLIENTS = gql`
   query Query {
     getAllClients {
       id
@@ -417,7 +417,7 @@ const SUPER_GET_ALL_CLIETS = gql`
   }
 `;
 
-const SUPER_GET_ALL_THERAPISTS = gql`
+const GET_ALL_THERAPISTS = gql`
   query Query {
     getAllTherapists {
       id
@@ -971,8 +971,8 @@ export {
   EDIT_USER,
 
   // Super User
-  SUPER_GET_ALL_CLIETS,
-  SUPER_GET_ALL_THERAPISTS,
+  GET_ALL_CLIENTS,
+  GET_ALL_THERAPISTS,
 
   // Organization
   EDIT_ORGANIZATION_SETTINGS,
