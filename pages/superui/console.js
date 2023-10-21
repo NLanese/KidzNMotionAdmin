@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 // Mutations and Queries
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import {GET_ALL_CLIENTS, GET_ALL_THERAPISTS} from "../../graphql/operations"
 import client from "@utils/apolloClient";
 
@@ -34,34 +34,11 @@ function Console() {
 // Muations and Queries //
 //////////////////////////
 
-// const { clientsLoading, clientsError, clientsData } = useQuery(GET_ALL_CLIENTS, {
-//   onError: (error) => {
-//     console.error("Error occurred during query execution:", error);
-//   },
-// });
-
-// const { therapistsLoading, therapistsError, therapistsData } = useQuery(GET_ALL_THERAPISTS);
-
 /////////////////
 // Use Effects //
 /////////////////
 
-  // useEffect(() => {
-  //   if (!clientsError && !clientsLoading){
-  //     console.log("CLIENTS DATA::: ")
-  //     console.log(clientsData)
-  //     setClients(clientsData)
-  //   }
-  // }, [clientsData])
-
-  // useEffect(() => {
-  //   if (!therapistsError && !therapistsLoading){
-  //     console.log("THERAPIST DATA::: ")
-  //     console.log(therapistsData)
-  //     setTherapists(therapistsData)
-  //   }
-  // }, [therapistsData])
-
+  // Queries clients and therapists
   useEffect(() => {
     
       // Get All Clients
@@ -105,15 +82,17 @@ function Console() {
   const renderAllClients = () => {
     return clients.map( (cli, index) => {
       return(
-        <Button
+        <Row>
+          <Button
           type="primary"
           size="small"
           onClick={() => {
             return
           }}
-        >
-          {cli.firstName} {cli.lastName}
-        </Button>
+          >
+            {cli.firstName} {cli.lastName}
+          </Button>
+        </Row>
       )
     })
   }
@@ -148,9 +127,11 @@ function Console() {
       return (
         <div>
           <h1>Super console</h1>
-          <p>
+          <Col>
             {renderAllClients()}
-          </p>
+          </Col>
+          <Col>
+          </Col>
         </div>
       );
     }
