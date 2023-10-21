@@ -151,8 +151,14 @@ async function executeSetTherapistMutation(){
 
   // Renders all Therapists
   const renderAllTherapists = () => {
+    if (generalLoading){
+      return null
+    }
     if (consoleState !== "setTherapist"){
-      return
+      return null
+    }
+    if (!therapists){
+      return null
     }
     return therapists.map( (thr, index) => {
       return(
@@ -162,7 +168,7 @@ async function executeSetTherapistMutation(){
           size="small"
           onClick={() => {
             console.log(therapists)
-            setTherapists(thr)
+            setSelectedTherapist(thr)
             setModalData("setTherapist")
           }}
           >
@@ -175,9 +181,6 @@ async function executeSetTherapistMutation(){
 
   const renderModalContent = () => {
     if (modalData === "setTherapist"){
-      if (!therapists){
-        return null
-      }
       return(
         <div>
           Do you want to set {selectedClient.firstName} {selectedClient.lastName}'s therapist to {selectedTherapist.firstName} {selectedTherapist.lastName}
