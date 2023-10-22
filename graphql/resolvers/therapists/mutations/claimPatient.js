@@ -106,7 +106,7 @@ export default {
       }
 
       if (existingChildCarePlanId) {
-        // If they don't already have a child care plan
+        // If they already have a child care plan
         throw new UserInputError("The child already has a child care plan");
       } else {
         // Create the child care plan

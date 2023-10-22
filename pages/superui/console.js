@@ -151,6 +151,8 @@ async function executeSetTherapistMutation(){
           type="primary"
           size="small"
           onClick={() => {
+            console.log("SELECTED CLIENT::::")
+            console.log(cli)
             setSelectedClient(cli)
             setConsoleState("setTherapist")
           }}
@@ -180,6 +182,7 @@ async function executeSetTherapistMutation(){
           type="primary"
           size="small"
           onClick={() => {
+            console.log("SELECTED THERAPIST::::")
             console.log(therapists)
             setSelectedTherapist(thr)
             setModalData("setTherapist")

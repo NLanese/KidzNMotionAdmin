@@ -43,8 +43,9 @@ export default {
       let childUser;
 
       try {
-        // #region Check User Conflicts
-        // // console.log(context.user);
+/* 
+  CHECKS FOR CONFLICTS
+*/
         if (context.user) throw new UserInputError("Already logged in");
 
         // Check for conflicting user
@@ -67,16 +68,16 @@ export default {
         if (conflict) {
           throw new UserInputError("Email already exists.");
         }
+//********************************/
+       
 
-        // #endregion
-
-        // #region Check For Missing Fields / Incorrect Input
-        // Ensure that the role is not of a child
+/* 
+  CHECKS FOR MISSING OR INCORRECT FIELDS
+*/
         if (role !== "GUARDIAN" && role !== "THERAPIST" && role !== "ADMIN") {
           throw new UserInputError("Role does not exist.");
         }
 
-        // Create base user then add on extras
         // Encrypt the user password
         const encryptedPassword = CryptoJS.AES.encrypt(
           password,
@@ -85,6 +86,8 @@ export default {
 
         // Validate required fields for each user role
         let missingFields = "";
+
+         // Guardian Check
         if (role === "GUARDIAN") {
           if (!childFirstName) {
             missingFields += "childFirstName, ";
@@ -100,7 +103,9 @@ export default {
               `Missing required fields for Guardian: ${missingFields}`
             );
           }
-        } else if (role === "THERAPIST") {
+        } 
+         // Therapist Check
+        else if (role === "THERAPIST") {
           if (!title) {
             missingFields += "title, ";
           }
@@ -110,11 +115,16 @@ export default {
             );
           }
         }
-        // #endregion
+
+//************************************/
+
+
+/* 
+  CREATES BASE USER AND MAKES MODEL CONNECTIONS
+*/
 
         const allVideos = await prisma.video.findMany;
 
-        // #region Create the User & required information
         // Create the base user
         console.log("creating user")
         let baseUser = await prisma.user.create({
@@ -129,9 +139,9 @@ export default {
             lastName: lastName,
           },
         });
-
         console.log("user created")
-        // Create the role specific values
+
+        // Create the role specific values for GUARDIANS
         if (role === "GUARDIAN") {
           // The guardian is signing up without an organization invite key, mark their account as solo
           if (!organizationInviteKey) {
@@ -164,7 +174,10 @@ export default {
 
           // If organization invite link - add them to the organization as an organization user
           // TODO
-        } else if (role === "THERAPIST" || role == "ADMIN") {
+        }
+        
+        // Creates role specific values for THERAPISTS and ADMINS
+        else if (role === "THERAPIST" || role == "ADMIN") {
           console.log("therapist")
           // If they were not invited and do not have an invite link then create their own organization
           if (!organizationInviteKey) {
@@ -204,8 +217,10 @@ export default {
           }
           console.log("passed key check")
         }
+
         console.log("passed all org stuff")
-        // #endregion
+
+//*****************************************/
 
         // If there is an organization invite key then add them to the organization
         let organizationInvite;

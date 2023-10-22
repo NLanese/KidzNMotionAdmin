@@ -27,9 +27,9 @@ export default {
 
               console.log("No current Plan")
 
-              /////////////////////
-              // CREATE NEW PLAN //
-              /////////////////////
+              ////////////////////////////////////////
+              // CREATE NEW PLAN AND ORG CONNECTION //
+              ////////////////////////////////////////
 
                 // Finds Care Plan and updates the connected Therapist
                 let newPlan = await prisma.childCarePlan.create({
@@ -47,6 +47,7 @@ export default {
                     level: parseInt(1),
                   },
                 });
+
 
                 console.log("New Plan Created")
 
@@ -92,7 +93,7 @@ export default {
               // UPDATE THE USERS //
               //////////////////////
 
-                await prisma.user.update({
+                let newChild = await prisma.user.update({
                   where: {
                     id: childID,
                   },
@@ -104,8 +105,11 @@ export default {
                     },
                   },
                 });
+
+                console.log("Updated Child::::")
+                console.log(newChild)
                 
-                await prisma.user.update({
+                let newTher = await prisma.user.update({
                   where: {
                     id: therapistID,
                   },
@@ -118,9 +122,30 @@ export default {
                   },
                 });
 
+                console.log("Updated Therapist::::")
+                console.log(newTher)
+
+                let newOrgUser = await prisma.organizationUser.create({
+                  data: {
+                    active: true,
+                    user: {
+                      connect: {
+                        id: childID,
+                      },
+                    },
+                    organization: {
+                      connect: {
+                        id: newTher.organizations[0].id
+                      }
+                    },
+                  },
+                });
+
               //////////////////////
               // RETURNS NEW PLAN //
               //////////////////////
+              console.log("NEW PLAN::::")
+              console.log(newPlan)
               return newPlan
           }
 
