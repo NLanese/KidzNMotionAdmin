@@ -6,6 +6,7 @@ export default {
     Mutation: {
         superSetTherapist: async (_, {childCarePlanID, childID, guardianID, therapistID, superUserKey}, context) => {
 
+          console.log("Inside superSetTherapist")
 
             // Security //
             if (!context.user) throw new UserInputError("Login required");
@@ -19,9 +20,14 @@ export default {
                 throw new UserInputError("Acccess Denied! Super Key was incorrect.")
             }
 
+            console.log("Passed authorization")
+
             if (childCarePlanID === "false"){
+
+              console.log("No current Plan")
+
               // Finds Care Plan and updates the connected Therapist
-              await prisma.childCarePlan.create({
+              let newPlan = await prisma.childCarePlan.create({
                 data: {
                   child: {
                     connect: {
@@ -36,6 +42,8 @@ export default {
                   level: parseInt(1),
                 },
               });
+
+              console.log("New Plan Created")
       
               // Create the chat room for therapist + guardian
               await prisma.chatroom.create({
@@ -53,6 +61,8 @@ export default {
                 },
               });
 
+              console.log("First chat made")
+
               // Create chat rooms for child and therapist
               await prisma.chatroom.create({
                 data: {
@@ -68,6 +78,10 @@ export default {
                   },
                 },
               });
+
+              console.log("Second chat amde")
+
+              return newPlan
           }
 
             // Finds Care Plan and updates the connected Therapist
