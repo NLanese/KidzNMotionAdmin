@@ -42,6 +42,8 @@ function Console() {
   // - setTherapist
   const [modalData, setModalData] = useState(false)
 
+  const [modalOpen, setModalOpen] = useState(false)
+
   // Determines if the whole page is loading or not
   const [generalLoading, setGeneralLoading] = useState(false)
 
@@ -106,9 +108,20 @@ const [setTherapistMutation, {}] = useMutation(SUPER_SET_THERAPIST);
 ///////////////
 
 async function executeSetTherapistMutation(){
+  console.log("SELECTED CLIENT::::: ")
+  console.log(selectedClient)
+  let careID
+  if (selectedClient.childCarePlans.length === 0){
+    careID = "false"
+  }
+  else{
+    careID = selectedClient.childCarePlans[0].id
+  }
   await setTherapistMutation({
     variables: {
-      childCarePlanID: selectedClient.childCarePlans[0].id,
+      childCarePlanID: careID,
+      childID: selectedClient.id,
+      guardianID: selectedClient.guardian.id,
       therapistID: selectedTherapist.id,
       superUserKey: process.env.SUPER_USER_SECRET_KEY
     },
@@ -170,6 +183,7 @@ async function executeSetTherapistMutation(){
             console.log(therapists)
             setSelectedTherapist(thr)
             setModalData("setTherapist")
+            setModalOpen(true)
           }}
           >
             {thr.firstName} {thr.lastName}
@@ -186,6 +200,7 @@ async function executeSetTherapistMutation(){
           Do you want to set {selectedClient.firstName} {selectedClient.lastName}'s therapist to {selectedTherapist.firstName} {selectedTherapist.lastName}
           <Button
           onClick={() => {
+            console.log("Yes press")
             setGeneralLoading(true)
             executeSetTherapistMutation()
           }}
@@ -235,11 +250,12 @@ async function executeSetTherapistMutation(){
 
     // Both Queries Completed
     else if (clients && therapists){
+      console.log(modalOpen)
       return (
         <div>
           <Modal
-          open={modalData}
-          onCancel={() => setModalData(false)}
+          visible={modalOpen}
+          onCancel={() => setModalOpen(false)}
           >
             {renderModalContent()}
           </Modal>

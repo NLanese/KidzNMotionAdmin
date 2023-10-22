@@ -259,198 +259,39 @@ const GET_ALL_CLIENTS = gql`
   query Query {
     getAllClients {
       id
-      email
-      username
+      role
       firstName
       lastName
-      title
-      subscriptionStatus
-      diagnosis
+      email
+      username
       phoneNumber
-      solo
-      profilePic
-      webAppColorSettings
       soloStripeSubscriptionID
       soloSubscriptionStatus
-      role
-      createdAt
-
-      msgNotifications
-      missedDateNotifications
-      appointmentNotifications
-
-      patientCarePlans {
+      solo
+      accessMessages
+      accessSettings
+      leaveApp
+      guardian{
         id
-        childId
-        therapist {
-          id
-          email
-          firstName
-          lastName
-        }
+      }
+      childCarePlans {
+        id 
         level
-        active
         allVideoStatus
-        blockedVideos
         weeklyVideoStatus
-        assignments {
-          id
-          createdAt
-          dateStart
-          dateDue
-          seen
-          notificationSent
-          title
-          description
-          videos {
-            id
-            contentfulID
-            completed
-            file {
-              id
-              level
-              title
-              description
-              videoURL
-              previewPictureURL
-            }
-            medals {
-              id
-              title
-              image
-              description
-              createdAt
-              level
-            }
-          }
-        }
-        comments {
+        comments{
           id
           content
-          createdAt
+          videoId 
           assignmentId
-          videoId
         }
-        child {
+        child{
           id
+        }
+        therapist{
+          id 
           firstName
           lastName
-          diagnosis
-          guardian {
-            id
-            firstName
-            lastName
-            phoneNumber
-            email
-          }
-        }
-      }
-
-      organizations {
-        id
-        organization {
-          id
-          active
-          name
-          stripeSubscriptionID
-          subscriptionStatus
-          organizationUsers {
-            user {
-              role
-              firstName
-              lastName
-              id
-              childDateOfBirth
-              phoneNumber
-              email
-              profilePic
-              guardianId
-              childCarePlans {
-                id
-              }
-            }
-          }
-        }
-      }
-      ownedOrganization {
-        id
-        createdAt
-        organizationType
-        phoneNumber
-        name
-        name
-        stripeSubscriptionID
-        subscriptionStatus
-        active
-
-        organizationUsers {
-          id
-          active
-          user {
-            id
-            role
-            firstName
-            lastName
-            email
-          }
-        }
-      }
-
-      children {
-        id
-        firstName
-        lastName
-        diagnosis
-        childDateOfBirth
-        childCarePlans {
-          id
-          level
-          allVideoStatus
-          assignments {
-            id
-            createdAt
-            dateStart
-            dateDue
-            seen
-            title
-            description
-            videos {
-              id
-              contentfulID
-              completed
-              file {
-                id
-                level
-                title
-                description
-                videoURL
-                previewPictureURL
-              }
-              medals {
-                id
-                title
-                image
-                description
-                level
-              }
-            }
-          }
-          therapist {
-            id
-            firstName
-            lastName
-          }
-          child {
-            id
-            firstName
-            lastName
-            guardian {
-              id
-              firstName
-              lastName
-              email
-            }
-          }
         }
       }
     }
@@ -684,9 +525,11 @@ const RESET_PASSWORD_FROM_KEY = gql`
 /////////////////////
 
 const SUPER_SET_THERAPIST = gql`
-  mutation Mutation($childCarePlanID: Stirng, $therapistID: String, $superUserKey: String){
+  mutation Mutation($childCarePlanID: Stirng, $childID: Stirng, $guardianID: String, $therapistID: String, $superUserKey: String){
     superSetTherapist(
       childCarePlanID: $childCarePlanID,
+      childID: $childID
+      guardianID: $guardianID
       therapistID: $therapistID,
       superUserKey: $superUserKey
     )

@@ -87,6 +87,11 @@ export default {
                                 },
                               },
                             },
+                            guardian: {
+                                select: {
+                                    id: true
+                                }
+                            }
                           },
                         },
                         therapist: {

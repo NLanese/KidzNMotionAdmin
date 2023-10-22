@@ -4,7 +4,7 @@ import { UserInputError } from "apollo-server-errors";
 
 export default {
     Mutation: {
-        superSetTherapist: async (_, {childCarePlanID, therapistID, superUserKey}, context) => {
+        superSetTherapist: async (_, {childCarePlanID, childID, guardianID, therapistID, superUserKey}, context) => {
 
 
             // Security //
@@ -19,7 +19,58 @@ export default {
                 throw new UserInputError("Acccess Denied! Super Key was incorrect.")
             }
 
-            // Finds Child
+            if (childCarePlanID === "false"){
+              // Finds Care Plan and updates the connected Therapist
+              await prisma.childCarePlan.create({
+                data: {
+                  child: {
+                    connect: {
+                      id: childID
+                    },
+                  },
+                  therapist: {
+                    connect: {
+                      id: therapistID
+                    },
+                  },
+                  level: parseInt(1),
+                },
+              });
+      
+              // Create the chat room for therapist + guardian
+              await prisma.chatroom.create({
+                data: {
+                  users: {
+                    connect: [
+                      {
+                        id: guardianID
+                      },
+                      {
+                        id: childID
+                      },
+                    ],
+                  },
+                },
+              });
+
+              // Create chat rooms for child and therapist
+              await prisma.chatroom.create({
+                data: {
+                  users: {
+                    connect: [
+                      {
+                        id: therapistID
+                      },
+                      {
+                        id: guardianID
+                      },
+                    ],
+                  },
+                },
+              });
+          }
+
+            // Finds Care Plan and updates the connected Therapist
             let childPlanToBeReAssigned = await prisma.childCarePlan.update({
                 where: {
                     id: childCarePlanID,

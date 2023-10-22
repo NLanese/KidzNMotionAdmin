@@ -480,6 +480,8 @@ const typeDefs = gql`
     #########################
     superSetTherapist(
       childCarePlanID: String!
+      childID: String!
+      guardianID: String!
       therapistID: String!
       superUserKey: String!
     ): ChildCarePlan
