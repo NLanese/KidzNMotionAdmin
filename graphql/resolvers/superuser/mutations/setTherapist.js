@@ -205,7 +205,75 @@ export default {
                     },
                     active: true
                   },
+                  select: {
+                    organizations: {
+                      select: {
+                        id: true,
+                        organization: {
+                          select: [
+                            id
+                          ]
+                        }
+                      }
+                    }
+                  }
             })
+
+            let fullNewThre = await prisma.user.findUnique({
+              where: {
+                id: therapistID
+              },
+              select: {
+                patientCarePlans: {
+                  select: {
+                    id: true,
+                  }
+                },
+                organizations: {
+                  select: {
+                    id: true,
+                    organization: {
+                      select: {
+                        id: true
+                      }
+                    }
+                  }
+                }
+              }
+            })
+
+            console.log("Updated Therapist::::")
+            console.log(fullNewThre)
+
+            // Checks to see if ChildCarePlan has the same organization of the Therapist 
+            if (childPlanToBeReAssigned.organizations[0].organization.id === ullNewThre.organizations[0].organization.id){
+              console.log("Child and Therapist already have the same organization. Returning now")
+
+              // Return now if they are the same
+              return childPlanToBeReAssigned
+            }
+
+            let newOrgUser = await prisma.organizationUser.update({
+              where: {
+                userId: childID
+              },
+              data: {
+                active: true,
+                organization: {
+                  connect: {
+                    id: fullNewThre.organizations[0].organization.id
+                  }
+                },
+              },
+            });
+
+            console.log("Updated OrganizationUser::::")
+            console.log(newOrgUser)
+
+            console.log("Therapis's organization::::")
+            console.log(fullNewThre.organizations[0].organization)
+
+
 
 
 
