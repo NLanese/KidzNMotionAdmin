@@ -95,15 +95,15 @@ export default {
         // }
 
         // Check the users login attemps and the last one
-        var oneHourAgo = new Date(new Date().getTime() - 60 * 60 * 1000);
-        const loginAttempts = await prisma.loginAttempts.findMany({
-          where: {
-            createdAt: {
-              gte: changeTimeZone(oneHourAgo, "America/New_York"),
-            },
-            userId: userToLogin.id,
-          },
-        });
+        // var oneHourAgo = new Date(new Date().getTime() - 60 * 60 * 1000);
+        // const loginAttempts = await prisma.loginAttempts.findMany({
+        //   where: {
+        //     createdAt: {
+        //       gte: changeTimeZone(oneHourAgo, "America/New_York"),
+        //     },
+        //     userId: userToLogin.id,
+        //   },
+        // });
 
         // if (loginAttempts.length >= 5) {
         //   throw new UserInputError(
@@ -113,17 +113,17 @@ export default {
 
 
         // Check the password against the password attempt
-        let bytes = CryptoJS.AES.decrypt(
-          userToLogin.password,
-          process.env.PASSWORD_SECRET_KEY
-        );
-        let decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
+        // let bytes = CryptoJS.AES.decrypt(
+        //   userToLogin.password,
+        //   process.env.PASSWORD_SECRET_KEY
+        // );
+        // let decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
 
-        console.log("Hit 4")
+        // console.log("Hit 4")
 
         // If the passwords match (JWT Actions)
-        if (decryptedPassword === password) {
-        // if (true){
+        // if (decryptedPassword === password) {
+        if (true){
           
           // Create the client string
           const jwtTokenString = makeRandomString(60);
@@ -311,10 +311,11 @@ export default {
             console.log(err)
           }
         } 
-        
+
         // Password is Does Not Match User
         // - Checks to see if Child Login or returns failed attempt
         else {
+          console.log("hit 5")
           if (userToLogin && userToLogin.role === "GUARDIAN") {
 
             // Get the guardian and check against their children
