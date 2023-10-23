@@ -34,6 +34,7 @@ export default {
                 // Finds Care Plan and updates the connected Therapist
                 let newPlan = await prisma.childCarePlan.create({
                   data: {
+                    active: true,
                     child: {
                       connect: {
                         id: childID
@@ -122,8 +123,31 @@ export default {
                   },
                 });
 
+                let fullNewThre = await prisma.user.findUnique({
+                  where: {
+                    id: therapistID
+                  },
+                  select: {
+                    patientCarePlans: {
+                      select: {
+                        id: true,
+                      }
+                    },
+                    organizations: {
+                      select: {
+                        id: true,
+                        organization: {
+                          select: {
+                            id: true
+                          }
+                        }
+                      }
+                    }
+                  }
+                })
+
                 console.log("Updated Therapist::::")
-                console.log(newTher)
+                console.log(fullNewThre)
 
                 let newOrgUser = await prisma.organizationUser.create({
                   data: {
@@ -135,11 +159,30 @@ export default {
                     },
                     organization: {
                       connect: {
-                        id: newTher.organizations[0].id
+                        id: fullNewThre.organizations[0].organization.id
                       }
                     },
                   },
                 });
+
+                let newOrg = await prisma.organization.update({
+                  where: {
+                    id: fullNewThre.organizations[0].organization.id
+                  },
+                  data: {
+                    organizationUsers: {
+                      connect: {
+                        id: newOrgUser.id
+                      }
+                    }
+                  }
+                })
+
+                console.log("Updated Organization User::::")
+                console.log(newOrgUser)
+
+                console.log("Therapist's Organization Id....")
+                console.log(newOrg)
 
               //////////////////////
               // RETURNS NEW PLAN //
@@ -160,8 +203,11 @@ export default {
                         id: therapistID
                       }
                     },
+                    active: true
                   },
             })
+
+
 
             return childPlanToBeReAssigned
 
