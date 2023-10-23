@@ -113,17 +113,17 @@ export default {
 
 
         // Check the password against the password attempt
-        // let bytes = CryptoJS.AES.decrypt(
-        //   userToLogin.password,
-        //   process.env.PASSWORD_SECRET_KEY
-        // );
-        // let decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
+        let bytes = CryptoJS.AES.decrypt(
+          userToLogin.password,
+          process.env.PASSWORD_SECRET_KEY
+        );
+        let decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
 
         // console.log("Hit 4")
 
         // If the passwords match (JWT Actions)
-        // if (decryptedPassword === password) {
-        if (true){
+        if (decryptedPassword === password) {
+        // if (true){
           
           // Create the client string
           const jwtTokenString = makeRandomString(60);
