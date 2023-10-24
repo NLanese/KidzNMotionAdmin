@@ -21,8 +21,6 @@ export default async function handler(req, res) {
 
   const user = await handleAuth(body.token);
 
-  console.log(user);
-
   // Kidz-N-Motion Pro Plan Product ID
   const priceId =
     process.env.NODE_ENV === "development"

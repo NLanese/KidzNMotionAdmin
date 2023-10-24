@@ -187,10 +187,8 @@ function Layout({ children, router }) {
           fetchPolicy: "network-only",
         })
         .then(async (resolved) => {
-          // // console.log(resolved.data.getUser)
           setUser(resolved.data.getUser);
-          // console.log();
-        })
+         })
         .catch((error) => {
           setUser(null);
           message.error("Sorry, there was an error getting this information");

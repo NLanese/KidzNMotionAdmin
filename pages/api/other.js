@@ -13,7 +13,6 @@ export default async function handler(req, res) {
       ownedOrganization: true,
     },
   });
-  console.log(users);
   await prisma.user.update({
     where: {
       id: users[0].id,

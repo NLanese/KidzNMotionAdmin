@@ -9,7 +9,7 @@ export default {
       { commentContent, videoID, assignmentID, childCarePlanID },
       context
     ) => {
-      // console.log(assignmentID)
+      // (assignmentID)
       if (!context.user) throw new UserInputError("Login required");
 
       if (context.user.role !== "THERAPIST")

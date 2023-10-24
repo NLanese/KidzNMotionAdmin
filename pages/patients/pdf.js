@@ -91,7 +91,6 @@ function ManagePatients({ router }) {
         // console.log(renderPatientData(true)[router.query.id]);
         if (router.query.date) {
           const date = new moment(router.query.date);
-          console.log(date);
           setDateToUse(date);
         }
 
@@ -184,7 +183,6 @@ function ManagePatients({ router }) {
             }
           }
         });
-        console.log(videoBadgeObject);
         if (
           videoBadgeObject.medals.BRONZE ||
           videoBadgeObject.medals.SILVER ||
