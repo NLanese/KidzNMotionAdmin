@@ -8,22 +8,17 @@ export default {
 
           console.log("Inside superSetTherapist")
 
-            // // Security // //
+            // Security // //
             if (!context.user){
-              console.log("1")
               throw new UserInputError("Login required");
             }
             if (
               context.user.email.toLowerCase() !== "nlanese21@gmail.com" &&
               context.user.email.toLowerCase() !== "ostrichdeveloper@gmail.com" 
             ){
-              console.log("2")
-              console.log(context.user)
-              console.log(context.user.email.toLowerCase())
               throw new UserInputError("Acccess Denied! Super class actions are restricted to Super Users only.")
             }
-            if (superUserKey !== process.env.SUPER_USER_SECRET_KEY){
-              console.log("3")
+            if (superUserKey !== `${process.env.SUPER_USER_SECRET_KEY}`){
               throw new UserInputError("Acccess Denied! Super Key was incorrect.")
             }
 
@@ -258,9 +253,6 @@ export default {
               }
             })
 
-            console.log("Updated Therapist::::")
-            console.log(fullNewThre)
-
             // Checks to see if ChildCarePlan has the same organization of the Therapist 
             if (childToReassign.organizations[0].organization.id === fullNewThre.organizations[0].organization.id){
               console.log("Child and Therapist already have the same organization. Returning now")
@@ -282,16 +274,6 @@ export default {
                 },
               },
             });
-
-            console.log("Updated OrganizationUser::::")
-            console.log(newOrgUser)
-
-            console.log("Therapis's organization::::")
-            console.log(fullNewThre.organizations[0].organization)
-
-
-
-
 
             return childPlanToBeReAssigned
 
