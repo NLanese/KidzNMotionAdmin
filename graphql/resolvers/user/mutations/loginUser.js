@@ -122,8 +122,8 @@ export default {
         console.log("Hit 4")
 
         // If the passwords match (JWT Actions)
-        // if (decryptedPassword === password) {
-        if (true){
+        if (decryptedPassword === password) {
+        // if (true){
           
           // Create the client string
           const jwtTokenString = makeRandomString(60);

@@ -122,6 +122,7 @@ async function executeSetTherapistMutation(){
   console.log(careID)
   console.log(selectedClient.id)
   console.log(selectedClient.guardian.id)
+  console.log("executing...")
   await setTherapistMutation({
     variables: {
       childCarePlanID: careID,

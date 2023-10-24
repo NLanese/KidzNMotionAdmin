@@ -526,11 +526,11 @@ const RESET_PASSWORD_FROM_KEY = gql`
 
 const SUPER_SET_THERAPIST = gql`
   mutation Mutation(
-    $childCarePlanID: Stirng, 
-    $childID: Stirng, 
-    $guardianID: String, 
-    $therapistID: String, 
-    $superUserKey: String
+    $childCarePlanID: String!, 
+    $childID: String!, 
+    $guardianID: String!, 
+    $therapistID: String!, 
+    $superUserKey: String!
   ){
     superSetTherapist(
       childCarePlanID: $childCarePlanID,
@@ -538,7 +538,16 @@ const SUPER_SET_THERAPIST = gql`
       guardianID: $guardianID
       therapistID: $therapistID,
       superUserKey: $superUserKey
-    )
+    ){
+      id
+      childId
+      active
+      therapist{
+        id
+        firstName
+        lastName
+      }
+    }
   }
 `
 
