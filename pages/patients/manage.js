@@ -35,6 +35,7 @@ function ManagePatients({ router }) {
     if (user.role !== "THERAPIST") {
       Router.push("/");
     }
+    console.log(user.patientCarePlans)
   }, []);
 
   const renderPatientData = (renderIDKey) => {
@@ -47,6 +48,10 @@ function ManagePatients({ router }) {
     let users = [];
     user.organizations[0].organization.organizationUsers.map(
       (orgUserObject) => {
+
+        console.log("ORG USER:::")
+        console.log(orgUserObject)
+
         // console.log(orgUserObject);
         let user = Object.assign({}, orgUserObject.user);
         if (patientCarePlans[user.id]) {

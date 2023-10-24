@@ -112,11 +112,17 @@ async function executeSetTherapistMutation(){
   console.log(selectedClient)
   let careID
   if (selectedClient.childCarePlans.length === 0){
+    console.log("EMPTY CARE PLANS")
     careID = "false"
   }
   else{
     careID = selectedClient.childCarePlans[0].id
   }
+  console.log("Mut Params")
+  console.log(careID)
+  console.log(selectedClient.id)
+  console.log(selectedClient.guardian.id)
+  console.log("executing...")
   await setTherapistMutation({
     variables: {
       childCarePlanID: careID,
@@ -183,7 +189,7 @@ async function executeSetTherapistMutation(){
           size="small"
           onClick={() => {
             console.log("SELECTED THERAPIST::::")
-            console.log(therapists)
+            console.log(thr)
             setSelectedTherapist(thr)
             setModalData("setTherapist")
             setModalOpen(true)
