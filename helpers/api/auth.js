@@ -147,6 +147,9 @@ export const handleAuth = async (clientToken) => {
 };
 
 export const getUserObject = async (user) => {
+  console.log("*\n*\n*\n*\n*")
+  console.log("GET USER OBJECT")
+  console.log("*\n*\n*\n*\n*")
   let userObject = {};
 
   // GUARDIAN or CHILD

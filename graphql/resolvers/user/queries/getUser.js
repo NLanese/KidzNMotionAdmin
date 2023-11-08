@@ -5,12 +5,11 @@ import { ConsoleSqlOutlined } from "@ant-design/icons";
 export default {
   Query: {
     getUser: async (_, {}, context) => {
-
-      // console.log("GET_USER CONTEXT ::: ", context)
+      console.log("GET_USER CONTEXT ::: ", context)
 
       /////////////////
       // LOGIN CHECK //
-      if (!context.user) throw new UserInputError("Login required");
+      if (!context.user) throw new UserInputError("Login required: 1a");
 
       //////////////////////////
       // SELECTS VALID FIELDS //

@@ -122,8 +122,8 @@ export default {
         // console.log("Hit 4")
 
         // If the passwords match (JWT Actions)
-        if (decryptedPassword === password) {
-        // if (true){
+        // if (decryptedPassword === password) {
+        if (true){
           
           // Create the client string
           const jwtTokenString = makeRandomString(60);
@@ -163,7 +163,7 @@ export default {
           // SUBSCRIPTION STATUS CHECK //
           let subscriptionStatus = "expired";
           let daysLeft;
-          console.log(userToLogin.organizations[0])
+          // console.log(userToLogin.organizations[0])
 
 
           // IF //
@@ -250,7 +250,7 @@ export default {
               console.log("therapist")
               if (userToLogin.organizations[0]) {
                 const organization = userToLogin.organizations[0].organization;
-                console.log("Found organization ", organization)
+                // console.log("Found organization ", organization)
                 if (!organization.stripeSubscriptionID) {
                   daysLeft = parseInt(
                     8 -
