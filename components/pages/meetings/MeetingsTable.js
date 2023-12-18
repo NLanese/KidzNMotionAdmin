@@ -26,6 +26,7 @@ const MeetingTableWrapper = styled.div`
   }
 `;
 
+// Grabs and Lists Particpants of Meeting
 function getMeetingParticpants(users) {
   let users2 = [];
   users.map((userObject, index) => {
@@ -41,6 +42,7 @@ function getMeetingParticpants(users) {
   });
 }
 
+// Renders APPROVED | NOT APPROVED | PENDING APPROVAL
 function renderApprovalStatus(record) {
   if (record.canceled) {
     return "CANCELLED";
@@ -51,14 +53,15 @@ function renderApprovalStatus(record) {
   }
 
   if (record.approved) {
-    return "Approved".toUpperCase();
+    return "Approved"
   } else {
     if (record.pendingApproval) {
-      return "Pending Approval".toUpperCase();
+      return "Pending Approval"
     }
   }
 }
 
+// Determines the color of the Approval Status
 function renderApprovalStatusColor(record) {
   if (record.canceled) {
     return "red";

@@ -269,6 +269,7 @@ function SideMenu({ router, user }) {
 
         {(user.role === "THERAPIST" || user.role === "GUARDIAN") &&
           !user.solo && (
+            <>
             <Menu.Item
               onClick={() => pushLink("/meetings")}
               key="/meetings"
@@ -276,6 +277,14 @@ function SideMenu({ router, user }) {
             >
               Meetings
             </Menu.Item>
+            <Menu.Item
+              onClick={() => pushLink("/meetings")}
+              key="/meetings"
+              icon={<GroupOutlined style={{ fontSize: "20px" }} />}
+            >
+              Meetings
+            </Menu.Item>
+            </>
           )}
         <Menu.Item
           onClick={() => pushLink("/messaging")}
