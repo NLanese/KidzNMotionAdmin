@@ -581,7 +581,23 @@ const GET_USER_MEETINGS = gql`
 const GET_USER_ASSIGNMENTS = gql`
   query Query{
     getAssignments {
-      assignments
+      id
+      createdAt
+      dateStart
+      dateDue
+      title
+      description
+
+      seen
+      notificationSent
+
+      childCarePlan
+      childCarePlanID
+      videos{
+        id 
+        title
+        level
+      }
     }
   }
 `
@@ -637,6 +653,10 @@ const SUPER_SET_THERAPIST = gql`
   }
 `
 
+/////////////
+// EDITORS //
+/////////////
+
 const EDIT_USER = gql`
   mutation Mutation(
     $email: String!
@@ -660,53 +680,6 @@ const EDIT_USER = gql`
 const EDIT_ORGANIZATION_SETTINGS = gql`
   mutation editOrganizationSettings($name: String!, $phoneNumber: String!) {
     editOrganizationSettings(name: $name, phoneNumber: $phoneNumber) {
-      id
-    }
-  }
-`;
-
-const INVITE_USER = gql`
-  mutation Mutation(
-    $email: String!
-    $role: String!
-    $additionalInformation: JSON
-  ) {
-    inviteOrganizationUser(
-      email: $email
-      role: $role
-      additionalInformation: $additionalInformation
-    )
-  }
-`;
-
-
-const DYNAMIC_SEND_MESSAGE = gql`
-  mutation Mutation($content: String!, $chatRoomID: String!) {
-    sendMessage(content: $content, chatRoomID: $chatRoomID)
-  }
-`;
-
-const CREATE_CHAT_ROOM = gql`
-  mutation Mutation($otherParticipantID: String!) {
-    createChatRoom(otherParticipantID: $otherParticipantID) {
-      id
-    }
-  }
-`;
-
-const CREATE_MEETING = gql`
-  mutation Mutation(
-    $title: String!
-    $meetingDateTime: Date!
-    $type: String!
-    $participantIDs: [String]!
-  ) {
-    createMeeting(
-      title: $title
-      meetingDateTime: $meetingDateTime
-      type: $type
-      participantIDs: $participantIDs
-    ) {
       id
     }
   }
@@ -736,6 +709,44 @@ const EDIT_MEETING = gql`
   }
 `;
 
+
+/////////////////////////
+// CARE PLAN MUTATIONS //
+/////////////////////////
+
+const INVITE_USER = gql`
+  mutation Mutation(
+    $email: String!
+    $role: String!
+    $additionalInformation: JSON
+  ) {
+    inviteOrganizationUser(
+      email: $email
+      role: $role
+      additionalInformation: $additionalInformation
+    )
+  }
+`;
+
+const CREATE_MEETING = gql`
+  mutation Mutation(
+    $title: String!
+    $meetingDateTime: Date!
+    $type: String!
+    $participantIDs: [String]!
+  ) {
+    createMeeting(
+      title: $title
+      meetingDateTime: $meetingDateTime
+      type: $type
+      participantIDs: $participantIDs
+    ) {
+      id
+    }
+  }
+`;
+
+// Approves a pending Meeting
 const APPROVE_MEETING = gql`
   mutation Mutation($meetingID: String!, $approveMeeting: Boolean!) {
     approveMeeting(meetingID: $meetingID, approveMeeting: $approveMeeting) {
@@ -743,6 +754,49 @@ const APPROVE_MEETING = gql`
     }
   }
 `;
+
+// Creates an Assignment as a Therpaist for a Client
+const CREATE_ASSIGNMENT = gql`
+  mutation Mutation(
+    $childCarePlanID: String!,
+    $dateStart: String,
+    $dateDue: String!,
+    $title: String!
+    $description: String!,
+    $videoIDs: [String!]
+  ){
+    createAssignment(
+      childCarePlanID: $childCarePlanID,
+      dateStart: $dateStart,
+      dateDue: $dateDue,
+      title: $title,
+      description: $description,
+      videoIDs: $videoIDs
+    )
+  }
+`
+
+
+/////////////////////////
+// CHAT ROOM MUTATIONS //
+/////////////////////////
+
+const DYNAMIC_SEND_MESSAGE = gql`
+  mutation Mutation($content: String!, $chatRoomID: String!) {
+    sendMessage(content: $content, chatRoomID: $chatRoomID)
+  }
+`;
+
+const CREATE_CHAT_ROOM = gql`
+  mutation Mutation($otherParticipantID: String!) {
+    createChatRoom(otherParticipantID: $otherParticipantID) {
+      id
+    }
+  }
+`;
+
+
+
 
 const GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK = gql`
   mutation Mutation {

@@ -8,27 +8,27 @@ import { Drawer } from "antd";
 import ContentCard from "@common/content/ContentCard";
 import Router from "next/router";
 
-import { userState, meetingsState } from "@atoms";
+import { userState, assignmentsState } from "@atoms";
 
 import { NextSeo } from "next-seo";
 import { useRecoilValue, useRecoilState } from "recoil";
 
 import LoadingBlock from "@common/LoadingBlock";
-import MeetingsTable from "@pages/meetings/MeetingsTable";
+import AssignmentsTable from "@pages/assignments/AssignmentsTable";
 import { withRouter } from "next/router";
 
 import { GET_USER_MEETINGS, APPROVE_MEETING } from "@graphql/operations";
 import client from "@utils/apolloClient";
 import { useMutation } from "@apollo/client";
-import MeetingForm from "@components/forms/meetings/MeetingForm";
-import EditMeetingForm from "../components/forms/meetings/EditMeetingForm";
+import AssignmentForm from "@components/forms/assignments/AssignmentForm";
+import EditAssignmentForm from "../components/forms/assignments/EditAssignmentForm";
 import moment from "moment";
-import MeetingCalendar from "../components/pages/meetings/MeetingCalendar";
+import AssignmentCalendar from "../components/pages/assignments/AssignmentCalendar";
 import { GET_USER_ASSIGNMENTS } from "../graphql/operations";
 
 const { Text, Title } = Typography;
 
-const MeetingsWrapper = styled.div`
+const AssignmentsWrapper = styled.div`
   max-width: ${(props) => props.theme.contentSize.standard};
   margin: auto;
   .ant-picker-calendar .ant-radio-group {
@@ -43,14 +43,14 @@ function Assignments({ router }) {
   ///////////
 
   const user = useRecoilValue(userState);
-  const [meetings, setMeetings] = useRecoilState(meetingsState);
+  const [assignments, setAssignments] = useRecoilState(assignmentsState);
 
   ///////////////////////////
   // MUTATIONS and QUERIES //
   ///////////////////////////
 
   // Approves a Pending Assignment
-  const [approveMeeting, {}] = useMutation(APPROVE_MEETING);
+  const [createAssignment, {}] = useMutation(CREATE_ASS);
 
   // Queries all Assignments
   const getUserAssignments = async () => {
@@ -64,65 +64,36 @@ function Assignments({ router }) {
         })
         .then(async (resolved) => {
           // console.log(resolved);
-          setMeetings(resolved.data.getAssignments);
+          setAssignments(resolved.data.getAssignments);
         })
         .catch((error) => {
           set(null);
           message.error("Sorry, there was an error getting this information");
         });
     } else {
-      setMeetings(null);
+      setAssignments(null);
     }
   };
 
-  const handleApproveMeeting = async (approvedMeeting) => {
-    await approveMeeting({
-      variables: {
-        meetingID: getInitialValues().meetingID,
-        approveMeeting: !getInitialValues().approved,
-      },
-    })
-      .then(async (resolved) => {
-        message.success("Successfully Approved Assignment");
-        Router.push("/meetings");
-
-        // Get the full user object and set that to state
-        await client
-          .query({
-            query: GET_USER_MEETINGS,
-            fetchPolicy: "network-only",
-          })
-          .then(async (resolved) => {
-            setMeetings(resolved.data.getMeetings);
-          })
-          .catch((error) => {
-            message.error("Sorry, there was an error getting this information");
-          });
-      })
-      .catch((error) => {
-        message.error(error.message);
-      });
-  };
-
   useEffect(() => {
-    getUserMeetings();
+    getUserAssignments();
   }, []);
 
   const getInitialValues = () => {
     let id = router.query.id;
     let intitalValues = {};
 
-    let selectedMeetingObject = null;
+    let selectedAssignmentObject = null;
 
-    meetings.map((meetingObject) => {
-      if (meetingObject.id === id) {
-        selectedMeetingObject = meetingObject;
+    assignments.map((assignmentObject) => {
+      if (assignmentObject.id === id) {
+        selectedAssignmentObject = assignmentObject;
       }
     });
 
     let guardian = null;
     let child = null;
-    selectedMeetingObject.users.map((userObject) => {
+    selectedAssignmentObject.users.map((userObject) => {
       if (userObject.role === "GUARDIAN") {
         guardian = userObject.id;
       }
@@ -131,17 +102,17 @@ function Assignments({ router }) {
       }
     });
 
-    if (selectedMeetingObject) {
+    if (selectedAssignmentObject) {
       intitalValues = {
-        type: selectedMeetingObject.type,
-        meetingID: selectedMeetingObject.id,
-        title: selectedMeetingObject.title,
-        meetingDateTime: moment(selectedMeetingObject.meetingDateTime),
+        type: selectedAssignmentObject.type,
+        assignmentID: selectedAssignmentObject.id,
+        title: selectedAssignmentObject.title,
+        assignmentDateTime: moment(selectedAssignmentObject.assignmentDateTime),
         guardian: guardian,
-        approved: selectedMeetingObject.approved,
-        pendingApproval: selectedMeetingObject.pendingApproval,
+        approved: selectedAssignmentObject.approved,
+        pendingApproval: selectedAssignmentObject.pendingApproval,
         child: child,
-        cancelled: selectedMeetingObject.canceled,
+        cancelled: selectedAssignmentObject.canceled,
         completed: false,
       };
     }
@@ -149,7 +120,7 @@ function Assignments({ router }) {
     return intitalValues;
   };
 
-  const renderMeetingApprovalContent = () => {
+  const renderAssignmentApprovalContent = () => {
     if (router.query.id && router.query.approve) {
       if (getInitialValues().pendingApproval) {
         return (
@@ -162,7 +133,7 @@ function Assignments({ router }) {
             <br />
             <br />
             <Button
-              onClick={() => handleApproveMeeting(true)}
+              onClick={() => handleApproveAssignment(true)}
               type="primary"
               block
             >
@@ -171,7 +142,7 @@ function Assignments({ router }) {
             <br />
             <br />
             <Button
-              onClick={() => handleApproveMeeting(false)}
+              onClick={() => handleApproveAssignment(false)}
               type="primary"
               block
             >
@@ -192,7 +163,7 @@ function Assignments({ router }) {
 
               <br />
               <Button
-                onClick={() => handleApproveMeeting(false)}
+                onClick={() => handleApproveAssignment(false)}
                 type="primary"
                 block
               >
@@ -212,7 +183,7 @@ function Assignments({ router }) {
 
               <br />
               <Button
-                onClick={() => handleApproveMeeting(true)}
+                onClick={() => handleApproveAssignment(true)}
                 type="primary"
                 block
               >
@@ -249,7 +220,7 @@ function Assignments({ router }) {
     //     )}
 
     //     <Button
-    //       onClick={() => handleApproveMeeting(true)}
+    //       onClick={() => handleApproveAssignment(true)}
     //       type="primary"
     //       block
     //     >
@@ -261,26 +232,26 @@ function Assignments({ router }) {
   };
 
   return (
-    <MeetingsWrapper>
+    <AssignmentsWrapper>
       <NextSeo title="Assignments" />
       <PageHeader
         title="Assignments"
-        createURL={"/meetings?create=true"}
+        createURL={"/assignments?create=true"}
         createTitle={
           user.role === "THERAPIST" ? "Create Assignment" : "Request Assignment"
         }
       />
-      {meetings && meetings.loading && <LoadingBlock />}
-      {meetings && !meetings.loading && (
+      {assignments && assignments.loading && <LoadingBlock />}
+      {assignments && !assignments.loading && (
         <Row gutter={[16, 16]}>
           <Col lg={24} xl={12}>
             <ContentCard>
-              <MeetingsTable meetings={meetings} userID={user.id} />
+              <AssignmentsTable assignments={assignments} userID={user.id} />
             </ContentCard>
           </Col>
           <Col lg={24} xl={12}>
             <ContentCard>
-              <MeetingCalendar meetings={meetings} userID={user.id} />
+              <AssignmentCalendar assignments={assignments} userID={user.id} />
             </ContentCard>
           </Col>
           <Drawer
@@ -295,21 +266,21 @@ function Assignments({ router }) {
                 ? "Approve Assignment"
                 : "Edit Assignment"
             }
-            onClose={() => Router.push("/meetings", null, { shallow: true })}
+            onClose={() => Router.push("/assignments", null, { shallow: true })}
             visible={router.query.create || router.query.id}
           >
-            {router.query.create && <MeetingForm />}
+            {router.query.create && <AssignmentForm />}
             {router.query.id && !router.query.approve && (
-              <EditMeetingForm
+              <EditAssignmentForm
                 initialValues={getInitialValues()}
-                createMeeting={router.query.create}
+                createAssignment={router.query.create}
               />
             )}
-            {renderMeetingApprovalContent()}
+            {renderAssignmentApprovalContent()}
           </Drawer>
         </Row>
       )}
-    </MeetingsWrapper>
+    </AssignmentsWrapper>
   );
 }
 
