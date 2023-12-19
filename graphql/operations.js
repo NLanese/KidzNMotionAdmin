@@ -53,6 +53,8 @@ const USER_SIGN_UP = gql`
 // QUERIES //
 /////////////
 
+
+// GENERAL
 const GET_USER = gql`
   query Query {
     getUser {
@@ -255,6 +257,7 @@ const GET_USER = gql`
   }
 `;
 
+// CLIENTs
 const GET_ALL_CLIENTS = gql`
   query Query {
     getAllClients {
@@ -298,6 +301,7 @@ const GET_ALL_CLIENTS = gql`
   }
 `;
 
+// THERAPISTS
 const GET_ALL_THERAPISTS = gql`
   query Query {
     getAllTherapists {
@@ -500,6 +504,88 @@ const GET_ALL_THERAPISTS = gql`
   }
 `;
 
+// VIDEOS
+const GET_VIDEO_LIBRARY = gql`
+  query Query {
+    getAllVideoFiles {
+      id
+      level
+      title
+      description
+      videoURL
+      previewPictureURL
+    }
+  }
+`;
+
+// CHAT QUERIES
+const GET_USER_CHAT_ROOMS = gql`
+  query Query {
+    getUserChatRooms {
+      id
+      users {
+        id
+        firstName
+        lastName
+        role
+      }
+    }
+  }
+`;
+
+const GET_CHAT_ROOM_BY_ID = gql`
+  query Query($id: String!) {
+    getChatFromId(id: $id) {
+      id
+      users {
+        id
+        firstName
+        lastName
+        role
+      }
+      messages {
+        createdAt
+        content
+        sentAt
+        sentBy
+      }
+    }
+  }
+`;
+
+// MEETINGS
+const GET_USER_MEETINGS = gql`
+  query Query {
+    getMeetings {
+      id
+      createdAt
+      meetingDateTime
+      title
+      completed
+      type
+      canceled
+      pendingApproval
+      approved
+      users {
+        id
+        firstName
+        lastName
+        email
+        role
+      }
+      meetingOwnerID
+    }
+  }
+`;
+
+const GET_USER_ASSIGNMENTS = gql`
+  query Query{
+    getAssignments {
+      assignments
+    }
+  }
+`
+
 
 //////////////
 // SECURITY //
@@ -551,8 +637,6 @@ const SUPER_SET_THERAPIST = gql`
   }
 `
 
-
-
 const EDIT_USER = gql`
   mutation Mutation(
     $email: String!
@@ -595,39 +679,6 @@ const INVITE_USER = gql`
   }
 `;
 
-const GET_USER_CHAT_ROOMS = gql`
-  query Query {
-    getUserChatRooms {
-      id
-      users {
-        id
-        firstName
-        lastName
-        role
-      }
-    }
-  }
-`;
-
-const GET_CHAT_ROOM_BY_ID = gql`
-  query Query($id: String!) {
-    getChatFromId(id: $id) {
-      id
-      users {
-        id
-        firstName
-        lastName
-        role
-      }
-      messages {
-        createdAt
-        content
-        sentAt
-        sentBy
-      }
-    }
-  }
-`;
 
 const DYNAMIC_SEND_MESSAGE = gql`
   mutation Mutation($content: String!, $chatRoomID: String!) {
@@ -639,30 +690,6 @@ const CREATE_CHAT_ROOM = gql`
   mutation Mutation($otherParticipantID: String!) {
     createChatRoom(otherParticipantID: $otherParticipantID) {
       id
-    }
-  }
-`;
-
-const GET_USER_MEETINGS = gql`
-  query Query {
-    getMeetings {
-      id
-      createdAt
-      meetingDateTime
-      title
-      completed
-      type
-      canceled
-      pendingApproval
-      approved
-      users {
-        id
-        firstName
-        lastName
-        email
-        role
-      }
-      meetingOwnerID
     }
   }
 `;
@@ -732,19 +759,6 @@ const GENERATE_ANNUAL_SOLO_GUARDIAN_CHECKOUT_LINK = gql`
 const GENERATE_SOLO_GUARDIAN_PORTAL_LINK = gql`
   mutation Mutation {
     generateSoloGuardianPortalLink
-  }
-`;
-
-const GET_VIDEO_LIBRARY = gql`
-  query Query {
-    getAllVideoFiles {
-      id
-      level
-      title
-      description
-      videoURL
-      previewPictureURL
-    }
   }
 `;
 
@@ -868,8 +882,9 @@ export {
   DYNAMIC_SEND_MESSAGE,
   CREATE_CHAT_ROOM,
 
-  // MEETINGS
+  // MEETINGS + ASSIGNMENTS
   GET_USER_MEETINGS,
+  GET_USER_ASSIGNMENTS,
   CREATE_MEETING,
   EDIT_MEETING,
   APPROVE_MEETING,

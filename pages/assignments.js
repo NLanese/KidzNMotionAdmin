@@ -145,7 +145,7 @@ function Assignments({ router }) {
           <>
             <Title level={4}>Approve Meeting</Title>
             <Text>
-              This meeting has not been approved yet. Please approve the meeting
+              This assignment has not been approved yet. Please approve the assignment
               to set it into the guardian's calendar.
             </Text>
             <br />
@@ -174,7 +174,7 @@ function Assignments({ router }) {
             <>
               <Title level={4}>Approve Meeting</Title>
               <Text>
-                This meeting has been approved. You can Decline the meeting to
+                This assignment has been approved. You can Decline the assignment to
                 remove it from the guardian's calendar.
               </Text>
               <br />
@@ -194,7 +194,7 @@ function Assignments({ router }) {
             <>
               <Title level={4}>Approve Meeting</Title>
               <Text>
-                This meeting has been declined. You can approve the meeting to
+                This assignment has been declined. You can approve the assignment to
                 add it from the guardian's calendar.
               </Text>
               <br />
@@ -219,8 +219,8 @@ function Assignments({ router }) {
     //       <>
     //         <Title level={4}>Disapprove Meeting</Title>
     //         <Text>
-    //           This meeting has been approved. You can disapprove the
-    //           meeting to remove it from the guardian's calendar.
+    //           This assignment has been approved. You can disapprove the
+    //           assignment to remove it from the guardian's calendar.
     //         </Text>
     //         <br />
     //         <br />
@@ -229,8 +229,8 @@ function Assignments({ router }) {
     //       <>
     //         <Title level={4}>Approve Meeting</Title>
     //         <Text>
-    //           This meeting has not been approved yet. Please approve the
-    //           meeting to set it into the guardian's calendar.
+    //           This assignment has not been approved yet. Please approve the
+    //           assignment to set it into the guardian's calendar.
     //         </Text>
     //         <br />
     //         <br />
