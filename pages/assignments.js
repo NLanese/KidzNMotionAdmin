@@ -24,6 +24,7 @@ import MeetingForm from "@components/forms/meetings/MeetingForm";
 import EditMeetingForm from "../components/forms/meetings/EditMeetingForm";
 import moment from "moment";
 import MeetingCalendar from "../components/pages/meetings/MeetingCalendar";
+import { GET_USER_ASSIGNMENTS } from "../graphql/operations";
 
 const { Text, Title } = Typography;
 
@@ -36,27 +37,37 @@ const MeetingsWrapper = styled.div`
 `;
 
 function Assignments({ router }) {
+
+  ///////////
+  // STATE //
+  ///////////
+
   const user = useRecoilValue(userState);
   const [meetings, setMeetings] = useRecoilState(meetingsState);
 
-  // Mutations
+  ///////////////////////////
+  // MUTATIONS and QUERIES //
+  ///////////////////////////
+
+  // Approves a Pending Assignment
   const [approveMeeting, {}] = useMutation(APPROVE_MEETING);
 
-  const getUserMeetings = async () => {
+  // Queries all Assignments
+  const getUserAssignments = async () => {
     const token = localStorage.getItem("token");
 
     if (token) {
       await client
         .query({
-          query: GET_USER_MEETINGS,
+          query: GET_USER_ASSIGNMENTS,
           fetchPolicy: "network-only",
         })
         .then(async (resolved) => {
           // console.log(resolved);
-          setMeetings(resolved.data.getMeetings);
+          setMeetings(resolved.data.getAssignments);
         })
         .catch((error) => {
-          setMeetings(null);
+          set(null);
           message.error("Sorry, there was an error getting this information");
         });
     } else {
@@ -72,7 +83,7 @@ function Assignments({ router }) {
       },
     })
       .then(async (resolved) => {
-        message.success("Successfully Approved Meeting");
+        message.success("Successfully Approved Assignment");
         Router.push("/meetings");
 
         // Get the full user object and set that to state
@@ -143,7 +154,7 @@ function Assignments({ router }) {
       if (getInitialValues().pendingApproval) {
         return (
           <>
-            <Title level={4}>Approve Meeting</Title>
+            <Title level={4}>Approve Assignment</Title>
             <Text>
               This assignment has not been approved yet. Please approve the assignment
               to set it into the guardian's calendar.
@@ -155,7 +166,7 @@ function Assignments({ router }) {
               type="primary"
               block
             >
-              Approve Meeting
+              Approve Assignment
             </Button>
             <br />
             <br />
@@ -164,7 +175,7 @@ function Assignments({ router }) {
               type="primary"
               block
             >
-              Decline Meeting
+              Decline Assignment
             </Button>
           </>
         );
@@ -172,7 +183,7 @@ function Assignments({ router }) {
         if (getInitialValues().approved) {
           return (
             <>
-              <Title level={4}>Approve Meeting</Title>
+              <Title level={4}>Approve Assignment</Title>
               <Text>
                 This assignment has been approved. You can Decline the assignment to
                 remove it from the guardian's calendar.
@@ -185,14 +196,14 @@ function Assignments({ router }) {
                 type="primary"
                 block
               >
-                Decline Meeting
+                Decline Assignment
               </Button>
             </>
           );
         } else {
           return (
             <>
-              <Title level={4}>Approve Meeting</Title>
+              <Title level={4}>Approve Assignment</Title>
               <Text>
                 This assignment has been declined. You can approve the assignment to
                 add it from the guardian's calendar.
@@ -205,7 +216,7 @@ function Assignments({ router }) {
                 type="primary"
                 block
               >
-                Approve Meeting
+                Approve Assignment
               </Button>
             </>
           );
@@ -217,7 +228,7 @@ function Assignments({ router }) {
     //   <div>
     //     {getInitialValues().approved ? (
     //       <>
-    //         <Title level={4}>Disapprove Meeting</Title>
+    //         <Title level={4}>Disapprove Assignment</Title>
     //         <Text>
     //           This assignment has been approved. You can disapprove the
     //           assignment to remove it from the guardian's calendar.
@@ -227,7 +238,7 @@ function Assignments({ router }) {
     //       </>
     //     ) : (
     //       <>
-    //         <Title level={4}>Approve Meeting</Title>
+    //         <Title level={4}>Approve Assignment</Title>
     //         <Text>
     //           This assignment has not been approved yet. Please approve the
     //           assignment to set it into the guardian's calendar.
@@ -243,7 +254,7 @@ function Assignments({ router }) {
     //       block
     //     >
     //       {!getInitialValues().approved ? "Approve" : "Disapprove"}{" "}
-    //       Meeting
+    //       Assignment
     //     </Button>
     //   </div>
     // )}
@@ -256,7 +267,7 @@ function Assignments({ router }) {
         title="Assignments"
         createURL={"/meetings?create=true"}
         createTitle={
-          user.role === "THERAPIST" ? "Create Meeting" : "Request Meeting"
+          user.role === "THERAPIST" ? "Create Assignment" : "Request Assignment"
         }
       />
       {meetings && meetings.loading && <LoadingBlock />}
@@ -278,11 +289,11 @@ function Assignments({ router }) {
             title={
               router.query.create
                 ? user.role === "GUARDIAN"
-                  ? "Request Meeting"
-                  : "Create Meeting"
+                  ? "Request Assignment"
+                  : "Create Assignment"
                 : router.query.id && router.query.approve
-                ? "Approve Meeting"
-                : "Edit Meeting"
+                ? "Approve Assignment"
+                : "Edit Assignment"
             }
             onClose={() => Router.push("/meetings", null, { shallow: true })}
             visible={router.query.create || router.query.id}
