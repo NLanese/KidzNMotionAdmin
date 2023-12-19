@@ -22,6 +22,7 @@ import {
   VideoCameraTwoTone,
   ContainerTwoTone,
   VideoCameraOutlined,
+  TrophyOutlined
 } from "@ant-design/icons";
 import { Menu, Divider, Typography, Drawer, Button } from "antd";
 function addAlpha(color, opacity) {
@@ -224,6 +225,8 @@ function SideMenu({ router, user }) {
             </Menu.Item>
           </>
         </Menu.SubMenu>
+
+        {/* Owner Specific Selections */}
         {user.ownedOrganization && (
           <Menu.SubMenu
             key={"/users"}
@@ -257,6 +260,8 @@ function SideMenu({ router, user }) {
             </>
           </Menu.SubMenu>
         )}
+
+        {/* Therapist Specific Selections */}
         {!user.ownedOrganization && user.role === "THERAPIST" && (
           <Menu.Item
             key={"/patients/manage"}
@@ -267,6 +272,7 @@ function SideMenu({ router, user }) {
           </Menu.Item>
         )}
 
+        {/* Meetings and Assignments */}
         {(user.role === "THERAPIST" || user.role === "GUARDIAN") &&
           !user.solo && (
             <>
@@ -278,14 +284,26 @@ function SideMenu({ router, user }) {
               Meetings
             </Menu.Item>
             <Menu.Item
-              onClick={() => pushLink("/meetings")}
-              key="/meetings"
-              icon={<GroupOutlined style={{ fontSize: "20px" }} />}
+              onClick={() => pushLink("/assignments")}
+              key="/assignments"
+              icon={<BulbOutlined style={{ fontSize: "20px" }} />}
             >
-              Meetings
+              Assignments
             </Menu.Item>
             </>
-          )}
+        )}
+
+        {/* Medals */}
+        {(user.role === "GUARDIAN" || user.role === "CHILD") && (
+          <Menu.Item
+            onClick={() => pushLink("/medals")}
+            key="/medals"
+            icon={<TrophyOutlined style={{ fontSize: "20px" }} />}
+          >
+            Medals
+          </Menu.Item>
+        )}
+
         <Menu.Item
           onClick={() => pushLink("/messaging")}
           key="/messaging"

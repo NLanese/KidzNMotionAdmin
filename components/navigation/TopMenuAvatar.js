@@ -117,13 +117,17 @@ function TopMenuAvatar() {
 
   // Checks subscription Status
   const checkSubStatus = async () => {
-    if(
-      usernameLowercase == "ostrichdeveloper@gmail.com" ||
-      usernameLowercase == "nlanese21@gmail.com" ||
-      usernameLowercase == "ostrichdevtest@gmail.com"
-    ){
-      return 
+    if (user.email){
+      const usernameLowercase = user.email.toLowerCase
+      if(
+        usernameLowercase == "ostrichdeveloper@gmail.com" ||
+        usernameLowercase == "nlanese21@gmail.com" ||
+        usernameLowercase == "ostrichdevtest@gmail.com"
+      ){
+        return 
+      }
     }
+    
     await getBillingInformation().then((data) => {
       if (data) {
         if (data.subscription) {
