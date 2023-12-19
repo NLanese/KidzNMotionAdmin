@@ -17,7 +17,7 @@ import LoadingBlock from "@common/LoadingBlock";
 import AssignmentsTable from "@pages/assignments/AssignmentsTable";
 import { withRouter } from "next/router";
 
-import { GET_USER_MEETINGS, APPROVE_MEETING } from "@graphql/operations";
+import { GET_USER_ASSIGNMENTS, CREATE_ASSIGNMENT } from "@graphql/operations";
 import client from "@utils/apolloClient";
 import { useMutation } from "@apollo/client";
 import AssignmentForm from "@components/forms/assignments/AssignmentForm";
@@ -50,7 +50,7 @@ function Assignments({ router }) {
   ///////////////////////////
 
   // Approves a Pending Assignment
-  const [createAssignment, {}] = useMutation(CREATE_ASS);
+  const [createAssignment, {}] = useMutation(CREATE_ASSIGNMENT);
 
   // Queries all Assignments
   const getUserAssignments = async () => {
@@ -75,11 +75,12 @@ function Assignments({ router }) {
     }
   };
 
+  // Runs Query on Landing
   useEffect(() => {
     getUserAssignments();
   }, []);
 
-  const getInitialValues = () => {
+  const getAssignmentValues = () => {
     let id = router.query.id;
     let intitalValues = {};
 
@@ -120,116 +121,6 @@ function Assignments({ router }) {
     return intitalValues;
   };
 
-  const renderAssignmentApprovalContent = () => {
-    if (router.query.id && router.query.approve) {
-      if (getInitialValues().pendingApproval) {
-        return (
-          <>
-            <Title level={4}>Approve Assignment</Title>
-            <Text>
-              This assignment has not been approved yet. Please approve the assignment
-              to set it into the guardian's calendar.
-            </Text>
-            <br />
-            <br />
-            <Button
-              onClick={() => handleApproveAssignment(true)}
-              type="primary"
-              block
-            >
-              Approve Assignment
-            </Button>
-            <br />
-            <br />
-            <Button
-              onClick={() => handleApproveAssignment(false)}
-              type="primary"
-              block
-            >
-              Decline Assignment
-            </Button>
-          </>
-        );
-      } else {
-        if (getInitialValues().approved) {
-          return (
-            <>
-              <Title level={4}>Approve Assignment</Title>
-              <Text>
-                This assignment has been approved. You can Decline the assignment to
-                remove it from the guardian's calendar.
-              </Text>
-              <br />
-
-              <br />
-              <Button
-                onClick={() => handleApproveAssignment(false)}
-                type="primary"
-                block
-              >
-                Decline Assignment
-              </Button>
-            </>
-          );
-        } else {
-          return (
-            <>
-              <Title level={4}>Approve Assignment</Title>
-              <Text>
-                This assignment has been declined. You can approve the assignment to
-                add it from the guardian's calendar.
-              </Text>
-              <br />
-
-              <br />
-              <Button
-                onClick={() => handleApproveAssignment(true)}
-                type="primary"
-                block
-              >
-                Approve Assignment
-              </Button>
-            </>
-          );
-        }
-      }
-    }
-
-    // {router.query.id && router.query.approve && (
-    //   <div>
-    //     {getInitialValues().approved ? (
-    //       <>
-    //         <Title level={4}>Disapprove Assignment</Title>
-    //         <Text>
-    //           This assignment has been approved. You can disapprove the
-    //           assignment to remove it from the guardian's calendar.
-    //         </Text>
-    //         <br />
-    //         <br />
-    //       </>
-    //     ) : (
-    //       <>
-    //         <Title level={4}>Approve Assignment</Title>
-    //         <Text>
-    //           This assignment has not been approved yet. Please approve the
-    //           assignment to set it into the guardian's calendar.
-    //         </Text>
-    //         <br />
-    //         <br />
-    //       </>
-    //     )}
-
-    //     <Button
-    //       onClick={() => handleApproveAssignment(true)}
-    //       type="primary"
-    //       block
-    //     >
-    //       {!getInitialValues().approved ? "Approve" : "Disapprove"}{" "}
-    //       Assignment
-    //     </Button>
-    //   </div>
-    // )}
-  };
 
   return (
     <AssignmentsWrapper>
@@ -276,7 +167,6 @@ function Assignments({ router }) {
                 createAssignment={router.query.create}
               />
             )}
-            {renderAssignmentApprovalContent()}
           </Drawer>
         </Row>
       )}
