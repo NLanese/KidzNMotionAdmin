@@ -10,36 +10,20 @@ export default {
         // Get all user meetings
         let user = await prisma.user.findUnique({
             where: {
-            id: context.user.id,
+                id: context.user.id,
             },
             select: {
-            meetings: {
-                orderBy: [
-                {
-                    meetingDateTime: 'asc',
-                },
-                
-                ],
-                where: {
-                completed: false,
-                },
-                select: {
                 id: true,
-                createdAt: true,
-                meetingDateTime: true,
-                title: true,
-                completed: true,
-                canceled: true,
-                type: true,
-                pendingApproval: true,
-                approved: true,
-                users: true,
-                meetingOwnerID: true,
+                role: true,
+                assignments: {
+                    select: {
+                        id: true
+                    }
                 }
             }
-            },
         });
 
+        console.log("User Role...")
         console.log(user.role)
 
         // If this is a Guardian Account...
