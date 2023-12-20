@@ -44,27 +44,43 @@ export default {
                             }
                         }
                     }
+                },
+                patientCarePlans: {
+                    select: {
+                        id: true,
+                        level: true,
+                        assignments: {
+                            select: {
+                                id: true
+                            }
+                        },
+                        child: {
+                            select: {
+                                id: true,
+                                firstName: true,
+                                lastName: true
+                            }
+                        }
+                    }
                 }
             }
         });
 
+        console.log("User Recieved:::")
+        console.log(user)
 
         // If this is a Guardian Account...
         if (user.role === "GUARDIAN"){
             console.log("Guardian User")
-            let assignments = []
-            user.children.forEach(child => {
+            return user.children.map(child => {
                 console.log("CHILD")
                 console.log(child)
                 console.log("CARE PLAN")
                 console.log(child.childCarePlans[0])
-                child.childCarePlans[0].assignments.forEach(assign => {
-                    assignments.append(assign)
+                child.childCarePlans[0].assignments.map(assign => {
+                   return (assign)
                 })
             })
-
-            console.log("Returning Assignments")
-            return assignments
         }
         
         // If this is a Child Account...
@@ -77,6 +93,15 @@ export default {
 
             console.log("Returning Assignments")
             return assignments
+        }
+
+        else if (user.role === "THERAPIST"){
+            console.log("Therapist User")
+            return user.patientCarePlans.map(pcp => {
+               return pcp.assignments.map((assignment) => {
+                return assignment
+               })
+            })
         }
 
     },
