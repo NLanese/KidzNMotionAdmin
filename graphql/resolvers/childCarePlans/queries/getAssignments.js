@@ -4,7 +4,7 @@ import { UserInputError } from "apollo-server-errors";
 export default {
   Query: {
     getAssignments: async (_, {}, context) => {
-        console.log("Getting Assignments...")
+        console.error("Getting Assignments...")
         if (!context.user) throw new UserInputError("Login required");
 
         // Get all user meetings
@@ -40,6 +40,8 @@ export default {
             },
         });
 
+        console.log(user.role)
+
         // If this is a Guardian Account...
         if (user.role === "GUARDIAN"){
             console.log("Guardian User")
@@ -65,7 +67,7 @@ export default {
             console.log("Returning Assignments")
             return assignments
         }
-        
+
     },
   },
 };
