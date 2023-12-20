@@ -4,10 +4,11 @@ import { UserInputError } from "apollo-server-errors";
 export default {
   Query: {
     getAssignments: async (_, {}, context) => {
-        console.error("Getting Assignments...")
+        console.log("Getting Assignments...")
         if (!context.user) throw new UserInputError("Login required");
 
         // Get all user meetings
+        console.log("Getting user ", context.user.id + ".")
         let user = await prisma.user.findUnique({
             where: {
                 id: context.user.id,
@@ -15,9 +16,13 @@ export default {
             select: {
                 id: true,
                 role: true,
-                assignments: {
+                childCarePlans: {
                     select: {
-                        id: true
+                        assignments: {
+                            select: {
+                                id: true
+                            }
+                        }
                     }
                 }
             }
