@@ -67,12 +67,12 @@ function Assignments({ router }) {
           fetchPolicy: "network-only",
         })
         .then(async (resolved) => {
-          // console.log(resolved);
+          console.log(resolved);
           setAssignments(resolved.data.getAssignments);
         })
         .catch((error) => {
-          set(null);
-          message.error("Sorry, there was an error getting this information");
+          setAssignments(null);
+          message.error("Sorry, there was an error getting your assignments. Please try again!");
         });
     } else {
       setAssignments(null);

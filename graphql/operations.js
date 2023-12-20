@@ -582,22 +582,6 @@ const GET_USER_ASSIGNMENTS = gql`
   query Query{
     getAssignments {
       id
-      createdAt
-      dateStart
-      dateDue
-      title
-      description
-
-      seen
-      notificationSent
-
-      childCarePlan
-      childCarePlanID
-      videos{
-        id 
-        title
-        level
-      }
     }
   }
 `

@@ -244,10 +244,11 @@ const typeDefs = gql`
 
     getChildVideoStatistics(childID: String!): JSON
 
-    #########################
-    #### MEETING QUERIES ####
-    #########################
+    ########################################
+    #### MEETING AND ASSIGNMENT QUERIES ####
+    ########################################
 
+    getAssignments: [Assignment]
     getMeetings: [Meeting]
 
     ###############################

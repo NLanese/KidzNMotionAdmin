@@ -22,7 +22,7 @@ export const meetingsState = atom({
 	},
 });
 
-export const assignmentState = atom({
+export const assignmentsState = atom({
 	key: 'assignmentsState',
 	default: {
 		loading: true
