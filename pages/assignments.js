@@ -126,23 +126,31 @@ function Assignments({ router }) {
     return intitalValues;
   };
 
+  // Renders Button to Create an Assignment (if Thereapist)
+  const renderCreateAssignmentButton = () => {
+    if (user.role === "THERAPIST"){
+      return(
+        <PageHeader
+          title="Assignments"
+          createURL={"/assignments?create=true"}
+          createTitle={
+            user.role === "THERAPIST" ? "Create Assignment" : "Request Assignment"
+          }
+        />
+      )
+    }
+  }
 
   return (
     <AssignmentsWrapper>
       <NextSeo title="Assignments" />
-      <PageHeader
-        title="Assignments"
-        createURL={"/assignments?create=true"}
-        createTitle={
-          user.role === "THERAPIST" ? "Create Assignment" : "Request Assignment"
-        }
-      />
+     {renderCreateAssignmentButton()}
       {assignments && assignments.loading && <LoadingBlock />}
       {assignments && !assignments.loading && (
         <Row gutter={[16, 16]}>
           <Col lg={24} xl={12}>
             <ContentCard>
-              <AssignmentsTable assignments={assignments} userID={user.id} />
+              <AssignmentsTable assignments={assignments} userID={user.id} userRole={user.role}/>
             </ContentCard>
           </Col>
           <Col lg={24} xl={12}>

@@ -18,9 +18,29 @@ export default {
                 role: true,
                 childCarePlans: {
                     select: {
+                        id: true,
+                        level: true,
                         assignments: {
                             select: {
                                 id: true
+                            }
+                        }
+                    }
+                },
+                children: {
+                    select: {
+                        firstName: true,
+                        lastName: true,
+                        id: true,
+                        childCarePlans: {
+                            select : {
+                                id: true,
+                                level: true,
+                                assignments: {
+                                    select: {
+                                        id: true
+                                    }
+                                }
                             }
                         }
                     }
@@ -28,14 +48,16 @@ export default {
             }
         });
 
-        console.log("User Role...")
-        console.log(user.role)
 
         // If this is a Guardian Account...
         if (user.role === "GUARDIAN"){
             console.log("Guardian User")
             let assignments = []
             user.children.forEach(child => {
+                console.log("CHILD")
+                console.log(child)
+                console.log("CARE PLAN")
+                console.log(child.childCarePlans[0])
                 child.childCarePlans[0].assignments.forEach(assign => {
                     assignments.append(assign)
                 })
