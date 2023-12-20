@@ -1,25 +1,30 @@
+// React
 import React, { useState, useEffect } from "react";
+
+// Ant Design
 import styled from "styled-components";
-
 import PageHeader from "@common/PageHeader";
-
 import { Row, Col, message, Button, Typography } from "antd";
 import { Drawer } from "antd";
 import ContentCard from "@common/content/ContentCard";
+import LoadingBlock from "@common/LoadingBlock";
+
+// Next
 import Router from "next/router";
-
-import { userState, meetingsState } from "@atoms";
-
+import { withRouter } from "next/router";
 import { NextSeo } from "next-seo";
+
+// Recoil
+import { userState, meetingsState } from "@atoms";
 import { useRecoilValue, useRecoilState } from "recoil";
 
-import LoadingBlock from "@common/LoadingBlock";
-import MeetingsTable from "@pages/meetings/MeetingsTable";
-import { withRouter } from "next/router";
-
+// Mutations and Queries
 import { GET_USER_MEETINGS, APPROVE_MEETING } from "@graphql/operations";
 import client from "@utils/apolloClient";
 import { useMutation } from "@apollo/client";
+
+// Components
+import MeetingsTable from "@pages/meetings/MeetingsTable";
 import MeetingForm from "@components/forms/meetings/MeetingForm";
 import EditMeetingForm from "../components/forms/meetings/EditMeetingForm";
 import moment from "moment";

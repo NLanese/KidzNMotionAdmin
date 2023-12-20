@@ -3,28 +3,32 @@ import styled from "styled-components";
 
 import PageHeader from "@common/PageHeader";
 
+// Ant Design
 import { Row, Col, message, Button, Typography } from "antd";
 import { Drawer } from "antd";
 import ContentCard from "@common/content/ContentCard";
 import Router from "next/router";
 
-import { userState, assignmentsState } from "@atoms";
-
 import { NextSeo } from "next-seo";
+
+// Recoil
+import { userState, assignmentsState } from "@atoms";
 import { useRecoilValue, useRecoilState } from "recoil";
 
 import LoadingBlock from "@common/LoadingBlock";
-import AssignmentsTable from "@pages/assignments/AssignmentsTable";
 import { withRouter } from "next/router";
 
+// Mutations and Queries
 import { GET_USER_ASSIGNMENTS, CREATE_ASSIGNMENT } from "@graphql/operations";
 import client from "@utils/apolloClient";
 import { useMutation } from "@apollo/client";
+
+// Components
+import AssignmentsTable from "@pages/assignments/AssignmentsTable";
 import AssignmentForm from "@components/forms/assignments/AssignmentForm";
 import EditAssignmentForm from "../components/forms/assignments/EditAssignmentForm";
 import moment from "moment";
 import AssignmentCalendar from "../components/pages/assignments/AssignmentCalendar";
-import { GET_USER_ASSIGNMENTS } from "../graphql/operations";
 
 const { Text, Title } = Typography;
 
@@ -79,6 +83,7 @@ function Assignments({ router }) {
   useEffect(() => {
     getUserAssignments();
   }, []);
+
 
   const getAssignmentValues = () => {
     let id = router.query.id;
