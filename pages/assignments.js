@@ -24,11 +24,11 @@ import client from "@utils/apolloClient";
 import { useMutation } from "@apollo/client";
 
 // Components
-import AssignmentsTable from "@pages/assignments/AssignmentsTable";
+import AssignmentsTable from "../components/pages/assignments/AssignmentTable";
+import AssignmentCalendar from "../components/pages/assignments/AssignmentCalendar";
 import AssignmentForm from "@components/forms/assignments/AssignmentForm";
 import EditAssignmentForm from "../components/forms/assignments/EditAssignmentForm";
 import moment from "moment";
-import AssignmentCalendar from "../components/pages/assignments/AssignmentCalendar";
 
 const { Text, Title } = Typography;
 

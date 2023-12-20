@@ -13,13 +13,13 @@ const CalenderContainer = styled.div`
   }
 `;
 
-function MeetingCalendar({ router, meetings }) {
+function AssignmentCalendar({ router, assignments }) {
   const dateCellRender = (value) => {
-    return meetings.map((meetingObject) => {
-      if (moment(meetingObject.meetingDateTime).isSame(value, "date")) {
+    return assignments.map((assignmentObject) => {
+      if (moment(assignmentObject.assignmentDateTime).isSame(value, "date")) {
         return (
-          <li key={meetingObject.id}>
-            <Badge status="success" text={meetingObject.title } />
+          <li key={assignmentObject.id}>
+            <Badge status="success" text={assignmentObject.title } />
           </li>
         );
       }
@@ -34,4 +34,4 @@ function MeetingCalendar({ router, meetings }) {
   );
 }
 
-export default withRouter(MeetingCalendar);
+export default withRouter(AssignmentCalendar);

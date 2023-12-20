@@ -10,7 +10,7 @@ const { Text } = Typography;
 import { changeTimeZone } from "@helpers/common";
 import moment from "moment";
 
-const MeetingTableWrapper = styled.div`
+const AssignmentTableWrapper = styled.div`
   position: relative;
   min-width: 500px;
   padding-top: 10px;
@@ -26,8 +26,8 @@ const MeetingTableWrapper = styled.div`
   }
 `;
 
-// Grabs and Lists Particpants of Meeting
-function getMeetingParticpants(users) {
+// Grabs and Lists Particpants of Assignment
+function getAssignmentParticpants(users) {
   let users2 = [];
   users.map((userObject, index) => {
     users2.push(`${userObject.firstName} ${userObject.lastName}`);
@@ -79,19 +79,19 @@ function renderApprovalStatusColor(record) {
   }
 }
 
-function MeetingsTable({ meetings, userID }) {
+function AssignmentsTable({ assignments, userID }) {
   const [showCancelled, setShowCancelled] = useState(false);
   const [showPast, setShowPast] = useState(false);
 
-  const convertMeetingSourceData = () => {
+  const convertAssignmentSourceData = () => {
     let assetTableSource = [];
-    if (!meetings) {
+    if (!assignments) {
       return assetTableSource;
     }
-    meetings.map((meetingObject) => {
-      if (!showCancelled && meetingObject.canceled) return;
+    assignments.map((assignmentObject) => {
+      if (!showCancelled && assignmentObject.canceled) return;
 
-      assetTableSource.push(meetingObject);
+      assetTableSource.push(assignmentObject);
     });
     return assetTableSource;
   };
@@ -104,9 +104,9 @@ function MeetingsTable({ meetings, userID }) {
       render: (text, record, index) => (
         <BasicLink
           href={
-            record.meetingOwnerID === userID
-              ? `/meetings?id=${record.id}`
-              : `/meetings?id=${record.id}&approve=true`
+            record.assignmentOwnerID === userID
+              ? `/assignments?id=${record.id}`
+              : `/assignments?id=${record.id}&approve=true`
           }
         >
           {record.title} (Open)
@@ -118,19 +118,19 @@ function MeetingsTable({ meetings, userID }) {
       dataIndex: "users",
       key: "users",
       render: (text, record, index) => (
-        <>{getMeetingParticpants(record.users)}</>
+        <>{getAssignmentParticpants(record.users)}</>
       ),
     },
     {
       title: "Date/Time",
-      dataIndex: "meetingDateTime",
-      key: "meetingDateTime",
+      dataIndex: "assignmentDateTime",
+      key: "assignmentDateTime",
       render: (text, record, index) => (
         <span>
           <Text>
             {dateFormat(
               changeTimeZone(
-                new Date(record.meetingDateTime.toString().split(".000Z")[0]),
+                new Date(record.assignmentDateTime.toString().split(".000Z")[0]),
                 "America/New_York"
               ),
               "m/dd/yy hh:MM tt"
@@ -151,7 +151,7 @@ function MeetingsTable({ meetings, userID }) {
     },
 
     {
-      title: "Meeting Status",
+      title: "Assignment Status",
       dataIndex: "approvalStatus",
       key: "approvalStatus",
 
@@ -167,32 +167,32 @@ function MeetingsTable({ meetings, userID }) {
   ];
 
   return (
-    <MeetingTableWrapper>
+    <AssignmentTableWrapper>
       <Space size="large">
         {/* <Space size="small">
-          <Switch onChange={setShowPast} /> <Text>Show Past Meetings</Text>
+          <Switch onChange={setShowPast} /> <Text>Show Past Assignments</Text>
         </Space> */}
         <Space size="small">
           <Switch onChange={setShowCancelled} />{" "}
-          <Text>Show Cancelled Meetings</Text>
+          <Text>Show Cancelled Assignments</Text>
         </Space>
       </Space>
 
       <Table
-        dataSource={convertMeetingSourceData()}
+        dataSource={convertAssignmentSourceData()}
         bordered={false}
         tableLayout="fixed"
         size="middle"
         columns={columns}
-        rowKey="meetingDateTime"
+        rowKey="assignmentDateTime"
         pagination={{
           pageSize: 25,
           pageSizeOptions: [],
           position: ["bottomRight"],
         }}
       />
-    </MeetingTableWrapper>
+    </AssignmentTableWrapper>
   );
 }
 
-export default MeetingsTable;
+export default AssignmentsTable;
