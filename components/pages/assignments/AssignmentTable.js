@@ -37,27 +37,31 @@ const AssignmentTableWrapper = styled.div`
 // RENDERINGS //
 ////////////////
 
-// Renders APPROVED | NOT APPROVED | PENDING APPROVAL
-function renderApprovalStatus(record) {
-  if (record.canceled) {
-    return "CANCELLED";
-  }
+  // Renders APPROVED | NOT APPROVED | PENDING APPROVAL
+  function renderApprovalStatus(record) {
+    if (record.canceled) {
+      return "CANCELLED";
+    }
 
-  if (!record.approved && !record.pendingApproval) {
-    return "NOT APPROVED";
-  }
+    if (!record.approved && !record.pendingApproval) {
+      return "NOT APPROVED";
+    }
 
-  if (record.approved) {
-    return "Approved"
-  } else {
-    if (record.pendingApproval) {
-      return "Pending Approval"
+    if (record.approved) {
+      return "Approved"
+    } else {
+      if (record.pendingApproval) {
+        return "Pending Approval"
+      }
     }
   }
-}
+
+///////////////
+// FUNCTIONS //
+///////////////
 
 // Determines the color of the Approval Status
-function renderApprovalStatusColor(record) {
+function determineApprovalStatusColor(record) {
   if (record.canceled) {
     return "red";
   }

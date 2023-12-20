@@ -22,7 +22,27 @@ export default {
                         level: true,
                         assignments: {
                             select: {
-                                id: true
+                                id: true,
+                                dateStart: true,
+                                dateDue: true,
+                                title: true,
+                                childCarePlan: {
+                                    select: {
+                                        id: true,
+                                        child: {
+                                            select: {
+                                                firstName: true,
+                                                lastName: true
+                                            }
+                                        }
+                                    }
+                                },
+                                videos: {
+                                    select: {
+                                        title: true,
+                                        completed: true,
+                                    }
+                                }
                             }
                         }
                     }
@@ -38,7 +58,21 @@ export default {
                                 level: true,
                                 assignments: {
                                     select: {
-                                        id: true
+                                        id: true,
+                                        dateStart: true,
+                                        dateDue: true,
+                                        title: true,
+                                        childCarePlan: {
+                                            select: {
+                                                id: true,
+                                                child: {
+                                                    select: {
+                                                        firstName: true,
+                                                        lastName: true
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -51,16 +85,23 @@ export default {
                         level: true,
                         assignments: {
                             select: {
-                                id: true
+                                id: true,
+                                dateStart: true,
+                                dateDue: true,
+                                title: true,
+                                childCarePlan: {
+                                    select: {
+                                        id: true,
+                                        child: {
+                                            select: {
+                                                firstName: true,
+                                                lastName: true
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         },
-                        child: {
-                            select: {
-                                id: true,
-                                firstName: true,
-                                lastName: true
-                            }
-                        }
                     }
                 }
             }
@@ -78,7 +119,9 @@ export default {
                 console.log("CARE PLAN")
                 console.log(child.childCarePlans[0])
                 child.childCarePlans[0].assignments.map(assign => {
-                   return (assign)
+                    if (assign.id){
+                        return (assign)
+                    }
                 })
             })
         }
@@ -86,9 +129,10 @@ export default {
         // If this is a Child Account...
         else if (user.role === "CHILD"){
             console.log("Child User")
-            let assignments = []
-            user.childCarePlans[0].assignments.forEach((assign) => {
-                assignments.append(assign)
+            return user.childCarePlans[0].assignments.map((assign) => {
+                if (assign.id){
+                    return (assign)
+                }
             })
 
             console.log("Returning Assignments")
@@ -98,8 +142,10 @@ export default {
         else if (user.role === "THERAPIST"){
             console.log("Therapist User")
             return user.patientCarePlans.map(pcp => {
-               return pcp.assignments.map((assignment) => {
-                return assignment
+               return pcp.assignments.map((assign) => {
+                if (assign.id){
+                    return (assign)
+                }
                })
             })
         }

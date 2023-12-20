@@ -118,7 +118,6 @@ function Assignments({ router }) {
         approved: selectedAssignmentObject.approved,
         pendingApproval: selectedAssignmentObject.pendingApproval,
         child: child,
-        cancelled: selectedAssignmentObject.canceled,
         completed: false,
       };
     }
