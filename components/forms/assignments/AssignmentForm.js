@@ -18,7 +18,6 @@ function AssignmentForm({}) {
   const [user, setUser] = useRecoilState(userState);
 
   const [assignments, setAssignments] = useRecoilState(assignmentsState);
-  const [passedAssignments, setPassedAssignments] = useRecoilState()
 
   // Mutations
   const [createAssignment, {}] = useMutation(CREATE_ASSIGNMENT);

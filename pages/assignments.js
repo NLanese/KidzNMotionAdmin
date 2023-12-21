@@ -73,21 +73,29 @@ function Assignments({ router }) {
           if (resolved.data.getAssignments.length === 0){
             setAssignments([])
             setPassedAssignments([])
+            return
           }
           else{
             let passed = []
             let current = []
             resolved.data.getAssignments.forEach((assign) => {
-              if (!assign.id){
-                return
-              }
               console.log(assign)
-              setAssignments([])
-              setPassedAssignments([])
+              if (assign.id){
+                if (true){
+                  current.append(assign)
+                }
+                else{
+                  passed.append(assign)
+                }
+              }
             })
+            setAssignments([])
+            setPassedAssignments([])
           }
         })
         .catch((error) => {
+          console.log("Error getting assignments")
+          console.log(error)
           setAssignments(null);
           message.error("Sorry, there was an error getting your assignments. Please try again!");
         });
