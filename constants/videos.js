@@ -1,37 +1,11 @@
 // Cloudinary Video Files
 const VIDEOS = {
-  // TO BE ADDED
 
-  step_up: {
-    // MISSING
-    id: "step_up",
-    level: 2,
-    title: "Step Up",
-    description:
-      "Get some sort of small stool or step-up bench for this exercise! Here, we will try to step up, first with our left foot and then our right, so we have both feet on the platform! Then, step down, left the right and do it again!",
-    videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1668524544/Kids-N-Motion%20Videos/Step_up_ofg3pr.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/step_up_egwcrb.png",
-    medicalDescription:
-      "(Testing hip flexors, hamstrings, balance, and coordination)",
-  },
-  toe_walking: {
-    // MISSING
-    id: "toe_walking",
-    level: 2,
-    title: "Heel/Toe Walking",
-    description:
-      "Test your balance and your foot strength! Walk forward on your toes, then turn around and walk back on your heels!",
-    videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887209/Kids-N-Motion%20Videos/Toe_Walking_chevus.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/toe_walking_uyqgpl.png",
-    medicalDescription:
-      "(Testing ankle dorsiflexors, gastrocnemius-soleus group)",
-  },
+  ///////////////
+  // LEVEL ONE //
+  ///////////////
+
   toe_touches: {
-    // MISSING?
     id: "toe_touches",
     level: 1,
     title: "Toe Touches",
@@ -55,18 +29,7 @@ const VIDEOS = {
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/squat_ujqj9j.png",
     medicalDescription: "(Gluteus maximus and quadriceps femoris strength)",
   },
-  side_to_side: {
-    id: "side_to_side",
-    level: 2,
-    title: "Side To Side",
-    description:
-      "For this exercise, we will be jumping side to side, doing our best to keep our feet together. Imagine a line on the floor next to you, and try to jump over it and back!",
-    videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887221/Kids-N-Motion%20Videos/side_to_side_f23jwu.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/side_to_side_ecnudh.png",
-    medicalDescription: "(Strengthening, balance and coordination)",
-  },
+
   rolling: {
     id: "rolling",
     level: 1,
@@ -79,6 +42,7 @@ const VIDEOS = {
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/rolling_zfzebk.png",
     medicalDescription: "(Trunk strength, symmetry)",
   },
+
   leg_lifts: {
     id: "leg_lifts",
     level: 1,
@@ -92,29 +56,7 @@ const VIDEOS = {
     medicalDescription:
       "(pelvis drop on lifted leg indicates contralateral gluteus Medius and minimus weakness)",
   },
-  // LEVEL 0
-  great_job: {
-    level: 0,
-    title: "Great Job",
-    description: "Great Job!",
-    videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948228/Kids-N-Motion%20Videos/Great_job_1_uffxfx.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948312/Kidz-N-Motion%20Thumbnails/Great_job_mjoctd.png",
-    id: "great_job",
-  },
-  // keep_it_up: {
-  //   level: 0,
-  //   title: "Keep It Up",
-  //   description: "Keep It Up!",
-  //   videoURL:
-  //     "https://res.cloudinary.com/king-willy-studios/video/upload/v1659471969/KidsInMotion/Ex_Keep_it_Up_yrktik.mp4",
-  //   previewPictureURL:
-  //     "https://res.cloudinary.com/king-willy-studios/video/upload/v1659471969/KidsInMotion/Ex_Keep_it_Up_yrktik.jpg",
-  //   id: "keep_it_up",
-  // },
 
-  // LEVEL 1
   hand_to_knees: {
     level: 1,
     title: "Hands And Knees",
@@ -127,6 +69,7 @@ const VIDEOS = {
     id: "hand_to_knees",
     medicalDescription: "(proximal trunk stability, coordination, strength)",
   },
+
   chair_elevation: {
     level: 1,
     title: "Chair Pushup",
@@ -140,6 +83,7 @@ const VIDEOS = {
     medicalDescription:
       "(Trapezius, latissimus dorsi, scapular depressors, triceps, and hip flexor strength)",
   },
+
   floor_to_stand: {
     level: 1,
     title: "Floor To Stand",
@@ -152,6 +96,53 @@ const VIDEOS = {
     id: "floor_to_stand",
     medicalDescription: "(strength and coordination)",
   },
+
+
+  ///////////////
+  // LEVEL TWO //
+  ///////////////
+
+  step_up: {
+    id: "step_up",
+    level: 2,
+    title: "Step Up",
+    description:
+      "Get some sort of small stool or step-up bench for this exercise! Here, we will try to step up, first with our left foot and then our right, so we have both feet on the platform! Then, step down, left the right and do it again!",
+    videoURL:
+      "https://res.cloudinary.com/king-willy-studios/video/upload/v1668524544/Kids-N-Motion%20Videos/Step_up_ofg3pr.mp4",
+    previewPictureURL:
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/step_up_egwcrb.png",
+    medicalDescription:
+      "(Testing hip flexors, hamstrings, balance, and coordination)",
+  },
+
+  toe_walking: {
+    id: "toe_walking",
+    level: 2,
+    title: "Heel/Toe Walking",
+    description:
+      "Test your balance and your foot strength! Walk forward on your toes, then turn around and walk back on your heels!",
+    videoURL:
+      "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887209/Kids-N-Motion%20Videos/Toe_Walking_chevus.mp4",
+    previewPictureURL:
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/toe_walking_uyqgpl.png",
+    medicalDescription:
+      "(Testing ankle dorsiflexors, gastrocnemius-soleus group)",
+  },
+
+  side_to_side: {
+    id: "side_to_side",
+    level: 2,
+    title: "Side To Side",
+    description:
+      "For this exercise, we will be jumping side to side, doing our best to keep our feet together. Imagine a line on the floor next to you, and try to jump over it and back!",
+    videoURL:
+      "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887221/Kids-N-Motion%20Videos/side_to_side_f23jwu.mp4",
+    previewPictureURL:
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/side_to_side_ecnudh.png",
+    medicalDescription: "(Strengthening, balance and coordination)",
+  },
+
   beam_balancing: {
     level: 2,
     title: "Balance Beam",
@@ -165,7 +156,6 @@ const VIDEOS = {
     medicalDescription: "(Balance and coordination)",
   },
 
-  // LEVEL 2
   jump_rope: {
     level: 2,
     title: "Jump Rope",
@@ -178,6 +168,7 @@ const VIDEOS = {
     id: "jump_rope",
     medicalDescription: "(Endurance, strengthening, balance, and coordination)",
   },
+
   jumping_jacks: {
     level: 2,
     title: "Jumping Jacks",
@@ -190,6 +181,7 @@ const VIDEOS = {
     id: "jumping_jacks",
     medicalDescription: "(Endurance, strengthening, balance, and coordination)",
   },
+
   jump_forward_and_backward: {
     level: 2,
     title: "Forward Jump",
@@ -202,6 +194,7 @@ const VIDEOS = {
     id: "jump_forward_and_backward",
     medicalDescription: "(Balance and coordination)",
   },
+
   hop_scotch: {
     level: 2,
     title: "Hop Scotch",
@@ -214,6 +207,7 @@ const VIDEOS = {
     id: "hop_scotch",
     medicalDescription: "(Balance and coordination)",
   },
+
   bear_crawl: {
     level: 2,
     title: "Bear Crawl",
@@ -227,6 +221,7 @@ const VIDEOS = {
     medicalDescription:
       "(Total body: Core strength, shoulder, chest, and leg strength)",
   },
+
   // bear_crawl_right: {
   //   level: 2,
   //   title: "Bear Crawl (Right)",
@@ -237,6 +232,32 @@ const VIDEOS = {
   //   previewPictureURL:
   //     "https://res.cloudinary.com/king-willy-studios/image/upload/v1660335545/KidsInMotionThumbnails/Bear_Crawl_1_nbno9g.png",
   //   id: "bear_crawl_right",
+  // },
+
+  ////////////////
+  // LEVEL ZERO //
+  ////////////////
+
+  great_job: {
+    level: 0,
+    title: "Great Job",
+    description: "Great Job!",
+    videoURL:
+      "https://res.cloudinary.com/king-willy-studios/video/upload/v1663948228/Kids-N-Motion%20Videos/Great_job_1_uffxfx.mp4",
+    previewPictureURL:
+      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948312/Kidz-N-Motion%20Thumbnails/Great_job_mjoctd.png",
+    id: "great_job",
+  },
+
+  // keep_it_up: {
+  //   level: 0,
+  //   title: "Keep It Up",
+  //   description: "Keep It Up!",
+  //   videoURL:
+  //     "https://res.cloudinary.com/king-willy-studios/video/upload/v1659471969/KidsInMotion/Ex_Keep_it_Up_yrktik.mp4",
+  //   previewPictureURL:
+  //     "https://res.cloudinary.com/king-willy-studios/video/upload/v1659471969/KidsInMotion/Ex_Keep_it_Up_yrktik.jpg",
+  //   id: "keep_it_up",
   // },
 };
 

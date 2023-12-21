@@ -19,6 +19,10 @@ import client from "@utils/apolloClient";
 // Next.js
 import Router from "next/router";
 
+// Videos
+import VIDEOS from "@constants/videos";
+import { filterObjectKeys } from "../../../functions/objectHandlers";
+
 function AssignmentForm({}) {
   ///////////
   // STATE //
@@ -80,6 +84,40 @@ function AssignmentForm({}) {
     });
   };
 
+  // Grabs all of the Videos
+  const getAllVideos = () => {
+    console.log("VIDEOS")
+    console.log(VIDEOS)
+    // return VIDEOS.filter((vid) => {
+    //   if (vid.level > 0){
+    //     return {
+    //       text: `${vid.title} (Level ${vid.level})`,
+    //       value: vid.id
+  
+    //     }
+    //   }
+    // })
+
+    const checkValid = (vid) => {if (vid.level > 0) return vid}
+
+    const returnAsOption = (vid) => {
+      return {
+        text: `${vid.title} (Level ${vid.level})`,
+        value: vid.id
+
+      }
+    }
+
+    let returnVal = filterObjectKeys(VIDEOS, checkValid, returnAsOption)
+    returnVal = returnVal.filter(val => {
+      if (val){
+        return val
+      }
+    })    
+
+    return returnVal
+  }
+
   // Validates the Form
   function validateForm(values){
     const errors = {};
@@ -105,10 +143,25 @@ function AssignmentForm({}) {
   // RENDERINGS //
   ////////////////
 
+  // Renders the Assignment Title Field
+  const renderTitleField = () => {
+    return(
+      <Field
+        label="Title"
+        name="title"
+        htmlType="text"
+        component={PlainTextField}
+        required={true}
+        size="large"
+        hideErrorText={false}
+      />
+    )
+  }
+
   // Renders the Client Selection Field
   const renderSelectClientsField = () => (
     <Field
-      name="selectedClients"
+      name="selectedClientIDs"
       component={SelectField}
       htmlType="text"
       label="Select Clients"
@@ -118,6 +171,21 @@ function AssignmentForm({}) {
       mode="multiple"
     />
   );
+
+  const renderSelectVideosField = () => {
+    return(
+      <Field
+        name="selectedVideoIDs"
+        component={SelectField}
+        htmlType="text"
+        label="Select Videos"
+        options={getAllVideos()}
+        size="large"
+        required={true}
+        mode="multiple"
+      />
+    )
+  }
 
   // Renders the Start Date Field
   const renderDateField = (startOrEnd) => {
@@ -164,15 +232,7 @@ function AssignmentForm({}) {
     <Row gutter={16}>
       <Col xs={24} md={24}>
         <h3>Step 1: Title Your Assignment</h3>
-        <Field
-          label="Title"
-          name="title"
-          htmlType="text"
-          component={PlainTextField}
-          required={true}
-          size="large"
-          hideErrorText={false}
-        />
+        {renderTitleField()}
       </Col>
       <Col xs={24} md={24}>
         <h3>Step 2: Select a Start Date & an End Date</h3>
@@ -181,25 +241,17 @@ function AssignmentForm({}) {
       <Col xs={24} md={24}>
         {renderDateField("end")}
       </Col>
+      <Col xs={24} md={24}>
+        <h3>Step 3: Select Videos</h3>
+        {renderSelectVideosField()}
+      </Col>
       <>
-        <Col xs={24} md={24}>
-          <h3>Step 3: Add Participants</h3>
-          {renderSelectClientsField()}
-        </Col>
+      <Col xs={24} md={24}>
+        <h3>Step 4: Add Participants</h3>
+        {renderSelectClientsField()}
+      </Col>
       </>
-      {values.guardian && (
-        <Col xs={24} md={24}>
-          <Field
-            name="child"
-            component={SelectField}
-            htmlType="text"
-            label="Child"
-            options={getPossibleChildren(values.guardian)}
-            size="large"
-            required={false}
-          />
-        </Col>
-      )}
+     
     </Row>
 
     <Button
