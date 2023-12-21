@@ -86,20 +86,7 @@ function AssignmentForm({}) {
 
   // Grabs all of the Videos
   const getAllVideos = () => {
-    console.log("VIDEOS")
-    console.log(VIDEOS)
-    // return VIDEOS.filter((vid) => {
-    //   if (vid.level > 0){
-    //     return {
-    //       text: `${vid.title} (Level ${vid.level})`,
-    //       value: vid.id
-  
-    //     }
-    //   }
-    // })
-
     const checkValid = (vid) => {if (vid.level > 0) return vid}
-
     const returnAsOption = (vid) => {
       return {
         text: `${vid.title} (Level ${vid.level})`,
@@ -107,15 +94,12 @@ function AssignmentForm({}) {
 
       }
     }
-
     let returnVal = filterObjectKeys(VIDEOS, checkValid, returnAsOption)
-    returnVal = returnVal.filter(val => {
+    return returnVal.filter(val => {
       if (val){
         return val
       }
     })    
-
-    return returnVal
   }
 
   // Validates the Form
@@ -172,6 +156,7 @@ function AssignmentForm({}) {
     />
   );
 
+  // Renders the Video Selection Field
   const renderSelectVideosField = () => {
     return(
       <Field
