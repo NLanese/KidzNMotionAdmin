@@ -107,6 +107,8 @@ function Assignments({ router }) {
   // Runs Query on Landing
   useEffect(() => {
     getUserAssignments();
+    console.log("User...")
+    console.log(user)
   }, []);
 
 

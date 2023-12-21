@@ -1,28 +1,40 @@
+// React Native
 import React from "react";
 import { Form, Field } from "react-final-form";
 import { OnChange } from "react-final-form-listeners";
-import { PlainTextField, SelectField, DateField } from "@fields";
-import { Col, Row, Button, message, Spin } from "antd";
 
+// Ant Design 
+import { PlainTextField, SelectField, DateField } from "@fields";
+import { Col, Row, Button, message, Spin, Select } from "antd";
+
+// Recoil
 import { userState, assignmentsState } from "@atoms";
 import { useRecoilState } from "recoil";
 
+// Mutations and Queries
 import { useMutation } from "@apollo/client";
 import { CREATE_ASSIGNMENT, GET_USER_MEETINGS } from "@graphql/operations";
 import client from "@utils/apolloClient";
 
+// Next.js
 import Router from "next/router";
 
 function AssignmentForm({}) {
+  ///////////
+  // STATE //
+  ///////////
 
   const [user, setUser] = useRecoilState(userState);
-
   const [assignments, setAssignments] = useRecoilState(assignmentsState);
 
-  // Mutations
+  ///////////////
+  // Mutations //
+  ///////////////
+
+  // Create Assignment Mutation
   const [createAssignment, {}] = useMutation(CREATE_ASSIGNMENT);
 
-
+  // Executes Create Assignment Mutation
   const handleCreateAssignment = async (formValues) => {
     await createAssignment({
       variables: {
@@ -54,16 +66,44 @@ function AssignmentForm({}) {
       });
   };
 
-  const getPossiblClients = () => {
-    return []
+  ///////////////
+  // FUNCTIONS //
+  ///////////////
+
+  // Finds All Possible Clients to make Assignment For
+  const getPossibleClients = () => {
+    return user.patientCarePlans.map((pcp) => {
+      return {
+        text: `${pcp.child.firstName} ${pcp.child.lastName}`,
+        value: pcp.child.id
+      };
+    });
   };
 
+  ////////////////
+  // RENDERINGS //
+  ////////////////
+
+  const renderSelectClientsField = () => (
+    <Field
+      name="selectedClients"
+      component={SelectField}
+      htmlType="text"
+      label="Select Clients"
+      options={getPossibleClients()}
+      size="large"
+      required={true}
+      mode="multiple"
+    />
+  );
 
   return (
     <Spin spinning={false}>
       <Form
         onSubmit={handleCreateAssignment}
-        initialValues={{ dateStart: getTodaysDate().today }}
+        initialValues={{
+          dateStart: new Date().toString().slice(0, 15),
+        }}
         mutators={{
           setValue: ([field, value], state, { changeValue }) => {
             changeValue(state, field, () => value);
@@ -81,11 +121,11 @@ function AssignmentForm({}) {
             errors.assignmentDateTime = "Required";
           }
           if (user.role !== "GUARDIAN") {
-            if (!values.guardian) {
-              errors.guardian = "Required";
+            if (!values.selectedClients || values.selectedClients.length === 0) {
+              errors.selectedClients = "At least one client is required";
             }
           }
-
+        
           return errors;
         }}
         render={({
@@ -111,12 +151,12 @@ function AssignmentForm({}) {
                   htmlType="text"
                   component={PlainTextField}
                   required={true}
-                  size={"large"}
+                  size="large"
                   hideErrorText={false}
                 />
               </Col>
               <Col xs={24} md={24}>
-                <h3>Step 2: Select a Start Date & anEnd Date</h3>
+                <h3>Step 2: Select a Start Date & an End Date</h3>
                 <Field
                   name="type"
                   component={SelectField}
@@ -132,7 +172,7 @@ function AssignmentForm({}) {
                       text: "Phone",
                     },
                   ]}
-                  size={"large"}
+                  size="large"
                   required={true}
                 />
               </Col>
@@ -144,32 +184,16 @@ function AssignmentForm({}) {
                   component={DateField}
                   showTime={true}
                   required={true}
-                  size={"large"}
+                  size="large"
                   hideErrorText={false}
                 />
               </Col>
-              {user.role !== "GUARDIAN" && (
-                <>
-                  <Col xs={24} md={24}>
-                    <h3>Step 3: Add Participants</h3>
-                    <Field
-                      name="guardian"
-                      component={SelectField}
-                      htmlType="text"
-                      label="Guardian"
-                      options={getPossibleGuardians()}
-                      size={"large"}
-                      required={true}
-                    />
-                    <OnChange name="guardian">
-                      {(value, previous) => {
-                        // do something
-                        form.mutators.setValue("child", null);
-                      }}
-                    </OnChange>
-                  </Col>
-                </>
-              )}
+              <>
+                <Col xs={24} md={24}>
+                  <h3>Step 3: Add Participants</h3>
+                  {renderSelectClientsField()}
+                </Col>
+              </>
               {values.guardian && (
                 <Col xs={24} md={24}>
                   <Field
@@ -178,7 +202,7 @@ function AssignmentForm({}) {
                     htmlType="text"
                     label="Child"
                     options={getPossibleChildren(values.guardian)}
-                    size={"large"}
+                    size="large"
                     required={false}
                   />
                 </Col>
@@ -190,7 +214,7 @@ function AssignmentForm({}) {
               loading={submitting}
               htmlType="submit"
               block={true}
-              size={"large"}
+              size="large"
               disabled={invalid || pristine}
             >
               {user.role === "GUARDIAN" ? "Request Assignment" : "Create Assignment"}
