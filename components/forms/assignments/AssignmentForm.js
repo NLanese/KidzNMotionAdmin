@@ -13,7 +13,7 @@ import { useRecoilState } from "recoil";
 
 // Mutations and Queries
 import { useMutation } from "@apollo/client";
-import { CREATE_ASSIGNMENT, GET_USER_MEETINGS } from "@graphql/operations";
+import { CREATE_ASSIGNMENT, GET_USER_ASSIGNMENTS } from "@graphql/operations";
 import client from "@utils/apolloClient";
 
 // Next.js
@@ -40,34 +40,43 @@ function AssignmentForm({}) {
 
   // Executes Create Assignment Mutation
   const handleCreateAssignment = async (formValues) => {
-    await createAssignment({
-      variables: {
-        type: formValues.type,
-        title: formValues.title,
-        assignmentDateTime: formValues.assignmentDateTime,
-        participantIDs: user.role === "GUARDIAN" ? getUserTherapist() : [formValues.guardian, formValues.child],
-      },
-    })
-      .then(async (resolved) => {
-        message.success("Successfully Created Assignment");
-        Router.push("/assignments");
 
-        // Get the full user object and set that to state
-        await client
-          .query({
-            query: GET_USER_MEETINGS,
-            fetchPolicy: "network-only",
-          })
-          .then(async (resolved) => {
-            setAssignments(resolved.data.getAssignments);
-          })
-          .catch((error) => {
-            message.error("Sorry, there was an error getting this information");
-          });
+    // For every Child this assignment is intended for...
+    formValues.selectedClientIDs.forEach(async (id) => {
+
+      // ...Create the Assignment by executing Mutation
+      await createAssignment({
+        variables: {
+          childCarePlanID: id,
+          dateStart: formValues.dateStart.toString().slice(0,15),
+          dateDue: formValues.dateDue.toString().slice(0,15),
+          title: formValues.title,
+          videosIDs: form.selectedVideoIDs
+        },
       })
-      .catch((error) => {
-        message.error(error.message);
-      });
+        // ...then Notify the user of success
+        .then(async (resolved) => {
+          message.success("Successfully Created Assignment for child " + id);
+          Router.push("/assignments");
+  
+          // ...and run another query to get the new list of assignments so that the page reflects the changes
+          await client
+            .query({
+              query: GET_USER_ASSIGNMENTS,
+              fetchPolicy: "network-only",
+            })
+            .then(async (resolved) => {
+              setAssignments(resolved.data.getAssignments);
+            })
+            .catch((error) => {
+              message.error("Sorry, there was an error getting this information");
+            });
+        })
+        .catch((error) => {
+          message.error(error.message);
+        });
+    })
+    
   };
 
   ///////////////
@@ -198,6 +207,22 @@ function AssignmentForm({}) {
     )
   }
 
+  // Renders the Submit Button for the Field
+  const renderSubmitButton = (submitting, pristine, invalid) => {
+    return(
+      <Button
+        type="primary"
+        loading={submitting}
+        htmlType="submit"
+        block={true}
+        size="large"
+        disabled={invalid || pristine}
+      >
+        Create Assignment
+      </Button>
+    )
+  }
+
   // Main Form
   const renderForm = (
     handleSubmit,
@@ -236,23 +261,17 @@ function AssignmentForm({}) {
         {renderSelectClientsField()}
       </Col>
       </>
-     
+      {renderSubmitButton(submitting, pristine, invalid)}
     </Row>
 
-    <Button
-      type="primary"
-      loading={submitting}
-      htmlType="submit"
-      block={true}
-      size="large"
-      disabled={invalid || pristine}
-    >
-      {user.role === "GUARDIAN" ? "Request Assignment" : "Create Assignment"}
-    </Button>
     </form>
     )
   }
 
+
+  /////////////////
+  // MAIN RETURN //
+  /////////////////
   return (
     <Spin spinning={false}>
       <Form
