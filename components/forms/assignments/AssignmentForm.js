@@ -8,33 +8,21 @@ import { userState, assignmentsState } from "@atoms";
 import { useRecoilState } from "recoil";
 
 import { useMutation } from "@apollo/client";
-import { CREATE_MEETING, GET_USER_MEETINGS } from "@graphql/operations";
+import { CREATE_ASSIGNMENT, GET_USER_MEETINGS } from "@graphql/operations";
 import client from "@utils/apolloClient";
 
 import Router from "next/router";
 
 function AssignmentForm({}) {
+
   const [user, setUser] = useRecoilState(userState);
+
   const [assignments, setAssignments] = useRecoilState(assignmentsState);
+  const [passedAssignments, setPassedAssignments] = useRecoilState()
 
   // Mutations
-  const [createAssignment, {}] = useMutation(CREATE_MEETING);
+  const [createAssignment, {}] = useMutation(CREATE_ASSIGNMENT);
 
-  const getUserTherapist = () => {
-
-    let therapistID = null
-    if (user.children) {
-      if (user.children[0]) {
-        if (user.children[0].childCarePlans) {
-          if (user.children[0].childCarePlans[0]) {
-            if (user.children[0].childCarePlans[0].therapist) {
-              return [user.children[0].childCarePlans[0].therapist.id]
-            } 
-          } 
-        }
-      }
-    }
-  }
 
   const handleCreateAssignment = async (formValues) => {
     await createAssignment({
@@ -67,43 +55,16 @@ function AssignmentForm({}) {
       });
   };
 
-  const getPossibleGuardians = () => {
-    let guardians = [];
-    if (!user.patientCarePlans) {
-      return [];
-    }
-    user.patientCarePlans.map((carePlanObject) => {
-      guardians.push({
-        value: carePlanObject.child.guardian.id,
-        text: `${carePlanObject.child.guardian.firstName} ${carePlanObject.child.guardian.lastName}`,
-      });
-    });
-
-    return guardians;
+  const getPossiblClients = () => {
+    return []
   };
 
-  const getPossibleChildren = (selectedGuardian) => {
-    let children = [];
-    if (!user.patientCarePlans) {
-      return [];
-    }
-    user.patientCarePlans.map((carePlanObject) => {
-      if (carePlanObject.child.guardian.id === selectedGuardian) {
-        children.push({
-          value: carePlanObject.child.id,
-          text: `${carePlanObject.child.firstName} ${carePlanObject.child.lastName}`,
-        });
-      }
-    });
-
-    return children;
-  };
 
   return (
     <Spin spinning={false}>
       <Form
         onSubmit={handleCreateAssignment}
-        initialValues={{ type: "IN_PERSON" }}
+        initialValues={{ dateStart: getTodaysDate().today }}
         mutators={{
           setValue: ([field, value], state, { changeValue }) => {
             changeValue(state, field, () => value);
@@ -156,7 +117,7 @@ function AssignmentForm({}) {
                 />
               </Col>
               <Col xs={24} md={24}>
-                <h3>Step 2: Select A Date & Time</h3>
+                <h3>Step 2: Select a Start Date & anEnd Date</h3>
                 <Field
                   name="type"
                   component={SelectField}

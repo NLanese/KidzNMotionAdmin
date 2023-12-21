@@ -12,7 +12,7 @@ import Router from "next/router";
 import { NextSeo } from "next-seo";
 
 // Recoil
-import { userState, assignmentsState } from "@atoms";
+import { userState, assignmentsState, passedAssignmentsState } from "@atoms";
 import { useRecoilValue, useRecoilState } from "recoil";
 
 import LoadingBlock from "@common/LoadingBlock";
@@ -47,7 +47,9 @@ function Assignments({ router }) {
   ///////////
 
   const user = useRecoilValue(userState);
+
   const [assignments, setAssignments] = useRecoilState(assignmentsState);
+  const [passedAssignments, setPassedAssignments] = useRecoilState(passedAssignmentsState)
 
   ///////////////////////////
   // MUTATIONS and QUERIES //
@@ -68,7 +70,22 @@ function Assignments({ router }) {
         })
         .then(async (resolved) => {
           console.log(resolved);
-          setAssignments(resolved.data.getAssignments);
+          if (resolved.data.getAssignments.length === 0){
+            setAssignments([])
+            setPassedAssignments([])
+          }
+          else{
+            let passed = []
+            let current = []
+            resolved.data.getAssignments.forEach((assign) => {
+              if (!assign.id){
+                return
+              }
+              console.log(assign)
+              setAssignments([])
+              setPassedAssignments([])
+            })
+          }
         })
         .catch((error) => {
           setAssignments(null);

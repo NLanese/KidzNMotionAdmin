@@ -15,6 +15,7 @@ export const userState = atom({
 	},
 });
 
+// Meetings
 export const meetingsState = atom({
 	key: 'meetingsState',
 	default: {
@@ -22,6 +23,7 @@ export const meetingsState = atom({
 	},
 });
 
+// Assignments (Not Completed / Failed)
 export const assignmentsState = atom({
 	key: 'assignmentsState',
 	default: {
@@ -29,6 +31,13 @@ export const assignmentsState = atom({
 	}
 })
 
+// Assignments (Completed / Failed)
+export const passedAssignmentsState = atom({
+	key: 'passedAssignmentsState',
+	default: {
+		loading: true
+	}
+})
 
 export const chatRoomState = atom({
 	key: 'chatRoomState',

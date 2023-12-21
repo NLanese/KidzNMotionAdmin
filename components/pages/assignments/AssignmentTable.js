@@ -78,6 +78,11 @@ function determineApprovalStatusColor(record) {
   }
 }
 
+// Determines Completion Status
+function determineCompletionStatus(record){
+  
+}
+
 // Depending on Assignment Completion Date, either renders the 'Viewed' Column or "Completed" column
 function determineViewedOrCompletedColumn(showPassed){
   if (showPassed){
