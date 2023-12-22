@@ -112,44 +112,30 @@ export default {
         console.log(user)
 
         // If this is a Guardian Account...
-        if (user.role === "GUARDIAN"){
-            console.log("Guardian User")
-            return user.children.map(child => {
-                console.log("CHILD")
-                console.log(child)
-                console.log("CARE PLAN")
-                console.log(child.childCarePlans[0])
-                return child.childCarePlans[0].assignments.filter(assign => {
-                    if (assign.id){
-                        return (assign)
-                    }
-                })
-            })
-        }
+        if (user.role === "GUARDIAN") {
+            console.log("Guardian User");
+            return user.children.flatMap((child) => {
+              console.log("CHILD:", child);
+              console.log("CARE PLAN:", child.childCarePlans[0]);
+              return child.childCarePlans[0]?.assignments || [];
+            });
+          } 
         
         // If this is a Child Account...
-        else if (user.role === "CHILD"){
-            console.log("Child User")
-            return user.childCarePlans[0].assignments.filter((assign) => {
-                if (assign.id){
-                    return (assign)
-                }
-            })
+        else if (user.role === "CHILD") {
+            console.log("Child User");
+            return user.childCarePlans[0]?.assignments || [];
         }
 
-        else if (user.role === "THERAPIST"){
-            console.log("Therapist User")
-            console.log("Patient Care Plans")
-            console.log(user.patientCarePlans)
-            return user.patientCarePlans.map((pcp) => {
-                console.log("Care Plan " + pcp.id + "'s Assignments")
-                console.log(pcp.assignments)
-               return pcp.assignments.filter((assign) => {
-                if (assign.id){
-                    return (assign)
-                }
-               })
-            })
+        // If this is a Therapist Account
+        else if (user.role === "THERAPIST") {
+            console.log("Therapist User");
+            console.log("Patient Care Plans", user.patientCarePlans);
+            return user.patientCarePlans.flatMap((pcp) => {
+              console.log("Care Plan " + pcp.id + "'s Assignments");
+              console.log(pcp.assignments);
+              return pcp.assignments || [];
+            });
         }
 
     },
