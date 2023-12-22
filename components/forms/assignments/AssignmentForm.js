@@ -43,7 +43,9 @@ function AssignmentForm({}) {
 
     // For every Child this assignment is intended for...
     formValues.selectedClientIDs.forEach(async (id) => {
-
+      if (id === "" || id === null || id.length < 2){
+        return
+      }
       let desc = (formValues.description && formValues.description.length > 0) ? formValues.description : "No special instructions"
       let videos = formValues.selectedVideoIDs.filter(val => {
         if (val && val !== "" && val.length !== 0){
@@ -103,8 +105,6 @@ function AssignmentForm({}) {
   // Finds All Possible Clients to make Assignment For
   const getPossibleClients = () => {
     return user.patientCarePlans.map((pcp) => {
-      console.log("Found Patient Care Plan:::")
-      console.log(pcp)
       return {
         text: `${pcp.child.firstName} ${pcp.child.lastName}`,
         value: pcp.id

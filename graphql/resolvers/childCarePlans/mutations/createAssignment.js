@@ -18,28 +18,28 @@ export default {
         throw new UserInputError("Only therapists can edit child care plans");
 
       // Find the child care plan that we are tyring to edit
-      console.log("Locating Child Care Plan")
+      console.log("Locating Child Care Plan with id " + childCarePlanID)
       let childCarePlan = await prisma.childCarePlan.findUnique({
         where: {
           id: childCarePlanID,
         },
         select: {
           id: true,
-        //   child: {
-        //     select: {
-        //       id: true,
-        //       guardian: {
-        //         select: {
-        //           id: true,
-        //         },
-        //       },
-        //     },
-        //   },
-        //   therapist: {
-        //     select: {
-        //       id: true,
-        //     },
-        //   },
+          child: {
+            select: {
+              id: true,
+              guardian: {
+                select: {
+                  id: true,
+                },
+              },
+            },
+          },
+          therapist: {
+            select: {
+              id: true,
+            },
+          },
         },
       });
 

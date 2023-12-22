@@ -78,10 +78,12 @@ function Assignments({ router }) {
         } else {
           let passed = [];
           let current = [];
-          let assignments =
-            resolved.data.getAssignments.length > 0
-              ? resolved.data.getAssignments
-              : "No Assignments";
+          let assignments = resolved.data.getAssignments.filter(assign => {
+            if (assign.id){
+              return assign
+            }
+          })
+          assignments = assignments.length > 0 ? resolved.data.getAssignments : "No Assignments";
   
           if (assignments === "No Assignments") {
             return;
