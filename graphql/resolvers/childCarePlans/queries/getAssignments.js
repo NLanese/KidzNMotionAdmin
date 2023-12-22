@@ -118,7 +118,7 @@ export default {
                 console.log(child)
                 console.log("CARE PLAN")
                 console.log(child.childCarePlans[0])
-                child.childCarePlans[0].assignments.map(assign => {
+                return child.childCarePlans[0].assignments.map(assign => {
                     if (assign.id){
                         return (assign)
                     }
@@ -134,9 +134,6 @@ export default {
                     return (assign)
                 }
             })
-
-            console.log("Returning Assignments")
-            return assignments
         }
 
         else if (user.role === "THERAPIST"){

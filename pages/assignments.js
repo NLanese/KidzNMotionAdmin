@@ -61,48 +61,63 @@ function Assignments({ router }) {
   // Queries all Assignments
   const getUserAssignments = async () => {
     const token = localStorage.getItem("token");
-
+  
     if (token) {
-      await client
-        .query({
+      try {
+        const resolved = await client.query({
           query: GET_USER_ASSIGNMENTS,
           fetchPolicy: "network-only",
-        })
-        .then(async (resolved) => {
-          console.log(resolved);
-          if (resolved.data.getAssignments.length === 0){
-            setAssignments([])
-            setPassedAssignments([])
-            return
-          }
-          else{
-            let passed = []
-            let current = []
-            resolved.data.getAssignments.forEach((assign) => {
-              console.log(assign)
-              if (assign.id){
-                if (true){
-                  current.append(assign)
-                }
-                else{
-                  passed.append(assign)
-                }
-              }
-            })
-            setAssignments([])
-            setPassedAssignments([])
-          }
-        })
-        .catch((error) => {
-          console.log("Error getting assignments")
-          console.log(error)
-          setAssignments(null);
-          message.error("Sorry, there was an error getting your assignments. Please try again!");
         });
+  
+        console.log(resolved);
+  
+        if (resolved.data.getAssignments.length === 0) {
+          setAssignments([]);
+          setPassedAssignments([]);
+          return;
+        } else {
+          let passed = [];
+          let current = [];
+          let assignments =
+            resolved.data.getAssignments.length > 0
+              ? resolved.data.getAssignments
+              : "No Assignments";
+  
+          if (assignments === "No Assignments") {
+            return;
+          }
+
+          console.log(assignments)
+  
+          assignments.forEach((assign) => {
+            console.log(assign);
+  
+            if (assign.id) {
+              if (true) {
+                current.push(assign); // Use push instead of append
+              } else {
+                passed.push(assign);
+              }
+            }
+          });
+  
+          setAssignments(current);
+          setPassedAssignments(passed);
+          return;
+        }
+      } catch (error) {
+        console.log("Error getting assignments");
+        console.log(error);
+        setAssignments(null);
+        message.error(
+          "Sorry, there was an error getting your assignments. Please try again!"
+        );
+      }
     } else {
       setAssignments(null);
     }
   };
+  
 
   // Runs Query on Landing
   useEffect(() => {
