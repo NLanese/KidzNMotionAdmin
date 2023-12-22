@@ -582,6 +582,17 @@ const GET_USER_ASSIGNMENTS = gql`
   query Query{
     getAssignments {
       id
+      dateStart
+      dateDue
+      title
+      childCarePlan {
+        id
+        child {
+          id 
+          firstName
+          lastName
+        }
+      }
     }
   }
 `

@@ -94,6 +94,7 @@ export default {
                                         id: true,
                                         child: {
                                             select: {
+                                                id: true,
                                                 firstName: true,
                                                 lastName: true
                                             }
@@ -118,7 +119,7 @@ export default {
                 console.log(child)
                 console.log("CARE PLAN")
                 console.log(child.childCarePlans[0])
-                return child.childCarePlans[0].assignments.map(assign => {
+                return child.childCarePlans[0].assignments.filter(assign => {
                     if (assign.id){
                         return (assign)
                     }
@@ -129,7 +130,7 @@ export default {
         // If this is a Child Account...
         else if (user.role === "CHILD"){
             console.log("Child User")
-            return user.childCarePlans[0].assignments.map((assign) => {
+            return user.childCarePlans[0].assignments.filter((assign) => {
                 if (assign.id){
                     return (assign)
                 }
@@ -138,8 +139,12 @@ export default {
 
         else if (user.role === "THERAPIST"){
             console.log("Therapist User")
-            return user.patientCarePlans.map(pcp => {
-               return pcp.assignments.map((assign) => {
+            console.log("Patient Care Plans")
+            console.log(user.patientCarePlans)
+            return user.patientCarePlans.map((pcp) => {
+                console.log("Care Plan " + pcp.id + "'s Assignments")
+                console.log(pcp.assignments)
+               return pcp.assignments.filter((assign) => {
                 if (assign.id){
                     return (assign)
                 }

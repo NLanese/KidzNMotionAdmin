@@ -54,15 +54,6 @@ function AssignmentForm({}) {
       })
 
       // ...Create the Assignment by executing Mutation
-      console.log("Creating Assignmnet with the following params...")
-      console.log({
-        childCarePlanID: id,
-        dateStart: formValues.dateStart.toString().slice(0,15),
-        dateDue: formValues.dateDue.toString().slice(0,15),
-        description: desc,
-        title: formValues.title,
-        videoIDs: videos
-      })
       await createAssignment({
         variables: {
           childCarePlanID: id,
