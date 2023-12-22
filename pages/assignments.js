@@ -55,8 +55,6 @@ function Assignments({ router }) {
   // MUTATIONS and QUERIES //
   ///////////////////////////
 
-  // Approves a Pending Assignment
-  const [createAssignment, {}] = useMutation(CREATE_ASSIGNMENT);
 
   // Queries all Assignments
   const getUserAssignments = async () => {
@@ -119,9 +117,8 @@ function Assignments({ router }) {
       setAssignments(null);
     }
   };
-  
 
-  // Runs Query on Landing
+  // Runs Query on Init
   useEffect(() => {
     getUserAssignments();
     console.log("User...")
@@ -169,7 +166,11 @@ function Assignments({ router }) {
     return intitalValues;
   };
 
-  // Renders Button to Create an Assignment (if Thereapist)
+  ////////////////
+  // RENDERINGS //
+  ////////////////
+
+  // Renders Button to Create an Assignment (if Therapist)
   const renderCreateAssignmentButton = () => {
     if (user.role === "THERAPIST"){
       return(
@@ -184,6 +185,55 @@ function Assignments({ router }) {
     }
   }
 
+  // Renders the Assignment Creation / Editing Form
+  const renderForm = () => {
+    return(
+      <Drawer
+        placement="right"
+        width={500}
+        title={router.query.create ? 
+          "Create Assignment" : "Edit Assignment"
+        }
+        onClose={() => Router.push("/assignments", null, { shallow: true })}
+        visible={router.query.create || router.query.id}
+      >
+        {router.query.create && <AssignmentForm />}
+        {router.query.id && !router.query.approve && (
+          <EditAssignmentForm
+            initialValues={getInitialValues()}
+            createAssignment={router.query.create}
+          />
+        )}
+      </Drawer>
+    )
+  }
+
+  // Renders the Table Column
+  const renderTableColumn = () => {
+    return(
+      <Col lg={24} xl={12}>
+        <ContentCard>
+          <AssignmentsTable assignments={assignments} passedAssignments={assignments} userID={user.id} userRole={user.role}/>
+        </ContentCard>
+      </Col>
+    )
+  }
+
+  // Renders the Calendar Column
+  const renderCalendarColumn = () => {
+    return(
+      <Col lg={24} xl={12}>
+        <ContentCard>
+          <AssignmentCalendar assignments={[...assignments, ...passedAssignments]} userID={user.id} />
+        </ContentCard>
+      </Col>
+    )
+  }
+
+
+  /////////////////
+  // MAIN RETURN //
+  /////////////////
   return (
     <AssignmentsWrapper>
       <NextSeo title="Assignments" />
@@ -191,39 +241,9 @@ function Assignments({ router }) {
       {assignments && assignments.loading && <LoadingBlock />}
       {assignments && !assignments.loading && (
         <Row gutter={[16, 16]}>
-          <Col lg={24} xl={12}>
-            <ContentCard>
-              <AssignmentsTable assignments={assignments} userID={user.id} userRole={user.role}/>
-            </ContentCard>
-          </Col>
-          <Col lg={24} xl={12}>
-            <ContentCard>
-              <AssignmentCalendar assignments={assignments} userID={user.id} />
-            </ContentCard>
-          </Col>
-          <Drawer
-            placement="right"
-            width={500}
-            title={
-              router.query.create
-                ? user.role === "GUARDIAN"
-                  ? "Request Assignment"
-                  : "Create Assignment"
-                : router.query.id && router.query.approve
-                ? "Approve Assignment"
-                : "Edit Assignment"
-            }
-            onClose={() => Router.push("/assignments", null, { shallow: true })}
-            visible={router.query.create || router.query.id}
-          >
-            {router.query.create && <AssignmentForm />}
-            {router.query.id && !router.query.approve && (
-              <EditAssignmentForm
-                initialValues={getInitialValues()}
-                createAssignment={router.query.create}
-              />
-            )}
-          </Drawer>
+          {renderTableColumn()}
+          {renderCalendarColumn()}
+          {renderForm()}
         </Row>
       )}
     </AssignmentsWrapper>

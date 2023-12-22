@@ -38,102 +38,14 @@ const AssignmentTableWrapper = styled.div`
 ////////////////
 
   // Renders APPROVED | NOT APPROVED | PENDING APPROVAL
-  function renderApprovalStatus(record) {
-    if (record.canceled) {
-      return "CANCELLED";
-    }
-
-    if (!record.approved && !record.pendingApproval) {
-      return "NOT APPROVED";
-    }
-
-    if (record.approved) {
-      return "Approved"
-    } else {
-      if (record.pendingApproval) {
-        return "Pending Approval"
-      }
-    }
+  function renderSeenStatusButton(record) {
+    
   }
 
-///////////////
-// FUNCTIONS //
-///////////////
-
-// Determines the color of the Approval Status
-function determineApprovalStatusColor(record) {
-  if (record.canceled) {
-    return "red";
-  }
-  if (!record.approved && !record.pendingApproval) {
-    return "red";
-  }
-
-  if (record.approved) {
-    return "green";
-  } else {
-    if (record.pendingApproval) {
-      return "yellow";
-    }
-  }
-}
-
-// Determines Completion Status
-function determineCompletionStatus(record){
-  
-}
-
-// Depending on Assignment Completion Date, either renders the 'Viewed' Column or "Completed" column
-function determineViewedOrCompletedColumn(showPassed){
-  if (showPassed){
-    return {
-      title: "Completion Status",
-      dataIndex: "type",
-      key: "type",
-      render: (text, record, index) => (
-        <span>
-          <Tag>{record.type.replace("_", " ").toString().toUpperCase()}</Tag>
-        </span>
-      ),
-    }
-  }
-  else{
-    return {
-      title: "Viewed Status",
-      dataIndex: "type",
-      key: "type",
-      render: (text, record, index) => (
-        <span>
-          <Tag>{record.type.replace("_", " ").toString().toUpperCase()}</Tag>
-        </span>
-      ),
-    }
-  }
-}
-
-// Based on the User role, determines the columns on the table
-function determineColumns(userRole, showPassed){
-
-  let columns
-
-  if (userRole === "THERAPIST" || userRole === "ADMIN" || userRole === "GUARDIAN"){
-    columns = [
-        {
-          title: "Child",
-          dataIndex: "title",
-          key: "title",
-          render: (text, record, index) => (
-            <BasicLink
-              href={
-                record.assignmentOwnerID === userID
-                  ? `/assignments?id=${record.id}`
-                  : `/assignments?id=${record.id}&approve=true`
-              }
-            >
-              {record.title} (Open)
-            </BasicLink>
-          ),
-        },
+  // Column Details for Child Users
+  const childColumns = (record) => {
+    return(
+      [
         {
           title: "Date Assigned",
           dataIndex: "users",
@@ -160,17 +72,7 @@ function determineColumns(userRole, showPassed){
             </span>
           ),
         },
-        {
-          title: "Viewed Status",
-          dataIndex: "type",
-          key: "type",
-          render: (text, record, index) => (
-            <span>
-              <Tag>{record.type.replace("_", " ").toString().toUpperCase()}</Tag>
-            </span>
-          ),
-        },
-    
+        {...determineViewedOrCompletedColumn(showPassed)},
         {
           title: "Assigned Videos",
           dataIndex: "approvalStatus",
@@ -185,18 +87,86 @@ function determineColumns(userRole, showPassed){
             </span>
           ),
         },
-    ];
+      ]
+    )
+  } 
+
+  // Column Details for all other Users
+  const defaultColumns = (record) => {
+    return([
+      // Child Name
+      
+
+      // Date Assigned
+
+
+      // Date Due
+      
+
+      // Viewed Status
+      {
+        title: "Viewed Status",
+        dataIndex: "type",
+        key: "type",
+        render: (text, record, index) => (
+          <span>
+            <Tag>{record.type.replace("_", " ").toString().toUpperCase()}</Tag>
+          </span>
+        ),
+      },
+
+      // Assigned Videos
+      {
+        title: "Assigned Videos",
+        dataIndex: "approvalStatus",
+        key: "approvalStatus",
+
+        defaultSortOrder: "descend",
+        render: (text, record, index) => (
+          <span>
+            <Tag color={renderApprovalStatusColor(record)}>
+              {renderApprovalStatus(record)}
+            </Tag>
+          </span>
+        ),
+      },
+    ])
   }
-  else if (userRole === "CHILD"){
-    columns = [
+
+  const childNameColumn = (record) => {
+    return ({
+      title: "Child",
+      dataIndex: "title",
+      key: "title",
+      render: (text, record, index) => (
+        <BasicLink
+          href={
+            record.assignmentOwnerID === userID
+              ? `/assignments?id=${record.id}`
+              : `/assignments?id=${record.id}&approve=true`
+          }
+        >
+          {record.title} (Open)
+        </BasicLink>
+      ),
+    })
+  }
+
+  const dateAssignedColumn = (record) => {
+    return(
       {
         title: "Date Assigned",
         dataIndex: "users",
         key: "users",
         render: (text, record, index) => (
           <>{getAssignmentParticpants(record.users)}</>
-        ),
-      },
+        )
+      }
+    )
+  }
+
+  const dateDueColumn = (record) => {
+    return(
       {
         title: "Date Due",
         dataIndex: "assignmentDateTime",
@@ -213,24 +183,77 @@ function determineColumns(userRole, showPassed){
               )}
             </Text>
           </span>
+        )
+      }
+    )
+  }
+
+  const viewedStatusColumn = (record) => {
+    if (user.role === "CHILD"){
+      return {
+        title: "Viewed Status",
+        dataIndex: "type",
+        key: "type",
+        render: (text, record, index) => (
+          renderSeenStatusButton()
         ),
-      },
-      {...determineViewedOrCompletedColumn(showPassed)},
-      {
-        title: "Assigned Videos",
-        dataIndex: "approvalStatus",
-        key: "approvalStatus",
-  
-        defaultSortOrder: "descend",
+      }
+    }
+    else {
+      return {
+        title: "Viewed Status",
+        dataIndex: "type",
+        key: "type",
         render: (text, record, index) => (
           <span>
-            <Tag color={renderApprovalStatusColor(record)}>
-              {renderApprovalStatus(record)}
-            </Tag>
-          </span>
+          <Tag>{record.seen ? "Seen" : "Not Seen"}</Tag>
+        </span>
         ),
-      },
-  ];
+      }
+    }
+  }
+
+///////////////
+// FUNCTIONS //
+///////////////
+
+// Depending on Assignment Completion Date, either renders the 'Viewed' Column or "Completed" column
+function determineViewedOrCompletedColumn(showPassed, record){
+
+  // If this is an Expired Assignment, shows whether completed or failed
+  if (showPassed){
+    return {
+      title: "Completion Status",
+      dataIndex: "type",
+      key: "type",
+      render: (text, record, index) => (
+        <span>
+          <Tag>{record.type.replace("_", " ").toString().toUpperCase()}</Tag>
+        </span>
+      ),
+    }
+  }
+
+  // If this is an Active Assignment, shows whether child has seen it or not
+  else{
+    return {
+      title: "Viewed Status",
+      dataIndex: "type",
+      key: "type",
+      render: (text, record, index) => (
+        renderSeenStatusButton()
+      ),
+    }
+  }
+}
+
+// Based on the User role, determines the columns on the table
+function determineColumns(userRole, showPassed){
+  if (userRole === "THERAPIST" || userRole === "ADMIN" || userRole === "GUARDIAN"){
+    return defaultColumns
+  }
+  else if (userRole === "CHILD"){
+    return childColumns
   }
 }
 

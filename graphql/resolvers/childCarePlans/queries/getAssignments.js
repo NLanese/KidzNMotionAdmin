@@ -31,6 +31,7 @@ export default {
                                         id: true,
                                         child: {
                                             select: {
+                                                id: true,
                                                 firstName: true,
                                                 lastName: true
                                             }
@@ -39,14 +40,15 @@ export default {
                                 },
                                 videos: {
                                     select: {
-                                        title: true,
                                         completed: true,
+                                        contentfulID: true,
                                     }
                                 }
                             }
                         }
                     }
                 },
+                                
                 children: {
                     select: {
                         firstName: true,
@@ -67,14 +69,21 @@ export default {
                                                 id: true,
                                                 child: {
                                                     select: {
+                                                        id: true,
                                                         firstName: true,
                                                         lastName: true
                                                     }
                                                 }
                                             }
+                                        },
+                                        videos: {
+                                            select: {
+                                                completed: true,
+                                                contentfulID: true,
+                                            }
                                         }
                                     }
-                                }
+                                },
                             }
                         }
                     }
@@ -99,6 +108,12 @@ export default {
                                                 lastName: true
                                             }
                                         }
+                                    }
+                                },
+                                videos: {
+                                    select: {
+                                        completed: true,
+                                        contentfulID: true,
                                     }
                                 }
                             }
