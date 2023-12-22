@@ -102,7 +102,7 @@ function Assignments({ router }) {
           });
   
           setAssignments(current);
-          setPassedAssignments(passed);
+          // setPassedAssignments(passed);
           return;
         }
       } catch (error) {
@@ -221,6 +221,10 @@ function Assignments({ router }) {
 
   // Renders the Calendar Column
   const renderCalendarColumn = () => {
+    console.log("Assignments")
+    console.log(assignments)
+    console.log("Passed Assignments")
+    console.log(passedAssignments)
     return(
       <Col lg={24} xl={12}>
         <ContentCard>

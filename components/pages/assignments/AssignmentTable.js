@@ -95,25 +95,16 @@ const AssignmentTableWrapper = styled.div`
   const defaultColumns = (record) => {
     return([
       // Child Name
-      
+      childNameColumn(record),
 
       // Date Assigned
-
+      dateAssignedColumn(record),
 
       // Date Due
-      
+      dateDueColumn(record),
 
       // Viewed Status
-      {
-        title: "Viewed Status",
-        dataIndex: "type",
-        key: "type",
-        render: (text, record, index) => (
-          <span>
-            <Tag>{record.type.replace("_", " ").toString().toUpperCase()}</Tag>
-          </span>
-        ),
-      },
+      determineViewedOrCompletedColumn(showPassed, record),
 
       // Assigned Videos
       {
@@ -133,25 +124,27 @@ const AssignmentTableWrapper = styled.div`
     ])
   }
 
+
+  /////////////
+  // Columns //
+  /////////////
+  
+
+  // Child's Name
   const childNameColumn = (record) => {
     return ({
       title: "Child",
-      dataIndex: "title",
-      key: "title",
+      dataIndex: "childName",
+      key: "childName",
       render: (text, record, index) => (
-        <BasicLink
-          href={
-            record.assignmentOwnerID === userID
-              ? `/assignments?id=${record.id}`
-              : `/assignments?id=${record.id}&approve=true`
-          }
-        >
-          {record.title} (Open)
-        </BasicLink>
+        <Text>
+          {record.child.firstName} {record.child.lastName}
+        </Text>
       ),
     })
   }
 
+  // Date Assigned
   const dateAssignedColumn = (record) => {
     return(
       {
@@ -159,12 +152,15 @@ const AssignmentTableWrapper = styled.div`
         dataIndex: "users",
         key: "users",
         render: (text, record, index) => (
-          <>{getAssignmentParticpants(record.users)}</>
+          <Text>
+            {record.dateStart}
+          </Text>
         )
       }
     )
   }
 
+  // Date Due
   const dateDueColumn = (record) => {
     return(
       {
@@ -172,22 +168,38 @@ const AssignmentTableWrapper = styled.div`
         dataIndex: "assignmentDateTime",
         key: "assignmentDateTime",
         render: (text, record, index) => (
-          <span>
-            <Text>
-              {dateFormat(
-                changeTimeZone(
-                  new Date(record.assignmentDateTime.toString().split(".000Z")[0]),
-                  "America/New_York"
-                ),
-                "m/dd/yy hh:MM tt"
-              )}
-            </Text>
-          </span>
+          <Text>
+            {record.dateDue}
+          </Text>
         )
       }
     )
   }
 
+  // Depending on Assignment Completion Date, either renders the 'Viewed' Column or "Completed" column
+  function determineViewedOrCompletedColumn(showPassed, record){
+
+    // If this is an Expired Assignment, shows whether completed or failed
+    if (showPassed){
+      return {
+        title: "Completion Status",
+        dataIndex: "type",
+        key: "type",
+        render: (text, record, index) => (
+          <span>
+            <Tag>{record.type.replace("_", " ").toString().toUpperCase()}</Tag>
+          </span>
+        ),
+      }
+    }
+
+    // If this is an Active Assignment, shows whether child has seen it or not
+    else{
+      return viewedStatusColumn()
+    }
+  }
+
+  // Renders the Viewed Column
   const viewedStatusColumn = (record) => {
     if (user.role === "CHILD"){
       return {
@@ -217,35 +229,7 @@ const AssignmentTableWrapper = styled.div`
 // FUNCTIONS //
 ///////////////
 
-// Depending on Assignment Completion Date, either renders the 'Viewed' Column or "Completed" column
-function determineViewedOrCompletedColumn(showPassed, record){
 
-  // If this is an Expired Assignment, shows whether completed or failed
-  if (showPassed){
-    return {
-      title: "Completion Status",
-      dataIndex: "type",
-      key: "type",
-      render: (text, record, index) => (
-        <span>
-          <Tag>{record.type.replace("_", " ").toString().toUpperCase()}</Tag>
-        </span>
-      ),
-    }
-  }
-
-  // If this is an Active Assignment, shows whether child has seen it or not
-  else{
-    return {
-      title: "Viewed Status",
-      dataIndex: "type",
-      key: "type",
-      render: (text, record, index) => (
-        renderSeenStatusButton()
-      ),
-    }
-  }
-}
 
 // Based on the User role, determines the columns on the table
 function determineColumns(userRole, showPassed){
@@ -257,7 +241,7 @@ function determineColumns(userRole, showPassed){
   }
 }
 
-function AssignmentsTable({ assignments, userID, userRole }) {
+function AssignmentsTable({ assignments, passedAssignments, userID, userRole }) {
   const [showPassed, setshowPassed] = useState(false);
 
   const convertAssignmentSourceData = () => {

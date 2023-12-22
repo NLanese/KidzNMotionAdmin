@@ -34,9 +34,7 @@ export const assignmentsState = atom({
 // Assignments (Completed / Failed)
 export const passedAssignmentsState = atom({
 	key: 'passedAssignmentsState',
-	default: {
-		loading: true
-	}
+	default: []
 })
 
 export const chatRoomState = atom({
