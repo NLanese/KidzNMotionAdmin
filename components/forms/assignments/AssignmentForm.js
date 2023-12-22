@@ -44,15 +44,32 @@ function AssignmentForm({}) {
     // For every Child this assignment is intended for...
     formValues.selectedClientIDs.forEach(async (id) => {
 
+      let desc = (formValues.description && formValues.description.length > 0) ? formValues.description : "No special instructions"
+      let videos = formValues.selectedVideoIDs.filter(val => {
+        if (val && val !== "" && val.length !== 0){
+          return val
+        }
+      })
+
       // ...Create the Assignment by executing Mutation
+      console.log("Creating Assignmnet with the following params...")
+      console.log({
+        childCarePlanID: id,
+        dateStart: formValues.dateStart.toString().slice(0,15),
+        dateDue: formValues.dateDue.toString().slice(0,15),
+        description: desc,
+        title: formValues.title,
+        videoIDs: videos
+      })
       await createAssignment({
         variables: {
           childCarePlanID: id,
           dateStart: formValues.dateStart.toString().slice(0,15),
           dateDue: formValues.dateDue.toString().slice(0,15),
+          description: desc,
           title: formValues.title,
-          videosIDs: form.selectedVideoIDs
-        },
+          videoIDs: videos
+        }
       })
         // ...then Notify the user of success
         .then(async (resolved) => {
@@ -86,9 +103,11 @@ function AssignmentForm({}) {
   // Finds All Possible Clients to make Assignment For
   const getPossibleClients = () => {
     return user.patientCarePlans.map((pcp) => {
+      console.log("Found Patient Care Plan:::")
+      console.log(pcp)
       return {
         text: `${pcp.child.firstName} ${pcp.child.lastName}`,
-        value: pcp.child.id
+        value: pcp.id
       };
     });
   };
@@ -105,30 +124,31 @@ function AssignmentForm({}) {
     }
     let returnVal = filterObjectKeys(VIDEOS, checkValid, returnAsOption)
     return returnVal.filter(val => {
-      if (val){
+      if (val && val !== "" && val.length !== 0){
         return val
       }
     })    
   }
 
   // Validates the Form
-  function validateForm(values){
+  function validateForm(values) {
     const errors = {};
     if (!values.title) {
       errors.title = "Required";
     }
-    if (!values.type) {
-      errors.type = "Required";
+    if (!values.dateStart) {  // Match the name used in renderDateField("start")
+      errors.dateStart = "Required";
     }
-    if (!values.assignmentDateTime) {
-      errors.assignmentDateTime = "Required";
+    if (!values.dateDue) {    // Match the name used in renderDateField("end")
+      errors.dateDue = "Required";
     }
-    if (user.role !== "GUARDIAN") {
-      if (!values.selectedClients || values.selectedClients.length === 0) {
-        errors.selectedClients = "At least one client is required";
-      }
+    if (!values.selectedClientIDs || values.selectedClientIDs.length === 0) {
+      errors.selectedClientIDs = "At least one client is required";  // Match the name used in renderSelectClientsField()
     }
-  
+    if (!values.selectedVideoIDs || values.selectedVideoIDs.length === 0) {
+      errors.selectedVideoIDs = "At least one video is required";  // Match the name used in renderSelectVideosField()
+    }
+
     return errors;
   }
 
@@ -142,6 +162,21 @@ function AssignmentForm({}) {
       <Field
         label="Title"
         name="title"
+        htmlType="text"
+        component={PlainTextField}
+        required={true}
+        size="large"
+        hideErrorText={false}
+      />
+    )
+  }
+
+  // Renders the Description/Instruction Field
+  const renderDescriptionField = () => {
+    return(
+      <Field
+        label="Description or Instructions"
+        name="description"
         htmlType="text"
         component={PlainTextField}
         required={true}
@@ -242,7 +277,9 @@ function AssignmentForm({}) {
     <Row gutter={16}>
       <Col xs={24} md={24}>
         <h3>Step 1: Title Your Assignment</h3>
+        <h4>And Leave Instructions or a description!</h4>
         {renderTitleField()}
+        {renderDescriptionField()}
       </Col>
       <Col xs={24} md={24}>
         <h3>Step 2: Select a Start Date & an End Date</h3>

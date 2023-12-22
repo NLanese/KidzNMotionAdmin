@@ -17,38 +17,41 @@ export default {
       if (context.user.role !== "THERAPIST")
         throw new UserInputError("Only therapists can edit child care plans");
 
-      // Find the child care plan that we are tyring to edot
+      // Find the child care plan that we are tyring to edit
+      console.log("Locating Child Care Plan")
       let childCarePlan = await prisma.childCarePlan.findUnique({
         where: {
           id: childCarePlanID,
         },
         select: {
           id: true,
-          child: {
-            select: {
-              id: true,
-              guardian: {
-                select: {
-                  id: true,
-                },
-              },
-            },
-          },
-          therapist: {
-            select: {
-              id: true,
-            },
-          },
+        //   child: {
+        //     select: {
+        //       id: true,
+        //       guardian: {
+        //         select: {
+        //           id: true,
+        //         },
+        //       },
+        //     },
+        //   },
+        //   therapist: {
+        //     select: {
+        //       id: true,
+        //     },
+        //   },
         },
       });
 
       // If they are not, then return user input error
       if (!childCarePlan) {
+        console.log("It wasn't found")
         throw new UserInputError("Child care plan does not exist");
       }
 
       // Only the therapist assigned to the child care plan can edit it
       if (childCarePlan.therapist.id !== context.user.id) {
+        console.log("User does not have access to it")
         throw new UserInputError("Access denied");
       }
 
@@ -67,6 +70,7 @@ export default {
         );
       }
 
+      console.log("Creating Assignment")
       let newAssignment = await prisma.assignment.create({
         data: {
           dateStart: dateStart,

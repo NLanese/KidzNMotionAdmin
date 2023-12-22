@@ -739,15 +739,15 @@ const APPROVE_MEETING = gql`
   }
 `;
 
-// Creates an Assignment as a Therpaist for a Client
+// Creates Assignment
 const CREATE_ASSIGNMENT = gql`
   mutation Mutation(
-    $childCarePlanID: String!,
-    $dateStart: String,
-    $dateDue: String!,
+    $childCarePlanID: String!
+    $dateStart: String!
+    $dateDue: String!
     $title: String!
-    $description: String!,
-    $videoIDs: [String!]
+    $description: String!
+    $videoIDs: [String]!
   ){
     createAssignment(
       childCarePlanID: $childCarePlanID,
