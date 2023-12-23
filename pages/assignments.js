@@ -21,7 +21,6 @@ import { withRouter } from "next/router";
 // Mutations and Queries
 import { GET_USER_ASSIGNMENTS, CREATE_ASSIGNMENT } from "@graphql/operations";
 import client from "@utils/apolloClient";
-import { useMutation } from "@apollo/client";
 
 // Components
 import AssignmentsTable from "../components/pages/assignments/AssignmentTable";
@@ -210,6 +209,8 @@ function Assignments({ router }) {
 
   // Renders the Table Column
   const renderTableColumn = () => {
+    console.log("ASSIGNMENTS::::")
+    console.log(assignments)
     return(
       <Col lg={24} xl={12}>
         <ContentCard>

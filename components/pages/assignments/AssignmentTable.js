@@ -115,9 +115,7 @@ const AssignmentTableWrapper = styled.div`
         defaultSortOrder: "descend",
         render: (text, record, index) => (
           <span>
-            <Tag color={renderApprovalStatusColor(record)}>
-              {renderApprovalStatus(record)}
-            </Tag>
+            <Text> TO DO </Text>
           </span>
         ),
       },
@@ -138,7 +136,7 @@ const AssignmentTableWrapper = styled.div`
       key: "childName",
       render: (text, record, index) => (
         <Text>
-          {record.child.firstName} {record.child.lastName}
+          {record.childCarePlan.child.firstName} {record.childCarePlan.child.lastName}
         </Text>
       ),
     })
