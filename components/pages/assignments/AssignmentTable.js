@@ -39,11 +39,11 @@ const AssignmentTableWrapper = styled.div`
 
   // Renders APPROVED | NOT APPROVED | PENDING APPROVAL
   function renderSeenStatusButton(record) {
-    
+    return(<View></View>)
   }
 
   // Column Details for Child Users
-  const childColumns = (record) => {
+  const childColumns = (showPassed, userRole) => {
     return(
       [
         {
@@ -92,19 +92,19 @@ const AssignmentTableWrapper = styled.div`
   } 
 
   // Column Details for all other Users
-  const defaultColumns = (record) => {
+  const defaultColumns = (showPassed, userRole) => {
     return([
       // Child Name
-      childNameColumn(record),
+      childNameColumn(),
 
       // Date Assigned
-      dateAssignedColumn(record),
+      dateAssignedColumn(),
 
       // Date Due
-      dateDueColumn(record),
+      dateDueColumn(),
 
       // Viewed Status
-      determineViewedOrCompletedColumn(showPassed, record),
+      determineViewedOrCompletedColumn(showPassed, userRole),
 
       // Assigned Videos
       {
@@ -131,7 +131,7 @@ const AssignmentTableWrapper = styled.div`
   
 
   // Child's Name
-  const childNameColumn = (record) => {
+  const childNameColumn = () => {
     return ({
       title: "Child",
       dataIndex: "childName",
@@ -145,7 +145,7 @@ const AssignmentTableWrapper = styled.div`
   }
 
   // Date Assigned
-  const dateAssignedColumn = (record) => {
+  const dateAssignedColumn = () => {
     return(
       {
         title: "Date Assigned",
@@ -161,7 +161,7 @@ const AssignmentTableWrapper = styled.div`
   }
 
   // Date Due
-  const dateDueColumn = (record) => {
+  const dateDueColumn = () => {
     return(
       {
         title: "Date Due",
@@ -177,7 +177,7 @@ const AssignmentTableWrapper = styled.div`
   }
 
   // Depending on Assignment Completion Date, either renders the 'Viewed' Column or "Completed" column
-  function determineViewedOrCompletedColumn(showPassed, record){
+  function determineViewedOrCompletedColumn(showPassed, userRole){
 
     // If this is an Expired Assignment, shows whether completed or failed
     if (showPassed){
@@ -195,13 +195,13 @@ const AssignmentTableWrapper = styled.div`
 
     // If this is an Active Assignment, shows whether child has seen it or not
     else{
-      return viewedStatusColumn()
+      return viewedStatusColumn(userRole)
     }
   }
 
   // Renders the Viewed Column
-  const viewedStatusColumn = (record) => {
-    if (user.role === "CHILD"){
+  const viewedStatusColumn = (userRole) => {
+    if (userRole === "CHILD"){
       return {
         title: "Viewed Status",
         dataIndex: "type",
@@ -234,27 +234,29 @@ const AssignmentTableWrapper = styled.div`
 // Based on the User role, determines the columns on the table
 function determineColumns(userRole, showPassed){
   if (userRole === "THERAPIST" || userRole === "ADMIN" || userRole === "GUARDIAN"){
-    return defaultColumns
+    return defaultColumns(showPassed, userRole).flat()
   }
   else if (userRole === "CHILD"){
-    return childColumns
+    return childColumns(showPassed, userRole).flat()
   }
 }
 
 function AssignmentsTable({ assignments, passedAssignments, userID, userRole }) {
+
+  ////////////
+  // State  //
+  ////////////
+
   const [showPassed, setshowPassed] = useState(false);
 
   const convertAssignmentSourceData = () => {
-    let assetTableSource = [];
-    if (!assignments) {
-      return assetTableSource;
+    if (!showPassed){
+      return assignments
     }
-    assignments.map((assignmentObject) => {
-      if (!showPassed && assignmentObject.canceled) return;
-
-      assetTableSource.push(assignmentObject);
-    });
-    return assetTableSource;
+    else if (showPassed){
+      return passedAssignments
+    }
+    
   };
 
   const columns = determineColumns(userRole, showPassed)
