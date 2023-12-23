@@ -578,6 +578,7 @@ const GET_USER_MEETINGS = gql`
   }
 `;
 
+// ASSIGNMENTS
 const GET_USER_ASSIGNMENTS = gql`
   query Query{
     getAssignments {
@@ -592,6 +593,12 @@ const GET_USER_ASSIGNMENTS = gql`
           firstName
           lastName
         }
+      }
+      videos{
+        id
+        contentfulID
+        completed
+        title
       }
     }
   }

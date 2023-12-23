@@ -3,10 +3,10 @@ import React, { useState, useEffect } from "react";
 
 // Ant Desgin
 import styled from "styled-components";
-import { Table, Tag, Typography } from "antd";
+import { Table, Tag, Typography, Row } from "antd";
 import BasicLink from "@common/BasicLink";
 import { EditOutlined } from "@ant-design/icons";
-import { Switch, Space } from "antd";
+import { Switch, Space, Button } from "antd";
 
 // Misc
 var dateFormat = require("dateformat");
@@ -39,7 +39,27 @@ const AssignmentTableWrapper = styled.div`
 
   // Renders APPROVED | NOT APPROVED | PENDING APPROVAL
   function renderSeenStatusButton(record) {
-    return(<View></View>)
+    return(
+      <Button
+        onClick={() => handleConfirmAssignment(true)}
+        type="primary"
+        block
+      >
+      Confirm
+      </Button>
+    )
+  }
+
+  //
+  function renderVideoList(record){
+      return record.videos.map(vid => {
+        console.log("Video... " + vid.title)
+        return(
+          <Row>
+            <Text>{vid.title} - {vid.completed ? "Complete!" : "Not Done"}</Text>
+          </Row>
+        )
+      })
   }
 
   // Column Details for Child Users
@@ -107,18 +127,7 @@ const AssignmentTableWrapper = styled.div`
       determineViewedOrCompletedColumn(showPassed, userRole),
 
       // Assigned Videos
-      {
-        title: "Assigned Videos",
-        dataIndex: "approvalStatus",
-        key: "approvalStatus",
-
-        defaultSortOrder: "descend",
-        render: (text, record, index) => (
-          <span>
-            <Text> TO DO </Text>
-          </span>
-        ),
-      },
+      videoListColumn()
     ])
   }
 
@@ -184,9 +193,9 @@ const AssignmentTableWrapper = styled.div`
         dataIndex: "type",
         key: "type",
         render: (text, record, index) => (
-          <span>
-            <Tag>{record.type.replace("_", " ").toString().toUpperCase()}</Tag>
-          </span>
+          <Text>
+            TO DO
+          </Text>
         ),
       }
     }
@@ -199,13 +208,13 @@ const AssignmentTableWrapper = styled.div`
 
   // Renders the Viewed Column
   const viewedStatusColumn = (userRole) => {
-    if (userRole === "CHILD"){
+    if (userRole === "CHILD" || userRole === "GUARDIAN"){
       return {
         title: "Viewed Status",
         dataIndex: "type",
         key: "type",
         render: (text, record, index) => (
-          renderSeenStatusButton()
+          renderSeenStatusButton(record)
         ),
       }
     }
@@ -223,6 +232,20 @@ const AssignmentTableWrapper = styled.div`
     }
   }
 
+  const videoListColumn = () => {
+    return(
+      {
+        title: "Assigned Videos",
+        dataIndex: "approvalStatus",
+        key: "approvalStatus",
+
+        defaultSortOrder: "descend",
+        render: (text, record, index) => (
+          renderVideoList(record)
+        ),
+      }
+    )
+  }
 ///////////////
 // FUNCTIONS //
 ///////////////

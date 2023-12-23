@@ -42,6 +42,8 @@ export default {
                                     select: {
                                         completed: true,
                                         contentfulID: true,
+                                        title: true,
+                                        id: true,
                                     }
                                 }
                             }
@@ -114,6 +116,8 @@ export default {
                                     select: {
                                         completed: true,
                                         contentfulID: true,
+                                        title: true,
+                                        id: true,
                                     }
                                 }
                             }
@@ -148,7 +152,7 @@ export default {
             console.log("Patient Care Plans", user.patientCarePlans);
             return user.patientCarePlans.flatMap((pcp) => {
               console.log("Care Plan " + pcp.id + "'s Assignments");
-              console.log(pcp.assignments);
+              console.log(pcp.assignments[0].videos);
               return pcp.assignments || [];
             });
         }

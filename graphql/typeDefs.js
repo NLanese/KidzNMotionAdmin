@@ -123,6 +123,7 @@ const typeDefs = gql`
     id: ID
     contentfulID: String
     completed: Boolean
+    title: String
 
     medals: [Medal]
     assignment: Assignment
