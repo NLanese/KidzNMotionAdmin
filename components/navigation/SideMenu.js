@@ -294,7 +294,7 @@ function SideMenu({ router, user }) {
         )}
 
         {/* Medals */}
-        {(user.role === "GUARDIAN" || user.role === "CHILD") && (
+        {/* {(user.role === "GUARDIAN" || user.role === "CHILD") && (
           <Menu.Item
             onClick={() => pushLink("/medals")}
             key="/medals"
@@ -302,7 +302,7 @@ function SideMenu({ router, user }) {
           >
             Medals
           </Menu.Item>
-        )}
+        )} */}
 
         <Menu.Item
           onClick={() => pushLink("/messaging")}
