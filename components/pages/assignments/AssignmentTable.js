@@ -5,13 +5,18 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Table, Tag, Typography, Row } from "antd";
 import BasicLink from "@common/BasicLink";
-import { EditOutlined } from "@ant-design/icons";
-import { Switch, Space, Button } from "antd";
+import { Switch, Space, Button, message } from "antd";
 
 // Misc
 var dateFormat = require("dateformat");
 const { Text } = Typography;
 import { changeTimeZone } from "@helpers/common";
+
+// Mutations and Queries
+import { useMutation } from "@apollo/client";
+import { TOGGLE_ASSGINMENT_SEEN, GET_USER_ASSIGNMENTS } from "@graphql/operations";
+import client from "@utils/apolloClient";
+
 
 ////////////
 // Styles //
@@ -32,6 +37,42 @@ const AssignmentTableWrapper = styled.div`
   }
 `;
 
+function AssignmentsTable({ assignments, setAssignments, passedAssignments, userID, userRole }) {
+
+  ///////////
+  // State //
+  ///////////
+
+  const [showPassed, setshowPassed] = useState(false);
+
+///////////////
+// Mutations //
+///////////////
+
+  const [confirmAssignment, {}] = useMutation(TOGGLE_ASSGINMENT_SEEN)
+
+  const handleConfirmAssignment = async (record) => {
+    return await confirmAssignment({
+      variables: {
+        assignmentID: record.id,
+        hasSeen: true
+      }
+    })
+    .then( async (resolved) => {
+      message.success("Assignment Seen!");
+      await client
+      .query({
+        query: GET_USER_ASSIGNMENTS,
+        fetchPolicy: "network-only",
+      })
+      .then(async (resolved) => {
+        setAssignments(resolved.data.getAssignments);
+      })
+      .catch((error) => {
+        message.error("Sorry, there was an error getting this information");
+      });
+    })
+  }
 
 ////////////////
 // RENDERINGS //
@@ -39,18 +80,25 @@ const AssignmentTableWrapper = styled.div`
 
   // Renders APPROVED | NOT APPROVED | PENDING APPROVAL
   function renderSeenStatusButton(record) {
-    return(
-      <Button
-        onClick={() => handleConfirmAssignment(true)}
-        type="primary"
-        block
-      >
-      Confirm
-      </Button>
-    )
+    if (record.seen){
+      return(
+        <h3>Assignment Seen</h3>
+      )
+    }
+    else{
+      return(
+        <Button
+          onClick={() => handleConfirmAssignment(record)}
+          type="primary"
+          block
+        >
+        Confirm
+        </Button>
+      )
+    }
   }
 
-  //
+  // Renders List of Videos per Assignment
   function renderVideoList(record){
       return record.videos.map(vid => {
         console.log("Video... " + vid.title)
@@ -130,7 +178,6 @@ const AssignmentTableWrapper = styled.div`
       videoListColumn()
     ])
   }
-
 
   /////////////
   // Columns //
@@ -246,29 +293,22 @@ const AssignmentTableWrapper = styled.div`
       }
     )
   }
+
+  const columns = determineColumns(userRole, showPassed)
+
 ///////////////
 // FUNCTIONS //
 ///////////////
 
-
-
-// Based on the User role, determines the columns on the table
-function determineColumns(userRole, showPassed){
-  if (userRole === "THERAPIST" || userRole === "ADMIN" || userRole === "GUARDIAN"){
-    return defaultColumns(showPassed, userRole).flat()
+  // Based on the User role, determines the columns on the table
+  function determineColumns(userRole, showPassed){
+    if (userRole === "THERAPIST" || userRole === "ADMIN" || userRole === "GUARDIAN"){
+      return defaultColumns(showPassed, userRole).flat()
+    }
+    else if (userRole === "CHILD"){
+      return childColumns(showPassed, userRole).flat()
+    }
   }
-  else if (userRole === "CHILD"){
-    return childColumns(showPassed, userRole).flat()
-  }
-}
-
-function AssignmentsTable({ assignments, passedAssignments, userID, userRole }) {
-
-  ////////////
-  // State  //
-  ////////////
-
-  const [showPassed, setshowPassed] = useState(false);
 
   const convertAssignmentSourceData = () => {
     if (!showPassed){
@@ -280,7 +320,6 @@ function AssignmentsTable({ assignments, passedAssignments, userID, userRole }) 
     
   };
 
-  const columns = determineColumns(userRole, showPassed)
 
   return (
     <AssignmentTableWrapper>

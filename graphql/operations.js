@@ -586,6 +586,7 @@ const GET_USER_ASSIGNMENTS = gql`
       dateStart
       dateDue
       title
+      seen
       childCarePlan {
         id
         child {
@@ -778,6 +779,21 @@ const CREATE_ASSIGNMENT = gql`
   }
 `
 
+// Sets Assignment to Seen
+const TOGGLE_ASSGINMENT_SEEN = gql`
+    mutation Mutation(
+      $assignmentID: String!,
+      $hasSeen: Boolean!
+    ){
+      toggleAssignmentSeen(
+        assignmentID: $assignmentID,
+        hasSeen: $hasSeen
+      ){
+        id
+      }
+    }
+`
+
 
 /////////////////////////
 // CHAT ROOM MUTATIONS //
@@ -945,6 +961,7 @@ export {
   CREATE_ASSIGNMENT,
   EDIT_MEETING,
   APPROVE_MEETING,
+  TOGGLE_ASSGINMENT_SEEN,
 
   // GUARDIAN
   GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK,

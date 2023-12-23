@@ -7,10 +7,10 @@ export default {
     toggleAssignmentSeen: async (_, { assignmentID, hasSeen }, context) => {
       if (!context.user) throw new UserInputError("Login required");
 
-      if (context.user.role !== "THERAPIST" && context.user.role !== "CHILD")
-        throw new UserInputError(
-          "Only therapists or children can toggle assignment seen"
-        );
+      // if (context.user.role !== "THERAPIST" && context.user.role !== "CHILD")
+      //   throw new UserInputError(
+      //     "Only therapists or children can toggle assignment seen"
+      //   );
 
       // Find the assignment that we are tyring to toggle as see
       let assignment = await prisma.assignment.findUnique({

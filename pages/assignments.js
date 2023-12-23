@@ -214,7 +214,7 @@ function Assignments({ router }) {
     return(
       <Col lg={24} xl={12}>
         <ContentCard>
-          <AssignmentsTable assignments={assignments} passedAssignments={assignments} userID={user.id} userRole={user.role}/>
+          <AssignmentsTable assignments={assignments} setAssignments={setAssignments} passedAssignments={assignments} userID={user.id} userRole={user.role}/>
         </ContentCard>
       </Col>
     )

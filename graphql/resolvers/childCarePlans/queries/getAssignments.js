@@ -25,6 +25,7 @@ export default {
                                 id: true,
                                 dateStart: true,
                                 dateDue: true,
+                                seen: true,
                                 title: true,
                                 childCarePlan: {
                                     select: {
@@ -66,6 +67,7 @@ export default {
                                         dateStart: true,
                                         dateDue: true,
                                         title: true,
+                                        seen: true,
                                         childCarePlan: {
                                             select: {
                                                 id: true,
@@ -82,6 +84,8 @@ export default {
                                             select: {
                                                 completed: true,
                                                 contentfulID: true,
+                                                title: true,
+                                                id: true
                                             }
                                         }
                                     }
@@ -100,6 +104,7 @@ export default {
                                 dateStart: true,
                                 dateDue: true,
                                 title: true,
+                                seen: true,
                                 childCarePlan: {
                                     select: {
                                         id: true,
