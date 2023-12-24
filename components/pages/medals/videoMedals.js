@@ -6,9 +6,10 @@ import { userState } from "@atoms";
 import axios from "axios";
 import ContentCard from "@common/content/ContentCard";
 import { Typography, Divider, Space, Col, Row, Button, Spin } from "antd";
+import { StarFilled } from "@ant-design/icons";
 const { Text } = Typography;
 
-function VideoMedals({ video }) {
+function VideoMedals({ videoMedals }) {
 
   const handleChangeComplete = (color) => {
     setFormLoading(true);
@@ -16,36 +17,65 @@ function VideoMedals({ video }) {
     handleCreateCompanyPreferences(color.hex);
   };
 
+  function renderMedal(medals, type, color){
+    if (medals.type > 0){
+        return(
+        <Row>
+            <StarFilled 
+                style={{ fontSize: "32px", color: "orange"}}
+            />
+        </Row>
+        )
+    }
+    else{
+        return(
+            <Row>
+                <Text>Not Unlocked!</Text>
+            </Row>
+        )
+    }
+}
+
+  function determineMedals(){
+    if (videoMedals.medals === "None"){
+        return (
+            <Text>
+                No Medals for this Video yet!
+            </Text>
+        )
+    }
+
+    else{
+        return(
+            <Row>
+                <Col>
+                    <Row> Bronze</Row>
+                    {renderMedal(videoMedals.medals, "bronze", "orange")}
+                </Col>
+                <Col>
+                    <Row> Silver</Row>
+                        {renderMedal(videoMedals.medals, "silver", "grey")}
+                </Col>
+                <Col>
+                    <Row> Gold</Row>
+                    {renderMedal(videoMedals.medals, "gold", "gold")}
+                </Col>
+            </Row>
+        )
+    }
+  }
+
   return (
     <Spin spinning={formLoading}>
-        <View>
-
-        </View>
-        {/* <Row gutter={16}>
-            <Col xs={24} md={5}>
-            <ContentCard modifiers={["naked", "noSidePadding"]}>
-                <Space direction="vertical" size="small">
-                <Text strong>Color Theme</Text>
-                <Text type="secondary">
-                    Set the default color of the web app by selecting one of the
-                    colors listed
-                </Text>
-                </Space>
-            </ContentCard>
-            </Col>
-            <Col xs={24} md={{ span: 18, offset: 1 }}>
-            <ContentCard>
-                <CirclePicker
-                width={"100%"}
-                circleSize={50}
-                onChangeComplete={handleChangeComplete}
-                color={user.webAppColorSettings}
-                />
-            </ContentCard>
-            </Col>
-        </Row> */}
+       <Row>
+            <Text>Title: </Text>
+            <Text>{videoMedals.title}</Text>
+       </Row>
+       <Row>
+            {determineMedals()}
+       </Row>
     </Spin>
   );
 }
 
-export default ColorThemeSettingsForm;
+export default VideoMedals;

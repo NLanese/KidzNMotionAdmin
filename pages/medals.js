@@ -12,6 +12,7 @@ import { NextSeo } from "next-seo";
 import PageHeader from "@common/PageHeader";
 import ColorThemeSettingsForm from "@forms/profileSettings/ColorThemeSettingsForm";
 import AvatarSettingsForm from "@forms/profileSettings/AvatarSettingsForm";
+import VideoMedals from "../components/pages/medals/videoMedals";
 
 // Recoil 
 import { userState } from "@atoms";
@@ -20,6 +21,8 @@ import { useRecoilState } from "recoil";
 // Mutations and Queries
 import { GET_CHILD_VIDEO_STATISTICS } from "../graphql/operations";
 import client from "@utils/apolloClient";
+import VIDEOS from "@constants/videos";
+import { forEachObjectKeys } from "../functions/objectHandlers";
 
 const IndexWrapper = styled.div`
   max-width: ${(props) => props.theme.contentSize.tight};
@@ -47,14 +50,17 @@ function MedalsPage() {
 
     const [user, setUser] = useRecoilState(userState);
     const [selectedChild, setSelectedChild] = useState(user.role === "CHILD" ? user : user.children[0])
+    const [videoMedals, setVideoMedals] = useState({})
+    const [allMedals, setAllMedals] = useState({})
+    const [loading, setLoading] = useState(true)
 
     
     ////////////////
     // RENDERINGS //
     ////////////////
 
-    const renderChildVideoMedalList = (child) => {
-
+    const renderChildVideoMedalList = () => {
+        getVideosAndRelatedMedals()
     }
 
     ///////////////
@@ -73,15 +79,32 @@ function MedalsPage() {
 
             if (resolved.data.getChildVideoStatistics){
                 console.log(resolved)
+                setAllMedals(resolved.data.getChildVideoStatistics.allTimeStats.individualVideoDetailedStats)
             }
             else{
                 console.log("Query Failed")
             }
         }
     }
+
+    function getVideosAndRelatedMedals(){
+        function setVideoMedals(video){
+            if (video.level > 0){
+                setVideoMedals(videoMedals => ({...videoMedals, 
+                    [video.id]: {
+                        title: video.title,
+                        medals: allMedals.video.id ? allMedals.video.id : "None"
+                    }
+                }))
+            }
+        }
+        forEachObjectKeys(VIDEOS, setVideoMedals)
+        setLoading(false)
+    }
     
     useEffect(() => {
         getUserMedals()
+        getVideosAndRelatedMedals()
     }, [selectedChild])
 
 
@@ -91,7 +114,7 @@ function MedalsPage() {
     return (
         <IndexWrapper>
         <NextSeo title="Medals" />
-        <PageHeader title="Profile Settings" />
+        <PageHeader title="All Video Medals" />
         <ColorThemeSettingsForm
             initialValues={user}
             // submitOrganizationSettings={submitUserProfile}
