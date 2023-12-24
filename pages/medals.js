@@ -46,6 +46,7 @@ function MedalsPage() {
     ///////////
 
     const [user, setUser] = useRecoilState(userState);
+    const [selectedChild, setSelectedChild] = useState(user.role === "CHILD" ? user : user.children[0])
 
     
     ////////////////
@@ -66,14 +67,22 @@ function MedalsPage() {
         if (token){
             const resolved = await client.query({
                 query: GET_CHILD_VIDEO_STATISTICS,
+                variables: { childID: selectedChild.id },
                 fetchPolicy: 'network-only'
             })
 
             if (resolved.data.getChildVideoStatistics){
-                
+                console.log(resolved)
+            }
+            else{
+                console.log("Query Failed")
             }
         }
     }
+    
+    useEffect(() => {
+        getUserMedals()
+    }, [selectedChild])
 
 
     /////////////////
@@ -85,12 +94,12 @@ function MedalsPage() {
         <PageHeader title="Profile Settings" />
         <ColorThemeSettingsForm
             initialValues={user}
-            submitOrganizationSettings={submitUserProfile}
+            // submitOrganizationSettings={submitUserProfile}
         />
         <Divider />
         <AvatarSettingsForm
             initialValues={user}
-            submitOrganizationSettings={submitUserProfile}
+            // submitOrganizationSettings={submitUserProfile}
         />
         </IndexWrapper>
     );
