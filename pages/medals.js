@@ -18,8 +18,7 @@ import { userState } from "@atoms";
 import { useRecoilState } from "recoil";
 
 // Mutations and Queries
-import { useMutation } from "@apollo/client";
-import { EDIT_USER, GET_USER } from "@graphql/operations";
+import { GET_CHILD_VIDEO_STATISTICS } from "../graphql/operations";
 import client from "@utils/apolloClient";
 
 const IndexWrapper = styled.div`
@@ -41,60 +40,60 @@ const IndexWrapper = styled.div`
 ///////////////
 
 function MedalsPage() {
-  const [user, setUser] = useRecoilState(userState);
 
-  // Mutations
-  const [editUser, {}] = useMutation(EDIT_USER);
+    ///////////
+    // STATE //
+    ///////////
 
-  const submitUserProfile = async (formValues) => {
-    await editUser({
-      variables: {
-        firstName: formValues.firstName,
-        lastName: formValues.lastName,
-        phoneNumber: formValues.phoneNumber,
-        email: formValues.email,
-        username: formValues.username,
-        title: formValues.title,
-      },
-    })
-      .then(async (resolved) => {
-        message.success("Profile Updated");
+    const [user, setUser] = useRecoilState(userState);
 
-        // Get the full user object and set that to state
-        await client
-          .query({
-            query: GET_USER,
-            fetchPolicy: "network-only",
-          })
-          .then(async (resolved) => {
-            // console.clear()
-            // // console.log(resolved);
-            setUser(resolved.data.getUser);
-          })
-          .catch((error) => {
-            message.error("Sorry, there was an error getting this information");
-          });
-      })
-      .catch((error) => {
-        message.error("Sorry, there was an error updating your profile");
-      });
-  };
+    
+    ////////////////
+    // RENDERINGS //
+    ////////////////
 
-  return (
-    <IndexWrapper>
-      <NextSeo title="Profile Settings" />
-      <PageHeader title="Profile Settings" />
-      <ColorThemeSettingsForm
-        initialValues={user}
-        submitOrganizationSettings={submitUserProfile}
-      />
-      <Divider />
-      <AvatarSettingsForm
-        initialValues={user}
-        submitOrganizationSettings={submitUserProfile}
-      />
-    </IndexWrapper>
-  );
+    const renderChildVideoMedalList = (child) => {
+
+    }
+
+    ///////////////
+    // FUNCTIONS //
+    ///////////////
+
+    async function getUserMedals(){
+        const token = localStorage.getItem("token")
+
+        if (token){
+            const resolved = await client.query({
+                query: GET_CHILD_VIDEO_STATISTICS,
+                fetchPolicy: 'network-only'
+            })
+
+            if (resolved.data.getChildVideoStatistics){
+                
+            }
+        }
+    }
+
+
+    /////////////////
+    // MAIN RETURN //
+    /////////////////
+    return (
+        <IndexWrapper>
+        <NextSeo title="Medals" />
+        <PageHeader title="Profile Settings" />
+        <ColorThemeSettingsForm
+            initialValues={user}
+            submitOrganizationSettings={submitUserProfile}
+        />
+        <Divider />
+        <AvatarSettingsForm
+            initialValues={user}
+            submitOrganizationSettings={submitUserProfile}
+        />
+        </IndexWrapper>
+    );
 }
 
 export default MedalsPage;

@@ -94,6 +94,7 @@ function setVideoStats(videoStats, medalObject, videoObject) {
   }
   return videoStats;
 }
+
 export default {
   Query: {
     getChildVideoStatistics: async (_, { childID }, context) => {

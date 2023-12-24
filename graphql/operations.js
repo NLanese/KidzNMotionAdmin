@@ -605,6 +605,17 @@ const GET_USER_ASSIGNMENTS = gql`
   }
 `
 
+// MEDALS
+const GET_CHILD_VIDEO_STATISTICS = gql`
+  query Query(
+      $childID: String!,
+  ){
+    getChildVideoStatistics(
+      childID: $childID
+    )
+  }
+`
+
 
 //////////////
 // SECURITY //
@@ -978,4 +989,5 @@ export {
   CREATE_CHILD_CARE_PLAN_ASSIGMENT,
   INVITE_PATIENT,
   SET_VIDEO_COMPLETED,
+  GET_CHILD_VIDEO_STATISTICS
 };
