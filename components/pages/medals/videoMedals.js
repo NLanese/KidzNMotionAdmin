@@ -16,7 +16,7 @@ function VideoMedals({ videoMedals, key, formLoading }) {
     function renderMedal(medals, type, color){
     if (medals[type] > 0){
         return(
-        <Row>
+        <Row gutter={16} justify="center" align="middle" style={{width: '100px'}}>
             <StarFilled 
                 style={{ fontSize: "32px", color: color}}
             />
@@ -25,7 +25,7 @@ function VideoMedals({ videoMedals, key, formLoading }) {
     }
     else{
         return(
-            <Row>
+            <Row gutter={16} justify="space-between" align="middle">
                 <Text>Not Unlocked!</Text>
             </Row>
         )
@@ -44,18 +44,30 @@ function VideoMedals({ videoMedals, key, formLoading }) {
 
         else{
             return(
-                <Row>
+                <Row gutter={16} justify="space-between" align="middle">
                     <Col>
-                        <Row> Bronze</Row>
+                    <ContentCard>
+                    <Row style={{textAlign: 'center'}}>
+                            <h3>Bronze</h3> 
+                        </Row>
                         {renderMedal(videoMedals.medals, "bronze", "orange")}
+                    </ContentCard>
                     </Col>
                     <Col>
-                        <Row> Silver</Row>
-                            {renderMedal(videoMedals.medals, "silver", "grey")}
+                    <ContentCard>
+                    <Row style={{textAlign: 'center'}}>
+                            <h3>Silver</h3> 
+                        </Row>
+                        {renderMedal(videoMedals.medals, "silver", "silver")}
+                    </ContentCard>
                     </Col>
                     <Col>
-                        <Row> Gold</Row>
-                        {renderMedal(videoMedals.medals, "gold", "gold")}
+                    <ContentCard>
+                    <Row style={{textAlign: 'center'}}>
+                            <h3>Gold</h3> 
+                        </Row>
+                        {renderMedal(videoMedals.medals, "gold", "yellow")}
+                    </ContentCard>
                     </Col>
                 </Row>
             )
@@ -67,13 +79,14 @@ function VideoMedals({ videoMedals, key, formLoading }) {
     /////////////////
     return (
         <Spin spinning={formLoading}>
-        <Row>
-                <Text>Title: </Text>
-                <Text>{videoMedals.title}</Text>
-        </Row>
-        <Row>
-                {determineMedals()}
-        </Row>
+            <ContentCard>
+                <Row gutter={16} justify="space-between" align="middle">
+                    <h3>{videoMedals.title}</h3>
+                </Row>
+                <Row gutter={16} justify="space-between" align="middle">
+                    {determineMedals()}
+                </Row>
+            </ContentCard>
         </Spin>
     );
 }

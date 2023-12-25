@@ -88,13 +88,15 @@ function MedalsPage() {
             })
 
             if (resolved.data.getChildVideoStatistics){
-                console.log(resolved)
+                console.log(resolved.data.getChildVideoStatistics.allTimeStats)
                 setAllMedals(resolved.data.getChildVideoStatistics.allTimeStats.individualVideoDetailedStats)
+                console.log("All Medals Set")
             }
             else{
                 console.log("Query Failed")
             }
         }
+        return
     }
 
     // Using Videos and Medal State, creates VideoMedal objects for Rendering
@@ -103,6 +105,9 @@ function MedalsPage() {
         // Function for Iteration. Adds an individual Medal to State
         function determineVideoMedals(video) {
             if (video.level > 0) {
+                console.log(video.id)
+                console.log(allMedals)
+                console.log(allMedals[video.id])
                 setVideoMedals(prevVideoMedals => {
                     const newVideoMedals = {
                         ...prevVideoMedals,
@@ -125,8 +130,15 @@ function MedalsPage() {
     // Gets Medals, sets object
     useEffect(() => {
         getUserMedals()
-        getVideosAndRelatedMedals()
     }, [selectedChild])
+
+    useEffect(() => {
+        console.log("All Medals Change Caught")
+        console.log(allMedals)
+        if (Object.keys(allMedals).length > 0){
+            getVideosAndRelatedMedals()
+        }
+    }, [allMedals])
 
 
     /////////////////
