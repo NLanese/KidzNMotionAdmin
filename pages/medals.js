@@ -22,7 +22,7 @@ import { useRecoilState } from "recoil";
 import { GET_CHILD_VIDEO_STATISTICS } from "../graphql/operations";
 import client from "@utils/apolloClient";
 import VIDEOS from "@constants/videos";
-import { forEachObjectKeys } from "../functions/objectHandlers";
+import { forEachObjectKeys, mapObjectKeys } from "../functions/objectHandlers";
 
 const IndexWrapper = styled.div`
   max-width: ${(props) => props.theme.contentSize.tight};
@@ -60,13 +60,23 @@ function MedalsPage() {
     ////////////////
 
     const renderChildVideoMedalList = () => {
-        getVideosAndRelatedMedals()
+        if (loading){
+            return(
+                <span></span>
+            ) 
+        }
+        function renderVidMed(vidMed, key){
+            console.log(vidMed)
+            return <VideoMedals videoMedals={vidMed} key={key} formLoading={loading}/>
+        }
+        return mapObjectKeys(videoMedals, renderVidMed)
     }
 
     ///////////////
     // FUNCTIONS //
     ///////////////
 
+    // Gets all the Videos and Assigns them to a State
     async function getUserMedals(){
         const token = localStorage.getItem("token")
 
@@ -87,21 +97,32 @@ function MedalsPage() {
         }
     }
 
+    // Using Videos and Medal State, creates VideoMedal objects for Rendering
     function getVideosAndRelatedMedals(){
-        function setVideoMedals(video){
-            if (video.level > 0){
-                setVideoMedals(videoMedals => ({...videoMedals, 
-                    [video.id]: {
-                        title: video.title,
-                        medals: allMedals.video.id ? allMedals.video.id : "None"
-                    }
-                }))
+
+        // Function for Iteration. Adds an individual Medal to State
+        function determineVideoMedals(video) {
+            if (video.level > 0) {
+                setVideoMedals(prevVideoMedals => {
+                    const newVideoMedals = {
+                        ...prevVideoMedals,
+                        [video.id]: {
+                            title: video.title,
+                            medals: allMedals[video.id] ? allMedals[video.id] : "None"
+                        }
+                    };
+                    console.log("Video Medals", newVideoMedals); // Log the updated state
+                    return newVideoMedals;
+                });
             }
         }
-        forEachObjectKeys(VIDEOS, setVideoMedals)
+
+        // Runs Iteration
+        forEachObjectKeys(VIDEOS, determineVideoMedals)
         setLoading(false)
     }
     
+    // Gets Medals, sets object
     useEffect(() => {
         getUserMedals()
         getVideosAndRelatedMedals()
@@ -115,15 +136,7 @@ function MedalsPage() {
         <IndexWrapper>
         <NextSeo title="Medals" />
         <PageHeader title="All Video Medals" />
-        <ColorThemeSettingsForm
-            initialValues={user}
-            // submitOrganizationSettings={submitUserProfile}
-        />
-        <Divider />
-        <AvatarSettingsForm
-            initialValues={user}
-            // submitOrganizationSettings={submitUserProfile}
-        />
+        {renderChildVideoMedalList()}
         </IndexWrapper>
     );
 }
