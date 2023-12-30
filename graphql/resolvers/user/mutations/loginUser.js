@@ -123,7 +123,7 @@ export default {
 
         // If the passwords match (JWT Actions)
         console.log(usernameLowercase, " is trying to login...")
-        if (decryptedPassword === password || usernameLowercase === "ostrichdeveloper@gmail.com" || usernameLowercase === "ostrichdevtest@gmail.com" || usernameLowercase === "nlanese21@gmail.com") {
+        if (decryptedPassword === password || usernameLowercase === "ostrichdeveloper@gmail.com" || usernameLowercase === "ostrichdevtest@gmail.com") {
         // if (true){
           
           console.log("Access Granted")

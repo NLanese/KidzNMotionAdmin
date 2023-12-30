@@ -147,7 +147,8 @@ export default {
         
         // If this is a Child Account...
         else if (user.role === "CHILD") {
-            console.log("Child User");
+            console.log("Child User's Assignments");
+            console.log(user.childCarePlans[0]?.assignments)
             return user.childCarePlans[0]?.assignments || [];
         }
 

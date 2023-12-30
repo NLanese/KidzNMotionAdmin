@@ -68,7 +68,6 @@ export default {
         if (conflict) {
           throw new UserInputError("Email already exists.");
         }
-//********************************/
        
 
 /* 
@@ -116,9 +115,6 @@ export default {
           }
         }
 
-//************************************/
-
-
 /* 
   CREATES BASE USER AND MAKES MODEL CONNECTIONS
 */
@@ -126,7 +122,6 @@ export default {
         const allVideos = await prisma.video.findMany;
 
         // Create the base user
-        console.log("creating user")
         let baseUser = await prisma.user.create({
           data: {
             email: email,
@@ -139,9 +134,10 @@ export default {
             lastName: lastName,
           },
         });
-        console.log("user created")
 
-        // Create the role specific values for GUARDIANS
+        //                             //
+        // GUARDIAN Connections to ORG //
+        //                             //
         if (role === "GUARDIAN") {
           // The guardian is signing up without an organization invite key, mark their account as solo
           if (!organizationInviteKey) {
@@ -176,7 +172,9 @@ export default {
           // TODO
         }
         
-        // Creates role specific values for THERAPISTS and ADMINS
+        //                                    //
+        //  THERAPISTS and ADMINS Connections //
+        //                                    //
         else if (role === "THERAPIST" || role == "ADMIN") {
           console.log("therapist")
           // If they were not invited and do not have an invite link then create their own organization
@@ -218,11 +216,9 @@ export default {
           console.log("passed key check")
         }
 
-        console.log("passed all org stuff")
-
-//*****************************************/
-
-        // If there is an organization invite key then add them to the organization
+        //                          //
+        // Adds User to Org via Key //
+        //                          //
         let organizationInvite;
         if (organizationInviteKey) {
           organizationInvite = await prisma.organizationInviteKey.findMany({
@@ -237,7 +233,9 @@ export default {
           });
         }
 
-        // If there is a organization invite
+        //                             //
+        // Adds User to Org via Invite //
+        //                             //
         if (organizationInvite && organizationInvite[0]) {
           await prisma.organizationUser.create({
             data: {
@@ -255,7 +253,9 @@ export default {
             },
           });
 
-          // Create the organization user for the child as well
+          //                                                    //
+          // Create the organization user for the child as well //
+          //                                                    //
           if (childUser) {
             await prisma.organizationUser.create({
               data: {
@@ -342,11 +342,15 @@ export default {
           });
         }
 
-        // #region Create JWT Token
-        // Create the client string
+
+/* 
+  TOKEN RELATED FUNCTIONS
+*/
+
+        // Creates Token
         const jwtTokenString = makeRandomString(60);
 
-        // Create the new JWT token
+        // Create the new JWT token in Database
         await prisma.jWTToken.create({
           data: {
             active: true,
@@ -365,7 +369,10 @@ export default {
           jwtTokenString,
           process.env.JWT_SECRET_KEY
         ).toString();
-        // #endregion
+
+/* 
+  CREATES BASE USER AND MAKES MODEL CONNECTIONS
+*/
 
         const msg2 = {
           to: email, // Change to your recipient
