@@ -149,9 +149,18 @@ async function executeSetTherapistMutation(){
     });
 }
 
+
 function addAssignIDToDelete(){
   setAssignIDs( prev => [...prev, assignIDText])
   setAssignIDText("")
+}
+
+function removeIDFromArray(id){
+  setAssignIDs( prev => prev.filter(savedID => {
+    if (id !== savedID){
+      return savedID
+    }
+  }))
 }
 
 
@@ -164,82 +173,82 @@ function addAssignIDToDelete(){
   // SET THERAPIST //
   ///////////////////
 
-  // Renders all Clients
-  const renderAllClients = () => {
-    return clients.map( (cli, index) => {
-      return(
-        <Row key={index}>
-          <Button
-          type="primary"
-          size="small"
-          onClick={() => {
-            console.log("SELECTED CLIENT::::")
-            console.log(cli)
-            setSelectedClient(cli)
-            setConsoleState("setTherapist")
-          }}
-          >
-            {cli.firstName} {cli.lastName}
-          </Button>
-        </Row>
-      )
-    })
-  }
+    // Renders all Clients
+    const renderAllClients = () => {
+      return clients.map( (cli, index) => {
+        return(
+          <Row key={index}>
+            <Button
+            type="primary"
+            size="small"
+            onClick={() => {
+              console.log("SELECTED CLIENT::::")
+              console.log(cli)
+              setSelectedClient(cli)
+              setConsoleState("setTherapist")
+            }}
+            >
+              {cli.firstName} {cli.lastName}
+            </Button>
+          </Row>
+        )
+      })
+    }
 
-  // Renders all Therapists
-  const renderAllTherapists = () => {
-    if (generalLoading){
-      return null
+    // Renders all Therapists
+    const renderAllTherapists = () => {
+      if (generalLoading){
+        return null
+      }
+      if (consoleState !== "setTherapist"){
+        return null
+      }
+      if (!therapists){
+        return null
+      }
+      return therapists.map( (thr, index) => {
+        return(
+          <Row key={index}>
+            <Button
+            type="primary"
+            size="small"
+            onClick={() => {
+              console.log("SELECTED THERAPIST::::")
+              console.log(thr)
+              setSelectedTherapist(thr)
+              setModalData("setTherapist")
+              setModalOpen(true)
+            }}
+            >
+              {thr.firstName} {thr.lastName}
+            </Button>
+          </Row>
+        )
+      })
     }
-    if (consoleState !== "setTherapist"){
-      return null
-    }
-    if (!therapists){
-      return null
-    }
-    return therapists.map( (thr, index) => {
-      return(
-        <Row key={index}>
-          <Button
-          type="primary"
-          size="small"
-          onClick={() => {
-            console.log("SELECTED THERAPIST::::")
-            console.log(thr)
-            setSelectedTherapist(thr)
-            setModalData("setTherapist")
-            setModalOpen(true)
-          }}
-          >
-            {thr.firstName} {thr.lastName}
-          </Button>
-        </Row>
-      )
-    })
-  }
 
-  // Renders Modal Content
-  const renderModalContent = () => {
-    if (modalData === "setTherapist"){
-      return(
-        <div>
-          Do you want to set {selectedClient.firstName} {selectedClient.lastName}'s therapist to {selectedTherapist.firstName} {selectedTherapist.lastName}
-          <Button
-          onClick={() => {
-            console.log("Yes press")
-            setGeneralLoading(true)
-            executeSetTherapistMutation()
-          }}
-          >
-            Yes
-          </Button>
-          <Button>
-            No
-          </Button>
-        </div>
-      )
+    // Renders Modal Content
+    const renderModalContent = () => {
+      if (modalData === "setTherapist"){
+        return(
+          <div>
+            Do you want to set {selectedClient.firstName} {selectedClient.lastName}'s therapist to {selectedTherapist.firstName} {selectedTherapist.lastName}
+            <Button
+            onClick={() => {
+              console.log("Yes press")
+              setGeneralLoading(true)
+              executeSetTherapistMutation()
+            }}
+            >
+              Yes
+            </Button>
+            <Button>
+              No
+            </Button>
+          </div>
+        )
+      }
     }
-  }
 
   ////////////////////////
   // DELETE ASSIGNMENTS //
@@ -254,16 +263,37 @@ function addAssignIDToDelete(){
     )
   }
 
+  // Renders the Button to Add the Entered ID
   const renderAddID = () => {
     return(
       <Button
         onClick={() => addAssgnIDtoDelete()}
+        title="Add Assignment ID"
       />
     )
   }
 
+  // Renders the Assignments that have been added 
   const renderAssignIDsToDelete = () => {
+    return assignIDs.map(id => {
+      return(
+        <Row>
+          {id}
+          <Button
+            onClick={(id) => removeIDFromArray(id)}
+          />
+        </Row>
+      )
+    })
+  }
 
+  const renderDeleteButton = () => {
+    return (
+      <Button 
+        onClick={() => }
+        disabled={ assignIDs.length > 0 ? false : true}
+      />
+    )
   }
 
   /////////////////
