@@ -29,6 +29,11 @@ function Console() {
   const [therapistsLoading, setTherapistsLoading] = useState(true)
   const [therapistsError, setTherapistsError] = useState(false)
 
+  // Assignment Delete Data
+  const [assignIDText, setAssignIDText] = useState("")
+  const [assignIDs, setAssignIDs] = useState([])
+
+
   // Selected Therapist
   const [selectedTherapist, setSelectedTherapist] = useState(false)
 
@@ -144,6 +149,12 @@ async function executeSetTherapistMutation(){
     });
 }
 
+function addAssignIDToDelete(){
+  setAssignIDs( prev => [...prev, assignIDText])
+  setAssignIDText("")
+}
+
+
 
 ////////////////
 // Renderings //
@@ -235,7 +246,25 @@ async function executeSetTherapistMutation(){
   ////////////////////////
 
   // Renders Delete Assginments ID text box
-  const render 
+  const renderDeleteIDTextBox = () => {
+    return(
+      <TextArea
+        onChange={(text) => setAssignIDText(text)}
+      />
+    )
+  }
+
+  const renderAddID = () => {
+    return(
+      <Button
+        onClick={() => addAssgnIDtoDelete()}
+      />
+    )
+  }
+
+  const renderAssignIDsToDelete = () => {
+
+  }
 
   /////////////////
   // MAIN RETURN //
