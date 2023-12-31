@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 
 // Mutations and Queries
 import { useMutation } from "@apollo/client";
-import {GET_ALL_CLIENTS, GET_ALL_THERAPISTS, SUPER_SET_THERAPIST } from "../../graphql/operations"
+import {GET_ALL_CLIENTS, GET_ALL_THERAPISTS, SUPER_SET_THERAPIST, SUPER_DELETE_ASSIGNMENTS } from "../../graphql/operations"
 import client from "@utils/apolloClient";
 
 // Ant Design
@@ -59,6 +59,7 @@ function Console() {
 //////////////////////////
 
 const [setTherapistMutation, {}] = useMutation(SUPER_SET_THERAPIST);
+const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
 
 /////////////////
 // Use Effects //
@@ -113,55 +114,67 @@ const [setTherapistMutation, {}] = useMutation(SUPER_SET_THERAPIST);
 // Functions //
 ///////////////
 
-async function executeSetTherapistMutation(){
-  console.log("SELECTED CLIENT::::: ")
-  console.log(selectedClient)
-  let careID
-  if (selectedClient.childCarePlans.length === 0){
-    console.log("EMPTY CARE PLANS")
-    careID = "false"
-  }
-  else{
-    careID = selectedClient.childCarePlans[0].id
-  }
-  console.log("Mut Params")
-  console.log(careID)
-  console.log(selectedClient.id)
-  console.log(selectedClient.guardian.id)
-  console.log("executing...")
-  await setTherapistMutation({
-    variables: {
-      childCarePlanID: careID,
-      childID: selectedClient.id,
-      guardianID: selectedClient.guardian.id,
-      therapistID: selectedTherapist.id,
-      superUserKey: process.env.SUPER_USER_SECRET_KEY
-    },
-  })
-    .then(async (resolved) => {
-      console.log("Set Therapist Complete")
-      console.log("New Client Object...")
-      console.log(resolved.data.superSetTherapist)
-      setGeneralLoading(false)
-    })
-    .catch((error) => {
-      message.error(error);
-    });
-}
-
-
-function addAssignIDToDelete(){
-  setAssignIDs( prev => [...prev, assignIDText])
-  setAssignIDText("")
-}
-
-function removeIDFromArray(id){
-  setAssignIDs( prev => prev.filter(savedID => {
-    if (id !== savedID){
-      return savedID
+  ///////////////////
+  // SET THERAPIST //
+  ///////////////////
+  
+  async function executeSetTherapistMutation(){
+    console.log("SELECTED CLIENT::::: ")
+    console.log(selectedClient)
+    let careID
+    if (selectedClient.childCarePlans.length === 0){
+      console.log("EMPTY CARE PLANS")
+      careID = "false"
     }
-  }))
-}
+    else{
+      careID = selectedClient.childCarePlans[0].id
+    }
+    console.log("Mut Params")
+    console.log(careID)
+    console.log(selectedClient.id)
+    console.log(selectedClient.guardian.id)
+    console.log("executing...")
+    await setTherapistMutation({
+      variables: {
+        childCarePlanID: careID,
+        childID: selectedClient.id,
+        guardianID: selectedClient.guardian.id,
+        therapistID: selectedTherapist.id,
+        superUserKey: process.env.SUPER_USER_SECRET_KEY
+      },
+    })
+      .then(async (resolved) => {
+        console.log("Set Therapist Complete")
+        console.log("New Client Object...")
+        console.log(resolved.data.superSetTherapist)
+        setGeneralLoading(false)
+      })
+      .catch((error) => {
+        message.error(error);
+      });
+  }
+
+
+  ////////////////////////
+  // DELETE ASSIGNMENTS //
+  ////////////////////////
+
+  function addAssignIDToDelete(){
+    setAssignIDs( prev => [...prev, assignIDText])
+    setAssignIDText("")
+  }
+
+  function removeIDFromArray(id){
+    setAssignIDs( prev => prev.filter(savedID => {
+      if (id !== savedID){
+        return savedID
+      }
+    }))
+  }
+
+  function handleDeleteAssignments(){
+
+  }
 
 
 
@@ -254,52 +267,54 @@ function removeIDFromArray(id){
   // DELETE ASSIGNMENTS //
   ////////////////////////
 
-  // Renders Delete Assginments ID text box
-  const renderDeleteIDTextBox = () => {
-    return(
-      <TextArea
-        onChange={(text) => setAssignIDText(text)}
-      />
-    )
-  }
-
-  // Renders the Button to Add the Entered ID
-  const renderAddID = () => {
-    return(
-      <Button
-        onClick={() => addAssgnIDtoDelete()}
-        title="Add Assignment ID"
-      />
-    )
-  }
-
-  // Renders the Assignments that have been added 
-  const renderAssignIDsToDelete = () => {
-    return assignIDs.map(id => {
+    // Renders Delete Assginments ID text box
+    const renderDeleteIDTextBox = () => {
       return(
-        <Row>
-          {id}
-          <Button
-            onClick={(id) => removeIDFromArray(id)}
-          />
-        </Row>
+        <TextArea
+          onChange={(text) => setAssignIDText(text)}
+        />
       )
-    })
-  }
+    }
 
-  const renderDeleteButton = () => {
-    return (
-      <Button 
-        onClick={() => }
-        disabled={ assignIDs.length > 0 ? false : true}
-      />
-    )
-  }
+    // Renders the Button to Add the Entered ID
+    const renderAddID = () => {
+      return(
+        <Button
+          onClick={() => addAssgnIDtoDelete()}
+          title="Add Assignment ID"
+        />
+      )
+    }
+
+    // Renders the Assignments that have been added 
+    const renderAssignIDsToDelete = () => {
+      return assignIDs.map(id => {
+        return(
+          <Row>
+            {id}
+            <Button
+              onClick={(id) => removeIDFromArray(id)}
+              title="DELETE ASSIGNMENT(s)"
+            />
+          </Row>
+        )
+      })
+    }
+
+    // Renders the Button to submit Delete Assignments
+    const renderDeleteButton = () => {
+      return (
+        <Button 
+          onClick={() => }
+          disabled={ assignIDs.length > 0 ? false : true}
+        />
+      )
+    }
 
   /////////////////
   // MAIN RETURN //
   /////////////////
-  const MAIN = () => {
+  const therapistMAIN = () => {
 
     if (generalLoading){
       return(
@@ -371,8 +386,29 @@ function removeIDFromArray(id){
     }
   }
 
+
+  const assignmentMAIN = () => {
+    return (
+      <div>
+        <h4>Assignments to Delete...</h4>
+        {renderAssignIDsToDelete()}
+        <Row>
+          <Col>
+            {renderDeleteIDTextBox()}
+          </Col>
+          <Col>
+            {renderAddID()}
+          </Col>
+        </Row>
+        <Row>
+          {renderDeleteButton()}
+        </Row>
+      </div>
+    )
+  }
+
   
-  return MAIN();
+  return assignmentMAIN();
 }
   
 export default Console;
