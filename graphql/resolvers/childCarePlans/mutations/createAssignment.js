@@ -9,15 +9,28 @@ export default {
   Mutation: {
     createAssignment: async (
       _,
-      { childCarePlanID, dateStart, dateDue, title, description, videoIDs },
+      { 
+        childCarePlanID, 
+        dateStart, 
+        dateDue, 
+        title, 
+        description, 
+        videoIDs
+      },
       context
     ) => {
+
+      /////////////////
+      // Login Check //
       if (!context.user) throw new UserInputError("Login required");
 
+      /////////////////////
+      // Therapist Check //
       if (context.user.role !== "THERAPIST")
         throw new UserInputError("Only therapists can edit child care plans");
 
-      // Find the child care plan that we are tyring to edit
+      /////////////////////////////
+      // Locates Child Care Plan //
       console.log("Locating Child Care Plan with id " + childCarePlanID)
       let childCarePlan = await prisma.childCarePlan.findUnique({
         where: {
@@ -43,33 +56,37 @@ export default {
         },
       });
 
-      // If they are not, then return user input error
+      ///////////////////////////
+      // Valid Care Plan Check //
       if (!childCarePlan) {
         console.log("It wasn't found")
         throw new UserInputError("Child care plan does not exist");
       }
 
-      // Only the therapist assigned to the child care plan can edit it
+      ///////////////////////////
+      // Valid Care Plan Check //
       if (childCarePlan.therapist.id !== context.user.id) {
         console.log("User does not have access to it")
         throw new UserInputError("Access denied");
       }
 
-      // Check all the videos passed to make sure they are valid video contentful ids
+      //////////////////////////
+      // Valid Video ID Check //
       let videoValid = true;
-
       videoIDs.map((videoID) => {
         if (!VIDEOS[videoID]) {
           videoValid = false;
         }
       });
-
       if (!videoValid) {
         throw new UserInputError(
           "One of your video ids is not a valid contentful ID"
         );
       }
 
+
+      ////////////////////////
+      // Creates Assginment //
       console.log("Creating Assignment")
       let newAssignment = await prisma.assignment.create({
         data: {
@@ -84,7 +101,10 @@ export default {
           },
         },
       });
+      console.log("Assignment Created")
 
+      ////////////////////////////////////////////////////
+      // Creates VIDEO Isnatnce for Each Assigned Video //
       for (var i = 0; i < videoIDs.length; i++) {
         let videoID = videoIDs[i];
         await prisma.video.create({
@@ -112,16 +132,7 @@ export default {
         childCarePlan.child.id,
         context.user.id
       );
-      await createNotification(
-        "New Assignment Created By " +
-          context.user.firstName +
-          " " +
-          context.user.lastName,
-        `Your New Assignment ${title} Is Due On ${dateFormat(dateDue, "m/dd")}`,
-        "NEW_ASSIGNMENT",
-        childCarePlan.child.guardian.id,
-        context.user.id
-      );
+
 
       return true;
     },
