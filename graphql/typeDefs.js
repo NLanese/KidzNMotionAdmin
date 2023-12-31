@@ -487,7 +487,14 @@ const typeDefs = gql`
       therapistID: String!
       superUserKey: String!
     ): ChildCarePlan
+
+    superDeleteAssignments(
+      idArray: [String]!
+      superUserKey: String!
+    ): Boolean
+
   }
+
   # ---------------------------------------- END MUTATIONS ----------------------------------------
 `;
 

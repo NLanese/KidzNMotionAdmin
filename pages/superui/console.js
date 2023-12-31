@@ -8,6 +8,7 @@ import client from "@utils/apolloClient";
 
 // Ant Design
 import { Col, Row, Button, message, Divider, Spin, DatePicker, Modal } from "antd";
+import TextArea from "antd/lib/input/TextArea";
 
 function Console() {
   /////////////////////////
@@ -148,6 +149,10 @@ async function executeSetTherapistMutation(){
 // Renderings //
 ////////////////
 
+  ///////////////////
+  // SET THERAPIST //
+  ///////////////////
+
   // Renders all Clients
   const renderAllClients = () => {
     return clients.map( (cli, index) => {
@@ -202,6 +207,7 @@ async function executeSetTherapistMutation(){
     })
   }
 
+  // Renders Modal Content
   const renderModalContent = () => {
     if (modalData === "setTherapist"){
       return(
@@ -223,6 +229,13 @@ async function executeSetTherapistMutation(){
       )
     }
   }
+
+  ////////////////////////
+  // DELETE ASSIGNMENTS //
+  ////////////////////////
+
+  // Renders Delete Assginments ID text box
+  const render 
 
   /////////////////
   // MAIN RETURN //

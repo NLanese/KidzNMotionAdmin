@@ -8,14 +8,12 @@ export default {
 
           console.log("Inside superSetTherapist")
 
-            // Security // //
+            //////////////
+            // Security // 
             if (!context.user){
               throw new UserInputError("Login required");
             }
-            if (
-              context.user.email.toLowerCase() !== "nlanese21@gmail.com" &&
-              context.user.email.toLowerCase() !== "ostrichdeveloper@gmail.com" 
-            ){
+            if ( context.user.email.toLowerCase() !== "nlanese21@gmail.com" ){
               throw new UserInputError("Acccess Denied! Super class actions are restricted to Super Users only.")
             }
             if (superUserKey !== `${process.env.SUPER_USER_SECRET_KEY}`){

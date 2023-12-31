@@ -667,6 +667,18 @@ const SUPER_SET_THERAPIST = gql`
   }
 `
 
+const SUPER_DELETE_ASSIGNMENTS = gql`
+  mutation Mutation(
+    $idArray: [String],
+    $superUserKey: String
+  ){
+    superDeleteAssignments(
+      idArray: $idArray,
+      superUserKey: $superUserKey
+    )
+  }
+`
+
 /////////////
 // EDITORS //
 /////////////
@@ -954,6 +966,7 @@ export {
   GET_ALL_CLIENTS,
   GET_ALL_THERAPISTS,
   SUPER_SET_THERAPIST,
+  SUPER_DELETE_ASSIGNMENTS,
 
   // Organization
   EDIT_ORGANIZATION_SETTINGS,
