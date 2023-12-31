@@ -31,7 +31,6 @@ export default {
 
       /////////////////////////////
       // Locates Child Care Plan //
-      console.log("Locating Child Care Plan with id " + childCarePlanID)
       let childCarePlan = await prisma.childCarePlan.findUnique({
         where: {
           id: childCarePlanID,
@@ -41,6 +40,8 @@ export default {
           child: {
             select: {
               id: true,
+              firstName: true,
+              lastName: true,
               guardian: {
                 select: {
                   id: true,
@@ -56,17 +57,18 @@ export default {
         },
       });
 
+      let childUser = childCarePlan.child
+      let carePlanGuardian = childCarePlan.child.guardian
+
       ///////////////////////////
       // Valid Care Plan Check //
       if (!childCarePlan) {
-        console.log("It wasn't found")
         throw new UserInputError("Child care plan does not exist");
       }
 
       ///////////////////////////
       // Valid Care Plan Check //
       if (childCarePlan.therapist.id !== context.user.id) {
-        console.log("User does not have access to it")
         throw new UserInputError("Access denied");
       }
 
@@ -87,7 +89,6 @@ export default {
 
       ////////////////////////
       // Creates Assginment //
-      console.log("Creating Assignment")
       let newAssignment = await prisma.assignment.create({
         data: {
           dateStart: dateStart,
@@ -122,17 +123,23 @@ export default {
         });
       }
 
+      console.log("Sending Notification to child")
       await createNotification(
-        "New Assignment Created By " +
-          context.user.firstName +
-          " " +
-          context.user.lastName,
+        "You have a New Assignment!",
         `Your New Assignment ${title} Is Due On ${dateFormat(dateDue, "m/dd")}`,
         "NEW_ASSIGNMENT",
-        childCarePlan.child.id,
+        childUser.id,
         context.user.id
       );
 
+      console.log("Sending Notification to Guardian")
+      await createNotification(
+        `${childUser.firstName} has a New Assignment!`,
+        `Due On ${dateFormat(dateDue, "m/dd")}`,
+        "NEW_ASSIGNMENT",
+        carePlanGuardian.id,
+        context.user.id
+      );
 
       return true;
     },

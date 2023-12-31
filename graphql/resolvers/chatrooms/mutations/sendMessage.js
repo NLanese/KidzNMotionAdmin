@@ -9,7 +9,8 @@ export default {
     sendMessage: async (_, { content, chatRoomID }, context) => {
       if (!context.user) throw new UserInputError("Login required");
 
-      // Get the chat room
+      ///////////////////////
+      // Gets the Chatroom //
       let chatRoom = await prisma.chatroom.findUnique({
         where: {
           id: chatRoomID,
@@ -22,13 +23,12 @@ export default {
           },
         },
       });
-
-      // If not chat room exists, throw an error
       if (!chatRoom) {
         throw new UserInputError("Chat room does not exist");
       }
 
-      // Make sure the user is in the chat room before sending message
+      /////////////////////////
+      // Valid Chat ID Check //
       let inChatRoom = false;
       let otherUserIds = [];
       chatRoom.users.map((userObject) => {
@@ -38,14 +38,14 @@ export default {
           otherUserIds.push(userObject.id);
         }
       });
-
       if (!inChatRoom) {
         throw new UserInputError(
           "You have to be in chat room to send a message"
         );
       }
 
-      // Create the message and assign to the chatroom
+      ///////////////////////////////////////////////////
+      // Creates the Message and Connections in PRISMA //
       await prisma.message.create({
         data: {
           content: content,
@@ -66,7 +66,9 @@ export default {
         },
       });
 
+
       for (var i = 0; i < otherUserIds.length; i++) {
+        console.log("In sendMessage, sending notification...")
         await createNotification(
           "New Message From " + context.user.firstName,
           content,
