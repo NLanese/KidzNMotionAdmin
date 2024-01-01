@@ -669,8 +669,8 @@ const SUPER_SET_THERAPIST = gql`
 
 const SUPER_DELETE_ASSIGNMENTS = gql`
   mutation Mutation(
-    $idArray: [String],
-    $superUserKey: String
+    $idArray: [String]!,
+    $superUserKey: String!
   ){
     superDeleteAssignments(
       idArray: $idArray,

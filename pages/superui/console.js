@@ -160,8 +160,10 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
   ////////////////////////
 
   function addAssignIDToDelete(){
-    setAssignIDs( prev => [...prev, assignIDText])
-    setAssignIDText("")
+    if (assignIDText.length > 2){
+      setAssignIDs( prev => [...prev, assignIDText])
+      setAssignIDText("")
+    }
   }
 
   function removeIDFromArray(id){
@@ -172,8 +174,13 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
     }))
   }
 
-  function handleDeleteAssignments(){
-
+  async function handleDeleteAssignments(){
+    await deleteAssignments({
+      variables: {
+        idArray: assignIDs,
+        superUserKey: process.env.SUPER_USER_SECRET_KEY
+      }
+    })
   }
 
 
@@ -271,7 +278,11 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
     const renderDeleteIDTextBox = () => {
       return(
         <TextArea
-          onChange={(text) => setAssignIDText(text)}
+          value={assignIDText}
+          onChange={(event) => {
+            console.log(event.target.value)
+            setAssignIDText(event.target.value)
+          }}
         />
       )
     }
@@ -280,22 +291,28 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
     const renderAddID = () => {
       return(
         <Button
-          onClick={() => addAssgnIDtoDelete()}
-          title="Add Assignment ID"
-        />
+          onClick={() => addAssignIDToDelete()}
+          size="middle"
+        >
+          Add Assignment ID
+        </Button>
       )
     }
 
     // Renders the Assignments that have been added 
     const renderAssignIDsToDelete = () => {
       return assignIDs.map(id => {
+        console.log("THIS IS A CURRENT ID")
+        console.log(id)
         return(
           <Row>
             {id}
             <Button
               onClick={(id) => removeIDFromArray(id)}
-              title="DELETE ASSIGNMENT(s)"
-            />
+              size="middle"
+            >
+              Remove
+            </Button>
           </Row>
         )
       })
@@ -305,9 +322,11 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
     const renderDeleteButton = () => {
       return (
         <Button 
-          onClick={() => }
+          onClick={() => handleDeleteAssignments()}
           disabled={ assignIDs.length > 0 ? false : true}
-        />
+        >
+          DELETE LISTED ASSIGNMENTS
+        </Button>
       )
     }
 

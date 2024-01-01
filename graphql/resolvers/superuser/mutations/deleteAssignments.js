@@ -1,3 +1,7 @@
+import prisma from "@utils/prismaDB";
+import { UserInputError } from "apollo-server-errors";
+
+
 export default {
     Mutation: {
         superDeleteAssignments: async (_, {idArray, superUserKey}, context) => {
@@ -21,8 +25,22 @@ export default {
             ////////////////////////////////
             // if all EXPIRED assignments //
             if (idArray[0] === "EXPIRED"){
-                let allAssignments = prisma.assignment.findMany()
-                console.log(allAssignments)
+                let allAssignments = await prisma.assignment.findMany()
+                let expired = allAssignments.map(ass => {
+                  let dateTimeDueDate = new Date(ass.dateDue)
+                  console.log(ass.dateDue + " is expired, true or false?")
+                  if (dateTimeDueDate < new Date()){
+                    console.log("TRUE")
+                    return ass
+                  }
+                })
+                
+                console.log("Checking Expired")
+                console.log(expired)
+            }
+
+            if (idArray[0].includes("BEFOFE")){
+
             }
 
 
