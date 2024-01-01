@@ -305,7 +305,7 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
         console.log("THIS IS A CURRENT ID")
         console.log(id)
         return(
-          <Row>
+          <Row key={id}>
             {id}
             <Button
               onClick={(id) => removeIDFromArray(id)}
