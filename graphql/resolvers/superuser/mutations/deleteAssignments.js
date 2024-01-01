@@ -25,19 +25,35 @@ export default {
             ////////////////////////////////
             // if all EXPIRED assignments //
             if (idArray[0] === "EXPIRED"){
-                let allAssignments = await prisma.assignment.findMany()
-                let expired = allAssignments.map(ass => {
-                  let dateTimeDueDate = new Date(ass.dateDue)
-                  console.log(ass.dateDue + " is expired, true or false?")
-                  if (dateTimeDueDate < new Date()){
-                    console.log("TRUE")
-                    return ass
+
+              // Finds all Expired Assignments
+              let allAssignments = await prisma.assignment.findMany()
+              let expired = allAssignments.map(ass => {
+                let dateTimeDueDate = new Date(ass.dateDue)
+                if (dateTimeDueDate < new Date()){
+                  return ass
+                }
+              })
+
+              expired.forEach( async (ass) => {
+                await prisma.assignment.delete({
+                  where: {
+                    id: ass.id
                   }
                 })
-                
-                console.log("Checking Expired")
-                console.log(expired)
+                .then( resolved => {
+                  console.log("successfully deleted")
+                })
+                .catch( error => {
+                  console.log("ERROR")
+                  console.warn((error))
+                })
+              });
+
             }
+
+
+
 
             if (idArray[0].includes("BEFOFE")){
 
