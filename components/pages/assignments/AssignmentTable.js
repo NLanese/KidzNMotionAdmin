@@ -101,7 +101,6 @@ function AssignmentsTable({ assignments, setAssignments, passedAssignments, user
   // Renders List of Videos per Assignment
   function renderVideoList(record){
       return record.videos.map(vid => {
-        console.log("Video... " + vid.title)
         return(
           <Row key={vid.title}>
             <Text>{vid.title} - {vid.completed ? "Complete!" : "Not Done"}</Text>
