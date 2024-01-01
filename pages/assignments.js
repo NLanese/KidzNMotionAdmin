@@ -125,46 +125,6 @@ function Assignments({ router }) {
   }, []);
 
 
-  const getAssignmentValues = () => {
-    let id = router.query.id;
-    let intitalValues = {};
-
-    let selectedAssignmentObject = null;
-
-    assignments.map((assignmentObject) => {
-      if (assignmentObject.id === id) {
-        selectedAssignmentObject = assignmentObject;
-      }
-    });
-
-    let guardian = null;
-    let child = null;
-    selectedAssignmentObject.users.map((userObject) => {
-      if (userObject.role === "GUARDIAN") {
-        guardian = userObject.id;
-      }
-      if (userObject.role === "CHILD") {
-        child = userObject.id;
-      }
-    });
-
-    if (selectedAssignmentObject) {
-      intitalValues = {
-        type: selectedAssignmentObject.type,
-        assignmentID: selectedAssignmentObject.id,
-        title: selectedAssignmentObject.title,
-        assignmentDateTime: moment(selectedAssignmentObject.assignmentDateTime),
-        guardian: guardian,
-        approved: selectedAssignmentObject.approved,
-        pendingApproval: selectedAssignmentObject.pendingApproval,
-        child: child,
-        completed: false,
-      };
-    }
-
-    return intitalValues;
-  };
-
   ////////////////
   // RENDERINGS //
   ////////////////

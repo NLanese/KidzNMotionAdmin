@@ -40,9 +40,10 @@ function AssignmentForm({}) {
 
   // Executes Create Assignment Mutation
   const handleCreateAssignment = async (formValues) => {
+    let uniques = removeDuplicates(formValues.selectedClientIDs)
 
     // For every Child this assignment is intended for...
-    formValues.selectedClientIDs.forEach(async (id) => {
+    uniques.selectedClientIDs.forEach(async (id) => {
       if (id === "" || id === null || id.length < 2){
         return
       }
@@ -142,6 +143,19 @@ function AssignmentForm({}) {
 
     return errors;
   }
+
+  // Removes duplicate values from arrays
+  function removeDuplicates(arr) {
+    let unique = [];
+    arr.forEach(element => {
+        if (!unique.includes(element)) {
+          if (element.split("").length > 1){
+            unique.push(element);
+          }
+        }
+    });
+    return unique;
+}
 
   ////////////////
   // RENDERINGS //
