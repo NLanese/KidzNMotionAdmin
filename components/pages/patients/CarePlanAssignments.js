@@ -254,7 +254,7 @@ function CarePlanAssignments({
             shallow: true,
           })
         }
-        visible={router.query.video}
+        open={router.query.video}
       >
         <AssignMedalsForm getUser={getUser} router={router} />
       </Drawer>

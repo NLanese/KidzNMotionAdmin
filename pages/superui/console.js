@@ -369,7 +369,7 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
       return (
         <div>
           <Modal
-          visible={modalOpen}
+          open={modalOpen}
           onCancel={() => setModalOpen(false)}
           >
             {renderModalContent()}

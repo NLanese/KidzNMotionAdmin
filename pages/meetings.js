@@ -290,7 +290,7 @@ function Meetings({ router }) {
                 : "Edit Meeting"
             }
             onClose={() => Router.push("/meetings", null, { shallow: true })}
-            visible={router.query.create || router.query.id}
+            open={router.query.create || router.query.id}
           >
             {router.query.create && <MeetingForm />}
             {router.query.id && !router.query.approve && (

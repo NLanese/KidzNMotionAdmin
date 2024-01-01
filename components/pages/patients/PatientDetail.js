@@ -158,7 +158,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
         placement="right"
         width={1000}
         onClose={() => Router.push("/patients/manage", null, { shallow: true })}
-        visible={patientDetailOpen ? true : false}
+        open={patientDetailOpen ? true : false}
       >
         {patientDetail && (
           <>
@@ -268,7 +268,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
               title={getDrawerTitle()}
               width={getDrawerWidth()}
               onClose={() => getDrawerCloseLink()}
-              visible={getDrawerOpen()}
+              open={getDrawerOpen()}
             >
               {getDrawerContent()}
             </Drawer>

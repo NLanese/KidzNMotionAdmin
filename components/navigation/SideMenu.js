@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-var dateFormat = require("dateformat");
+import dateFormat from "dateformat";
+// var dateFormat = require("dateformat");
 import { menuState } from "@atoms";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import Router from "next/router";
@@ -355,7 +356,7 @@ function SideMenuContainer({ router, user }) {
           padding: "0px",
         }}
         onClose={() => setMenuOpen(false)}
-        visible={menuOpen}
+        open={menuOpen}
       >
         <MobileLogo>
           <img alt="Kidz-N-Motion Logo" src="/logos/Main.png" />

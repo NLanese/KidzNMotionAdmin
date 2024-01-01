@@ -23,7 +23,7 @@ function InviteUserDrawer({
             { shallow: true }
           )
         }
-        visible={inviteUserDrawerOpen}
+        open={inviteUserDrawerOpen}
       >
         {(therapistMode && inviteUserDrawerOpen) ? (
           <InvitePatientForm

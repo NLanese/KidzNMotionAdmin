@@ -154,7 +154,7 @@ function Assignments({ router }) {
           "Create Assignment" : "Edit Assignment"
         }
         onClose={() => Router.push("/assignments", null, { shallow: true })}
-        visible={router.query.create || router.query.id}
+        open={router.query.create || router.query.id}
       >
         {router.query.create && <AssignmentForm />}
         {router.query.id && !router.query.approve && (
