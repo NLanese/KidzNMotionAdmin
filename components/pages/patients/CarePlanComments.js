@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
 import styled from "styled-components";
-import { Comment, message, Popconfirm, Empty } from "antd";
+import { message, Popconfirm, Empty } from "antd";
+import { Comment } from '@ant-design/compatible';
 var dateFormat = require("dateformat");
 
 import { useMutation } from "@apollo/client";
