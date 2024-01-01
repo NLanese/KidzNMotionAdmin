@@ -103,7 +103,7 @@ function AssignmentsTable({ assignments, setAssignments, passedAssignments, user
       return record.videos.map(vid => {
         console.log("Video... " + vid.title)
         return(
-          <Row>
+          <Row key={vid.title}>
             <Text>{vid.title} - {vid.completed ? "Complete!" : "Not Done"}</Text>
           </Row>
         )
