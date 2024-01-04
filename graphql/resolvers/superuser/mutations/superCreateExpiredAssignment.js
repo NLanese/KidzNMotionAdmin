@@ -20,6 +20,7 @@ export default {
 
     //////////////
     // Security // 
+    console.log("SECURITY")
     if (!context.user){
         throw new UserInputError("Login required");
     }
@@ -29,6 +30,7 @@ export default {
     if (superUserKey !== `${process.env.SUPER_USER_SECRET_KEY}`){
         throw new UserInputError("Acccess Denied! Super Key was incorrect.")
     }
+    console.log("Passed Security")
 
       ////////////////////////////////////////
       // Locates Test User (OStrichdevtext) //
@@ -38,13 +40,16 @@ export default {
         },
         select: {
           id :true,
-          child: {
+          children: {
             select: {
               id: true
             }
           }
         }
       })
+
+      console.log("Guardian...")
+      console.log(guardian)
 
       let child = await prisma.user.findUnique({
         where: {
@@ -58,6 +63,10 @@ export default {
           }
         }
       })
+
+      console.log("child...")
+      console.log(child)
+
       let childCarePlan = await prisma.childCarePlan.findUnique({
         where: {
           id: child.childCarePlans[0].id,
@@ -84,17 +93,15 @@ export default {
         },
       });
 
+      console.log("Care Plan")
+      console.log(childCarePlan)
+
       ///////////////////////////
       // Valid Care Plan Check //
       if (!childCarePlan) {
         throw new UserInputError("Child care plan does not exist");
       }
 
-      ///////////////////////////
-      // Valid Care Plan Check //
-      if (childCarePlan.therapist.id !== context.user.id) {
-        throw new UserInputError("Access denied");
-      }
 
       //////////////////////////
       // Valid Video ID Check //
@@ -121,7 +128,7 @@ export default {
           description: "This is a test",
           childCarePlan: {
             connect: {
-              id: childCarePlanID,
+              id: childCarePlan.id
             },
           },
         },
