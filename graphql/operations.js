@@ -679,6 +679,15 @@ const SUPER_DELETE_ASSIGNMENTS = gql`
   }
 `
 
+const SUPER_CREATE_EXPIRED_ASSIGNMENTS = gql`
+mutation Muation(
+  $superUserKey: String!
+){
+  superCreateExpiredAssignment(
+    superUserKey: $superUserKey
+  )
+}`
+
 /////////////
 // EDITORS //
 /////////////
@@ -967,6 +976,7 @@ export {
   GET_ALL_THERAPISTS,
   SUPER_SET_THERAPIST,
   SUPER_DELETE_ASSIGNMENTS,
+  SUPER_CREATE_EXPIRED_ASSIGNMENTS,
 
   // Organization
   EDIT_ORGANIZATION_SETTINGS,

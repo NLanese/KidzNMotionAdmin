@@ -493,6 +493,10 @@ const typeDefs = gql`
       superUserKey: String!
     ): Boolean
 
+    superCreateExpiredAssignment(
+      superUserKey: Strong!
+    ): Boolean
+
   }
 
   # ---------------------------------------- END MUTATIONS ----------------------------------------
