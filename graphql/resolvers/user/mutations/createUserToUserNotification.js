@@ -26,7 +26,12 @@ export default {
         });
       }
 
-      if (assignment && assignment.notificationSent) return false;
+      // Notification Already Sent for This Assignment
+      if (assignment && assignment.notificationSent){
+        return
+      }
+
+      console.log("Creating Notification")
 
       await createNotification(
         title,
@@ -36,6 +41,9 @@ export default {
         context.user.id
       );
 
+      console.log("Notification Sent")
+
+      // Updates Assignment if notification is sent
       if (assignment && !assignment.notificationSent)
         await prisma.assignment.update({
           where: {
@@ -45,6 +53,8 @@ export default {
             notificationSent: true,
           },
         });
+
+        console.log("Assignment Updated")
 
       return true;
     },
