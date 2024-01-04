@@ -38,7 +38,8 @@ export default {
           )
 
           if (daysLeft <= 0) {
-            subscriptionStatus = "expiredOwner";
+            // subscriptionStatus = "expiredOwner";
+            subscriptionStatus = "active"
           } 
           else {
             subscriptionStatus = "trial";
@@ -74,7 +75,8 @@ export default {
                 (1000 * 3600 * 24)
           );
           if (daysLeft <= 0) {
-            subscriptionStatus = "expiredOwner";
+            // subscriptionStatus = "expiredOwner";
+            subscriptionStatus = "active"
           } else {
             subscriptionStatus = "trial";
           }
@@ -95,7 +97,8 @@ export default {
           );
           if (daysLeft <= 0) {
             console.log("Expired Org Owner")
-            subscriptionStatus = "expiredNotOwner";
+            // subscriptionStatus = "expiredNotOwner";
+            subscriptionStatus = "active"
           } else {
             console.log("Not owner trial")
             subscriptionStatus = "trial - not owner";
@@ -120,7 +123,8 @@ export default {
               );
               console.log(daysLeft);
               if (daysLeft <= 0) {
-                subscriptionStatus = "expiredNotOwner";
+                // subscriptionStatus = "expiredNotOwner";
+                subscriptionStatus = "active"
               } else {
                 subscriptionStatus = "trial";
               }
