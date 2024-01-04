@@ -494,7 +494,7 @@ const typeDefs = gql`
     ): Boolean
 
     superCreateExpiredAssignment(
-      superUserKey: Strong!
+      superUserKey: String!
     ): Boolean
 
   }
