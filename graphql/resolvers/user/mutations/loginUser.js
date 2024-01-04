@@ -22,7 +22,6 @@ export default {
             createdAt: true,
             id: true,
             soloStripeSubscriptionID: true,
-            soloSubscriptionStatus: true,
             username: true,
             email: true,
             password: true,
@@ -299,7 +298,7 @@ export default {
 
 
 
-          userToLogin = {...userToLogin, soloSubscriptionStatus: subscriptionStatus}
+          userToLogin = {...userToLogin, soloSubscriptionStatus:subscriptionStatus,  subscriptionStatus: subscriptionStatus}
 
           // Return token and truncated user object
           try {
