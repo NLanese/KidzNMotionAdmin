@@ -108,19 +108,24 @@ export default {
       // Creates VIDEO Isnatnce for Each Assigned Video //
       for (var i = 0; i < videoIDs.length; i++) {
         let videoID = videoIDs[i];
-        await prisma.video.create({
-          data: {
-            contentfulID: videoID,
-            title: VIDEOS[videoID].title,
-            description: "",
-            level: VIDEOS[videoID].level,
-            assignments: {
-              connect: {
-                id: newAssignment.id,
+        try{
+          await prisma.video.create({
+            data: {
+              contentfulID: videoID,
+              title: VIDEOS[videoID].title,
+              description: "",
+              level: VIDEOS[videoID].level,
+              assignments: {
+                connect: {
+                  id: newAssignment.id,
+                },
               },
             },
-          },
-        });
+          })
+        }
+        catch(error){
+          throw new Error("There was an issue getting the needed values to create an Assignment!")
+        }
       }
 
       console.log("Sending Notification to child")
