@@ -71,7 +71,6 @@ const GET_USER = gql`
       profilePic
       webAppColorSettings
       soloStripeSubscriptionID
-      soloSubscriptionStatus
       role
       createdAt
 
@@ -269,7 +268,6 @@ const GET_ALL_CLIENTS = gql`
       username
       phoneNumber
       soloStripeSubscriptionID
-      soloSubscriptionStatus
       solo
       accessMessages
       accessSettings
@@ -318,7 +316,6 @@ const GET_ALL_THERAPISTS = gql`
       profilePic
       webAppColorSettings
       soloStripeSubscriptionID
-      soloSubscriptionStatus
       role
       createdAt
 

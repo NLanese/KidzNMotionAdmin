@@ -26,6 +26,7 @@ export default async function handler(req, res) {
     data: {
       soloStripeSubscriptionID: session.customer,
       soloSubscriptionStatus: "Active",
+      subscriptionStatus: "Active"
     },
   });
 
