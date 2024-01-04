@@ -680,7 +680,7 @@ const SUPER_DELETE_ASSIGNMENTS = gql`
 `
 
 const SUPER_CREATE_EXPIRED_ASSIGNMENTS = gql`
-mutation Muation(
+mutation Mutation(
   $superUserKey: String!
 ){
   superCreateExpiredAssignment(
