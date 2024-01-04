@@ -3,7 +3,11 @@ import React, { useState, useEffect } from "react";
 
 // Mutations and Queries
 import { useMutation } from "@apollo/client";
-import {GET_ALL_CLIENTS, GET_ALL_THERAPISTS, SUPER_SET_THERAPIST, SUPER_DELETE_ASSIGNMENTS } from "../../graphql/operations"
+import {
+  GET_ALL_CLIENTS, GET_ALL_THERAPISTS,
+  SUPER_SET_THERAPIST, SUPER_DELETE_ASSIGNMENTS, 
+  SUPER_CREATE_EXPIRED_ASSIGNMENTS
+} from "../../graphql/operations"
 import client from "@utils/apolloClient";
 
 // Ant Design
@@ -38,10 +42,6 @@ function Console() {
   const [selectedTherapist, setSelectedTherapist] = useState(false)
 
 
-  // This determines which inforomation is displayed on-screen.
-  //  - None (default)
-  //  - setTherapist 
-  const [consoleState, setConsoleState] = useState("None")  
 
   // This determines the information inside of the modal ( or if not displayed )
   // - false (default)
@@ -60,6 +60,7 @@ function Console() {
 
 const [setTherapistMutation, {}] = useMutation(SUPER_SET_THERAPIST);
 const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
+const [createExpiredAssignment, {}] = useMutation(SUPER_CREATE_EXPIRED_ASSIGNMENTS)
 
 /////////////////
 // Use Effects //
@@ -113,6 +114,19 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
 ///////////////
 // Functions //
 ///////////////
+
+  ////////////////////////
+  // EXPIRED ASSIGNMENT //
+  ////////////////////////
+
+  async function createExpiredAssignmentFunction(){
+    console.log("Creating Expired Assignment")
+    await createExpiredAssignment({
+      variables: {
+        superUserKey: process.env.SUPER_USER_SECRET_KEY
+      }
+    })
+  }
 
   ///////////////////
   // SET THERAPIST //
@@ -192,6 +206,17 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
   ////////////////////////
   // EXPIRED ASSIGNMENT //
   ////////////////////////
+
+    const renderSendExpiredAssignmentButton = () => {
+      return(
+        <Button
+        type="primary"
+            size="small"
+            onClick={() => { createExpiredAssignmentFunction()}}>
+          Send Expired Assignment to Ostrich Test
+        </Button>
+      )
+    }
 
   ///////////////////
   // SET THERAPIST //
@@ -409,7 +434,6 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
     }
   }
 
-
   const assignmentMAIN = () => {
     return (
       <div>
@@ -430,8 +454,15 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
     )
   }
 
+  const expiredAssignmentMAIN = () => {
+    return(
+      <div>
+        {renderSendExpiredAssignmentButton()}
+      </div>
+    )
+  }
   
-  return assignmentMAIN();
+  return expiredAssignmentMAIN();
 }
   
 export default Console;
