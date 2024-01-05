@@ -6,7 +6,7 @@ import { useMutation } from "@apollo/client";
 import {
   GET_ALL_CLIENTS, GET_ALL_THERAPISTS,
   SUPER_SET_THERAPIST, SUPER_DELETE_ASSIGNMENTS, 
-  SUPER_CREATE_EXPIRED_ASSIGNMENTS
+  SUPER_CREATE_EXPIRED_ASSIGNMENTS, SUPER_ACTIVATE_USERS
 } from "../../graphql/operations"
 import client from "@utils/apolloClient";
 
@@ -19,27 +19,34 @@ function Console() {
   // State and Constants //
   /////////////////////////
 
+  ////////////////////
   // Client Query Data
   const [clients, setClients] = useState(false)
   const [clientsLoading, setClientsLoading] = useState(true)
   const [clientsError, setClientsError] = useState(false)
 
-  // Selected Client
-  const [selectedClient, setSelectedClient] = useState(false)
-
-
+  ///////////////////////
   // Therapist Query Data
   const [therapists, setTherapists] = useState(false)
   const [therapistsLoading, setTherapistsLoading] = useState(true)
   const [therapistsError, setTherapistsError] = useState(false)
 
-  // Assignment Delete Data
-  const [assignIDText, setAssignIDText] = useState("")
-  const [assignIDs, setAssignIDs] = useState([])
-
+  
+  // Selected Client
+  const [selectedClient, setSelectedClient] = useState(false)
 
   // Selected Therapist
   const [selectedTherapist, setSelectedTherapist] = useState(false)
+
+
+  //////////////////////////////////////
+  // DELETE ASSIGNMENTS / ACTIVATE USERS
+
+    // Assignment Delete Data
+    const [arrayIDText, setArrayIDText] = useState("")
+    const [arrayIDs, setArrayIDs] = useState([])
+
+  
 
 
 
@@ -61,6 +68,8 @@ function Console() {
 const [setTherapistMutation, {}] = useMutation(SUPER_SET_THERAPIST);
 const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
 const [createExpiredAssignment, {}] = useMutation(SUPER_CREATE_EXPIRED_ASSIGNMENTS)
+const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
+
 
 /////////////////
 // Use Effects //
@@ -169,19 +178,19 @@ const [createExpiredAssignment, {}] = useMutation(SUPER_CREATE_EXPIRED_ASSIGNMEN
   }
 
 
-  ////////////////////////
-  // DELETE ASSIGNMENTS //
-  ////////////////////////
+  ////////////////////////////////////////
+  // DELETE ASSIGNMENTS / ACIVATE USERS //
+  ////////////////////////////////////////
 
-  function addAssignIDToDelete(){
-    if (assignIDText.length > 2){
-      setAssignIDs( prev => [...prev, assignIDText])
-      setAssignIDText("")
+  function addToArrayID(){
+    if (arrayIDText.length > 2){
+      setArrayIDs( prev => [...prev, arrayIDText])
+      setArrayIDText("")
     }
   }
 
   function removeIDFromArray(id){
-    setAssignIDs( prev => prev.filter(savedID => {
+    setarrayIDs( prev => prev.filter(savedID => {
       if (id !== savedID){
         return savedID
       }
@@ -191,12 +200,20 @@ const [createExpiredAssignment, {}] = useMutation(SUPER_CREATE_EXPIRED_ASSIGNMEN
   async function handleDeleteAssignments(){
     await deleteAssignments({
       variables: {
-        idArray: assignIDs,
+        idArray: arrayIDs,
         superUserKey: process.env.SUPER_USER_SECRET_KEY
       }
     })
   }
 
+  async function handleActivateUsers(){
+    await superActivateUsers({
+      variables: {
+        idArray: arrayIDs,
+        superUserKey: process.env.SUPER_USER_SECRET_KEY
+      }
+    })
+  }
 
 
 ////////////////
@@ -299,18 +316,18 @@ const [createExpiredAssignment, {}] = useMutation(SUPER_CREATE_EXPIRED_ASSIGNMEN
       }
     }
 
-  ////////////////////////
-  // DELETE ASSIGNMENTS //
-  ////////////////////////
+  /////////////////////////////////////////
+  // DELETE ASSIGNMENTS / ACTIVATE USERS //
+  /////////////////////////////////////////
 
     // Renders Delete Assginments ID text box
-    const renderDeleteIDTextBox = () => {
+    const renderArrayIDTextBox = () => {
       return(
         <TextArea
-          value={assignIDText}
+          value={arrayIDText}
           onChange={(event) => {
             console.log(event.target.value)
-            setAssignIDText(event.target.value)
+            setArrayIDText(event.target.value)
           }}
         />
       )
@@ -320,17 +337,17 @@ const [createExpiredAssignment, {}] = useMutation(SUPER_CREATE_EXPIRED_ASSIGNMEN
     const renderAddID = () => {
       return(
         <Button
-          onClick={() => addAssignIDToDelete()}
+          onClick={() => addToArrayID()}
           size="middle"
         >
-          Add Assignment ID
+          Add ID
         </Button>
       )
     }
 
     // Renders the Assignments that have been added 
-    const renderAssignIDsToDelete = () => {
-      return assignIDs.map(id => {
+    const renderArrayIDs = () => {
+      return arrayIDs.map(id => {
         console.log("THIS IS A CURRENT ID")
         console.log(id)
         return(
@@ -347,14 +364,26 @@ const [createExpiredAssignment, {}] = useMutation(SUPER_CREATE_EXPIRED_ASSIGNMEN
       })
     }
 
+        // Renders the Button to submit Delete Assignments
+        const renderActivateButton = () => {
+          return (
+            <Button 
+              onClick={() => handleActivateUsers()}
+              disabled={ arrayIDs.length > 0 ? false : true}
+            >
+              ACTIVATE SELECTED USERS
+            </Button>
+          )
+        }
+
     // Renders the Button to submit Delete Assignments
     const renderDeleteButton = () => {
       return (
         <Button 
           onClick={() => handleDeleteAssignments()}
-          disabled={ assignIDs.length > 0 ? false : true}
+          disabled={ arrayIDs.length > 0 ? false : true}
         >
-          DELETE LISTED ASSIGNMENTS
+          DELETE LISTED ID
         </Button>
       )
     }
@@ -438,10 +467,10 @@ const [createExpiredAssignment, {}] = useMutation(SUPER_CREATE_EXPIRED_ASSIGNMEN
     return (
       <div>
         <h4>Assignments to Delete...</h4>
-        {renderAssignIDsToDelete()}
+        {renderArrayIDs()}
         <Row>
           <Col>
-            {renderDeleteIDTextBox()}
+            {renderArrayIDTextBox()}
           </Col>
           <Col>
             {renderAddID()}
@@ -461,8 +490,28 @@ const [createExpiredAssignment, {}] = useMutation(SUPER_CREATE_EXPIRED_ASSIGNMEN
       </div>
     )
   }
+
+  const activateUsersMAIN = () => {
+    return (
+      <div>
+        <h4>Accounts to Activate...</h4>
+        {renderArrayIDs()}
+        <Row>
+          <Col>
+            {renderArrayIDTextBox()}
+          </Col>
+          <Col>
+            {renderAddID()}
+          </Col>
+        </Row>
+        <Row>
+          {renderActivateButton()}
+        </Row>
+      </div>
+    )
+  }
   
-  return expiredAssignmentMAIN();
+  return activateUsersMAIN();
 }
   
 export default Console;

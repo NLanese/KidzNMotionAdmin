@@ -497,6 +497,11 @@ const typeDefs = gql`
       superUserKey: String!
     ): Boolean
 
+    superActivateUsers(
+      idArray: [String]!
+      superUserKey: String!
+    ): Boolean
+
   }
 
   # ---------------------------------------- END MUTATIONS ----------------------------------------

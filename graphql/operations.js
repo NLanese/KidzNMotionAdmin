@@ -685,6 +685,18 @@ mutation Mutation(
   )
 }`
 
+const SUPER_ACTIVATE_USERS = gql`
+  mutation Mutation(
+    $idArray: [String]!,
+    $superUserKey: String!
+  ){
+    superActivateUsers(
+      idArray: $idArray,
+      superUserKey: $superUserKey
+    )
+  }
+`
+
 /////////////
 // EDITORS //
 /////////////
@@ -974,6 +986,7 @@ export {
   SUPER_SET_THERAPIST,
   SUPER_DELETE_ASSIGNMENTS,
   SUPER_CREATE_EXPIRED_ASSIGNMENTS,
+  SUPER_ACTIVATE_USERS,
 
   // Organization
   EDIT_ORGANIZATION_SETTINGS,

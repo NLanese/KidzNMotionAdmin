@@ -22,10 +22,8 @@ const moduleExports = withAntdLess({
       config.plugins.push(
         new webpack.DefinePlugin({
           'process.env.API_URL': JSON.stringify(
-            process.env.NODE_ENV === 'development' ? 
             'http://localhost:3000/api/graphql' 
-            : 
-            process.env.API_URL
+            // process.env.API_URL
           ),
         })
       );
