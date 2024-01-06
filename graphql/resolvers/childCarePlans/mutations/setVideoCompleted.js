@@ -3,6 +3,7 @@ import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
 import { getAllMedalTypes } from "@helpers/medals";
 import VIDEOS from "@constants/videos";
+import makeMedal from "../../../../helpers/makeMedals";
 
 export default {
   Mutation: {
@@ -12,28 +13,17 @@ export default {
       let video;
       let child;
 
-      // Find the video based on the videoID
-      video = await prisma.video.findUnique({
-        where: {
-          id: videoID,
-        },
-        select: {
-          id: true,
-          completed: true,
-          contentfulID: true,
-          medals: {
-            select: {
-              id: true,
-            },
-          },
-        },
-      });
+      video = VIDEOS[videoID]
+
+
+      ////////////
+      // CHECKS //
+      ////////////
 
       // If they are not, then return user input error
       if (!video && !VIDEOS[videoID]) {
         throw new UserInputError("Video does not exist");
       }
-
       // IF the video id does not match
       if (!VIDEOS[videoID] && video) {
         if (!video.contentfulID) {
@@ -43,15 +33,15 @@ export default {
         if (!VIDEOS[video.contentfulID]) {
           throw new UserInputError("Video file id needs to match a video.");
         }
-      } else {
-        if (!childID) {
-          throw new UserInputError(
-            "If you are creating an indepentent video, you also need to pass in the child ID"
-          );
-        }
       }
-
+      // If not Child ID
+      if (!childID) {
+        throw new UserInputError(
+          "If you are creating an indepentent video, you also need to pass in the child ID"
+        );
+      }
       if (childID) {
+
         // Find the child object to determine if the are under the guardian account
         let childUser = await prisma.user.findUnique({
           where: {
@@ -69,104 +59,153 @@ export default {
         }
       }
 
+
+      ///////////////////
+      // CHECKS PASSED //
+      ///////////////////
       if (childID && VIDEOS[videoID]) {
-        video = await prisma.video.create({
-          data: {
-            contentfulID: videoID,
-            title: VIDEOS[videoID].title,
-            description: "",
-            level: VIDEOS[videoID].level,
-            users: {
-              connect: {
-                id: childID,
-              },
-            },
+
+      //////////////////////
+      // ASSIGNMENT CHECK //
+      //////////////////////
+
+        // Find the child object to determine if the are under the guardian account
+        let childUser = await prisma.user.findUnique({
+          where: {
+            id: childID,
           },
-        });
-      }
-
-      // Perform video actions here
-      if (
-        medalType !== "bronze" &&
-        medalType !== "silver" &&
-        medalType !== "gold" &&
-        medalType !== "none"
-      ) {
-        throw new UserInputError(
-          "Medal types can only be (bronze, silver, or gold)"
-        );
-      }
-
-      // Create the medals based on what medal type was passed in
-      let medalObjectsToCreate = [];
-
-      if (medalType != "none") {
-        getAllMedalTypes().map((medalObject) => {
-          if (medalObject.videoID === video.contentfulID) {
-            if (medalType === "gold") {
-              medalObjectsToCreate.push(medalObject);
-            } else if (medalType === "silver") {
-              if (medalObject.level !== "GOLD") {
-                medalObjectsToCreate.push(medalObject);
-              }
-            } else if (medalType === "bronze") {
-              if (medalObject.level === "BRONZE") {
-                medalObjectsToCreate.push(medalObject);
+          select: {
+            id: true,
+            childCarePlans: {
+              select: {
+                id: true,
+                assignments: {
+                  select: {
+                    id: true, 
+                    videos: {
+                      select: {
+                        id: true,
+                        contentfulID: true,
+                        completed: true
+                      }
+                    },
+                    dateState: true,
+                    dateDue: true,
+                  }
+                }
               }
             }
-          }
+          },
         });
 
-        for (var i = 0; i < medalObjectsToCreate.length; i++) {
-          let medalToCreate = medalObjectsToCreate[i];
-          if (medalType.toUpperCase() === medalToCreate.level) {
-            let newMedal = await prisma.medal.create({
-              data: {
-                title: medalToCreate.title,
-                level: medalToCreate.level,
-                description: medalToCreate.pictureURL,
-                video: {
-                  connect: {
-                    id: video.id,
-                  },
-                },
-              },
-            });
-          }
+        // Finds 'Video' Instances within this Child's Assignments
+        let sameVideos = []
+        childUser.childCarePlans[0].assignments.forEach(assignment => {
+          console.log(assignment)
+          console.log(assignment.videos)
+          console.log("...........")
+          assignment.videos.forEach(vid => {
+            if (vid.contentfulID === video.id){
+              sameVideos.push(vid.id)
+            }
+          })
+        });
+
+        // Runs the Mutation on each applicable 
+        sameVideos.forEach(async (vidID) => {
+          await prisma.video.update({
+            where: {
+              id: vidID
+            },
+            data: {
+              completed: true
+            }
+          })
+        })
+
+        ////////////////////
+        // MEDAL CREATION //
+        ////////////////////
+
+        // Checks Valid Medals
+        if (
+          medalType !== "bronze" &&
+          medalType !== "silver" &&
+          medalType !== "gold" &&
+          medalType !== "none"
+        ) {
+          throw new UserInputError(
+            "Medal types can only be (bronze, silver, or gold)"
+          );
         }
-      }
 
-      // Update the video
-      await prisma.video.update({
-        where: {
-          id: video.id,
-        },
-        data: {
-          completed: true,
-        },
-      });
+        // Create the medals based on what medal type was passed in
+        // let medalObjectsToCreate = [];
+        // if (medalType != "none") {
+        //   getAllMedalTypes().map((medalObject) => {
+        //     if (medalObject.videoID === video.contentfulID) {
+        //       if (medalType === "gold") {
+        //         medalObjectsToCreate.push(medalObject);
+        //       } else if (medalType === "silver") {
+        //         if (medalObject.level !== "GOLD") {
+        //           medalObjectsToCreate.push(medalObject);
+        //         }
+        //       } else if (medalType === "bronze") {
+        //         if (medalObject.level === "BRONZE") {
+        //           medalObjectsToCreate.push(medalObject);
+        //         }
+        //       }
+        //     }
+        //   });
 
-      // Get the full video object
-      let completedVideo = await prisma.video.findUnique({
-        where: {
-          id: video.id,
-        },
-        select: {
-          id: true,
-          completed: true,
-          contentfulID: true,
-          medals: {
-            select: {
-              id: true,
-              title: true,
-              description: true,
-              level: true,
+        // CREATES MEDALS 
+        if (medalType === "GOLD"){
+          await makeMedal("GOLD", video.id, childUser.childCarePlans[0].id)
+          await makeMedal("SILVER", video.id, childUser.childCarePlans[0].id)
+          await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
+        }
+        else if (medalType === "SILVER"){
+          await makeMedal("SILVER", video.id, childUser.childCarePlans[0].id)
+          await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
+        }
+        else if (medalType === "BRONZE"){
+          await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
+        }
+
+
+
+        // Assignment-Video Complete
+        await prisma.video.update({
+          where: {
+            id: video.id,
+          },
+          data: {
+            completed: true,
+          },
+        });
+
+        // Get the full video object
+        let completedVideo = await prisma.video.findUnique({
+          where: {
+            id: video.id,
+          },
+          select: {
+            id: true,
+            completed: true,
+            contentfulID: true,
+            medals: {
+              select: {
+                id: true,
+                title: true,
+                description: true,
+                level: true,
+              },
             },
           },
-        },
-      });
+        });
 
-      return completedVideo;
+        return completedVideo;
+        }
     },
   },
 };

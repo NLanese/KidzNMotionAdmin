@@ -153,6 +153,7 @@ model ChildCarePlan {
   assignments   Assignment[]
   blockedVideos Json?
   comments      Comment[]
+  medals        Medal[]
 }
 
 model Comment {
@@ -222,6 +223,9 @@ model Medal {
   level   MEDAL_LEVEL @default(BLUE)
   video   Video?      @relation(fields: [videoId], references: [id])
   videoId String?
+  childCarePlan   ChildCarePlan? @relation(fields: [childCarePlanId], references: [id])
+  childCarePlanId String?
+  
 }
 
 model Chatroom {

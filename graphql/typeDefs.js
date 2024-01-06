@@ -94,6 +94,7 @@ const typeDefs = gql`
     weeklyVideoStatus: JSON
     assignments: [Assignment]
     comments: [Comment]
+    medals: [Medals]
   }
 
   type Comment {
@@ -140,6 +141,7 @@ const typeDefs = gql`
     createdAt: Date
     level: String
     video: Video
+    childCarePlan: ChildCarePlan
   }
 
   type UserPayLoad {
