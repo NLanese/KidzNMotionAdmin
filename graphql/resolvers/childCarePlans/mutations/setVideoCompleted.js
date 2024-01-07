@@ -3,7 +3,7 @@ import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
 import { getAllMedalTypes } from "@helpers/medals";
 import VIDEOS from "@constants/videos";
-import makeMedal from "../../../../helpers/makeMedals";
+import makeMedal from "@/helpers/makeMedals";
 
 export default {
   Mutation: {
@@ -160,16 +160,16 @@ export default {
 
         // CREATES MEDALS 
         if (medalType === "GOLD"){
-          await makeMedal("GOLD", video.id, childUser.childCarePlans[0].id)
-          await makeMedal("SILVER", video.id, childUser.childCarePlans[0].id)
-          await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
+          // await makeMedal("GOLD", video.id, childUser.childCarePlans[0].id)
+          // await makeMedal("SILVER", video.id, childUser.childCarePlans[0].id)
+          // await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
         }
         else if (medalType === "SILVER"){
-          await makeMedal("SILVER", video.id, childUser.childCarePlans[0].id)
-          await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
+          // await makeMedal("SILVER", video.id, childUser.childCarePlans[0].id)
+          // await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
         }
         else if (medalType === "BRONZE"){
-          await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
+          // await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
         }
 
 
