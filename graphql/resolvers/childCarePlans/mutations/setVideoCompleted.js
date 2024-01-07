@@ -1,9 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
 import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
-import { getAllMedalTypes } from "@helpers/medals";
+import { getAllMedalTypes, makeMedal } from "@helpers/medals";
 import VIDEOS from "@constants/videos";
-import makeMedal from "@/helpers/makeMedals";
 
 export default {
   Mutation: {
