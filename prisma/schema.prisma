@@ -198,6 +198,7 @@ model Medal {
   level         MEDAL_LEVEL    @default(BLUE)
   videoId       String?
   video         Video?         @relation(fields: [videoId], references: [id])
+  childCarePlanId String?
   childCarePlan ChildCarePlan? @relation(fields: [childCarePlanId], references: [id])
 }
 
