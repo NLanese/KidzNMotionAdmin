@@ -94,7 +94,7 @@ const typeDefs = gql`
     weeklyVideoStatus: JSON
     assignments: [Assignment]
     comments: [Comment]
-    medals: [Medals]
+    medals: [Medal]
   }
 
   type Comment {
