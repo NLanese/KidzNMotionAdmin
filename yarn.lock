@@ -1029,6 +1029,11 @@
   dependencies:
     text-decoding "^1.0.0"
 
+"@fastify/busboy@^2.0.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@fastify/busboy/-/busboy-2.1.0.tgz#0709e9f4cb252351c609c6e6d8d6779a8d25edff"
+  integrity sha512-+KpH+QxZU7O4675t3mnkQKcZZg56u+K/Ct2K+N2AZYNVK8kyeo/bI18tI8aPm3tvNNRyTWfj6s5tnGNlcbQRsA==
+
 "@firebase/app-types@0.9.0":
   version "0.9.0"
   resolved "https://registry.npmjs.org/@firebase/app-types/-/app-types-0.9.0.tgz"
@@ -1433,6 +1438,18 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@planetscale/database@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@planetscale/database/-/database-1.13.0.tgz#2849ec2811ff623a1835ae4cbac155a24b0f90c8"
+  integrity sha512-sb9tUoF+Po55o+3PRHZVeH8XzUIABKBKcnq6oBUa+p/2uau/E2EXhnUPXmkC/x7oB6ILBqmqTL6dPP5Dn6d6iA==
+
+"@prisma/adapter-planetscale@^5.7.1":
+  version "5.7.1"
+  resolved "https://registry.yarnpkg.com/@prisma/adapter-planetscale/-/adapter-planetscale-5.7.1.tgz#553e6f89f3bef74da20c80a1f4d17e9c5e477e52"
+  integrity sha512-RA5p09uveTfh6N2WCB34xVMGPs+ZEsGym3pvlhISPkrjwi81hU3h+Nv0jPSHo4zVcFeGUM/byQibkbh7YCZTrQ==
+  dependencies:
+    "@prisma/driver-adapter-utils" "5.7.1"
+
 "@prisma/client@5.7.1":
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/@prisma/client/-/client-5.7.1.tgz#a124afd05663267f7255a639a81d28303684a063"
@@ -1442,6 +1459,13 @@
   version "5.7.1"
   resolved "https://registry.npmjs.org/@prisma/debug/-/debug-5.7.1.tgz"
   integrity sha512-yrVSO/YZOxdeIxcBtZ5BaNqUfPrZkNsAKQIQg36cJKMxj/VYK3Vk5jMKkI+gQLl0KReo1YvX8GWKfV788SELjw==
+
+"@prisma/driver-adapter-utils@5.7.1":
+  version "5.7.1"
+  resolved "https://registry.yarnpkg.com/@prisma/driver-adapter-utils/-/driver-adapter-utils-5.7.1.tgz#9d4b989ea9eaa402835fce457c55d4e9449b26ab"
+  integrity sha512-q4cWte5QYCH4RCeo/UBKVG4HvqjG7YoSrNmn2fzWU6da5cCqw9h8MIGO+Jkpb6S5ySSTW32t63khujYvytXsYg==
+  dependencies:
+    debug "4.3.4"
 
 "@prisma/engines-version@5.7.1-1.0ca5ccbcfa6bdc81c003cf549abe4269f59c41e5":
   version "5.7.1-1.0ca5ccbcfa6bdc81c003cf549abe4269f59c41e5"
@@ -3589,7 +3613,7 @@ debug@2, debug@2.6.9, debug@^2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.4:
+debug@4, debug@4.3.4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.4:
   version "4.3.4"
   resolved "https://registry.npmjs.org/debug/-/debug-4.3.4.tgz"
   integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
@@ -8677,6 +8701,13 @@ underscore@~1.13.2:
   version "1.13.6"
   resolved "https://registry.npmjs.org/underscore/-/underscore-1.13.6.tgz"
   integrity sha512-+A5Sja4HP1M08MaXya7p5LvjuM7K6q/2EaC0+iovj/wOcMsTzMvDFbasi/oSapiwOlt252IqsKqPjCl7huKS0A==
+
+undici@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-6.3.0.tgz#ad105a56ec80fb74ecb3252e6dc27947bf69d275"
+  integrity sha512-zkSMOXs2topAR1LF0PxAaNNvhdX4LYEcmRMJLMh3mjgfZpBtc/souXOp4aYiR5Q46HrBPA2/8DkEZhD3eNFE1Q==
+  dependencies:
+    "@fastify/busboy" "^2.0.0"
 
 unicode-properties@^1.4.0, unicode-properties@^1.4.1:
   version "1.4.1"
