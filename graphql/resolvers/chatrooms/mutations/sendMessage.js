@@ -68,7 +68,6 @@ export default {
 
 
       for (var i = 0; i < otherUserIds.length; i++) {
-        console.log("In sendMessage, sending notification...")
         await createNotification(
           "New Message From " + context.user.firstName,
           content,

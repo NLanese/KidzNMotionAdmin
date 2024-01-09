@@ -20,6 +20,11 @@ export default {
       context
     ) => {
 
+      console.log("PARAMS")
+      console.log(dateStart)
+      console.log(dateDue)
+      console.log(childCarePlanID)
+
       /////////////////
       // Login Check //
       if (!context.user) throw new UserInputError("Login required");

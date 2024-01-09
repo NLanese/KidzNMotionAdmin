@@ -364,7 +364,6 @@ function TopMenuAvatar() {
         .catch((error) => {});
       }
       else{
-        console.log("Failed param")
       }
     };
 

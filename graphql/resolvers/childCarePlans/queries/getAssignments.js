@@ -4,7 +4,6 @@ import { UserInputError } from "apollo-server-errors";
 export default {
   Query: {
     getAssignments: async (_, {}, context) => {
-        console.log("Getting Assignments...")
         if (!context.user) throw new UserInputError("Login required");
 
         // Get all user meetings
@@ -132,33 +131,21 @@ export default {
             }
         });
 
-        console.log("User Recieved:::")
-        console.log(user)
-
         // If this is a Guardian Account...
         if (user.role === "GUARDIAN") {
-            console.log("Guardian User");
             return user.children.flatMap((child) => {
-              console.log("CHILD:", child);
-              console.log("CARE PLAN:", child.childCarePlans[0]);
               return child.childCarePlans[0]?.assignments || [];
             });
           } 
         
         // If this is a Child Account...
         else if (user.role === "CHILD") {
-            console.log("Child User's Assignments");
-            console.log(user.childCarePlans[0]?.assignments)
             return user.childCarePlans[0]?.assignments || [];
         }
 
         // If this is a Therapist Account
         else if (user.role === "THERAPIST") {
-            console.log("Therapist User");
-            console.log("Patient Care Plans", user.patientCarePlans);
             return user.patientCarePlans.flatMap((pcp) => {
-              console.log("Care Plan " + pcp.id + "'s Assignments");
-              console.log(pcp.assignments);
               return pcp.assignments || [];
             });
         }

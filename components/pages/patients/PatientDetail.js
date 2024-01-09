@@ -45,8 +45,6 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
         fetchPolicy: "network-only",
       })
       .then(async (resolved) => {
-        // console.clear();
-        // // console.log(resolved);
         setUser(resolved.data.getUser);
       })
       .catch((error) => {
@@ -94,8 +92,6 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
 
   const getDrawerContent = () => {
     if (router.query.editPlan) {
-      // console.clear();
-      // console.log(patientDetail);
       return (
         <EditChildCareDetailsForm
           getUser={getUser}

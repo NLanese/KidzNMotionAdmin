@@ -100,9 +100,6 @@ export default {
         // Finds 'Video' Instances within this Child's Assignments
         let sameVideos = []
         childUser.childCarePlans[0].assignments.forEach(assignment => {
-          console.log(assignment)
-          console.log(assignment.videos)
-          console.log("...........")
           assignment.videos.forEach(vid => {
             if (vid.contentfulID === video.id){
               sameVideos.push(vid.id)
