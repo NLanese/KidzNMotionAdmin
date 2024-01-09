@@ -57,6 +57,13 @@ export default {
         },
       });
 
+      /////////////////////
+      // Same Date Check //
+      if (dateStart === dateDue){
+        throw new UserInputError("Assignment Start Date and Due Date must be different from each other");
+      }
+
+
       let childUser = childCarePlan.child
       let carePlanGuardian = childCarePlan.child.guardian
 
