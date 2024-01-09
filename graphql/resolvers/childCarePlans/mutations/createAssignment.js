@@ -65,6 +65,7 @@ export default {
       /////////////////////
       // Same Date Check //
       if (dateStart === dateDue){
+        console.log("Throwing an Error")
         throw new UserInputError("Assignment Start Date and Due Date must be different from each other");
       }
 
