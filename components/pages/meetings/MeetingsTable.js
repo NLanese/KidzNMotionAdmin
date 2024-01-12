@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import styled from "styled-components";
-import { Table, Tag, Typography } from "antd";
+import { Table, Tag, Typography, Button, Row, Col} from "antd";
 import BasicLink from "@common/BasicLink";
 import { EditOutlined } from "@ant-design/icons";
 var dateFormat = require("dateformat");
@@ -9,6 +9,7 @@ import { Switch, Space } from "antd";
 const { Text } = Typography;
 import { changeTimeZone } from "@helpers/common";
 import moment from "moment";
+import { Content } from "antd/lib/layout/layout";
 
 
 ////////////
@@ -64,7 +65,38 @@ function renderApprovalStatus(record) {
     return "Approved"
   } else {
     if (record.pendingApproval) {
-      return "Pending Approval"
+      return (
+        <Content style={{justifyContent: 'center', alignItems: 'center'}}>
+          <Row style={{justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{textAlign: 'center', fontSize: 16}}>
+              Pending Approval
+            </Text>
+          </Row>
+          <Row style={{justifyContent: 'center', alignItems: 'center'}}>
+            <Col style={{marginBottom: 5}}>
+              <Button
+              type="primary"
+              block={true}
+              size={"medium"}
+              // onClick={() => {}}
+              >
+                Approve
+              </Button>
+            </Col>
+
+            <Col>
+              <Button
+              type="primary"
+              block={true}
+              size={"medium"}
+              // onClick={() => {}}
+              >
+                Decline
+              </Button>
+            </Col>
+          </Row>
+        </Content>
+      )
     }
   }
 }
@@ -189,7 +221,23 @@ function MeetingsTable({ meetings, pastMeetings, userID }) {
     },
 
     // MEETING STATUS
-    {
+    ( !showPast ? 
+      {
+        title: "Meeting Status",
+        dataIndex: "approvalStatus",
+        key: "approvalStatus",
+
+        defaultSortOrder: "descend",
+        render: (text, record, index) => (
+          <span>
+            <Tag color={determineApprovalColor(record)}>
+              {renderApprovalStatus(record)}
+            </Tag>
+          </span>
+        ),
+      }
+     :
+     {
       title: "Meeting Status",
       dataIndex: "approvalStatus",
       key: "approvalStatus",
@@ -197,12 +245,14 @@ function MeetingsTable({ meetings, pastMeetings, userID }) {
       defaultSortOrder: "descend",
       render: (text, record, index) => (
         <span>
-          <Tag color={determineApprovalColor(record)}>
-            {renderApprovalStatus(record)}
-          </Tag>
+          <Text>
+            Past
+          </Text>
         </span>
       ),
-    },
+    }
+
+  ),
   ];
 
   return (
