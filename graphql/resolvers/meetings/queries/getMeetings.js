@@ -17,7 +17,6 @@ export default {
               {
                 meetingDateTime: 'asc',
               },
-             
             ],
             where: {
               completed: false,
@@ -32,7 +31,15 @@ export default {
               type: true,
               pendingApproval: true,
               approved: true,
-              users: true,
+              users: {
+                select: {
+                  id: true,
+                  firstName: true,
+                  lastName: true,
+                  role: true,
+                  profilePic: true
+                }
+              },
               meetingOwnerID: true,
             }
           }

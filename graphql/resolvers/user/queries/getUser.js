@@ -12,8 +12,8 @@ export default {
       // LOGIN CHECK //
       if (!context.user) throw new UserInputError("Login required");
 
-      //////////////////////////
-      // SELECTS VALID FIELDS //
+      /////////////////////////////
+      // SELECTS ALL USER FIELDS //
       let userObject = await getUserObject(context.user);
 
       ///////////////////////////////
