@@ -39,6 +39,8 @@ export default {
 
       let usersToPurge = [userId ? userId : context.user.id];
 
+      console.log(usersToPurge)
+
       if (user.guardianId) {
         usersToPurge.push(user.guardianId);
       }

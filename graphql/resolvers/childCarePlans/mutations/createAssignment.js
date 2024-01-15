@@ -29,6 +29,8 @@ export default {
       // Login Check //
       if (!context.user) throw new UserInputError("Login required");
 
+      console.log(context.user)
+
       /////////////////////
       // Therapist Check //
       if (context.user.role !== "THERAPIST")
