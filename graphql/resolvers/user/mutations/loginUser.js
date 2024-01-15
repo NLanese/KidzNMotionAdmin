@@ -11,6 +11,7 @@ export default {
   Mutation: {
     loginUser: async (_, { username, password }) => {
       let email = username;
+      console.log("Logging in ..." + username + "...")
       try {
 
         // Retrieve the users that match the email address

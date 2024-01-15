@@ -4,8 +4,21 @@ import { UserInputError } from "apollo-server-errors";
 
 export default {
   Mutation: {
-    requestAccountDeletion: async (_, { userId }, context) => {
-      if (!context.user) throw new UserInputError("Login required");
+    requestAccountDeletion: async (_, { userId, superUserKey }, context) => {
+
+
+      //////////////
+      // Security // 
+      if (!context.user){
+        throw new UserInputError("Login required");
+      }
+      if ( context.user.email.toLowerCase() !== "nlanese21@gmail.com" ){
+        throw new UserInputError("Acccess Denied! Super class actions are restricted to Super Users only.")
+      }
+      if (superUserKey !== `${process.env.SUPER_USER_SECRET_KEY}`){
+        throw new UserInputError("Acccess Denied! Super Key was incorrect.")
+      }
+
 
       // Make sure the user exists
       let user = await prisma.user.findUnique({

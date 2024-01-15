@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import {
   GET_ALL_CLIENTS, GET_ALL_THERAPISTS,
-  SUPER_SET_THERAPIST, SUPER_DELETE_ASSIGNMENTS, 
+  SUPER_SET_THERAPIST, SUPER_DELETE_ASSIGNMENTS, SUPER_DELETE_USER,
   SUPER_CREATE_EXPIRED_ASSIGNMENTS, SUPER_ACTIVATE_USERS
 } from "../../graphql/operations"
 import client from "@utils/apolloClient";
@@ -67,6 +67,7 @@ function Console() {
 
 const [setTherapistMutation, {}] = useMutation(SUPER_SET_THERAPIST);
 const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
+const [deleteUser, {}] = useMutation(SUPER_DELETE_USER);
 const [createExpiredAssignment, {}] = useMutation(SUPER_CREATE_EXPIRED_ASSIGNMENTS)
 const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
 
@@ -206,6 +207,17 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
     })
   }
 
+  async function handleDeleteUsers(){
+    arrayIDs.forEach( async id => {
+      await deleteUser({
+        variables: {
+          userId: id,
+          superUserKey: process.env.SUPER_USER_SECRET_KEY
+        }
+      })
+    })
+  }
+
   async function handleActivateUsers(){
     await superActivateUsers({
       variables: {
@@ -316,9 +328,9 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
       }
     }
 
-  /////////////////////////////////////////
-  // DELETE ASSIGNMENTS / ACTIVATE USERS //
-  /////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  // DELETE ASSIGNMENTS / ACTIVATE USERS / DELETE USERS //
+  ////////////////////////////////////////////////////////
 
     // Renders Delete Assginments ID text box
     const renderArrayIDTextBox = () => {
@@ -364,29 +376,41 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
       })
     }
 
-        // Renders the Button to submit Delete Assignments
-        const renderActivateButton = () => {
-          return (
-            <Button 
-              onClick={() => handleActivateUsers()}
-              disabled={ arrayIDs.length > 0 ? false : true}
-            >
-              ACTIVATE SELECTED USERS
-            </Button>
-          )
-        }
+      // Renders the Button to submit Delete Assignments
+      const renderActivateButton = () => {
+        return (
+          <Button 
+            onClick={() => handleActivateUsers()}
+            disabled={ arrayIDs.length > 0 ? false : true}
+          >
+            ACTIVATE SELECTED USERS
+          </Button>
+        )
+      }
 
-    // Renders the Button to submit Delete Assignments
-    const renderDeleteButton = () => {
-      return (
-        <Button 
-          onClick={() => handleDeleteAssignments()}
-          disabled={ arrayIDs.length > 0 ? false : true}
-        >
-          DELETE LISTED ID
-        </Button>
-      )
-    }
+      // Renders the Button to submit Delete Assignments
+      const renderDeleteButton = () => {
+        return (
+          <Button 
+            onClick={() => handleDeleteAssignments()}
+            disabled={ arrayIDs.length > 0 ? false : true}
+          >
+            DELETE LISTED ID
+          </Button>
+        )
+      }
+
+      // Renders the Button to submit Delete Assignments
+      const renderDeleteUserButton = () => {
+        return (
+          <Button 
+            onClick={() => handleDeleteUsers()}
+            disabled={ arrayIDs.length > 0 ? false : true}
+          >
+            DELETE LISTED USER EMAIL
+          </Button>
+        )
+      }
 
   /////////////////
   // MAIN RETURN //
@@ -510,8 +534,28 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
       </div>
     )
   }
+
+  const deleteUsersMAIN = () => {
+    return (
+      <div>
+        <h4>Users to Delete...</h4>
+        {renderArrayIDs()}
+        <Row>
+          <Col>
+            {renderArrayIDTextBox()}
+          </Col>
+          <Col>
+            {renderAddID()}
+          </Col>
+        </Row>
+        <Row>
+          {renderDeleteUserButton()}
+        </Row>
+      </div>
+    )
+  }
   
-  return activateUsersMAIN();
+  return deleteUsersMAIN();
 }
   
 export default Console;

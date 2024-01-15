@@ -301,7 +301,10 @@ const typeDefs = gql`
 
     requestResetPassword(email: String!): Boolean
 
-    requestAccountDeletion(userId: String): Boolean
+    requestAccountDeletion(
+      userId: String!
+      superUserKey: String!
+    ): Boolean
 
     updatePhoneToken(token: String!): Boolean
 
