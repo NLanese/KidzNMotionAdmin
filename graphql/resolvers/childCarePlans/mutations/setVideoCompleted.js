@@ -9,9 +9,6 @@ export default {
     setVideoCompleted: async (_, { videoID, medalType, childID }, context) => {
       if (!context.user) throw new UserInputError("Login required");
 
-      let video;
-      let child;
-
       video = VIDEOS[videoID]
 
 
@@ -165,16 +162,16 @@ export default {
 
         // CREATES MEDALS 
         if (medalType === "GOLD"){
-          // await makeMedal("GOLD", video.id, childUser.childCarePlans[0].id)
-          // await makeMedal("SILVER", video.id, childUser.childCarePlans[0].id)
-          // await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
+          await makeMedal("GOLD", video.id, childUser.childCarePlans[0].id)
+          await makeMedal("SILVER", video.id, childUser.childCarePlans[0].id)
+          await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
         }
         else if (medalType === "SILVER"){
-          // await makeMedal("SILVER", video.id, childUser.childCarePlans[0].id)
-          // await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
+          await makeMedal("SILVER", video.id, childUser.childCarePlans[0].id)
+          await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
         }
         else if (medalType === "BRONZE"){
-          // await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
+          await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
         }
 
 
