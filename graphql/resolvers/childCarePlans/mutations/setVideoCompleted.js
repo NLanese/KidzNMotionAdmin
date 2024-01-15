@@ -9,7 +9,7 @@ export default {
     setVideoCompleted: async (_, { videoID, medalType, childID }, context) => {
       if (!context.user) throw new UserInputError("Login required");
 
-      video = VIDEOS[videoID]
+      let video = VIDEOS[videoID]
 
 
       ////////////
@@ -87,7 +87,7 @@ export default {
                         completed: true
                       }
                     },
-                    dateState: true,
+                    dateStart: true,
                     dateDue: true,
                   }
                 }
@@ -99,20 +99,22 @@ export default {
         // Finds 'Video' Instances within this Child's Assignments
         let sameVideos = []
         childUser.childCarePlans[0].assignments.forEach(assignment => {
-          console.log("Checking this assignment...")
-          console.log(assignment)
-          assignment.videos.forEach(vid => {
-            console.log("---------")
-            console.log(vid)
-            if (vid.contentfulID === video.id){
-              sameVideos.push(vid.id)
-            }
-          })
-        });
+          if (new Date(assignment.dateStart) < new Date()){
+            assignment.videos.forEach(vid => {
+              console.log("---------")
+              console.log(vid)
+              if (vid.contentfulID === video.id){
+                "ADDING VIDEO"
+                sameVideos.push(vid.id)
+              }
+            })
+          }
+        })
+          
 
         // Runs the Mutation on each applicable 
         sameVideos.forEach(async (vidID) => {
-          consnole.log('-------')
+          console.log('-------')
           console.log("Marking Video Complete")
           console.log(vidID)
           await prisma.video.update({
@@ -161,6 +163,8 @@ export default {
         //   });
 
         // CREATES MEDALS 
+        medalType = medalType.toUpperCase()
+        console.log(medalType)
         if (medalType === "GOLD"){
           await makeMedal("GOLD", video.id, childUser.childCarePlans[0].id)
           await makeMedal("SILVER", video.id, childUser.childCarePlans[0].id)
