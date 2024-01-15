@@ -10,7 +10,6 @@ export default {
       context
     ) => {
       if (!context.user) throw new UserInputError("Login required");
-      // // console.log(context.user.role)
       if (context.user.role !== "GUARDIAN")
         throw new UserInputError("Only guardians can edit child settings");
 

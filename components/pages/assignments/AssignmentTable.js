@@ -101,14 +101,15 @@ function AssignmentsTable({ assignments, setAssignments, passedAssignments, user
   // Renders List of Videos per Assignment
   function renderVideoList(record){
       return record.videos.map(vid => {
+        let bgc = vid.completed ? "#85f2a2" : "#f28e8a";
         return(
-          <Card key={vid.title}>
+          <Card key={vid.title} style={{backgroundColor: bgc}}>
             <div>
               <Text>{vid.title}</Text>
             </div>
-            <div>
+            {/* <div>
               <Text>{vid.completed ? "Complete!" : "Not Done"}</Text>
-            </div>
+            </div> */}
           </Card>
         )
       })

@@ -94,7 +94,7 @@ const typeDefs = gql`
     weeklyVideoStatus: JSON
     assignments: [Assignment]
     comments: [Comment]
-    medals: [Medals]
+    medals: [Medal]
   }
 
   type Comment {
@@ -301,7 +301,10 @@ const typeDefs = gql`
 
     requestResetPassword(email: String!): Boolean
 
-    requestAccountDeletion(userId: String): Boolean
+    requestAccountDeletion(
+      userId: String!
+      superUserKey: String!
+    ): Boolean
 
     updatePhoneToken(token: String!): Boolean
 

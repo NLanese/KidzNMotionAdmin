@@ -10,6 +10,10 @@ const { Text } = Typography;
 import { changeTimeZone } from "@helpers/common";
 import moment from "moment";
 
+
+////////////
+// STYLES //
+////////////
 const MeetingTableWrapper = styled.div`
   position: relative;
   min-width: 500px;
@@ -25,6 +29,10 @@ const MeetingTableWrapper = styled.div`
     margin-bottom: 23px;
   }
 `;
+
+///////////////
+// FUNCTIONS //
+///////////////
 
 // Grabs and Lists Particpants of Meeting
 function getMeetingParticpants(users) {
@@ -62,7 +70,7 @@ function renderApprovalStatus(record) {
 }
 
 // Determines the color of the Approval Status
-function renderApprovalStatusColor(record) {
+function determineApprovalColor(record) {
   if (record.canceled) {
     return "red";
   }
@@ -79,24 +87,48 @@ function renderApprovalStatusColor(record) {
   }
 }
 
-function MeetingsTable({ meetings, userID }) {
-  const [showCancelled, setShowCancelled] = useState(false);
+///////////////
+// COMPONENT //
+///////////////
+
+function MeetingsTable({ meetings, pastMeetings, userID }) {
+
+  ///////////
+  // STATE //
+  ///////////
   const [showPast, setShowPast] = useState(false);
 
+
+  // Disperses Selected Meetings to be Rendered in a Table
   const convertMeetingSourceData = () => {
     let assetTableSource = [];
     if (!meetings) {
       return assetTableSource;
     }
-    meetings.map((meetingObject) => {
-      if (!showCancelled && meetingObject.canceled) return;
 
-      assetTableSource.push(meetingObject);
-    });
-    return assetTableSource;
-  };
+    // If showing Past Meetings
+    if (showPast){
+      pastMeetings.map((meetingObject) => {  
+        assetTableSource.push(meetingObject);
+      });
+      return assetTableSource;
+    }
 
+    // If Showing Current Meetings
+    else{
+      meetings.map((meetingObject) => {
+        if (meetingObject.canceled) return;
+        assetTableSource.push(meetingObject);
+      });
+      return assetTableSource;
+    };
+    }
+
+
+  // Columns to be rendered in 
   const columns = [
+
+    // TITLE COLUMN
     {
       title: "Title",
       dataIndex: "title",
@@ -113,6 +145,8 @@ function MeetingsTable({ meetings, userID }) {
         </BasicLink>
       ),
     },
+
+    // PARTICIPANTS COLUMN
     {
       title: "Participants",
       dataIndex: "users",
@@ -121,6 +155,8 @@ function MeetingsTable({ meetings, userID }) {
         <>{getMeetingParticpants(record.users)}</>
       ),
     },
+
+    // DATE / TIME COLUMN
     {
       title: "Date/Time",
       dataIndex: "meetingDateTime",
@@ -139,6 +175,8 @@ function MeetingsTable({ meetings, userID }) {
         </span>
       ),
     },
+
+    // TYPE OF MEETING
     {
       title: "Type",
       dataIndex: "type",
@@ -150,6 +188,7 @@ function MeetingsTable({ meetings, userID }) {
       ),
     },
 
+    // MEETING STATUS
     {
       title: "Meeting Status",
       dataIndex: "approvalStatus",
@@ -158,7 +197,7 @@ function MeetingsTable({ meetings, userID }) {
       defaultSortOrder: "descend",
       render: (text, record, index) => (
         <span>
-          <Tag color={renderApprovalStatusColor(record)}>
+          <Tag color={determineApprovalColor(record)}>
             {renderApprovalStatus(record)}
           </Tag>
         </span>
@@ -169,12 +208,11 @@ function MeetingsTable({ meetings, userID }) {
   return (
     <MeetingTableWrapper>
       <Space size="large">
-        {/* <Space size="small">
-          <Switch onChange={setShowPast} /> <Text>Show Past Meetings</Text>
-        </Space> */}
         <Space size="small">
-          <Switch onChange={setShowCancelled} />{" "}
-          <Text>Show Cancelled Meetings</Text>
+        </Space>
+        <Space size="small">
+          <Switch onChange={setShowPast} />{" "}
+          <Text>Show Cancelled / Past Meetings</Text>
         </Space>
       </Space>
 

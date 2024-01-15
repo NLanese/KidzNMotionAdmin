@@ -676,6 +676,18 @@ const SUPER_DELETE_ASSIGNMENTS = gql`
   }
 `
 
+const SUPER_DELETE_USER = gql`
+  mutation Mutation(
+    $userId: String!
+    $superUserKey: String!
+  ){
+    requestAccountDeletion(
+      userId: $userId,
+      superUserKey: $superUserKey
+    )
+  }
+`
+
 const SUPER_CREATE_EXPIRED_ASSIGNMENTS = gql`
 mutation Mutation(
   $superUserKey: String!
@@ -987,6 +999,7 @@ export {
   SUPER_DELETE_ASSIGNMENTS,
   SUPER_CREATE_EXPIRED_ASSIGNMENTS,
   SUPER_ACTIVATE_USERS,
+  SUPER_DELETE_USER,
 
   // Organization
   EDIT_ORGANIZATION_SETTINGS,

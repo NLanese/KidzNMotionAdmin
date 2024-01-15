@@ -127,7 +127,6 @@ function ReviewStep({
             } else if (colCount === 1) {
               let isProperRole = false;
               acceptedRoles.map((role) => {
-                // console.log(parsedData[rowCount][colCount]);
                 if (role.toString() === "GUARDIAN") {
                   isProperRole = true;
                 }

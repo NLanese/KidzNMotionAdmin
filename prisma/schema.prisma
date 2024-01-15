@@ -14,95 +14,115 @@ model JWTToken {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   token     String?
+  user      User?    @relation(fields: [userId], references: [id])
   userId    String?
   active    Boolean  @default(true)
-  user      User?    @relation(fields: [userId], references: [id])
 }
 
 model LoginAttempts {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  userId    String?
   user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
 }
 
 model PasswordResetKey {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   active    Boolean  @default(true)
-  userId    String?
   user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
 }
 
 model OrganizationInviteKey {
   id                    String        @id @default(uuid())
   createdAt             DateTime      @default(now())
   active                Boolean       @default(true)
+  user                  User?         @relation(fields: [userId], references: [id])
   userId                String?
+  organization          Organization? @relation(fields: [organizationId], references: [id])
   organizationId        String?
   role                  Role          @default(GUARDIAN)
   additionalInformation Json?
-  user                  User?         @relation(fields: [userId], references: [id])
-  organization          Organization? @relation(fields: [organizationId], references: [id])
 }
 
 model User {
-  id                       String                  @id @default(uuid())
-  email                    String                  @unique
-  username                 String?                 @unique
-  firstName                String?
-  lastName                 String?
-  password                 String
-  phoneNumber              String?
-  profilePic               Json?
-  role                     Role                    @default(GUARDIAN)
-  createdAt                DateTime                @default(now())
-  fcmToken                 String?
+  // Basic Info //
+  id          String   @id @default(uuid())
+  email       String   @unique
+  username    String?  @unique
+  firstName   String?
+  lastName    String?
+  password    String
+  phoneNumber String?
+  profilePic  Json?
+  role        Role     @default(GUARDIAN)
+  createdAt   DateTime @default(now())
+  fcmToken    String?
+  ////////////////
+
+  // Parent / Child Specific //
   childDateOfBirth         String?
   diagnosis                String?
-  colorSettings            String                  @default("Orange")
-  webAppColorSettings      String                  @default("#ff9800")
-  messagesMuted            Boolean                 @default(false)
-  assignMuted              Boolean                 @default(false)
-  msgNotifications         Boolean                 @default(false)
-  missedDateNotifications  Boolean                 @default(false)
-  solo                     Boolean                 @default(false)
+  colorSettings            String  @default("Orange")
+  webAppColorSettings      String  @default("#ff9800")
+  messagesMuted            Boolean @default(false)
+  assignMuted              Boolean @default(false)
+  msgNotifications         Boolean @default(false)
+  missedDateNotifications  Boolean @default(false)
+  solo                     Boolean @default(false)
   soloStripeSubscriptionID String?
   soloSubscriptionStatus   String?
-  unlockedAvatarPieces     Json?
+  unlockedAvatarPieces     Json? // Used only with the get all user avatar pieces query {ids: []}
+  ////////////////////////////
+
+  // Therapist Specific //
   title                    String?
-  appointmentNotifications Boolean                 @default(true)
-  muteAllMessages          Boolean                 @default(false)
-  muteAllAssignments       Boolean                 @default(false)
-  accessSettings           Boolean                 @default(false)
-  accessMessages           Boolean                 @default(false)
-  leaveApp                 Boolean                 @default(false)
-  active                   Boolean                 @default(true)
-  guardianId               String?
-  jwtTokens                JWTToken[]
-  loginAttemps             LoginAttempts[]
-  passwordResetKeys        PasswordResetKey[]
-  children                 User[]                  @relation("children")
-  guardian                 User?                   @relation("children", fields: [guardianId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  ownedOrganization        Organization?
-  childCarePlans           ChildCarePlan[]         @relation("child")
-  patientCarePlans         ChildCarePlan[]         @relation("therapist")
-  organizations            OrganizationUser[]
-  chatRooms                Chatroom[]
-  organizationInviteKeys   OrganizationInviteKey[]
-  videos                   Video[]
-  comments                 Comment[]               @relation("therapistComments")
-  meetings                 Meeting[]
+  appointmentNotifications Boolean @default(true)
+  muteAllMessages          Boolean @default(false)
+  muteAllAssignments       Boolean @default(false)
+  ////////////////////////
+
+  // Child Security Settings //
+  accessSettings Boolean @default(false)
+  accessMessages Boolean @default(false)
+  leaveApp       Boolean @default(false)
+  ////////////////////////
+
+  // Security //
+  jwtTokens         JWTToken[]
+  loginAttemps      LoginAttempts[]
+  passwordResetKeys PasswordResetKey[]
+  active            Boolean            @default(true)
+  //////////////
+
+  // Connections //
+  children   User[]  @relation("children")
+  guardianId String?
+  guardian   User?   @relation("children", fields: [guardianId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  ownedOrganization Organization?
+
+  childCarePlans   ChildCarePlan[] @relation("child")
+  patientCarePlans ChildCarePlan[] @relation("therapist")
+
+  organizations OrganizationUser[]
+  chatRooms     Chatroom[]
+
+  organizationInviteKeys OrganizationInviteKey[]
+  videos                 Video[]
+  comments               Comment[]               @relation("therapistComments")
+  meetings               Meeting[]
 }
 
 model OrganizationUser {
   id             String        @id @default(uuid())
   active         Boolean       @default(true)
   createdAt      DateTime      @default(now())
-  organizationId String?
-  userId         String?
   organization   Organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?
   user           User?         @relation(fields: [userId], references: [id])
+  userId         String?
 }
 
 model Organization {
@@ -114,52 +134,55 @@ model Organization {
   stripeSubscriptionID   String?
   subscriptionStatus     String?
   active                 Boolean                 @default(true)
-  ownerId                String                  @unique
   owner                  User                    @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ownerId                String                  @unique
   organizationUsers      OrganizationUser[]
   organizationInviteKeys OrganizationInviteKey[]
 }
 
 model ChildCarePlan {
-  id                String       @id @default(uuid())
+  id                String  @id @default(uuid())
+  child             User?   @relation("child", fields: [childId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   childId           String?
+  therapist         User?   @relation("therapist", fields: [therapistId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   therapistId       String?
-  level             Int          @default(1)
+  level             Int     @default(1)
   allVideoStatus    Json?
   weeklyVideoStatus Json?
-  active            Boolean      @default(true)
-  blockedVideos     Json?
-  child             User?        @relation("child", fields: [childId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  therapist         User?        @relation("therapist", fields: [therapistId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  assignments       Assignment[]
-  comments          Comment[]
-  medals            Medal[]
+  active            Boolean @default(true)
+
+  assignments   Assignment[]
+  blockedVideos Json?
+  comments      Comment[]
+  medals        Medal[]
 }
 
 model Comment {
   id              String         @id @default(uuid())
   content         String
   createdAt       DateTime       @default(now())
+  therapist       User?          @relation("therapistComments", fields: [therapistId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   therapistId     String?
+  childCarePlan   ChildCarePlan? @relation(fields: [childCarePlanId], references: [id])
   childCarePlanId String?
   assignmentId    String?
   videoId         String?
-  therapist       User?          @relation("therapistComments", fields: [therapistId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  childCarePlan   ChildCarePlan? @relation(fields: [childCarePlanId], references: [id])
 }
 
 model Assignment {
-  id               String         @id @default(uuid())
-  createdAt        DateTime       @default(now())
-  dateStart        String?
-  dateDue          String
-  title            String
-  description      String
-  seen             Boolean        @default(false)
-  notificationSent Boolean        @default(false)
-  childCarePlanId  String?
-  childCarePlan    ChildCarePlan? @relation(fields: [childCarePlanId], references: [id])
-  videos           Video[]
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  dateStart   String?
+  dateDue     String
+  title       String
+  description String
+
+  seen             Boolean @default(false)
+  notificationSent Boolean @default(false)
+
+  childCarePlan   ChildCarePlan? @relation(fields: [childCarePlanId], references: [id])
+  childCarePlanId String?
+  videos          Video[]
 }
 
 model Meeting {
@@ -172,42 +195,47 @@ model Meeting {
   type            MEETING_TYPE @default(PHONE)
   pendingApproval Boolean      @default(false)
   approved        Boolean      @default(false)
-  meetingOwnerID  String
   users           User[]
+  meetingOwnerID  String
 }
 
 model Video {
-  id           String       @id @default(uuid())
+  id           String @id @default(uuid())
   contentfulID String
-  previewPic   String       @default("Default")
-  completed    Boolean      @default(false)
-  title        String
-  description  String
-  level        Int
-  medals       Medal[]
-  assignments  Assignment[]
-  users        User[]
+  previewPic   String @default("Default") // Client Side 
+
+  medals      Medal[]
+  assignments Assignment[]
+  users       User[]
+
+  completed   Boolean @default(false)
+  title       String
+  description String
+  level       Int
 }
 
 model Medal {
-  id            String         @id @default(uuid())
-  title         String
-  image         String         @default("Default")
-  description   String
-  createdAt     DateTime       @default(now())
-  level         MEDAL_LEVEL    @default(BLUE)
-  videoId       String?
-  video         Video?         @relation(fields: [videoId], references: [id])
+  id          String   @id @default(uuid())
+  title       String
+  image       String   @default("Default")
+  description String
+  createdAt   DateTime @default(now())
+
+  level           MEDAL_LEVEL    @default(BLUE)
+  video           Video?         @relation(fields: [videoId], references: [id])
+  videoId         String?
+  childCarePlan   ChildCarePlan? @relation(fields: [childCarePlanId], references: [id])
   childCarePlanId String?
-  childCarePlan ChildCarePlan? @relation(fields: [childCarePlanId], references: [id])
 }
 
 model Chatroom {
-  id        String    @id @default(uuid())
-  active    Boolean   @default(true)
-  createdAt DateTime  @default(now())
-  users     User[]
-  messages  Message[]
+  id String @id @default(uuid())
+
+  users    User[]
+  messages Message[]
+
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
 }
 
 model Message {
@@ -225,10 +253,13 @@ model Notification {
   createdAt   DateTime @default(now())
   title       String?
   description String?
-  type        String?
-  toUserId    String?
-  fromUserId  String?
-  dismissed   Boolean  @default(false)
+
+  type String?
+
+  toUserId   String?
+  fromUserId String?
+
+  dismissed Boolean @default(false)
 }
 
 model ChatroomToUser {
@@ -238,33 +269,6 @@ model ChatroomToUser {
   @@unique([A, B], map: "_ChatroomToUser_AB_unique")
   @@index([B], map: "_ChatroomToUser_B_index")
   @@map("_ChatroomToUser")
-}
-
-model AssignmentToVideo {
-  A String
-  B String
-
-  @@unique([A, B], map: "_AssignmentToVideo_AB_unique")
-  @@index([B], map: "_AssignmentToVideo_B_index")
-  @@map("_AssignmentToVideo")
-}
-
-model MeetingToUser {
-  A String
-  B String
-
-  @@unique([A, B], map: "_MeetingToUser_AB_unique")
-  @@index([B], map: "_MeetingToUser_B_index")
-  @@map("_MeetingToUser")
-}
-
-model UserToVideo {
-  A String
-  B String
-
-  @@unique([A, B], map: "_UserToVideo_AB_unique")
-  @@index([B], map: "_UserToVideo_B_index")
-  @@map("_UserToVideo")
 }
 
 enum Role {

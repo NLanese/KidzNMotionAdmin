@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View } from "react";
 import styled from "styled-components";
 import { LogoutOutlined } from "@ant-design/icons";
+import { Content } from "antd/lib/layout/layout";
 import { useRecoilState } from "recoil";
 import { userState } from "@atoms";
 import { capitalizeFirstLetter } from "@helpers/common";
@@ -221,7 +222,7 @@ function TopMenuAvatar() {
             (1000 * 3600 * 24)
       );
       return (
-        <content>
+        <Content>
           <NakedButton onClick={() => setShowSubscriptiontoggle(true)}>
             <Tag
               style={{ fontWeight: 600 }}
@@ -236,7 +237,7 @@ function TopMenuAvatar() {
                 : `  ${daysLeft} Days Left On Trial (Activate)`}
             </Tag>
           </NakedButton>
-        </content>
+        </Content>
       );
     }
   };
@@ -257,7 +258,7 @@ function TopMenuAvatar() {
             (1000 * 3600 * 24)
       );
       return (
-        <content>
+        <Content>
           <NakedButton onClick={() => setShowSubscriptiontoggle(true)}>
             <Tag
               style={{ fontWeight: 600 }}
@@ -272,7 +273,7 @@ function TopMenuAvatar() {
                 : `  ${daysLeft} Days Left On Trial (Activate)`}
             </Tag>
           </NakedButton>
-        </content>
+        </Content>
       );
     }
   };
@@ -294,7 +295,7 @@ function TopMenuAvatar() {
   function renderAnnualOrMonthlyOptions(){
     if (showSubscriptionToggle){
       return(
-          <content>
+          <Content>
             <NakedButton onClick={() => determineUserTypeForSubscription("Monthly")}>
               <Tag>
                 Monthly Subscription
@@ -305,7 +306,7 @@ function TopMenuAvatar() {
                 Annual Subscription (One Month Free)
               </Tag>
             </NakedButton>
-          </content>
+          </Content>
       )
     }
   }
@@ -364,7 +365,6 @@ function TopMenuAvatar() {
         .catch((error) => {});
       }
       else{
-        console.log("Failed param")
       }
     };
 
@@ -448,12 +448,12 @@ function TopMenuAvatar() {
           {getUserAvatar()}
           <AvatarTextDetails>
             {user.firstName && user.lastName && (
-              <content>
+              <Content>
                 <Title level={2}>
                   {capitalizeFirstLetter(user.firstName)}{" "}
                   {capitalizeFirstLetter(user.lastName)}
                 </Title>
-              </content>
+              </Content>
             )}
           </AvatarTextDetails>
         </AvatarDetails>

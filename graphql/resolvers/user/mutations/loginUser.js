@@ -11,6 +11,7 @@ export default {
   Mutation: {
     loginUser: async (_, { username, password }) => {
       let email = username;
+      console.log("Logging in ..." + username + "...")
       try {
 
         // Retrieve the users that match the email address
@@ -287,11 +288,13 @@ export default {
           }
 
           // IF //
-          // Test Account (ostrichdeveloper or nlanese21 or ostrichdevtest)
+          // Test Account (Free Bypass)
           if (
-            userToLogin.email.toLowerCase() === "ostrichdeveloper@gmail.com" ||
-            userToLogin.email.toLowerCase() === "nlanese21@gmail.com" ||
-            userToLogin.email.toLowerCase() === "ostrichdevtest@gmail.com"
+            userToLogin.email.toLowerCase() === process.env.freeEmailCat ||
+            userToLogin.email.toLowerCase() === process.env.freeEmailCat2 ||
+            userToLogin.email.toLowerCase() === process.env.freeEmailNick ||
+            userToLogin.email.toLowerCase() === process.env.freeEmailNick2 ||
+            userToLogin.email.toLowerCase() === process.env.freeEmailNick3
           ){
             subscriptionStatus = "active"
           }

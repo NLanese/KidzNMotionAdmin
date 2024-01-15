@@ -8,7 +8,6 @@ function PatientInformation({ patientDetail, user }) {
   const renderBlockedVideos = () => {
     let videoString = "";
     if (patientDetail.carePlan.blockedVideos) {
-      // console.log("hi")
       if (patientDetail.carePlan.blockedVideos.ids) {
         patientDetail.carePlan.blockedVideos.ids.map((videoID, index) => {
           if (VIDEOS[videoID]) {

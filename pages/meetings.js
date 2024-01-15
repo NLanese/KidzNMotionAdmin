@@ -43,6 +43,7 @@ const MeetingsWrapper = styled.div`
 function Meetings({ router }) {
   const user = useRecoilValue(userState);
   const [meetings, setMeetings] = useRecoilState(meetingsState);
+  const [pastMeetings, setPastMeetings] = useState([])
 
   // Mutations
   const [approveMeeting, {}] = useMutation(APPROVE_MEETING);
@@ -57,8 +58,23 @@ function Meetings({ router }) {
           fetchPolicy: "network-only",
         })
         .then(async (resolved) => {
-          // console.log(resolved);
-          setMeetings(resolved.data.getMeetings);
+          const allMeetings = resolved.data.getMeetings;
+  
+          // Get today's date
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+  
+          // Filter and sort meetings
+          const upcomingMeetings = allMeetings
+            .filter((meeting) => new Date(meeting.meetingDateTime) >= today)
+            .sort((a, b) => new Date(a.meetingDateTime) - new Date(b.meetingDateTime));
+  
+          const pastMeetings = allMeetings
+            .filter((meeting) => new Date(meeting.meetingDateTime) < today)
+            .sort((a, b) => new Date(b.meetingDateTime) - new Date(a.meetingDateTime));
+  
+          setMeetings(upcomingMeetings);
+          setPastMeetings(pastMeetings);
         })
         .catch((error) => {
           setMeetings(null);
@@ -269,7 +285,7 @@ function Meetings({ router }) {
         <Row gutter={[16, 16]}>
           <Col lg={24} xl={12}>
             <ContentCard>
-              <MeetingsTable meetings={meetings} userID={user.id} />
+              <MeetingsTable meetings={meetings} pastMeetings={pastMeetings} userID={user.id} />
             </ContentCard>
           </Col>
           <Col lg={24} xl={12}>

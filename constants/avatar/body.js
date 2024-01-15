@@ -1,7 +1,6 @@
 import React from "react";
 
 export default function Body({ value, color }) {
-  // console.log(value, color)
   switch (value) {
     case "body1":
       return <Body1 color={color} />;

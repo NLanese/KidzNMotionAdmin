@@ -20,9 +20,16 @@ export default {
       context
     ) => {
 
+      console.log("PARAMS")
+      console.log(dateStart)
+      console.log(dateDue)
+      console.log(childCarePlanID)
+
       /////////////////
       // Login Check //
       if (!context.user) throw new UserInputError("Login required");
+
+      console.log(context.user)
 
       /////////////////////
       // Therapist Check //
@@ -56,6 +63,14 @@ export default {
           },
         },
       });
+
+      /////////////////////
+      // Same Date Check //
+      if (dateStart === dateDue){
+        console.log("Throwing an Error")
+        throw new UserInputError("Assignment Start Date and Due Date must be different from each other");
+      }
+
 
       let childUser = childCarePlan.child
       let carePlanGuardian = childCarePlan.child.guardian

@@ -19,6 +19,8 @@ export default {
       // CHECKS //
       ////////////
 
+      console.log("\n=============\nINSIDE SET VIDEO COMPLETED")
+
       // If they are not, then return user input error
       if (!video && !VIDEOS[videoID]) {
         throw new UserInputError("Video does not exist");
@@ -100,10 +102,11 @@ export default {
         // Finds 'Video' Instances within this Child's Assignments
         let sameVideos = []
         childUser.childCarePlans[0].assignments.forEach(assignment => {
+          console.log("Checking this assignment...")
           console.log(assignment)
-          console.log(assignment.videos)
-          console.log("...........")
           assignment.videos.forEach(vid => {
+            console.log("---------")
+            console.log(vid)
             if (vid.contentfulID === video.id){
               sameVideos.push(vid.id)
             }
@@ -112,6 +115,9 @@ export default {
 
         // Runs the Mutation on each applicable 
         sameVideos.forEach(async (vidID) => {
+          consnole.log('-------')
+          console.log("Marking Video Complete")
+          console.log(vidID)
           await prisma.video.update({
             where: {
               id: vidID
