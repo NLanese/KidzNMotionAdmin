@@ -240,6 +240,7 @@ const typeDefs = gql`
     #########################
 
     getAllMedalTypes: [MedalType]
+    getAllUserMedals(childCareID: String!): [Medal]
 
     ###################################
     #### CHILD CARE PLAN QUERIES ####

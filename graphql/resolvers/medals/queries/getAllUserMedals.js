@@ -3,10 +3,13 @@ import { UserInputError } from "apollo-server-errors";
 
 export default {
   Query: {
-    getUserMedals: async (_, {childCareID}, context) => {
+    getAllUserMedals: async (_, { childCareID }, context) => {
+        console.log("=====\nINSIDE GET ALL USER MEDALS")
+
         if (!context.user) throw new UserInputError("Login required");
 
-        let existingCarePlan = prisma.childCarePlan.findUnique({
+        console.log("Checking if Care Plan " + childCareID + " Exists")
+        let existingCarePlan = await prisma.childCarePlan.findUnique({
             where: {
                 id: childCareID
             },
@@ -18,6 +21,7 @@ export default {
         if (!existingCarePlan.id){
             throw new UserInputError("No Child Care Plan Found! Cannot retrieve medals.")
         }
+        console.log("Care Plan Exists")
 
         // Get all user meetings
         console.log("Getting Medals From ", childCareID + ".")
@@ -33,7 +37,6 @@ export default {
                 level: true,
             }
         });
-
         return medals
 
     },
