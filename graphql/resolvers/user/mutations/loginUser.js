@@ -294,7 +294,8 @@ export default {
             userToLogin.email.toLowerCase() === process.env.freeEmailCat2 ||
             userToLogin.email.toLowerCase() === process.env.freeEmailNick ||
             userToLogin.email.toLowerCase() === process.env.freeEmailNick2 ||
-            userToLogin.email.toLowerCase() === process.env.freeEmailNick3
+            userToLogin.email.toLowerCase() === process.env.freeEmailNick3 ||
+            userToLogin.email.toLowerCase() === process.env.freeEmailChelsea
           ){
             subscriptionStatus = "active"
           }
