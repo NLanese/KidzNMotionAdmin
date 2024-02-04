@@ -58,7 +58,9 @@ class MyApp extends App {
               </Layout>
             </ApolloProvider>
           </RecoilRoot>
-          <style jsx="true" global>{`
+          {/* <style  */}
+          jsx="true"
+           global>{`
             // Global fonts
             @font-face {
               font-family: "Gilroy";
@@ -96,7 +98,8 @@ class MyApp extends App {
               font-style: normal;
               font-display: block;
             }
-          `}</style>
+          `}
+          {/* </style> */}
         </>
         <Script
           strategy="afterInteractive"
