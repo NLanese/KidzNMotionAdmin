@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
-import { getAllMedalTypes, makeMedal } from "@helpers/medals";
+import { makeMedal } from "@helpers/medals";
 import VIDEOS from "@constants/videos";
 
 export default {
