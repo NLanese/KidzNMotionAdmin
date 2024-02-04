@@ -541,7 +541,7 @@ function AvatarSettingsForm({}) {
                   {renderAvatarSelectionItem(
                     <>
                       <g transform="translate(18 8)">
-                        <cicle cx={14} cy={6} r={4} fill="#5a45ff" />
+                        <cicle cx={14} cy={6} r={4} backgroundColor="#5a45ff" />
                         <g fill={hairColors[interumProfilePic.hairColor]}>
                           <path
                             d="M17.67 14.5l.054-7.663c2.136-.013 3.207-.013 3.214 0C25.157 9.25 28 13.792 28 19v3c-1.333-1.667-2.667-4.667-4-9-.496.25-2.606.75-6.33 1.5zm-7.34 0C6.606 13.75 4.496 13.25 4 13c-1.333 4.333-2.667 7.333-4 9v-3c0-5.208 2.843-9.751 7.062-12.163h3.27z"
