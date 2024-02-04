@@ -1,6 +1,6 @@
 ===== TESTING =====
 to run locally...
-- nvm use 16.10
+- nvm use 18.10
 - npm run dev
 
 to access the graphQL Playground, go to these urls
