@@ -14,7 +14,7 @@ const LOGIN_USER = gql`
 `;
 
 const USER_SIGN_UP = gql`
-  mutation signUpUser(
+  mutation Mutation(
     $email: String!
     $password: String!
     $firstName: String!
