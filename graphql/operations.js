@@ -866,9 +866,6 @@ const CREATE_CHAT_ROOM = gql`
   }
 `;
 
-
-
-
 const GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK = gql`
   mutation Mutation {
     generateSoloGuardianCheckoutLink

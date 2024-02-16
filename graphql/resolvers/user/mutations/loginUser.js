@@ -290,12 +290,16 @@ export default {
           // IF //
           // Test Account (Free Bypass)
           if (
-            userToLogin.email.toLowerCase() === process.env.freeEmailCat ||
-            userToLogin.email.toLowerCase() === process.env.freeEmailCat2 ||
-            userToLogin.email.toLowerCase() === process.env.freeEmailNick ||
-            userToLogin.email.toLowerCase() === process.env.freeEmailNick2 ||
-            userToLogin.email.toLowerCase() === process.env.freeEmailNick3 ||
-            userToLogin.email.toLowerCase() === process.env.freeEmailChelsea
+            userToLogin.email.toLowerCase() === process.env.freeEmail ||
+            userToLogin.email.toLowerCase() === process.env.freeEmail2 ||
+            userToLogin.email.toLowerCase() === process.env.freeEmail3 ||
+            userToLogin.email.toLowerCase() === process.env.freeEmail4 ||
+            userToLogin.email.toLowerCase() === process.env.freeEmail5 ||
+            userToLogin.email.toLowerCase() === process.env.freeEmail6 ||
+            userToLogin.email.toLowerCase() === process.env.freeEmail7 || 
+            userToLogin.email.toLowerCase() === process.env.freeEmail8 || 
+            userToLogin.email.toLowerCase() === process.env.freeEmail9 || 
+            userToLogin.email.toLowerCase() === process.env.freeEmail10 
           ){
             subscriptionStatus = "active"
           }
