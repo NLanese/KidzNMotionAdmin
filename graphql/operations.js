@@ -564,6 +564,13 @@ const GET_USER_MEETINGS = gql`
       pendingApproval
       approved
       meetingOwnerID
+      users {
+        id
+        firstName
+        lastName
+        email
+        role
+      }
     }
   }
 `;
