@@ -563,13 +563,6 @@ const GET_USER_MEETINGS = gql`
       canceled
       pendingApproval
       approved
-      users {
-        id
-        firstName
-        lastName
-        email
-        role
-      }
       meetingOwnerID
     }
   }
