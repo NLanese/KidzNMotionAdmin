@@ -15,15 +15,11 @@ const apolloServer = new ApolloServer({
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
   context: async ({ req }) => {
     
-    // Takes in the athorization token and trys to retreive the user object if valid
     const token = req.headers.authorization;
-
     if (!token) {
       return {user: null}
     }
-    // Get the user object from the JWT token
     const user = await handleAuth(token);
-    // Add the user to the context
     return { user };
   },
 });
