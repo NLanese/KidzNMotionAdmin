@@ -24,7 +24,7 @@ export default {
       ////////////////
       // VALID DATE //
       ////////////////
-      if (new Date(meetingDateTime) <= new Date()) {
+      if (meetingDateTime <= new Date()) {
         throw new UserInputError("Meetings can only be made in the future");
       }
 
