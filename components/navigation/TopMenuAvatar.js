@@ -19,6 +19,7 @@ import {
   GENERATE_SOLO_GUARDIAN_PORTAL_LINK,
 } from "@graphql/operations";
 import { getBillingInformation } from "../../helpers/billing";
+import TextArea from "antd/lib/input/TextArea";
 
 const { Title } = Typography;
 
@@ -90,6 +91,8 @@ function TopMenuAvatar() {
 
     // Determines whether alert was sent
     const [alertsShown, setAlertsShown] = useState(false)
+
+    const [promoCode, setPromoCode] = useState("")
 
 
   ///////////////
@@ -295,17 +298,23 @@ function TopMenuAvatar() {
   function renderAnnualOrMonthlyOptions(){
     if (showSubscriptionToggle){
       return(
-          <Content>
-            <NakedButton onClick={() => determineUserTypeForSubscription("Monthly")}>
-              <Tag>
-                Monthly Subscription
-              </Tag>
-            </NakedButton>
-            <NakedButton onClick={() => determineUserTypeForSubscription("Annual")}>
-              <Tag>
-                Annual Subscription (One Month Free)
-              </Tag>
-            </NakedButton>
+          <Content style={{height: 100, marginTop: 30, paddingTop: 15, background: 'white'}}>
+              <Button 
+              size="middle"
+              onClick={() => determineUserTypeForSubscription("Monthly")}>
+                  Monthly Subscription
+              </Button>
+              <Button 
+              size="middle"
+              onClick={() => determineUserTypeForSubscription("Annual")}>
+                  Annual Subscription (One Month Free)
+            </Button>
+            <div style={{flexDirection: 'row', display: 'flex', marginTop: 15}}>
+              <div style={{width: 150}}>Promo Code?</div>
+              <TextArea style={{height: 15}}
+                onChange={(content) => console.log(content.target.value)}
+              />
+            </div>
           </Content>
       )
     }
