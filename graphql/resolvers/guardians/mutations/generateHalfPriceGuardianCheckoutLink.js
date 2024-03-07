@@ -38,7 +38,7 @@ export default {
         // // false
         //   ? "price_1MNeZIAbL8OcaqqPnT0M6mnf"
         //   : 
-          "price_1Onu8EAbL8OcaqqPjg0V3dXJ";
+          "price_1Onu7OAbL8OcaqqP2hA8ZZBc";
 
       const session = await stripe.checkout.sessions.create({
         mode: "subscription",
