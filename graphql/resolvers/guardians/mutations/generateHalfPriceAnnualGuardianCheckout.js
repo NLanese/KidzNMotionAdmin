@@ -42,7 +42,7 @@ export default {
         line_items: [
           {
             // price: priceId,
-            price: "price_1OntzhAbL8OcaqqPMHbjgabW",
+            price: "price_1OrpmEAbL8OcaqqP93hcJGcX",
             quantity: 1,
           },
         ],
