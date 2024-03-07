@@ -17,11 +17,14 @@ export default {
       ////////////
 
       console.log("\n=============\nINSIDE SET VIDEO COMPLETED")
+      console.log(videoID, medalType, childID)
 
       // If they are not, then return user input error
       if (!video && !VIDEOS[videoID]) {
         throw new UserInputError("Video does not exist");
       }
+      console.log("Video exists")
+
       // IF the video id does not match
       if (!VIDEOS[videoID] && video) {
         if (!video.contentfulID) {
@@ -62,6 +65,7 @@ export default {
       // CHECKS PASSED //
       ///////////////////
       if (childID && VIDEOS[videoID]) {
+        console.log("Checks completed!")
 
       //////////////////////
       // ASSIGNMENT CHECK //
@@ -100,6 +104,7 @@ export default {
         let sameVideos = []
         childUser.childCarePlans[0].assignments.forEach(assignment => {
           if (new Date(assignment.dateStart) < new Date()){
+            console.log("Checking to see if ", videoID, " is in this assignment...")
             assignment.videos.forEach(vid => {
               console.log("---------")
               console.log(vid)
@@ -113,6 +118,7 @@ export default {
           
 
         // Runs the Mutation on each applicable 
+        console.log("Marking all added videos as complete")
         sameVideos.forEach(async (vidID) => {
           console.log('-------')
           console.log("Marking Video Complete")
@@ -126,6 +132,7 @@ export default {
             }
           })
         })
+        console.log("Done.")
 
         ////////////////////
         // MEDAL CREATION //
@@ -177,40 +184,42 @@ export default {
         else if (medalType === "BRONZE"){
           await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
         }
+        console.log("Making Medals Complete...")
 
 
 
         // Assignment-Video Complete
-        await prisma.video.update({
-          where: {
-            id: video.id,
-          },
-          data: {
-            completed: true,
-          },
-        });
+        // console.log("Updating Video,,,")
+        // await prisma.video.update({
+        //   where: {
+        //     id: video.id,
+        //   },
+        //   data: {
+        //     completed: true,
+        //   },
+        // });
 
         // Get the full video object
-        let completedVideo = await prisma.video.findUnique({
-          where: {
-            id: video.id,
-          },
-          select: {
-            id: true,
-            completed: true,
-            contentfulID: true,
-            medals: {
-              select: {
-                id: true,
-                title: true,
-                description: true,
-                level: true,
-              },
-            },
-          },
-        });
+        // let completedVideo = await prisma.video.findUnique({
+        //   where: {
+        //     id: video.id,
+        //   },
+        //   select: {
+        //     id: true,
+        //     completed: true,
+        //     contentfulID: true,
+        //     medals: {
+        //       select: {
+        //         id: true,
+        //         title: true,
+        //         description: true,
+        //         level: true,
+        //       },
+        //     },
+        //   },
+        // });
 
-        return completedVideo;
+        return true;
         }
     },
   },

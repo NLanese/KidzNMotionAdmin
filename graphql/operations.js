@@ -973,8 +973,8 @@ const INVITE_PATIENT = gql`
 `;
 
 const SET_VIDEO_COMPLETED = gql`
-  mutation Mutation($videoID: String!, $medalType: String!) {
-    setVideoCompleted(videoID: $videoID, medalType: $medalType) {
+  mutation Mutation($videoID: String!, $medalType: String!, $childID: String!) {
+    setVideoCompleted(videoID: $videoID, medalType: $medalType, childID: $childID) {
       id
     }
   }

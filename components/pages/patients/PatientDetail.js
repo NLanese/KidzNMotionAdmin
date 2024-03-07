@@ -232,6 +232,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
                 </div>
                 <CarePlanAssignments
                   getUser={getUser}
+                  patient={patientDetail}
                   comments={patientDetail.carePlan.comments}
                   initialValues={{
                     childCarePlanID: patientDetail.carePlan.id,

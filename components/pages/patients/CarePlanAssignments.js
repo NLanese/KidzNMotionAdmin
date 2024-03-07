@@ -38,10 +38,12 @@ function CarePlanAssignments({
   assignments,
   returnUrl,
   getUser,
+  patient,
   comments,
   initialValues,
   router,
 }) {
+
   const renderMedals = (medals) => {
     return medals.map((medalObject) => {
       return (
@@ -57,6 +59,7 @@ function CarePlanAssignments({
       );
     });
   };
+
   const renderVideoDetails = (assignmentObject) => {
     return assignmentObject.videos.map((videoObject) => {
       return (
@@ -256,7 +259,7 @@ function CarePlanAssignments({
         }
         visible={router.query.video}
       >
-        <AssignMedalsForm getUser={getUser} router={router} />
+        <AssignMedalsForm getUser={getUser} router={router} childID={patient.id}/>
       </Drawer>
     </AssignmentContainer>
   );
