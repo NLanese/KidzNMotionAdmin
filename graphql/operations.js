@@ -866,15 +866,36 @@ const CREATE_CHAT_ROOM = gql`
   }
 `;
 
+
+////////////////////
+// CHECKOUT LINKS //
+////////////////////
+
+// Guardian Monthly
 const GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK = gql`
   mutation Mutation {
     generateSoloGuardianCheckoutLink
   }
 `;
 
+// Guardian Annual
 const GENERATE_ANNUAL_SOLO_GUARDIAN_CHECKOUT_LINK = gql`
   mutation Mutation {
     generateAnnualSoloGuardianCheckoutLink
+  }
+`;
+
+// Half Price Guardian Monthly
+const GENERATE_HALF_PRICE_GUARDIAN_CHECKOUT_LINK = gql`
+  mutation Mutation {
+    generateHalfPriceGuardianCheckoutLink
+  }
+`;
+
+// Half Price Guardian Annual
+const GENERATE_HALF_PRICE_ANNUAL_GUARDIAN_CHECKOUT_LINK = gql`
+  mutation Mutation {
+    generateHalfPriceAnnualGuardianCheckoutLink
   }
 `;
 
@@ -1019,7 +1040,9 @@ export {
 
   // GUARDIAN
   GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK,
+  GENERATE_HALF_PRICE_GUARDIAN_CHECKOUT_LINK,
   GENERATE_ANNUAL_SOLO_GUARDIAN_CHECKOUT_LINK,
+  GENERATE_HALF_PRICE_ANNUAL_GUARDIAN_CHECKOUT_LINK,
   GENERATE_SOLO_GUARDIAN_PORTAL_LINK,
 
   // VIDEO LIBRARY

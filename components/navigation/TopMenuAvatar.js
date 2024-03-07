@@ -16,7 +16,8 @@ import { useMutation } from "@apollo/client";
 import {
   GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK,
   GENERATE_ANNUAL_SOLO_GUARDIAN_CHECKOUT_LINK,
-  GENERATE_SOLO_GUARDIAN_PORTAL_LINK,
+  GENERATE_HALF_PRICE_ANNUAL_GUARDIAN_CHECKOUT_LINK,
+  GENERATE_HALF_PRICE_GUARDIAN_CHECKOUT_LINK
 } from "@graphql/operations";
 import { getBillingInformation } from "../../helpers/billing";
 import TextArea from "antd/lib/input/TextArea";
@@ -102,14 +103,22 @@ function TopMenuAvatar() {
     // Link to Guardian Stripe (Monthly)
     const [generateSoloGuardianCheckoutLink, {}] = useMutation(
       GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK
-      // GENERATE_SOLO_GUARDIAN_PORTAL_LINK
     );
 
     // Link to Guardian Stripe (Yearly)
     const [generateAnnualSoloGuardianCheckoutLink, {}] = useMutation(
       GENERATE_ANNUAL_SOLO_GUARDIAN_CHECKOUT_LINK
-      // GENERATE_SOLO_GUARDIAN_PORTAL_LINK
     );
+
+        // Link to Guardian Stripe Half Price(Monthly)
+        const [generateHalfPriceGuardianCheckoutLink, {}] = useMutation(
+          GENERATE_HALF_PRICE_GUARDIAN_CHECKOUT_LINK
+        );
+    
+        // Link to Guardian Stripe Half Price (Yearly)
+        const [generateHalfPriceAnnualGuardianCheckoutLink, {}] = useMutation(
+          GENERATE_HALF_PRICE_ANNUAL_GUARDIAN_CHECKOUT_LINK
+        );
 
   ///////////////
   // Constants //
@@ -312,7 +321,7 @@ function TopMenuAvatar() {
             <div style={{flexDirection: 'row', display: 'flex', marginTop: 15}}>
               <div style={{width: 150}}>Promo Code?</div>
               <TextArea style={{height: 15}}
-                onChange={(content) => console.log(content.target.value)}
+                onChange={(content) => setPromoCode(content.target.value)}
               />
             </div>
           </Content>
@@ -357,7 +366,14 @@ function TopMenuAvatar() {
     // Redirect to Stripe for Guardian Checkout
     const guardianCheckout = async (subType) => {
       setLoading(true);
+      let thisMutation 
+
       if (subType === "Monthly"){
+        thisMutation = generateSoloGuardianCheckoutLink
+        if (promoCode.toUpperCase() === "FOUNDER50"){
+          thisMutation = generateHalfPriceGuardianCheckoutLink 
+        }
+
         await generateSoloGuardianCheckoutLink()
         .then(async (resolved) => {
           window.location = resolved.data.generateSoloGuardianCheckoutLink;
@@ -366,7 +382,11 @@ function TopMenuAvatar() {
         .catch((error) => {});
       }
       else if (subType === "Annual"){
-        await generateAnnualSoloGuardianCheckoutLink()
+        thisMutation = generateAnnualSoloGuardianCheckoutLink
+        if (promoCode.toUpperCase() === "FOUNDER50"){
+          thisMutation = generateHalfPriceAnnualGuardianCheckoutLink 
+        }
+        await thisMutation()
         .then(async (resolved) => {
           window.location = resolved.data.generateSoloGuardianCheckoutLink;
         })
