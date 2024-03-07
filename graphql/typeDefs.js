@@ -371,7 +371,11 @@ const typeDefs = gql`
 
     generateSoloGuardianCheckoutLink: String
 
+    generateHalfPriceGuardianCheckoutLink: String
+
     generateAnnualSoloGuardianCheckoutLink: String
+
+    generateHalfPriceAnnualGuardianCheckoutLink: String
 
     generateSoloGuardianPortalLink: String
 
