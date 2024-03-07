@@ -22,6 +22,7 @@ export default {
         throw new UserInputError("Only guardians can get checkout links");
 
 
+      
       const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
       if (context.user.soloStripeSubscriptionID)

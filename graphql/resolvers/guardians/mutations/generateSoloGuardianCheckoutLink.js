@@ -19,7 +19,7 @@ export default {
       if (context.user.role !== "GUARDIAN")
         throw new UserInputError("Only guardians can get checkout links");
 
-
+      console.log(process.env.STRIPE_PRIVATE_KEY)
       const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
       // if (!context.user.solo)
