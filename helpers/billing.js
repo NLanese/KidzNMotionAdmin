@@ -19,6 +19,7 @@ export const getCheckoutURL = async (annual, promo = "") => {
       url = "/api/billing/get-checkout-url"
     }
   }
+  console.log("\n\nURI:::: ", url, "\n\n")
   return await axios({
     method: "post",
     url: url,

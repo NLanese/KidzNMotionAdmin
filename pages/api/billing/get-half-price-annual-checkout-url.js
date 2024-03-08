@@ -25,7 +25,7 @@ export default async function handler(req, res) {
   const priceId =
     process.env.NODE_ENV === "development"
       ? "price_1Onu5tAbL8OcaqqP7pbr87zK"
-      : "price_1NsaA0AbL8OcaqqPtvboBZLR";
+      : "price_1Onu5tAbL8OcaqqP7pbr87zK";
 
   let userCount = 0;
 

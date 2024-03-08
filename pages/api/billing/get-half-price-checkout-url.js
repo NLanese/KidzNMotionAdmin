@@ -24,7 +24,7 @@ export default async function handler(req, res) {
   // Kidz-N-Motion Pro Plan Product ID
   const priceId =
     process.env.NODE_ENV === "development"
-      ? "price_1MNeaIAbL8OcaqqPql1CgC36"
+      ? "price_1Onu8EAbL8OcaqqPjg0V3dXJ"
       : "price_1Onu8EAbL8OcaqqPjg0V3dXJ";
 
   let userCount = 0;
