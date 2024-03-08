@@ -1,10 +1,23 @@
 import axios from "axios";
 
 // Calls the Stripe api and gets the checkout urls
-export const getCheckoutURL = async (annual) => {
-  let url = "/api/billing/get-checkout-url"
+export const getCheckoutURL = async (annual, promo = "") => {
+  let url
   if (annual){
-    url = "/api/billing/get-annual-checkout-url"
+    if (promo.toUpperCase() === "FOUNDER50"){
+      url = "api/billing/get-half-price-annual-checkout-url"
+    }
+    else{
+      url = "/api/billing/get-annual-checkout-url"
+    }
+  }
+  else{
+    if (promo.toUpperCase() === "FOUNDER50"){
+      url = "/api/billing/get-half-price-checkout-url"
+    }
+    else{
+      url = "/api/billing/get-checkout-url"
+    }
   }
   return await axios({
     method: "post",
