@@ -110,15 +110,15 @@ function TopMenuAvatar() {
       GENERATE_ANNUAL_SOLO_GUARDIAN_CHECKOUT_LINK
     );
 
-        // Link to Guardian Stripe Half Price(Monthly)
-        const [generateHalfPriceGuardianCheckoutLink, {}] = useMutation(
-          GENERATE_HALF_PRICE_GUARDIAN_CHECKOUT_LINK
-        );
-    
-        // Link to Guardian Stripe Half Price (Yearly)
-        const [generateHalfPriceAnnualGuardianCheckoutLink, {}] = useMutation(
-          GENERATE_HALF_PRICE_ANNUAL_GUARDIAN_CHECKOUT_LINK
-        );
+    // Link to Guardian Stripe Half Price(Monthly)
+    const [generateHalfPriceGuardianCheckoutLink, {}] = useMutation(
+      GENERATE_HALF_PRICE_GUARDIAN_CHECKOUT_LINK
+    );
+
+    // Link to Guardian Stripe Half Price (Yearly)
+    const [generateHalfPriceAnnualGuardianCheckoutLink, {}] = useMutation(
+      GENERATE_HALF_PRICE_ANNUAL_GUARDIAN_CHECKOUT_LINK
+    );
 
   ///////////////
   // Constants //
@@ -354,7 +354,7 @@ function TopMenuAvatar() {
       if (subType === "Annual"){
         annual = true
       }
-      const session = await getCheckoutURL(annual);
+      const session = await getCheckoutURL(annual, promoCode);
       if (!session) {
         setLoading(false);
       } 
