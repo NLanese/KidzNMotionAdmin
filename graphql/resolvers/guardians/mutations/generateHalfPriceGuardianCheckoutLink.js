@@ -33,12 +33,11 @@ export default {
 
       // Kidz-N-Motion Pro Plan Product ID
       const priceId =
-        // process.env.NODE_ENV === 
-        // "development"
-        // // false
-        //   ? "price_1MNeZIAbL8OcaqqPnT0M6mnf"
-        //   : 
-          "price_1Onu7OAbL8OcaqqP2hA8ZZBc";
+        process.env.NODE_ENV === 
+        "development"
+        // false
+          ? "price_1Onu7OAbL8OcaqqP2hA8ZZBc"
+          : "price_1Onu7OAbL8OcaqqP2hA8ZZBc";
 
       const session = await stripe.checkout.sessions.create({
         mode: "subscription",

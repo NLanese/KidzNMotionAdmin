@@ -29,12 +29,11 @@ export default {
         throw new UserInputError("This guardian already has a subscription");
 
       // Kidz-N-Motion Pro Plan Product ID
-      // const priceId =
-      //   process.env.NODE_ENV === 
-      //   "development"
-      //   // false
-      //     ? "price_1MNeZIAbL8OcaqqPnT0M6mnf"
-      //     : "price_1Nt9TnAbL8OcaqqPMmIMlQt2";
+      const priceId =
+        process.env.NODE_ENV === 
+        "development"
+          ? "price_1OrpmEAbL8OcaqqP93hcJGcX"
+          : "price_1OrpmEAbL8OcaqqP93hcJGcX";
 
       // console.log("Price ID console log")
       
@@ -42,8 +41,8 @@ export default {
         mode: "subscription",
         line_items: [
           {
-            // price: priceId,
-            price: "price_1OrpmEAbL8OcaqqP93hcJGcX",
+            price: priceId,
+            // price: "price_1OrpmEAbL8OcaqqP93hcJGcX",
             quantity: 1,
           },
         ],
