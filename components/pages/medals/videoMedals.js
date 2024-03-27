@@ -54,8 +54,6 @@ function VideoMedals({videoTitle, userMedals }) {
     function determineUnlocked(color, title){
         if (userMedals[title]){
             if (userMedals[title][color.toUpperCase()]){
-                console.log(color)
-                console.log(userMedals[title][color.toUpperCase()])
                 return true
             }
         }
