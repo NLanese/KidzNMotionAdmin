@@ -515,6 +515,23 @@ const GET_VIDEO_LIBRARY = gql`
   }
 `;
 
+// MEDALS
+const GET_ALL_USER_MEDALS = gql`
+  query Query(
+      $childCareID: String!,
+  ){
+    getAllUserMedals(
+      childCareID: $childCareID
+    ){
+      id
+      title
+      description
+      createdAt
+      level
+    }
+  }
+`
+
 // CHAT QUERIES
 const GET_USER_CHAT_ROOMS = gql`
   query Query {
@@ -1037,6 +1054,7 @@ export {
   EDIT_MEETING,
   APPROVE_MEETING,
   TOGGLE_ASSGINMENT_SEEN,
+  GET_ALL_USER_MEDALS,
 
   // GUARDIAN
   GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK,

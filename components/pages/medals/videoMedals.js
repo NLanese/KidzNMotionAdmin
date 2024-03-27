@@ -9,86 +9,75 @@ import { Typography, Divider, Space, Col, Row, Button, Spin } from "antd";
 import { StarFilled } from "@ant-design/icons";
 const { Text } = Typography;
 
-function VideoMedals({ videoMedals, key, formLoading }) {
+function VideoMedals({videoTitle, userMedals }) {
 
+    console.log("Hit")
+    ///////////////
+    // Rendering //
+    ///////////////
 
-    // Renders a single Medal
-    function renderMedal(medals, type, color){
-    if (medals[type] > 0){
+    function renderMedal(color, unlocked=false){
+        if (!unlocked){
+            color = "rgba(203,237,255, 0.85)"
+        }
+        else if (color === "bronze"){
+            color = "#EEAB25"
+        }
+        else if (color === "silver"){
+            color = "#A0AAB7"
+        }
+        else if (color === "gold"){
+            "#FFEF00"
+        }
         return(
-        <Row gutter={16} justify="center" align="middle" style={{width: '100px'}}>
-            <StarFilled 
-                style={{ fontSize: "32px", color: color}}
-            />
-        </Row>
+            <div style={{borderColor: color, borderWidth: 8, padding: 5, borderStyle: "solid",  borderRadius: 45, justifyContent: 'center', margin: 10}}>
+                <StarFilled style={{ fontSize: "64px", color: color}}/>
+            </div>
         )
     }
-    else{
-        return(
-            <Row gutter={16} justify="space-between" align="middle">
-                <Text>Not Unlocked!</Text>
-            </Row>
-        )
-    }
+
+    function renderTitle(){
+        let displayTitleArray = videoTitle.split("_")
+        displayTitleArray = displayTitleArray.map(word => {
+            return word.charAt(0).toUpperCase() + word.slice(1)
+        })
+        let title = ""
+        displayTitleArray.forEach(word => {
+            if (title !== ""){
+                title = title + " "
+            }
+            title = title + word
+        });
+        return title
     }
 
-    // Renders "No Medals" or the Title and 3 Medal Slots for One Video
-    function determineMedals(){
-        if (videoMedals.medals === "None"){
-            return (
-                <Text>
-                    No Medals for this Video yet!
-                </Text>
-            )
+    function determineUnlocked(color, title){
+        // console.log(title)
+        // console.log(userMedals)
+        if (userMedals[title]){
+            console.log(userMedals[title])
+            if (userMedals[title][color.toUpperCase()]){
+                return true
+            }
         }
-
-        else{
-            return(
-                <Row gutter={16} justify="space-between" align="middle">
-                    <Col>
-                    <ContentCard>
-                    <Row style={{textAlign: 'center'}}>
-                            <h3>Bronze</h3> 
-                        </Row>
-                        {renderMedal(videoMedals.medals, "bronze", "orange")}
-                    </ContentCard>
-                    </Col>
-                    <Col>
-                    <ContentCard>
-                    <Row style={{textAlign: 'center'}}>
-                            <h3>Silver</h3> 
-                        </Row>
-                        {renderMedal(videoMedals.medals, "silver", "silver")}
-                    </ContentCard>
-                    </Col>
-                    <Col>
-                    <ContentCard>
-                    <Row style={{textAlign: 'center'}}>
-                            <h3>Gold</h3> 
-                        </Row>
-                        {renderMedal(videoMedals.medals, "gold", "yellow")}
-                    </ContentCard>
-                    </Col>
-                </Row>
-            )
-        }
+        return false
     }
 
-    /////////////////
-    // Main Return //
-    /////////////////
-    return (
-        <Spin spinning={formLoading}>
-            <ContentCard>
-                <Row gutter={16} justify="space-between" align="middle">
-                    <h3>{videoMedals.title}</h3>
-                </Row>
-                <Row gutter={16} justify="space-between" align="middle">
-                    {determineMedals()}
-                </Row>
-            </ContentCard>
-        </Spin>
-    );
+    return(
+        <div style={{margin: 10, backgroundColor: 'rgba(236,236,236,0.65)', borderRadius: 35, justifyContent: 'center'}}>
+            <p style={{fontSize: 28, fontWeight: 700, textAlign: 'center'}}>
+                {renderTitle()
+            }</p>
+            <div style={{display: 'flex', flexDirection: "row", justifyContent: 'space-between', paddingRight: 75, paddingLeft: 75}}>
+                {renderMedal("bronze", determineUnlocked("bronze", videoTitle))}
+                {renderMedal("silver", determineUnlocked("bronze", videoTitle))}
+                {renderMedal("gold", determineUnlocked("bronze", videoTitle))}
+            </div>
+        </div>
+        
+    )
 }
+
+
 
 export default VideoMedals;

@@ -10,8 +10,6 @@ import { NextSeo } from "next-seo";
 
 // Components
 import PageHeader from "@common/PageHeader";
-import ColorThemeSettingsForm from "@forms/profileSettings/ColorThemeSettingsForm";
-import AvatarSettingsForm from "@forms/profileSettings/AvatarSettingsForm";
 import VideoMedals from "../components/pages/medals/videoMedals";
 
 // Recoil 
@@ -19,7 +17,7 @@ import { userState } from "@atoms";
 import { useRecoilState } from "recoil";
 
 // Mutations and Queries
-import { GET_CHILD_VIDEO_STATISTICS } from "../graphql/operations";
+import { GET_CHILD_VIDEO_STATISTICS, GET_ALL_USER_MEDALS } from "../graphql/operations";
 import client from "@utils/apolloClient";
 import VIDEOS from "@constants/videos";
 import { forEachObjectKeys, mapObjectKeys } from "../functions/objectHandlers";
@@ -48,10 +46,16 @@ function MedalsPage() {
     // STATE //
     ///////////
 
+    // User
     const [user, setUser] = useRecoilState(userState);
+
+    // Child who's medal is rendering
     const [selectedChild, setSelectedChild] = useState(user.role === "CHILD" ? user : user.children[0])
-    const [videoMedals, setVideoMedals] = useState({})
-    const [allMedals, setAllMedals] = useState({})
+
+    // User Medals
+    const [medals, setMedals] = useState([])
+
+    // Loading
     const [loading, setLoading] = useState(true)
 
     
@@ -59,96 +63,86 @@ function MedalsPage() {
     // RENDERINGS //
     ////////////////
 
-    const renderChildVideoMedalList = () => {
-        if (loading){
-            return(
-                <span></span>
-            ) 
+    function renderVidMedal(vid, key){
+        if (vid.id === "great_job"){
+            return
         }
-        function renderVidMed(vidMed, key){
-            console.log(vidMed)
-            return <VideoMedals videoMedals={vidMed} key={key} formLoading={loading}/>
-        }
-        return mapObjectKeys(videoMedals, renderVidMed)
+        console.log("Rendering video for ", vid.id)
+        return <VideoMedals videoTitle={vid.id} userMedals={medals} key={key}/>
+    }
+
+    const renderMedalsDisplay = () => {
+        return mapObjectKeys(VIDEOS, renderVidMedal)
     }
 
     ///////////////
     // FUNCTIONS //
     ///////////////
 
-    // Gets all the Videos and Assigns them to a State
-    async function getUserMedals(){
-        const token = localStorage.getItem("token")
+    // Grabs Medals
+    async function getChildsMedals(){
 
-        if (token){
-            const resolved = await client.query({
-                query: GET_CHILD_VIDEO_STATISTICS,
-                variables: { childID: selectedChild.id },
-                fetchPolicy: 'network-only'
-            })
-
-            if (resolved.data.getChildVideoStatistics){
-                console.log(resolved.data.getChildVideoStatistics.allTimeStats)
-                setAllMedals(resolved.data.getChildVideoStatistics.allTimeStats.individualVideoDetailedStats)
-                console.log("All Medals Set")
+        // QUERY
+        await client.query({
+            query: GET_ALL_USER_MEDALS,
+            fetchPolicy: 'network-only',
+            variables: {
+                childCareID: (
+                    user.role === "THERAPIST" ? selectedClient.plan.id : selectedChild.childCarePlans[0].id
+                )
             }
-            else{
-                console.log("Query Failed")
-            }
-        }
-        return
+        }).then( (resolved) => {
+            setMedals(processMedalData(resolved.data.getAllUserMedals))
+            console.log("MEDALS::::")
+            console.log(resolved.data.getAllUserMedals)
+            setLoading(false)
+            return
+        }).catch(err => {
+            console.warn("Error getting the Medals")
+            console.log(err)
+            setLoading(false)
+        })
     }
 
-    // Using Videos and Medal State, creates VideoMedal objects for Rendering
-    function getVideosAndRelatedMedals(){
-
-        // Function for Iteration. Adds an individual Medal to State
-        function determineVideoMedals(video) {
-            if (video.level > 0) {
-                console.log(video.id)
-                console.log(allMedals)
-                console.log(allMedals[video.id])
-                setVideoMedals(prevVideoMedals => {
-                    const newVideoMedals = {
-                        ...prevVideoMedals,
-                        [video.id]: {
-                            title: video.title,
-                            medals: allMedals[video.id] ? allMedals[video.id] : "None"
-                        }
-                    };
-                    console.log("Video Medals", newVideoMedals); // Log the updated state
-                    return newVideoMedals;
-                });
-            }
-        }
-
-        // Runs Iteration
-        forEachObjectKeys(VIDEOS, determineVideoMedals)
-        setLoading(false)
+    // Processes the Query Data into Object Format
+    function processMedalData(getAllUserMedals){
+        let rObj = {}
+        getAllUserMedals.forEach(medal => {
+            rObj = ({...rObj, [medal.title]: addToMedalKey(rObj[medal.title], medal)})
+        })
+        return rObj
     }
-    
+
+    // Handles Object Data Additionl
+    function addToMedalKey(obj, medal){
+        return {...obj, [medal.level]: [medal]}
+    }
+
     // Gets Medals, sets object
     useEffect(() => {
-        getUserMedals()
+        getChildsMedals()
     }, [selectedChild])
 
     useEffect(() => {
-        console.log("All Medals Change Caught")
-        console.log(allMedals)
-        if (Object.keys(allMedals).length > 0){
-            getVideosAndRelatedMedals()
-        }
-    }, [allMedals])
-
-
+        console.log(medals)
+    }, [medals])
     /////////////////
     // MAIN RETURN //
     /////////////////
-    return (
+    if (loading){
         <IndexWrapper>
         <NextSeo title="Medals" />
         <PageHeader title="All Video Medals" />
-        {renderChildVideoMedalList()}
+
+        </IndexWrapper>
+    }
+    return (
+        <IndexWrapper>
+            <NextSeo title="Medals" />
+            <PageHeader title="All Video Medals" />
+            <div style={{width: '100%', justifyContent: 'center', alignItems: 'center', padding: 25, margin: 10}}>
+                {renderMedalsDisplay()}
+            </div>
         </IndexWrapper>
     );
 }
