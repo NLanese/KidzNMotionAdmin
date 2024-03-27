@@ -52,11 +52,10 @@ function VideoMedals({videoTitle, userMedals }) {
     }
 
     function determineUnlocked(color, title){
-        // console.log(title)
-        // console.log(userMedals)
         if (userMedals[title]){
-            console.log(userMedals[title])
             if (userMedals[title][color.toUpperCase()]){
+                console.log(color)
+                console.log(userMedals[title][color.toUpperCase()])
                 return true
             }
         }
@@ -70,8 +69,8 @@ function VideoMedals({videoTitle, userMedals }) {
             }</p>
             <div style={{display: 'flex', flexDirection: "row", justifyContent: 'space-between', paddingRight: 75, paddingLeft: 75}}>
                 {renderMedal("bronze", determineUnlocked("bronze", videoTitle))}
-                {renderMedal("silver", determineUnlocked("bronze", videoTitle))}
-                {renderMedal("gold", determineUnlocked("bronze", videoTitle))}
+                {renderMedal("silver", determineUnlocked("silver", videoTitle))}
+                {renderMedal("gold", determineUnlocked("gold", videoTitle))}
             </div>
         </div>
         
