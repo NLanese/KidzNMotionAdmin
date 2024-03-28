@@ -3,5 +3,10 @@
     "redirects": [
         { "source": "/choose-your-products/all-products", "destination": "/products/shop/all", "permanent": true }
         
-    ]
+    ],
+    "build": {
+        "env": {
+          "NODE_OPTIONS": "--openssl-legacy-provider"
+        }
+      }
 }

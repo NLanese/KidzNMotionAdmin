@@ -14,7 +14,7 @@ const LOGIN_USER = gql`
 `;
 
 const USER_SIGN_UP = gql`
-  mutation signUpUser(
+  mutation Mutation(
     $email: String!
     $password: String!
     $firstName: String!
@@ -71,7 +71,6 @@ const GET_USER = gql`
       profilePic
       webAppColorSettings
       soloStripeSubscriptionID
-      soloSubscriptionStatus
       role
       createdAt
 
@@ -269,7 +268,6 @@ const GET_ALL_CLIENTS = gql`
       username
       phoneNumber
       soloStripeSubscriptionID
-      soloSubscriptionStatus
       solo
       accessMessages
       accessSettings
@@ -318,7 +316,6 @@ const GET_ALL_THERAPISTS = gql`
       profilePic
       webAppColorSettings
       soloStripeSubscriptionID
-      soloSubscriptionStatus
       role
       createdAt
 
@@ -518,6 +515,23 @@ const GET_VIDEO_LIBRARY = gql`
   }
 `;
 
+// MEDALS
+const GET_ALL_USER_MEDALS = gql`
+  query Query(
+      $childCareID: String!,
+  ){
+    getAllUserMedals(
+      childCareID: $childCareID
+    ){
+      id
+      title
+      description
+      createdAt
+      level
+    }
+  }
+`
+
 // CHAT QUERIES
 const GET_USER_CHAT_ROOMS = gql`
   query Query {
@@ -566,6 +580,7 @@ const GET_USER_MEETINGS = gql`
       canceled
       pendingApproval
       approved
+      meetingOwnerID
       users {
         id
         firstName
@@ -573,7 +588,6 @@ const GET_USER_MEETINGS = gql`
         email
         role
       }
-      meetingOwnerID
     }
   }
 `;
@@ -673,6 +687,39 @@ const SUPER_DELETE_ASSIGNMENTS = gql`
     $superUserKey: String!
   ){
     superDeleteAssignments(
+      idArray: $idArray,
+      superUserKey: $superUserKey
+    )
+  }
+`
+
+const SUPER_DELETE_USER = gql`
+  mutation Mutation(
+    $userId: String!
+    $superUserKey: String!
+  ){
+    requestAccountDeletion(
+      userId: $userId,
+      superUserKey: $superUserKey
+    )
+  }
+`
+
+const SUPER_CREATE_EXPIRED_ASSIGNMENTS = gql`
+mutation Mutation(
+  $superUserKey: String!
+){
+  superCreateExpiredAssignment(
+    superUserKey: $superUserKey
+  )
+}`
+
+const SUPER_ACTIVATE_USERS = gql`
+  mutation Mutation(
+    $idArray: [String]!,
+    $superUserKey: String!
+  ){
+    superActivateUsers(
       idArray: $idArray,
       superUserKey: $superUserKey
     )
@@ -837,17 +884,35 @@ const CREATE_CHAT_ROOM = gql`
 `;
 
 
+////////////////////
+// CHECKOUT LINKS //
+////////////////////
 
-
+// Guardian Monthly
 const GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK = gql`
   mutation Mutation {
     generateSoloGuardianCheckoutLink
   }
 `;
 
+// Guardian Annual
 const GENERATE_ANNUAL_SOLO_GUARDIAN_CHECKOUT_LINK = gql`
   mutation Mutation {
     generateAnnualSoloGuardianCheckoutLink
+  }
+`;
+
+// Half Price Guardian Monthly
+const GENERATE_HALF_PRICE_GUARDIAN_CHECKOUT_LINK = gql`
+  mutation Mutation {
+    generateHalfPriceGuardianCheckoutLink
+  }
+`;
+
+// Half Price Guardian Annual
+const GENERATE_HALF_PRICE_ANNUAL_GUARDIAN_CHECKOUT_LINK = gql`
+  mutation Mutation {
+    generateHalfPriceAnnualGuardianCheckoutLink
   }
 `;
 
@@ -946,8 +1011,8 @@ const INVITE_PATIENT = gql`
 `;
 
 const SET_VIDEO_COMPLETED = gql`
-  mutation Mutation($videoID: String!, $medalType: String!) {
-    setVideoCompleted(videoID: $videoID, medalType: $medalType) {
+  mutation Mutation($videoID: String!, $medalType: String!, $childID: String!) {
+    setVideoCompleted(videoID: $videoID, medalType: $medalType, childID: $childID) {
       id
     }
   }
@@ -967,6 +1032,9 @@ export {
   GET_ALL_THERAPISTS,
   SUPER_SET_THERAPIST,
   SUPER_DELETE_ASSIGNMENTS,
+  SUPER_CREATE_EXPIRED_ASSIGNMENTS,
+  SUPER_ACTIVATE_USERS,
+  SUPER_DELETE_USER,
 
   // Organization
   EDIT_ORGANIZATION_SETTINGS,
@@ -986,10 +1054,13 @@ export {
   EDIT_MEETING,
   APPROVE_MEETING,
   TOGGLE_ASSGINMENT_SEEN,
+  GET_ALL_USER_MEDALS,
 
   // GUARDIAN
   GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK,
+  GENERATE_HALF_PRICE_GUARDIAN_CHECKOUT_LINK,
   GENERATE_ANNUAL_SOLO_GUARDIAN_CHECKOUT_LINK,
+  GENERATE_HALF_PRICE_ANNUAL_GUARDIAN_CHECKOUT_LINK,
   GENERATE_SOLO_GUARDIAN_PORTAL_LINK,
 
   // VIDEO LIBRARY

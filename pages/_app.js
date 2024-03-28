@@ -58,45 +58,9 @@ class MyApp extends App {
               </Layout>
             </ApolloProvider>
           </RecoilRoot>
-          <style jsx="true" global>{`
-            // Global fonts
-            @font-face {
-              font-family: "Gilroy";
-              src: url("/fonts/bold/Gilroy-Bold.woff") format("woff"),
-                /* Modern Browsers */ url("/fonts/bold/Gilroy-Bold.woff2")
-                  format("woff2"); /* Modern Browsers */
-              font-weight: 800;
-              font-style: normal;
-              font-display: block;
-            }
-            @font-face {
-              font-family: "Gilroy";
-              src: url("/fonts/semi-bold/Gilroy-SemiBold.woff") format("woff"),
-                /* Modern Browsers */
-                  url("/fonts/semi-bold/Gilroy-SemiBold.woff2") format("woff2"); /* Modern Browsers */
-              font-weight: 600;
-              font-style: normal;
-              font-display: block;
-            }
-            @font-face {
-              font-family: "Gilroy";
-              src: url("/fonts/medium/Gilroy-Medium.woff") format("woff"),
-                /* Modern Browsers */ url("/fonts/bold/Gilroy-Medium.woff2")
-                  format("woff2"); /* Modern Browsers */
-              font-weight: 400;
-              font-style: normal;
-              font-display: block;
-            }
-            @font-face {
-              font-family: "Gilroy";
-              src: url("/fonts/regular/Gilroy-Regular.woff") format("woff"),
-                /* Modern Browsers */ url("/fonts/regular/Gilroy-Regular.woff2")
-                  format("woff2"); /* Modern Browsers */
-              font-weight: 100;
-              font-style: normal;
-              font-display: block;
-            }
-          `}</style>
+          {/* <style  */}
+          {/* jsx="true"
+          {/* </style> */}
         </>
         <Script
           strategy="afterInteractive"

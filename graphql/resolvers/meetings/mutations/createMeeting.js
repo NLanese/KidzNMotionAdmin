@@ -10,18 +10,23 @@ export default {
       { title, meetingDateTime, type, participantIDs },
       context
     ) => {
-      // console.log(type);
-
+      
+      //////////////
+      // Security // 
+      //////////////
       if (!context.user) throw new UserInputError("Login required");
       if (context.user.role !== "THERAPIST" && context.user.role !== "GUARDIAN")
         throw new UserInputError(
           "Only therapists or guardians can create meetings"
         );
 
-      // Check to make sure the meeting is not in the past
-      // if (new Date(meetingDateTime) <= new Date()) {
-      //   throw new UserInputError("Meetings can only be made in the future");
-      // }
+
+      ////////////////
+      // VALID DATE //
+      ////////////////
+      if (meetingDateTime <= new Date()) {
+        throw new UserInputError("Meetings can only be made in the future");
+      }
 
       if (type !== "PHONE" && type !== "IN_PERSON") {
         throw new UserInputError(
@@ -29,7 +34,9 @@ export default {
         );
       }
 
-      // Check the user meetings to make sure they are not overlapping
+      ////////////////////
+      // CHECKS OVERLAP //
+      ////////////////////
       const userMeetings = await prisma.meeting.findMany({
         where: {
           meetingOwnerID: context.user.id,
@@ -40,8 +47,6 @@ export default {
           meetingDateTime: true,
         },
       });
-
-      let overlap = false;
       userMeetings.map((meetingObject) => {
         let delta = meetingObject.meetingDateTime - new Date(meetingDateTime);
         delta = delta / (60 * 1000);
@@ -53,6 +58,9 @@ export default {
         return meetingObject;
       });
 
+      ///////////////////////////////////
+      // CHECKS FOR VALID PARTICIPANTS //
+      ///////////////////////////////////
       let prismaConnections = [{ id: context.user.id }];
       for (var i = 0; i < participantIDs.length; i++) {
         if (participantIDs[i]) {
@@ -75,8 +83,12 @@ export default {
         }
       }
 
-      // Create the meeting
-      let newMeeting = await prisma.meeting.create({
+      console.log("Valid Params to Create a Meeting")
+
+      ////////////////////////
+      // Create the meeting //
+      ////////////////////////
+      await prisma.meeting.create({
         data: {
           title: title,
           meetingDateTime: meetingDateTime,
@@ -90,9 +102,11 @@ export default {
         },
       });
 
-      let meeting = await prisma.meeting.findUnique({
+      console.log("Created Meeting")
+
+      let meetings = await prisma.meeting.findMany({
         where: {
-          id: newMeeting.id,
+          meetingOwnerID: context.user.id,
         },
         select: {
           id: true,
@@ -109,7 +123,10 @@ export default {
         },
       });
 
-      return meeting;
+      console.log("Returning meetings")
+      console.log(meetings)
+
+      return meetings;
     },
   },
 };

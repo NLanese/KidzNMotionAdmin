@@ -3,7 +3,11 @@ import React, { useState, useEffect } from "react";
 
 // Mutations and Queries
 import { useMutation } from "@apollo/client";
-import {GET_ALL_CLIENTS, GET_ALL_THERAPISTS, SUPER_SET_THERAPIST, SUPER_DELETE_ASSIGNMENTS } from "../../graphql/operations"
+import {
+  GET_ALL_CLIENTS, GET_ALL_THERAPISTS,
+  SUPER_SET_THERAPIST, SUPER_DELETE_ASSIGNMENTS, SUPER_DELETE_USER,
+  SUPER_CREATE_EXPIRED_ASSIGNMENTS, SUPER_ACTIVATE_USERS
+} from "../../graphql/operations"
 import client from "@utils/apolloClient";
 
 // Ant Design
@@ -15,33 +19,36 @@ function Console() {
   // State and Constants //
   /////////////////////////
 
+  ////////////////////
   // Client Query Data
   const [clients, setClients] = useState(false)
   const [clientsLoading, setClientsLoading] = useState(true)
   const [clientsError, setClientsError] = useState(false)
 
-  // Selected Client
-  const [selectedClient, setSelectedClient] = useState(false)
-
-
+  ///////////////////////
   // Therapist Query Data
   const [therapists, setTherapists] = useState(false)
   const [therapistsLoading, setTherapistsLoading] = useState(true)
   const [therapistsError, setTherapistsError] = useState(false)
 
-  // Assignment Delete Data
-  const [assignIDText, setAssignIDText] = useState("")
-  const [assignIDs, setAssignIDs] = useState([])
-
+  
+  // Selected Client
+  const [selectedClient, setSelectedClient] = useState(false)
 
   // Selected Therapist
   const [selectedTherapist, setSelectedTherapist] = useState(false)
 
 
-  // This determines which inforomation is displayed on-screen.
-  //  - None (default)
-  //  - setTherapist 
-  const [consoleState, setConsoleState] = useState("None")  
+  //////////////////////////////////////
+  // DELETE ASSIGNMENTS / ACTIVATE USERS
+
+    // Assignment Delete Data
+    const [arrayIDText, setArrayIDText] = useState("")
+    const [arrayIDs, setArrayIDs] = useState([])
+
+  
+
+
 
   // This determines the information inside of the modal ( or if not displayed )
   // - false (default)
@@ -60,6 +67,10 @@ function Console() {
 
 const [setTherapistMutation, {}] = useMutation(SUPER_SET_THERAPIST);
 const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
+const [deleteUser, {}] = useMutation(SUPER_DELETE_USER);
+const [createExpiredAssignment, {}] = useMutation(SUPER_CREATE_EXPIRED_ASSIGNMENTS)
+const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
+
 
 /////////////////
 // Use Effects //
@@ -114,6 +125,19 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
 // Functions //
 ///////////////
 
+  ////////////////////////
+  // EXPIRED ASSIGNMENT //
+  ////////////////////////
+
+  async function createExpiredAssignmentFunction(){
+    console.log("Creating Expired Assignment")
+    await createExpiredAssignment({
+      variables: {
+        superUserKey: process.env.SUPER_USER_SECRET_KEY
+      }
+    })
+  }
+
   ///////////////////
   // SET THERAPIST //
   ///////////////////
@@ -155,19 +179,19 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
   }
 
 
-  ////////////////////////
-  // DELETE ASSIGNMENTS //
-  ////////////////////////
+  ////////////////////////////////////////
+  // DELETE ASSIGNMENTS / ACIVATE USERS //
+  ////////////////////////////////////////
 
-  function addAssignIDToDelete(){
-    if (assignIDText.length > 2){
-      setAssignIDs( prev => [...prev, assignIDText])
-      setAssignIDText("")
+  function addToArrayID(){
+    if (arrayIDText.length > 2){
+      setArrayIDs( prev => [...prev, arrayIDText])
+      setArrayIDText("")
     }
   }
 
   function removeIDFromArray(id){
-    setAssignIDs( prev => prev.filter(savedID => {
+    setarrayIDs( prev => prev.filter(savedID => {
       if (id !== savedID){
         return savedID
       }
@@ -177,7 +201,27 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
   async function handleDeleteAssignments(){
     await deleteAssignments({
       variables: {
-        idArray: assignIDs,
+        idArray: arrayIDs,
+        superUserKey: process.env.SUPER_USER_SECRET_KEY
+      }
+    })
+  }
+
+  async function handleDeleteUsers(){
+    arrayIDs.forEach( async id => {
+      await deleteUser({
+        variables: {
+          userId: id,
+          superUserKey: process.env.SUPER_USER_SECRET_KEY
+        }
+      })
+    })
+  }
+
+  async function handleActivateUsers(){
+    await superActivateUsers({
+      variables: {
+        idArray: arrayIDs,
         superUserKey: process.env.SUPER_USER_SECRET_KEY
       }
     })
@@ -186,6 +230,21 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
 ////////////////
 // Renderings //
 ////////////////
+
+  ////////////////////////
+  // EXPIRED ASSIGNMENT //
+  ////////////////////////
+
+    const renderSendExpiredAssignmentButton = () => {
+      return(
+        <Button
+        type="primary"
+            size="small"
+            onClick={() => { createExpiredAssignmentFunction()}}>
+          Send Expired Assignment to Ostrich Test
+        </Button>
+      )
+    }
 
   ///////////////////
   // SET THERAPIST //
@@ -268,18 +327,18 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
       }
     }
 
-  ////////////////////////
-  // DELETE ASSIGNMENTS //
-  ////////////////////////
+  ////////////////////////////////////////////////////////
+  // DELETE ASSIGNMENTS / ACTIVATE USERS / DELETE USERS //
+  ////////////////////////////////////////////////////////
 
     // Renders Delete Assginments ID text box
-    const renderDeleteIDTextBox = () => {
+    const renderArrayIDTextBox = () => {
       return(
         <TextArea
-          value={assignIDText}
+          value={arrayIDText}
           onChange={(event) => {
             console.log(event.target.value)
-            setAssignIDText(event.target.value)
+            setArrayIDText(event.target.value)
           }}
         />
       )
@@ -289,21 +348,21 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
     const renderAddID = () => {
       return(
         <Button
-          onClick={() => addAssignIDToDelete()}
+          onClick={() => addToArrayID()}
           size="middle"
         >
-          Add Assignment ID
+          Add ID
         </Button>
       )
     }
 
     // Renders the Assignments that have been added 
-    const renderAssignIDsToDelete = () => {
-      return assignIDs.map(id => {
+    const renderArrayIDs = () => {
+      return arrayIDs.map(id => {
         console.log("THIS IS A CURRENT ID")
         console.log(id)
         return(
-          <Row>
+          <Row key={id}>
             {id}
             <Button
               onClick={(id) => removeIDFromArray(id)}
@@ -316,17 +375,41 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
       })
     }
 
-    // Renders the Button to submit Delete Assignments
-    const renderDeleteButton = () => {
-      return (
-        <Button 
-          onClick={() => handleDeleteAssignments()}
-          disabled={ assignIDs.length > 0 ? false : true}
-        >
-          DELETE LISTED ASSIGNMENTS
-        </Button>
-      )
-    }
+      // Renders the Button to submit Delete Assignments
+      const renderActivateButton = () => {
+        return (
+          <Button 
+            onClick={() => handleActivateUsers()}
+            disabled={ arrayIDs.length > 0 ? false : true}
+          >
+            ACTIVATE SELECTED USERS
+          </Button>
+        )
+      }
+
+      // Renders the Button to submit Delete Assignments
+      const renderDeleteButton = () => {
+        return (
+          <Button 
+            onClick={() => handleDeleteAssignments()}
+            disabled={ arrayIDs.length > 0 ? false : true}
+          >
+            DELETE LISTED ID
+          </Button>
+        )
+      }
+
+      // Renders the Button to submit Delete Assignments
+      const renderDeleteUserButton = () => {
+        return (
+          <Button 
+            onClick={() => handleDeleteUsers()}
+            disabled={ arrayIDs.length > 0 ? false : true}
+          >
+            DELETE LISTED USER EMAIL
+          </Button>
+        )
+      }
 
   /////////////////
   // MAIN RETURN //
@@ -403,15 +486,14 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
     }
   }
 
-
   const assignmentMAIN = () => {
     return (
       <div>
         <h4>Assignments to Delete...</h4>
-        {renderAssignIDsToDelete()}
+        {renderArrayIDs()}
         <Row>
           <Col>
-            {renderDeleteIDTextBox()}
+            {renderArrayIDTextBox()}
           </Col>
           <Col>
             {renderAddID()}
@@ -424,8 +506,55 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
     )
   }
 
+  const expiredAssignmentMAIN = () => {
+    return(
+      <div>
+        {renderSendExpiredAssignmentButton()}
+      </div>
+    )
+  }
+
+  const activateUsersMAIN = () => {
+    return (
+      <div>
+        <h4>Accounts to Activate...</h4>
+        {renderArrayIDs()}
+        <Row>
+          <Col>
+            {renderArrayIDTextBox()}
+          </Col>
+          <Col>
+            {renderAddID()}
+          </Col>
+        </Row>
+        <Row>
+          {renderActivateButton()}
+        </Row>
+      </div>
+    )
+  }
+
+  const deleteUsersMAIN = () => {
+    return (
+      <div>
+        <h4>Users to Delete...</h4>
+        {renderArrayIDs()}
+        <Row>
+          <Col>
+            {renderArrayIDTextBox()}
+          </Col>
+          <Col>
+            {renderAddID()}
+          </Col>
+        </Row>
+        <Row>
+          {renderDeleteUserButton()}
+        </Row>
+      </div>
+    )
+  }
   
-  return assignmentMAIN();
+  return deleteUsersMAIN();
 }
   
 export default Console;

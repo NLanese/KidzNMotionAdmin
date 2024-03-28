@@ -43,7 +43,7 @@ function AssignmentForm({}) {
     let uniques = removeDuplicates(formValues.selectedClientIDs)
 
     // For every Child this assignment is intended for...
-    uniques.selectedClientIDs.forEach(async (id) => {
+    uniques.forEach(async (id) => {
       if (id === "" || id === null || id.length < 2){
         return
       }

@@ -20,9 +20,16 @@ export default {
       context
     ) => {
 
+      console.log("PARAMS")
+      console.log(dateStart)
+      console.log(dateDue)
+      console.log(childCarePlanID)
+
       /////////////////
       // Login Check //
       if (!context.user) throw new UserInputError("Login required");
+
+      console.log(context.user)
 
       /////////////////////
       // Therapist Check //
@@ -56,6 +63,14 @@ export default {
           },
         },
       });
+
+      /////////////////////
+      // Same Date Check //
+      if (dateStart === dateDue){
+        console.log("Throwing an Error")
+        throw new UserInputError("Assignment Start Date and Due Date must be different from each other");
+      }
+
 
       let childUser = childCarePlan.child
       let carePlanGuardian = childCarePlan.child.guardian
@@ -108,19 +123,24 @@ export default {
       // Creates VIDEO Isnatnce for Each Assigned Video //
       for (var i = 0; i < videoIDs.length; i++) {
         let videoID = videoIDs[i];
-        await prisma.video.create({
-          data: {
-            contentfulID: videoID,
-            title: VIDEOS[videoID].title,
-            description: "",
-            level: VIDEOS[videoID].level,
-            assignments: {
-              connect: {
-                id: newAssignment.id,
+        try{
+          await prisma.video.create({
+            data: {
+              contentfulID: videoID,
+              title: VIDEOS[videoID].title,
+              description: "",
+              level: VIDEOS[videoID].level,
+              assignments: {
+                connect: {
+                  id: newAssignment.id,
+                },
               },
             },
-          },
-        });
+          })
+        }
+        catch(error){
+          throw new Error("There was an issue getting the needed values to create an Assignment!")
+        }
       }
 
       console.log("Sending Notification to child")

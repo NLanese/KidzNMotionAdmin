@@ -27,7 +27,7 @@ import AssignmentsTable from "../components/pages/assignments/AssignmentTable";
 import AssignmentCalendar from "../components/pages/assignments/AssignmentCalendar";
 import AssignmentForm from "@components/forms/assignments/AssignmentForm";
 import EditAssignmentForm from "../components/forms/assignments/EditAssignmentForm";
-import moment from "moment";
+import orderAssignmentsByStartDate from "../functions/orderAssignmentsByStartDate";
 
 const { Text, Title } = Typography;
 
@@ -66,16 +66,19 @@ function Assignments({ router }) {
           fetchPolicy: "network-only",
         });
   
-        console.log(resolved);
-  
+        // NO ASSIGNMENTS RESPONSE
         if (resolved.data.getAssignments.length === 0) {
           setAssignments([]);
           setPassedAssignments([]);
           return;
-        } else {
+        } 
+
+        else {
+          console.log("Ordering Assignments")
+          let rawAssignments = resolved.data.getAssignments
           let passed = [];
           let current = [];
-          let assignments = resolved.data.getAssignments.filter(assign => {
+          let assignments = rawAssignments.filter(assign => {
             if (assign.id){
               return assign
             }
@@ -100,6 +103,7 @@ function Assignments({ router }) {
             }
           });
   
+          current = orderAssignmentsByStartDate(current)
           setAssignments(current);
           // setPassedAssignments(passed);
           return;
@@ -199,6 +203,7 @@ function Assignments({ router }) {
   /////////////////
   // MAIN RETURN //
   /////////////////
+
   return (
     <AssignmentsWrapper>
       <NextSeo title="Assignments" />

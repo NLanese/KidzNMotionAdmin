@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View } from "react";
 import styled from "styled-components";
 import { LogoutOutlined } from "@ant-design/icons";
+import { Content } from "antd/lib/layout/layout";
 import { useRecoilState } from "recoil";
 import { userState } from "@atoms";
 import { capitalizeFirstLetter } from "@helpers/common";
@@ -15,9 +16,11 @@ import { useMutation } from "@apollo/client";
 import {
   GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK,
   GENERATE_ANNUAL_SOLO_GUARDIAN_CHECKOUT_LINK,
-  GENERATE_SOLO_GUARDIAN_PORTAL_LINK,
+  GENERATE_HALF_PRICE_ANNUAL_GUARDIAN_CHECKOUT_LINK,
+  GENERATE_HALF_PRICE_GUARDIAN_CHECKOUT_LINK
 } from "@graphql/operations";
 import { getBillingInformation } from "../../helpers/billing";
+import TextArea from "antd/lib/input/TextArea";
 
 const { Title } = Typography;
 
@@ -90,6 +93,8 @@ function TopMenuAvatar() {
     // Determines whether alert was sent
     const [alertsShown, setAlertsShown] = useState(false)
 
+    const [promoCode, setPromoCode] = useState("")
+
 
   ///////////////
   // Mutations //
@@ -98,13 +103,21 @@ function TopMenuAvatar() {
     // Link to Guardian Stripe (Monthly)
     const [generateSoloGuardianCheckoutLink, {}] = useMutation(
       GENERATE_SOLO_GUARDIAN_CHECKOUT_LINK
-      // GENERATE_SOLO_GUARDIAN_PORTAL_LINK
     );
 
     // Link to Guardian Stripe (Yearly)
     const [generateAnnualSoloGuardianCheckoutLink, {}] = useMutation(
       GENERATE_ANNUAL_SOLO_GUARDIAN_CHECKOUT_LINK
-      // GENERATE_SOLO_GUARDIAN_PORTAL_LINK
+    );
+
+    // Link to Guardian Stripe Half Price(Monthly)
+    const [generateHalfPriceGuardianCheckoutLink, {}] = useMutation(
+      GENERATE_HALF_PRICE_GUARDIAN_CHECKOUT_LINK
+    );
+
+    // Link to Guardian Stripe Half Price (Yearly)
+    const [generateHalfPriceAnnualGuardianCheckoutLink, {}] = useMutation(
+      GENERATE_HALF_PRICE_ANNUAL_GUARDIAN_CHECKOUT_LINK
     );
 
   ///////////////
@@ -221,7 +234,7 @@ function TopMenuAvatar() {
             (1000 * 3600 * 24)
       );
       return (
-        <content>
+        <Content>
           <NakedButton onClick={() => setShowSubscriptiontoggle(true)}>
             <Tag
               style={{ fontWeight: 600 }}
@@ -236,7 +249,7 @@ function TopMenuAvatar() {
                 : `  ${daysLeft} Days Left On Trial (Activate)`}
             </Tag>
           </NakedButton>
-        </content>
+        </Content>
       );
     }
   };
@@ -257,7 +270,7 @@ function TopMenuAvatar() {
             (1000 * 3600 * 24)
       );
       return (
-        <content>
+        <Content>
           <NakedButton onClick={() => setShowSubscriptiontoggle(true)}>
             <Tag
               style={{ fontWeight: 600 }}
@@ -272,7 +285,7 @@ function TopMenuAvatar() {
                 : `  ${daysLeft} Days Left On Trial (Activate)`}
             </Tag>
           </NakedButton>
-        </content>
+        </Content>
       );
     }
   };
@@ -294,18 +307,24 @@ function TopMenuAvatar() {
   function renderAnnualOrMonthlyOptions(){
     if (showSubscriptionToggle){
       return(
-          <content>
-            <NakedButton onClick={() => determineUserTypeForSubscription("Monthly")}>
-              <Tag>
-                Monthly Subscription
-              </Tag>
-            </NakedButton>
-            <NakedButton onClick={() => determineUserTypeForSubscription("Annual")}>
-              <Tag>
-                Annual Subscription (One Month Free)
-              </Tag>
-            </NakedButton>
-          </content>
+          <Content style={{height: 100, marginTop: 30, paddingTop: 15, background: 'white'}}>
+              <Button 
+              size="middle"
+              onClick={() => determineUserTypeForSubscription("Monthly")}>
+                  Monthly Subscription
+              </Button>
+              <Button 
+              size="middle"
+              onClick={() => determineUserTypeForSubscription("Annual")}>
+                  Annual Subscription (One Month Free)
+            </Button>
+            <div style={{flexDirection: 'row', display: 'flex', marginTop: 15}}>
+              <div style={{width: 150}}>Promo Code?</div>
+              <TextArea style={{height: 15}}
+                onChange={(content) => setPromoCode(content.target.value)}
+              />
+            </div>
+          </Content>
       )
     }
   }
@@ -335,7 +354,7 @@ function TopMenuAvatar() {
       if (subType === "Annual"){
         annual = true
       }
-      const session = await getCheckoutURL(annual);
+      const session = await getCheckoutURL(annual, promoCode);
       if (!session) {
         setLoading(false);
       } 
@@ -347,7 +366,14 @@ function TopMenuAvatar() {
     // Redirect to Stripe for Guardian Checkout
     const guardianCheckout = async (subType) => {
       setLoading(true);
+      let thisMutation 
+
       if (subType === "Monthly"){
+        thisMutation = generateSoloGuardianCheckoutLink
+        if (promoCode.toUpperCase() === "FOUNDER50"){
+          thisMutation = generateHalfPriceGuardianCheckoutLink 
+        }
+
         await generateSoloGuardianCheckoutLink()
         .then(async (resolved) => {
           window.location = resolved.data.generateSoloGuardianCheckoutLink;
@@ -356,7 +382,11 @@ function TopMenuAvatar() {
         .catch((error) => {});
       }
       else if (subType === "Annual"){
-        await generateAnnualSoloGuardianCheckoutLink()
+        thisMutation = generateAnnualSoloGuardianCheckoutLink
+        if (promoCode.toUpperCase() === "FOUNDER50"){
+          thisMutation = generateHalfPriceAnnualGuardianCheckoutLink 
+        }
+        await thisMutation()
         .then(async (resolved) => {
           window.location = resolved.data.generateSoloGuardianCheckoutLink;
         })
@@ -364,7 +394,6 @@ function TopMenuAvatar() {
         .catch((error) => {});
       }
       else{
-        console.log("Failed param")
       }
     };
 
@@ -448,12 +477,12 @@ function TopMenuAvatar() {
           {getUserAvatar()}
           <AvatarTextDetails>
             {user.firstName && user.lastName && (
-              <content>
+              <Content>
                 <Title level={2}>
                   {capitalizeFirstLetter(user.firstName)}{" "}
                   {capitalizeFirstLetter(user.lastName)}
                 </Title>
-              </content>
+              </Content>
             )}
           </AvatarTextDetails>
         </AvatarDetails>

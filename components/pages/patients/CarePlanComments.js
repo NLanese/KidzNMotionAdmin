@@ -42,8 +42,6 @@ function CarePlanComments({
 
   const renderComments = () => {
     return comments.map((commentObject) => {
-      // console.clear()
-      // console.log(commentObject);
       if (!videoID) {
         if (commentObject.videoId) {
           return;

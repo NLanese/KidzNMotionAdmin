@@ -11,6 +11,7 @@ export default {
   Mutation: {
     loginUser: async (_, { username, password }) => {
       let email = username;
+      console.log("Logging in ..." + username + "...")
       try {
 
         // Retrieve the users that match the email address
@@ -22,7 +23,6 @@ export default {
             createdAt: true,
             id: true,
             soloStripeSubscriptionID: true,
-            soloSubscriptionStatus: true,
             username: true,
             email: true,
             password: true,
@@ -288,18 +288,25 @@ export default {
           }
 
           // IF //
-          // Test Account (ostrichdeveloper or nlanese21 or ostrichdevtest)
+          // Test Account (Free Bypass)
           if (
-            userToLogin.email.toLowerCase() === "ostrichdeveloper@gmail.com" ||
-            userToLogin.email.toLowerCase() === "nlanese21@gmail.com" ||
-            userToLogin.email.toLowerCase() === "ostrichdevtest@gmail.com"
+            userToLogin.email.toLowerCase() === process.env.freeEmail ||
+            userToLogin.email.toLowerCase() === process.env.freeEmail2 ||
+            userToLogin.email.toLowerCase() === process.env.freeEmail3 ||
+            userToLogin.email.toLowerCase() === process.env.freeEmail4 ||
+            userToLogin.email.toLowerCase() === process.env.freeEmail5 ||
+            userToLogin.email.toLowerCase() === process.env.freeEmail6 ||
+            userToLogin.email.toLowerCase() === process.env.freeEmail7 || 
+            userToLogin.email.toLowerCase() === process.env.freeEmail8 || 
+            userToLogin.email.toLowerCase() === process.env.freeEmail9 || 
+            userToLogin.email.toLowerCase() === process.env.freeEmail10 
           ){
             subscriptionStatus = "active"
           }
 
 
 
-          userToLogin = {...userToLogin, soloSubscriptionStatus: subscriptionStatus}
+          userToLogin = {...userToLogin, soloSubscriptionStatus:subscriptionStatus,  subscriptionStatus: subscriptionStatus}
 
           // Return token and truncated user object
           try {

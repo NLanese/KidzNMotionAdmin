@@ -9,7 +9,6 @@ export default {
           ? "http://localhost:3000"
           : "https://dashboard.kidz-n-motion.app";
 
-      // console.log("hiijijiji")
       if (!context.user) throw new UserInputError("Login required");
       if (context.user.role !== "GUARDIAN")
         throw new UserInputError("Only guardians can get portal links");

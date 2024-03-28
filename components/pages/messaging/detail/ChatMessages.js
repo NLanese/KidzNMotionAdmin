@@ -44,8 +44,19 @@ function ChatMessages({ chatRoomObject, user }) {
     let today = null;
     let messages = chatRoomObject.messages;
 
+    // Sorting the messages array by sentAt values
+    let sortedMessages = [...messages].sort((a, b) => {
+      const timeA = new Date(a.sentAt.timeStamp).getTime();
+      const timeB = new Date(b.sentAt.timeStamp).getTime();
+      return timeA - timeB;
+    });
+
+    console.log("\n\n\n\nMESSAGES:::::")
+    console.log(sortedMessages)
+
+
     // var messagesReversed = reverseArr(messages);
-    var messagesReversed = messages;
+    var messagesReversed = sortedMessages;
 
     return messagesReversed.map((message) => {
       let displayMessagSentHeader = false;

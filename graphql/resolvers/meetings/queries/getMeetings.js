@@ -4,21 +4,20 @@ import { UserInputError } from "apollo-server-errors";
 export default {
   Query: {
     getMeetings: async (_, {}, context) => {
+
+      // Login Check
       if (!context.user) throw new UserInputError("Login required");
 
-      // Get all user meetings
-      let user = await prisma.user.findUnique({
+      // Get user meetings
+      const user = await prisma.user.findUnique({
         where: {
           id: context.user.id,
         },
-        select: {
+        include: {
           meetings: {
-            orderBy: [
-              {
-                meetingDateTime: 'asc',
-              },
-             
-            ],
+            orderBy: {
+              meetingDateTime: 'asc',
+            },
             where: {
               completed: false,
             },
@@ -32,13 +31,24 @@ export default {
               type: true,
               pendingApproval: true,
               approved: true,
-              users: true,
               meetingOwnerID: true,
+              users: {
+                select: {
+                  id: true,
+                  firstName: true,
+                  lastName: true,
+                  role: true,
+                  profilePic: true
+                }
+              },
             }
-          }
+          },
         },
       });
 
+      console.log("\n\nGot Meetings\n\n")
+      console.log(user.meetings)
+      // Return only the meetings
       return user.meetings;
     },
   },

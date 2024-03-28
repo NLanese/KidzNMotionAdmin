@@ -19,11 +19,14 @@ const FormContainer = styled.div`
   }
 `;
 
-function AssignMedalsForm({ router, getUser }) {
+function AssignMedalsForm({ router, getUser, childID }) {
   const [loading, setLoading] = useState(false);
   const [instructions, setInstructions] = useState("no");
   const [neededBreak, setNeededBreak] = useState("no");
   const [seconds, setSeconds] = useState("less30");
+
+  console.log(childID)
+  console.log(router.query.video_id)
 
   // Mutations
   const [setVideoCompleted, {}] = useMutation(SET_VIDEO_COMPLETED);
@@ -76,8 +79,9 @@ function AssignMedalsForm({ router, getUser }) {
     setLoading(true);
     await setVideoCompleted({
       variables: {
-        videoID: router.query.video,
+        videoID: router.query.video_id,
         medalType: getStatus(),
+        childID: childID
       },
     })
       .then(async (resolved) => {

@@ -4,9 +4,9 @@ generator client {
 }
 
 datasource db {
-  provider             = "mysql"
-  url                  = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  relationMode      = "prisma"
 }
 
 model JWTToken {
@@ -131,7 +131,7 @@ model Organization {
   phoneNumber            String?
   name                   String?
   stripeSubscriptionID   String?
-  subscriptionStatus     String?                
+  subscriptionStatus     String?
   active                 Boolean                 @default(true)
   owner                  User                    @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   ownerId                String                  @unique
@@ -153,6 +153,7 @@ model ChildCarePlan {
   assignments   Assignment[]
   blockedVideos Json?
   comments      Comment[]
+  medals        Medal[]
 }
 
 model Comment {
@@ -219,9 +220,11 @@ model Medal {
   description String
   createdAt   DateTime @default(now())
 
-  level   MEDAL_LEVEL @default(BLUE)
-  video   Video?      @relation(fields: [videoId], references: [id])
-  videoId String?
+  level           MEDAL_LEVEL    @default(BLUE)
+  video           Video?         @relation(fields: [videoId], references: [id])
+  videoId         String?
+  childCarePlan   ChildCarePlan? @relation(fields: [childCarePlanId], references: [id])
+  childCarePlanId String?
 }
 
 model Chatroom {

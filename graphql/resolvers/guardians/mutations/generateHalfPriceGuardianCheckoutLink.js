@@ -3,7 +3,8 @@ import { UserInputError } from "apollo-server-errors";
 
 export default {
   Mutation: {
-    generateSoloGuardianCheckoutLink: async (_, {}, context) => {
+    generateHalfPriceGuardianCheckoutLink: async (_, {}, context) => {
+      console.log("In checkout Link HALF MONTHLY")
       const host =
         // process.env.NODE_ENV === 
         // "development"
@@ -19,7 +20,7 @@ export default {
       if (context.user.role !== "GUARDIAN")
         throw new UserInputError("Only guardians can get checkout links");
 
-      console.log(process.env.STRIPE_PRIVATE_KEY)
+
       const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
       // if (!context.user.solo)
@@ -32,12 +33,11 @@ export default {
 
       // Kidz-N-Motion Pro Plan Product ID
       const priceId =
-        // process.env.NODE_ENV === 
-        // "development"
-        // // false
-        //   ? "price_1MNeZIAbL8OcaqqPnT0M6mnf"
-        //   : 
-          "price_1MNeTmAbL8OcaqqPftvKBR6t";
+        process.env.NODE_ENV === 
+        "development"
+        // false
+          ? "price_1Onu7OAbL8OcaqqP2hA8ZZBc"
+          : "price_1Onu7OAbL8OcaqqP2hA8ZZBc";
 
       const session = await stripe.checkout.sessions.create({
         mode: "subscription",

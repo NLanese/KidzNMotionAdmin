@@ -38,7 +38,7 @@ export const createNotification = async (
         console.log("Message sent successfully:", resp);
       })
       .catch((err) => {
-        console.log("Failed to send the message:", err);
+        console.log("Failed to send the message. Phone is likely not registered for FCM token" );
       });
   }
 

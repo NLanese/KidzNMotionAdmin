@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Table, Tag, Typography, Row } from "antd";
 import BasicLink from "@common/BasicLink";
-import { Switch, Space, Button, message } from "antd";
+import { Switch, Space, Button, message, Card } from "antd";
 
 // Misc
 var dateFormat = require("dateformat");
@@ -101,11 +101,16 @@ function AssignmentsTable({ assignments, setAssignments, passedAssignments, user
   // Renders List of Videos per Assignment
   function renderVideoList(record){
       return record.videos.map(vid => {
-        console.log("Video... " + vid.title)
+        let bgc = vid.completed ? "#85f2a2" : "#f28e8a";
         return(
-          <Row>
-            <Text>{vid.title} - {vid.completed ? "Complete!" : "Not Done"}</Text>
-          </Row>
+          <Card key={vid.title} style={{backgroundColor: bgc}}>
+            <div>
+              <Text>{vid.title}</Text>
+            </div>
+            {/* <div>
+              <Text>{vid.completed ? "Complete!" : "Not Done"}</Text>
+            </div> */}
+          </Card>
         )
       })
   }
@@ -114,32 +119,7 @@ function AssignmentsTable({ assignments, setAssignments, passedAssignments, user
   const childColumns = (showPassed, userRole) => {
     return(
       [
-        {
-          title: "Date Assigned",
-          dataIndex: "users",
-          key: "users",
-          render: (text, record, index) => (
-            <>{getAssignmentParticpants(record.users)}</>
-          ),
-        },
-        {
-          title: "Date Due",
-          dataIndex: "assignmentDateTime",
-          key: "assignmentDateTime",
-          render: (text, record, index) => (
-            <span>
-              <Text>
-                {dateFormat(
-                  changeTimeZone(
-                    new Date(record.assignmentDateTime.toString().split(".000Z")[0]),
-                    "America/New_York"
-                  ),
-                  "m/dd/yy hh:MM tt"
-                )}
-              </Text>
-            </span>
-          ),
-        },
+        dateColumn(),
         {...determineViewedOrCompletedColumn(showPassed)},
         {
           title: "Assigned Videos",
@@ -165,11 +145,8 @@ function AssignmentsTable({ assignments, setAssignments, passedAssignments, user
       // Child Name
       childNameColumn(),
 
-      // Date Assigned
-      dateAssignedColumn(),
-
-      // Date Due
-      dateDueColumn(),
+      // Date 
+      dateColumn(),
 
       // Viewed Status
       determineViewedOrCompletedColumn(showPassed, userRole),
@@ -199,36 +176,44 @@ function AssignmentsTable({ assignments, setAssignments, passedAssignments, user
   }
 
   // Date Assigned
-  const dateAssignedColumn = () => {
+  const dateColumn = () => {
     return(
       {
-        title: "Date Assigned",
+        title: "Date Assigned         Date Due",
         dataIndex: "users",
         key: "users",
         render: (text, record, index) => (
-          <Text>
-            {record.dateStart}
-          </Text>
+        <div>
+          <Card>
+            <div>
+              <Text>
+                Started
+              </Text>
+            </div>  
+            <div>
+              <Text>
+                {record.dateStart}
+              </Text>
+            </div>
+          </Card>
+          <Card>
+            <div>
+              <Text>
+                Due
+              </Text>
+            </div>  
+            <div>
+              <Text>
+                {record.dateDue}
+              </Text>
+            </div>  
+          </Card>
+          </div>
         )
       }
     )
   }
 
-  // Date Due
-  const dateDueColumn = () => {
-    return(
-      {
-        title: "Date Due",
-        dataIndex: "assignmentDateTime",
-        key: "assignmentDateTime",
-        render: (text, record, index) => (
-          <Text>
-            {record.dateDue}
-          </Text>
-        )
-      }
-    )
-  }
 
   // Depending on Assignment Completion Date, either renders the 'Viewed' Column or "Completed" column
   function determineViewedOrCompletedColumn(showPassed, userRole){

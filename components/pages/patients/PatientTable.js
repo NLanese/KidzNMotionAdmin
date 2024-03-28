@@ -6,6 +6,7 @@ import BasicLink from "@common/BasicLink";
 import { EditOutlined } from "@ant-design/icons";
 var dateFormat = require("dateformat");
 import Router from "next/router";
+import orderAssignmentsByStartDate from "../../../functions/orderAssignmentsByStartDate";
 const { Panel } = Collapse;
 
 const { Text } = Typography;
@@ -40,6 +41,9 @@ function PatientTable({ patientData, user }) {
       sortedAssignments = sortedAssignments.sort((a, b) =>
         a.dateStart > b.dateStart ? 1 : b.dateStart > a.dateStart ? -1 : 0
       );
+
+      sortedAssignments = orderAssignmentsByStartDate(sortedAssignments)
+      
       sortedAssignments.map((assignmentObject) => {
         assignments.push({
           title: assignmentObject.title,
@@ -95,15 +99,6 @@ function PatientTable({ patientData, user }) {
         </Collapse>
       ),
     },
-    // {
-    //   title: "Date of Birth",
-    //   dataIndex: "dob",
-    //   key: "dob",
-    //   width: 45,
-    //   render: (text, record, index) => (
-    //     <Text>{dateFormat(record.childDateOfBirth, "mmm dd, yyyy")}</Text>
-    //   ),
-    // },
     {
       title: "Guardian",
       dataIndex: "guardianName",

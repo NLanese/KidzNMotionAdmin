@@ -94,6 +94,7 @@ const typeDefs = gql`
     weeklyVideoStatus: JSON
     assignments: [Assignment]
     comments: [Comment]
+    medals: [Medal]
   }
 
   type Comment {
@@ -140,6 +141,7 @@ const typeDefs = gql`
     createdAt: Date
     level: String
     video: Video
+    childCarePlan: ChildCarePlan
   }
 
   type UserPayLoad {
@@ -238,6 +240,7 @@ const typeDefs = gql`
     #########################
 
     getAllMedalTypes: [MedalType]
+    getAllUserMedals(childCareID: String!): [Medal]
 
     ###################################
     #### CHILD CARE PLAN QUERIES ####
@@ -299,7 +302,10 @@ const typeDefs = gql`
 
     requestResetPassword(email: String!): Boolean
 
-    requestAccountDeletion(userId: String): Boolean
+    requestAccountDeletion(
+      userId: String!
+      superUserKey: String!
+    ): Boolean
 
     updatePhoneToken(token: String!): Boolean
 
@@ -365,7 +371,11 @@ const typeDefs = gql`
 
     generateSoloGuardianCheckoutLink: String
 
+    generateHalfPriceGuardianCheckoutLink: String
+
     generateAnnualSoloGuardianCheckoutLink: String
+
+    generateHalfPriceAnnualGuardianCheckoutLink: String
 
     generateSoloGuardianPortalLink: String
 
@@ -489,6 +499,15 @@ const typeDefs = gql`
     ): ChildCarePlan
 
     superDeleteAssignments(
+      idArray: [String]!
+      superUserKey: String!
+    ): Boolean
+
+    superCreateExpiredAssignment(
+      superUserKey: String!
+    ): Boolean
+
+    superActivateUsers(
       idArray: [String]!
       superUserKey: String!
     ): Boolean

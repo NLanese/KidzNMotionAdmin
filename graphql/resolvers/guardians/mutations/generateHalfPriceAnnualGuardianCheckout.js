@@ -3,12 +3,14 @@ import { UserInputError } from "apollo-server-errors";
 
 export default {
   Mutation: {
-    generateSoloGuardianCheckoutLink: async (_, {}, context) => {
+    generateHalfPriceAnnualGuardianCheckoutLink: async (_, {}, context) => {
+      console.log("In checkout Link HALF ANNUAL")
       const host =
         // process.env.NODE_ENV === 
         // "development"
         // // false
-        //   ? "http://localhost:3000"
+        //   // ? "http://localhost:3000"
+        //   ? "https://dashboard.kidz-n-motion.app"
         //   : 
           "https://dashboard.kidz-n-motion.app";
 
@@ -19,31 +21,28 @@ export default {
       if (context.user.role !== "GUARDIAN")
         throw new UserInputError("Only guardians can get checkout links");
 
-      console.log(process.env.STRIPE_PRIVATE_KEY)
-      const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
-      // if (!context.user.solo)
-      //   throw new UserInputError(
-      //     "Only solo guardians can generate checkout URLs"
-      //   );
+      
+      const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
       if (context.user.soloStripeSubscriptionID)
         throw new UserInputError("This guardian already has a subscription");
 
       // Kidz-N-Motion Pro Plan Product ID
       const priceId =
-        // process.env.NODE_ENV === 
-        // "development"
-        // // false
-        //   ? "price_1MNeZIAbL8OcaqqPnT0M6mnf"
-        //   : 
-          "price_1MNeTmAbL8OcaqqPftvKBR6t";
+        process.env.NODE_ENV === 
+        "development"
+          ? "price_1OrpmEAbL8OcaqqP93hcJGcX"
+          : "price_1OrpmEAbL8OcaqqP93hcJGcX";
 
+      // console.log("Price ID console log")
+      
       const session = await stripe.checkout.sessions.create({
         mode: "subscription",
         line_items: [
           {
             price: priceId,
+            // price: "price_1OrpmEAbL8OcaqqP93hcJGcX",
             quantity: 1,
           },
         ],
