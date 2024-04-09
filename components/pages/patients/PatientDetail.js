@@ -13,10 +13,10 @@ import {
 } from "antd";
 
 import moment from "moment";
-import { GET_USER } from "@graphql/operations";
+import { GET_USER, GET_ALL_USER_MEDALS } from "@graphql/operations";
 import client from "@utils/apolloClient";
 
-import { userState } from "@atoms";
+import { userState, medals } from "@atoms";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 const { TabPane } = Tabs;
@@ -26,6 +26,7 @@ import CreateCarePlanAssignmentForm from "@forms/patients/CreateCarePlanAssignme
 import CreateCarePlanComment from "@forms/patients/CreateCarePlanComment";
 import CarePlanComments from "@pages/patients/CarePlanComments";
 import CarePlanAssignments from "@pages/patients/CarePlanAssignments";
+import { useReactiveVar } from "@apollo/client";
 
 const CalenderWrapper = styled.div`
   .ant-popover-message-title {
@@ -34,25 +35,74 @@ const CalenderWrapper = styled.div`
 `;
 
 function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
-  const setUser = useSetRecoilState(userState);
-  const [dateToUse, setDateToUse] = React.useState(new moment());
 
-  // Reset User Function
-  const getUser = async () => {
-    await client
-      .query({
-        query: GET_USER,
-        fetchPolicy: "network-only",
-      })
-      .then(async (resolved) => {
-        setUser(resolved.data.getUser);
-      })
-      .catch((error) => {
-        message.error("Sorry, there was an error getting this information");
-      });
-  };
+  ///////////
+  // State //
+  ///////////
 
-  // Drawer Information
+    // User 
+    const setUser = useSetRecoilState(userState);
+
+    // User Medals
+    const [medals, setMedals] = useState([])
+    
+    // Current Date
+    const [dateToUse, setDateToUse] = React.useState(new moment());
+
+    // Constant Drawer Width
+    const getDrawerWidth = () => {
+      return 700;
+    };
+
+  /////////////
+  // Queries //
+  /////////////
+
+    // Reset User Function
+    const getUser = async () => {
+      await client
+        .query({
+          query: GET_USER,
+          fetchPolicy: "network-only",
+        })
+        .then(async (resolved) => {
+          setUser(resolved.data.getUser);
+        })
+        .catch((error) => {
+          message.error("Sorry, there was an error getting this information");
+        });
+    };
+
+    // Gets all Medals from Relevant Child
+    async function getChildsMedals(){
+
+    // QUERY
+    await client.query({
+        query: GET_ALL_USER_MEDALS,
+        fetchPolicy: 'network-only',
+        variables: {
+            childCareID: (
+                user.role === "THERAPIST" ? selectedClient.plan.id : selectedChild.childCarePlans[0].id
+            )
+        }
+    }).then( (resolved) => {
+        setMedals(processMedalData(resolved.data.getAllUserMedals))
+        console.log("MEDALS::::")
+        console.log(resolved.data.getAllUserMedals)
+        setLoading(false)
+        return
+    }).catch(err => {
+        console.warn("Error getting the Medals")
+        console.log(err)
+        setLoading(false)
+    })
+}
+
+  ///////////////
+  // Functions //
+  ///////////////
+
+  // Determines which Drawer is Open
   const getDrawerOpen = () => {
     if (router.query.editPlan) {
       return true;
@@ -66,6 +116,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
     return false;
   };
 
+  // Gets title of Active Displayed Drawer
   const getDrawerTitle = () => {
     if (router.query.editPlan) {
       return "Edit Care Plan Information";
@@ -80,16 +131,14 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
     return "-";
   };
 
-  const getDrawerWidth = () => {
-    return 700;
-  };
-
+  // Handles the Closing of Side Drawer
   const getDrawerCloseLink = () => {
     Router.push(`/patients/manage?id=${patientDetail.id}`, null, {
       shallow: true,
     });
   };
 
+  // Fetches the content for the displayed drawer when active
   const getDrawerContent = () => {
     if (router.query.editPlan) {
       return (
@@ -134,15 +183,15 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
     return <div />;
   };
 
+  // Sets Calendar Date
   const setPDFCalenderDate = (date) => {
     setDateToUse(date);
   };
 
-  // <a
-  // href={`/patients/pdf?id=${patientDetail.id}`}
-  // target="_blank"
-  // rel="noreferrer"
-  // >
+
+  /////////////////
+  // Main Return //
+  /////////////////
 
   return (
     <>
@@ -239,6 +288,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
                   }}
                   returnUrl={`/patients/manage?id=${patientDetail.id}`}
                   assignments={patientDetail.carePlan.assignments}
+                  medals={}
                 />
               </TabPane>
               <TabPane tab="Care Plan Comments" key="2">
