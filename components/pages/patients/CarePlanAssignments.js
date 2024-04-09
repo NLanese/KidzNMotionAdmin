@@ -42,8 +42,19 @@ function CarePlanAssignments({
   comments,
   initialValues,
   router,
+  medals,
 }) {
 
+  ////////////
+  // States //
+  ////////////
+
+
+  ////////////////
+  // Renderings //
+  ////////////////
+
+  // Renders Medals per Video in Assignment Block
   const renderMedals = (medals) => {
     return medals.map((medalObject) => {
       return (

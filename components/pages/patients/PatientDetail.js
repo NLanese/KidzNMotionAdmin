@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Router from "next/router";
 import BasicLink from "@common/BasicLink";
 import PatientInformation from "./detail/PatientInformation";
@@ -53,6 +53,10 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
     const getDrawerWidth = () => {
       return 700;
     };
+
+    useEffect(() => {
+      console.log("[Patient Detail Page] - ", patientDetail)
+    }, [])
 
   /////////////
   // Queries //
@@ -288,7 +292,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
                   }}
                   returnUrl={`/patients/manage?id=${patientDetail.id}`}
                   assignments={patientDetail.carePlan.assignments}
-                  medals={}
+                  medals={medals}
                 />
               </TabPane>
               <TabPane tab="Care Plan Comments" key="2">
