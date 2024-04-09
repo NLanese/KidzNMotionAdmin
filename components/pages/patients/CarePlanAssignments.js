@@ -67,6 +67,8 @@ function CarePlanAssignments({
           <Col xs={24} sm={12}>
             <h2> {videoObject.file.title.toString()}</h2>
           </Col>
+
+          {/* Assign Medal Button */}
           <Col xs={24} sm={12}>
             <Button
               onClick={() =>
@@ -89,6 +91,7 @@ function CarePlanAssignments({
             </Button>
           </Col>
 
+          {/* Video Description and Medals */}
           <Col xs={24} sm={16}>
             <Descriptions
               size="small"
@@ -96,6 +99,8 @@ function CarePlanAssignments({
               layout="vertical"
               column={{ lg: 2, md: 2, sm: 2, xs: 1 }}
             >
+
+              {/* Description */}
               <Descriptions.Item label="Video Description">
                 {videoObject.file.description.toString()}
               </Descriptions.Item>
@@ -104,6 +109,8 @@ function CarePlanAssignments({
                   ? "Video Completed"
                   : "Not Yet Completed"}
               </Descriptions.Item>
+
+              {/* Medals */}
               <Descriptions.Item label="Medals">
                 <Avatar.Group>{renderMedals(videoObject.medals)}</Avatar.Group>
               </Descriptions.Item>
