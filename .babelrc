@@ -10,7 +10,6 @@
                 "displayName": true 
             }
         ],
-        ["import", { "libraryName": "antd", "style": true }],
         [
             "module-resolver", {
                 "root": [
