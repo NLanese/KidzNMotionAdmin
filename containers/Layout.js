@@ -200,11 +200,9 @@ function Layout({ children, router }) {
 
   useEffect(() => {
     observeAuth();
-    // console.log(user);
   }, []);
 
   useEffect(() => {
-    // // // console.log(user)
   }, [user]);
   const getThemeColor = () => {
     if (user) {

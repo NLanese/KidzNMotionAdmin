@@ -51,9 +51,6 @@ function ChatMessages({ chatRoomObject, user }) {
       return timeA - timeB;
     });
 
-    console.log("\n\n\n\nMESSAGES:::::")
-    console.log(sortedMessages)
-
 
     // var messagesReversed = reverseArr(messages);
     var messagesReversed = sortedMessages;

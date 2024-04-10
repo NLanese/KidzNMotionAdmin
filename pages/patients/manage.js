@@ -73,11 +73,15 @@ function ManagePatients({ router }) {
   useEffect(() => {
     if (router.query.id) {
       if (renderPatientData(true)[router.query.id]) {
+        console.log("[Manage.js] - Patient Found ")
+        console.log(renderPatientData(true)[router.query.id])
         setPatientDetail(renderPatientData(true)[router.query.id]);
       } else {
+        console.log("[Manage.js] - No Patient Found ")
         setPatientDetail(null);
       }
     } else {
+      console.log("[Manage.js] - No Patient Found 2")
       setPatientDetail(null);
     }
   }, [router, user]);

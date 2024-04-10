@@ -24,10 +24,7 @@ function AssignMedalsForm({ router, getUser, childID }) {
   const [instructions, setInstructions] = useState("no");
   const [neededBreak, setNeededBreak] = useState("no");
   const [seconds, setSeconds] = useState("less30");
-
-  console.log(childID)
-  console.log(router.query.video_id)
-
+  
   // Mutations
   const [setVideoCompleted, {}] = useMutation(SET_VIDEO_COMPLETED);
 

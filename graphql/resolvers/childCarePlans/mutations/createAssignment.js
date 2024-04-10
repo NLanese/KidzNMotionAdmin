@@ -20,16 +20,11 @@ export default {
       context
     ) => {
 
-      console.log("PARAMS")
-      console.log(dateStart)
-      console.log(dateDue)
-      console.log(childCarePlanID)
 
       /////////////////
       // Login Check //
       if (!context.user) throw new UserInputError("Login required");
 
-      console.log(context.user)
 
       /////////////////////
       // Therapist Check //
@@ -67,7 +62,7 @@ export default {
       /////////////////////
       // Same Date Check //
       if (dateStart === dateDue){
-        console.log("Throwing an Error")
+        console.warn("Throwing an Error")
         throw new UserInputError("Assignment Start Date and Due Date must be different from each other");
       }
 
@@ -117,7 +112,6 @@ export default {
           },
         },
       });
-      console.log("Assignment Created")
 
       ////////////////////////////////////////////////////
       // Creates VIDEO Isnatnce for Each Assigned Video //
@@ -143,7 +137,6 @@ export default {
         }
       }
 
-      console.log("Sending Notification to child")
       await createNotification(
         "You have a New Assignment!",
         `Your New Assignment ${title} Is Due On ${dateFormat(dateDue, "m/dd")}`,
@@ -152,7 +145,6 @@ export default {
         context.user.id
       );
 
-      console.log("Sending Notification to Guardian")
       await createNotification(
         `${childUser.firstName} has a New Assignment!`,
         `Due On ${dateFormat(dateDue, "m/dd")}`,

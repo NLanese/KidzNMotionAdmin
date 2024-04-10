@@ -11,7 +11,6 @@ const { Text } = Typography;
 
 function VideoMedals({videoTitle, userMedals }) {
 
-    console.log("Hit")
     ///////////////
     // Rendering //
     ///////////////
