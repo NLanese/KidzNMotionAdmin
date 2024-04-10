@@ -173,7 +173,6 @@ export default {
 
 
         // Assignment-Video Complete
-        // console.log("Updating Video,,,")
         // await prisma.video.update({
         //   where: {
         //     id: video.id,

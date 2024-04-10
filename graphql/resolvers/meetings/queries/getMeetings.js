@@ -46,8 +46,6 @@ export default {
         },
       });
 
-      console.log("\n\nGot Meetings\n\n")
-      console.log(user.meetings)
       // Return only the meetings
       return user.meetings;
     },

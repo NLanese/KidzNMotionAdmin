@@ -83,7 +83,6 @@ export default {
         }
       }
 
-      console.log("Valid Params to Create a Meeting")
 
       ////////////////////////
       // Create the meeting //
@@ -102,7 +101,6 @@ export default {
         },
       });
 
-      console.log("Created Meeting")
 
       let meetings = await prisma.meeting.findMany({
         where: {
@@ -122,9 +120,6 @@ export default {
           meetingOwnerID: true,
         },
       });
-
-      console.log("Returning meetings")
-      console.log(meetings)
 
       return meetings;
     },

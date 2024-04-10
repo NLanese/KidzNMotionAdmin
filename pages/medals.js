@@ -67,7 +67,6 @@ function MedalsPage() {
         if (vid.id === "great_job"){
             return
         }
-        console.log("Rendering video for ", vid.id)
         return <VideoMedals videoTitle={vid.id} userMedals={medals} key={key}/>
     }
 
@@ -93,13 +92,9 @@ function MedalsPage() {
             }
         }).then( (resolved) => {
             setMedals(processMedalData(resolved.data.getAllUserMedals))
-            console.log("MEDALS::::")
-            console.log(resolved.data.getAllUserMedals)
             setLoading(false)
             return
         }).catch(err => {
-            console.warn("Error getting the Medals")
-            console.log(err)
             setLoading(false)
         })
     }

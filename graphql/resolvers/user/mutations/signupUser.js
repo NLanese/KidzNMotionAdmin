@@ -35,9 +35,6 @@ export default {
       },
       context
     ) => {
-      console.log(organizationName);
-      console.log(title)
-      console.log(role)
 
       // Define a base child user to user later in create organizatino user
       let childUser;
@@ -176,10 +173,8 @@ export default {
         //  THERAPISTS and ADMINS Connections //
         //                                    //
         else if (role === "THERAPIST" || role == "ADMIN") {
-          console.log("therapist")
           // If they were not invited and do not have an invite link then create their own organization
           if (!organizationInviteKey) {
-            console.log("No invite key")
             // Create the organization for the therapist
             let baseOrganization = await prisma.organization.create({
               data: {
@@ -194,7 +189,6 @@ export default {
               },
             });
 
-            console.log(baseOrganization)
 
             // Add them as the initial organization user
             await prisma.organizationUser.create({
@@ -213,7 +207,6 @@ export default {
               },
             });
           }
-          console.log("passed key check")
         }
 
         //                          //
@@ -413,7 +406,6 @@ export default {
           await sgMail
             .send(msg2)
             .then(() => {
-              // // console.log('Email sent')
             })
             .catch((error) => {
               console.error(error.response.body);
@@ -426,7 +418,6 @@ export default {
           token: clientToken,
         };
       } catch (error) {
-        // // console.log(error);
         throw new Error(error);
       }
     },

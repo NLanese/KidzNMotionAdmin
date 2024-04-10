@@ -6,8 +6,6 @@ export default {
     Mutation: {
         superDeleteAssignments: async (_, {idArray, superUserKey}, context) => {
 
-          console.log("Inside superSetTherapist")
-
             //////////////
             // Security // 
             if (!context.user){
@@ -19,7 +17,6 @@ export default {
             if (superUserKey !== `${process.env.SUPER_USER_SECRET_KEY}`){
               throw new UserInputError("Acccess Denied! Super Key was incorrect.")
             }
-            console.log("Passed authorization")
             
 
             ////////////////////////////////
@@ -42,10 +39,9 @@ export default {
                   }
                 })
                 .then( resolved => {
-                  console.log("successfully deleted")
                 })
                 .catch( error => {
-                  console.log("ERROR")
+                  console.warn("ERROR")
                   console.warn((error))
                 })
               });

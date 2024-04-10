@@ -74,7 +74,6 @@ function Assignments({ router }) {
         } 
 
         else {
-          console.log("Ordering Assignments")
           let rawAssignments = resolved.data.getAssignments
           let passed = [];
           let current = [];
@@ -89,10 +88,8 @@ function Assignments({ router }) {
             return;
           }
 
-          console.log(assignments)
   
           assignments.forEach((assign) => {
-            console.log(assign);
   
             if (assign.id) {
               if (true) {
@@ -109,8 +106,6 @@ function Assignments({ router }) {
           return;
         }
       } catch (error) {
-        console.log("Error getting assignments");
-        console.log(error);
         setAssignments(null);
         message.error(
           "Sorry, there was an error getting your assignments. Please try again!"
@@ -124,8 +119,6 @@ function Assignments({ router }) {
   // Runs Query on Init
   useEffect(() => {
     getUserAssignments();
-    console.log("User...")
-    console.log(user)
   }, []);
 
 
@@ -173,8 +166,6 @@ function Assignments({ router }) {
 
   // Renders the Table Column
   const renderTableColumn = () => {
-    console.log("ASSIGNMENTS::::")
-    console.log(assignments)
     return(
       <Col lg={24} xl={12}>
         <ContentCard>
@@ -186,10 +177,6 @@ function Assignments({ router }) {
 
   // Renders the Calendar Column
   const renderCalendarColumn = () => {
-    console.log("Assignments")
-    console.log(assignments)
-    console.log("Passed Assignments")
-    console.log(passedAssignments)
     return(
       <Col lg={24} xl={12}>
         <ContentCard>

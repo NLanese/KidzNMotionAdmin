@@ -39,8 +39,6 @@ export default {
 
       let usersToPurge = [userId ? userId : context.user.id];
 
-      console.log(usersToPurge)
-
       if (user.guardianId) {
         usersToPurge.push(user.guardianId);
       }
@@ -49,7 +47,6 @@ export default {
         usersToPurge.push(...user.children.map((child) => child.id));
       }
 
-      console.log(usersToPurge);
       // Loop through all users to purge and delete them
       for (let i = 0; i < usersToPurge.length; i++) {
         try {
@@ -59,7 +56,7 @@ export default {
             },
           });
         } catch {
-          console.log("No child");
+          console.warn("No child");
         }
 
         try {
@@ -69,7 +66,7 @@ export default {
             },
           });
         } catch {
-          console.log("No child");
+          console.warn("No child");
         }
 
         try {
@@ -79,7 +76,7 @@ export default {
             },
           });
         } catch {
-          console.log("No child");
+          console.warn("No child");
         }
       }
 

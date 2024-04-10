@@ -6,8 +6,6 @@ export default {
     Mutation: {
         superActivateUsers: async (_, { superUserKey, idArray }, context) => {
 
-          console.log("Inside superSetTherapist")
-
             //////////////
             // Security // 
             if (!context.user){
@@ -28,7 +26,6 @@ export default {
                     }
                 })
                 .then((allUsers) => {
-                    console.log(allUsers)
                     allUsers.forEach( async (userID) => {
                         await prisma.user.update({
                             where: {

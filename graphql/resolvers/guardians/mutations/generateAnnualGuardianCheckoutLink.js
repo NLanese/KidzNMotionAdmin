@@ -34,7 +34,6 @@ export default {
       //     ? "price_1MNeZIAbL8OcaqqPnT0M6mnf"
       //     : "price_1Nt9TnAbL8OcaqqPMmIMlQt2";
 
-      // console.log("Price ID console log")
       
       const session = await stripe.checkout.sessions.create({
         mode: "subscription",

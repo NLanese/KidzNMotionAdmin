@@ -4,7 +4,6 @@ import { UserInputError } from "apollo-server-errors";
 export default {
   Mutation: {
     generateHalfPriceGuardianCheckoutLink: async (_, {}, context) => {
-      console.log("In checkout Link HALF MONTHLY")
       const host =
         // process.env.NODE_ENV === 
         // "development"

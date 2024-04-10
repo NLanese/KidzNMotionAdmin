@@ -7,7 +7,6 @@ export default {
         if (!context.user) throw new UserInputError("Login required");
 
         // Get all user meetings
-        console.log("Getting user ", context.user.id + ".")
         let user = await prisma.user.findUnique({
             where: {
                 id: context.user.id,

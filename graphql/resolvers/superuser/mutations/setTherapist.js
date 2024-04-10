@@ -6,7 +6,6 @@ export default {
     Mutation: {
         superSetTherapist: async (_, {childCarePlanID, childID, guardianID, therapistID, superUserKey}, context) => {
 
-          console.log("Inside superSetTherapist")
 
             //////////////
             // Security // 
@@ -20,12 +19,10 @@ export default {
               throw new UserInputError("Acccess Denied! Super Key was incorrect.")
             }
 
-            console.log("Passed authorization")
 
             // IF NO CHILD CARE PLAN
             if (childCarePlanID === "false"){
 
-              console.log("No current Plan")
 
               ////////////////////////////////////////
               // CREATE NEW PLAN AND ORG CONNECTION //
@@ -50,8 +47,6 @@ export default {
                 });
 
 
-                console.log("New Plan Created")
-
               /////////////////////////
               // CREATE NEW CHATROOM //
               /////////////////////////
@@ -71,8 +66,6 @@ export default {
                     },
                   },
                 });
-
-                console.log("First chat made")
 
                 // Create chat rooms for child and therapist
                 await prisma.chatroom.create({
@@ -107,8 +100,6 @@ export default {
                   },
                 });
 
-                console.log("Updated Child::::")
-                console.log(newChild)
                 
                 let newTher = await prisma.user.update({
                   where: {
@@ -146,9 +137,6 @@ export default {
                   }
                 })
 
-                console.log("Updated Therapist::::")
-                console.log(fullNewThre)
-
                 let newOrgUser = await prisma.organizationUser.create({
                   data: {
                     active: true,
@@ -178,17 +166,9 @@ export default {
                   }
                 })
 
-                console.log("Updated Organization User::::")
-                console.log(newOrgUser)
-
-                console.log("Therapist's Organization Id....")
-                console.log(newOrg)
-
               //////////////////////
               // RETURNS NEW PLAN //
               //////////////////////
-              console.log("NEW PLAN::::")
-              console.log(newPlan)
               return newPlan
             }
 
@@ -253,7 +233,6 @@ export default {
 
             // Checks to see if ChildCarePlan has the same organization of the Therapist 
             if (childToReassign.organizations[0].organization.id === fullNewThre.organizations[0].organization.id){
-              console.log("Child and Therapist already have the same organization. Returning now")
 
               // Return now if they are the same
               return childPlanToBeReAssigned

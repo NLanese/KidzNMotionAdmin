@@ -19,7 +19,6 @@ export const getCheckoutURL = async (annual, promo = "") => {
       url = "/api/billing/get-checkout-url"
     }
   }
-  console.log("\n\nURI:::: ", url, "\n\n")
   return await axios({
     method: "post",
     url: url,
@@ -91,9 +90,6 @@ export const updateSoloGuardianSubscription = async (
   userID,
   stripeSessionID
 ) => {
-  console.log("------");
-  console.log(userID);
-  console.log(stripeSessionID);
   return await axios({
     method: "post",
     url: "/api/billing/update-solo-guardian-subscription",
@@ -103,11 +99,9 @@ export const updateSoloGuardianSubscription = async (
     },
   })
     .then(({ data }) => {
-      console.log("success");
       // window.location = "/account/billing?activated=true";
     })
     .catch(({ response }) => {
-      console.log(response);
       return null;
     });
 };

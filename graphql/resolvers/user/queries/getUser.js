@@ -6,8 +6,6 @@ export default {
   Query: {
     getUser: async (_, {}, context) => {
 
-      // console.log("GET_USER CONTEXT ::: ", context)
-
       /////////////////
       // LOGIN CHECK //
       if (!context.user) throw new UserInputError("Login required");
@@ -96,11 +94,9 @@ export default {
                 (1000 * 3600 * 24)
           );
           if (daysLeft <= 0) {
-            console.log("Expired Org Owner")
             // subscriptionStatus = "expiredNotOwner";
             subscriptionStatus = "active"
           } else {
-            console.log("Not owner trial")
             subscriptionStatus = "trial - not owner";
           }
         }

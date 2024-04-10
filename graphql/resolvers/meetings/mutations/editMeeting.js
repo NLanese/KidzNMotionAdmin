@@ -18,7 +18,6 @@ export default {
       },
       context
     ) => {
-      // console.log(completed, cancelled)
       if (!context.user) throw new UserInputError("Login required");
       if (context.user.role !== "THERAPIST" && context.user.role !== "GUARDIAN")
         throw new UserInputError(

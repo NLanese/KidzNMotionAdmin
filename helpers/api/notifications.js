@@ -13,7 +13,6 @@ export const createNotification = async (
 ) => {
   // See if we can send a push notificaiotn
   // Find the other user account via the particant id
-  console.log("Inside Notifiation Helper...")
   let userToSendPushNotification = await prisma.user.findUnique({
     where: {
       id: toUserId,

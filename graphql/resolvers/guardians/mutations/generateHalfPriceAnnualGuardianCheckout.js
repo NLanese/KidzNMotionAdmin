@@ -4,7 +4,6 @@ import { UserInputError } from "apollo-server-errors";
 export default {
   Mutation: {
     generateHalfPriceAnnualGuardianCheckoutLink: async (_, {}, context) => {
-      console.log("In checkout Link HALF ANNUAL")
       const host =
         // process.env.NODE_ENV === 
         // "development"
@@ -35,7 +34,6 @@ export default {
           ? "price_1OrpmEAbL8OcaqqP93hcJGcX"
           : "price_1OrpmEAbL8OcaqqP93hcJGcX";
 
-      // console.log("Price ID console log")
       
       const session = await stripe.checkout.sessions.create({
         mode: "subscription",

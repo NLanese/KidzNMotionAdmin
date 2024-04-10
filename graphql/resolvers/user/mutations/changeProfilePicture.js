@@ -12,8 +12,6 @@ export default {
       profilePic = JSON.stringify(profilePic);
       profilePic = JSON.parse(profilePic);
 
-      console.log("hit");
-
       // Update the user with the json object for the profile pic
       await prisma.user
         .update({

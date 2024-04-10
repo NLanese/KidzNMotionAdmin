@@ -7,7 +7,6 @@ export function getAllMedalTypes() {
 }
 
 export async function makeMedal(level, videoId, childCareId){
-  console.log("Adding " + level + " medal to CCP " + childCareId)
     return await prisma.medal.create({
         data: {
           title: videoId,

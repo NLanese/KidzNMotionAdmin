@@ -272,8 +272,6 @@ export default {
                 }
             })
 
-            console.log("THERAPIST DATA:::")
-            console.log(therapists)
 
             return therapists
         }

@@ -83,7 +83,6 @@ export const handleAuth = async (clientToken) => {
       } 
 
       else {
-        console.log("Update the token, make it active")
         await prisma.jWTToken.update({
           where: {
             id: userJWTToken.id,

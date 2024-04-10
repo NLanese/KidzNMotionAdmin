@@ -2,7 +2,6 @@ import prisma from "@utils/prismaDB";
 
 export const updateSubscription = async (userId) => {
   const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
-  console.log("UPDATE!");
   const fullUserObject = await prisma.user.findUnique({
     where: {
       id: userId,

@@ -20,7 +20,6 @@ export default {
 
     //////////////
     // Security // 
-    console.log("SECURITY")
     if (!context.user){
         throw new UserInputError("Login required");
     }
@@ -30,7 +29,6 @@ export default {
     if (superUserKey !== `${process.env.SUPER_USER_SECRET_KEY}`){
         throw new UserInputError("Acccess Denied! Super Key was incorrect.")
     }
-    console.log("Passed Security")
 
       ////////////////////////////////////////
       // Locates Test User (OStrichdevtext) //
@@ -48,8 +46,6 @@ export default {
         }
       })
 
-      console.log("Guardian...")
-      console.log(guardian)
 
       let child = await prisma.user.findUnique({
         where: {
@@ -63,9 +59,6 @@ export default {
           }
         }
       })
-
-      console.log("child...")
-      console.log(child)
 
       let childCarePlan = await prisma.childCarePlan.findUnique({
         where: {
@@ -92,9 +85,6 @@ export default {
           },
         },
       });
-
-      console.log("Care Plan")
-      console.log(childCarePlan)
 
       ///////////////////////////
       // Valid Care Plan Check //
@@ -133,8 +123,7 @@ export default {
           },
         },
       });
-      console.log("Assignment Created")
-
+      
       ////////////////////////////////////////////////////
       // Creates VIDEO Isnatnce for Each Assigned Video //
       for (var i = 0; i < videoIDs.length; i++) {
