@@ -50,10 +50,6 @@ function CarePlanAssignments({
   // States //
   ////////////
 
-    useEffect(() => {
-      console.log("ChildPlanAssignments -- ", medals)
-    }, [])
-
 
   ////////////////
   // Renderings //

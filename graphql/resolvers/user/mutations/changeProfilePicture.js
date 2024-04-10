@@ -22,7 +22,7 @@ export default {
             profilePic: profilePic,
           },
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.warn(error));
 
       // Get the new user object
       let userObject = await getUserObject(context.user);

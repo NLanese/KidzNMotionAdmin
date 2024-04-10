@@ -84,8 +84,6 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
 
     // Gets all Medals from Relevant Child
     async function getChildsMedals(){
-      console.log("[Patient Detail Page] PATIENT - ", patientDetail)
-      console.log("[Patient Detail Page] CARE PLAN ID - ", patientDetail.carePlan.id)
       // QUERY
       await client.query({
           query: GET_ALL_USER_MEDALS,
@@ -95,13 +93,10 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
           }
       }).then( (resolved) => {
           setMedals(processMedalData(resolved.data.getAllUserMedals))
-          console.log("MEDALS::::")
-          console.log(resolved.data.getAllUserMedals)
           setLoading(false)
           return
       }).catch(err => {
           console.warn("Error getting the Medals")
-          console.log(err)
           setLoading(false)
       })
   }
@@ -198,8 +193,6 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
 
   // Processes Medal Query Data
   function processMedalData(getAllUserMedals){
-    console.log('[Patient Detail] - Raw Query Data')
-    console.log(getAllUserMedals)
     let rObj = {}
     getAllUserMedals.forEach(medal => {
         rObj = ({...rObj, [medal.title]: addToMedalKey(rObj[medal.title], medal)})
