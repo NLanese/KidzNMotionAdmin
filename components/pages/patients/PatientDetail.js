@@ -45,6 +45,9 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
 
     // User Medals
     const [medals, setMedals] = useState([])
+
+    // Loading
+    const [loading, setLoading] = useState(true)
     
     // Current Date
     const [dateToUse, setDateToUse] = React.useState(new moment());
@@ -55,8 +58,10 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
     };
 
     useEffect(() => {
-      console.log("[Patient Detail Page] - ", patientDetail)
-    }, [])
+      if (patientDetail){
+        getChildsMedals()
+      }
+    }, [patientDetail])
 
   /////////////
   // Queries //
@@ -79,28 +84,27 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
 
     // Gets all Medals from Relevant Child
     async function getChildsMedals(){
-
-    // QUERY
-    await client.query({
-        query: GET_ALL_USER_MEDALS,
-        fetchPolicy: 'network-only',
-        variables: {
-            childCareID: (
-                user.role === "THERAPIST" ? selectedClient.plan.id : selectedChild.childCarePlans[0].id
-            )
-        }
-    }).then( (resolved) => {
-        setMedals(processMedalData(resolved.data.getAllUserMedals))
-        console.log("MEDALS::::")
-        console.log(resolved.data.getAllUserMedals)
-        setLoading(false)
-        return
-    }).catch(err => {
-        console.warn("Error getting the Medals")
-        console.log(err)
-        setLoading(false)
-    })
-}
+      console.log("[Patient Detail Page] PATIENT - ", patientDetail)
+      console.log("[Patient Detail Page] CARE PLAN ID - ", patientDetail.carePlan.id)
+      // QUERY
+      await client.query({
+          query: GET_ALL_USER_MEDALS,
+          fetchPolicy: 'network-only',
+          variables: {
+              childCareID: patientDetail.carePlan.id
+          }
+      }).then( (resolved) => {
+          setMedals(processMedalData(resolved.data.getAllUserMedals))
+          console.log("MEDALS::::")
+          console.log(resolved.data.getAllUserMedals)
+          setLoading(false)
+          return
+      }).catch(err => {
+          console.warn("Error getting the Medals")
+          console.log(err)
+          setLoading(false)
+      })
+  }
 
   ///////////////
   // Functions //
@@ -192,11 +196,28 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
     setDateToUse(date);
   };
 
+  // Processes Medal Query Data
+  function processMedalData(getAllUserMedals){
+    console.log('[Patient Detail] - Raw Query Data')
+    console.log(getAllUserMedals)
+    let rObj = {}
+    getAllUserMedals.forEach(medal => {
+        rObj = ({...rObj, [medal.title]: addToMedalKey(rObj[medal.title], medal)})
+    })
+    return rObj
+  }
+
+  // Handles Object Data Additionl
+  function addToMedalKey(obj, medal){
+    return {...obj, [medal.level]: [medal]}
+  }
 
   /////////////////
   // Main Return //
   /////////////////
-
+  if (loading){
+    return null
+  }
   return (
     <>
       <Drawer

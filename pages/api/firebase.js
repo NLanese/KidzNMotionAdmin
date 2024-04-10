@@ -17,7 +17,6 @@ export default async function handler(req, res) {
     .messaging()
     .send(message)
     .then((resp) => {
-      // console.log("Message sent successfully:", resp);
     })
     .catch((err) => {
       // console.log("Failed to send the message:", err);
