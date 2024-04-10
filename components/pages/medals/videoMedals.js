@@ -9,7 +9,7 @@ import { Typography, Divider, Space, Col, Row, Button, Spin } from "antd";
 import { StarFilled } from "@ant-design/icons";
 const { Text } = Typography;
 
-function VideoMedals({videoTitle, userMedals }) {
+function VideoMedals({videoTitle, userMedals, size="md" }) {
 
     ///////////////
     // Rendering //
@@ -59,11 +59,24 @@ function VideoMedals({videoTitle, userMedals }) {
         return false
     }
 
+    function renderTitleDiv(){
+        if (size == "sm"){
+            return null
+        }
+        else{
+            return(
+                <div>
+                    <p style={{fontSize: 28, fontWeight: 700, textAlign: 'center'}}>
+                        {renderTitle()}
+                    </p>
+                </div>
+            )
+        }
+    }
+
     return(
         <div style={{margin: 10, backgroundColor: 'rgba(236,236,236,0.65)', borderRadius: 35, justifyContent: 'center'}}>
-            <p style={{fontSize: 28, fontWeight: 700, textAlign: 'center'}}>
-                {renderTitle()
-            }</p>
+            {renderTitleDiv()}
             <div style={{display: 'flex', flexDirection: "row", justifyContent: 'space-between', paddingRight: 75, paddingLeft: 75}}>
                 {renderMedal("bronze", determineUnlocked("bronze", videoTitle))}
                 {renderMedal("silver", determineUnlocked("silver", videoTitle))}

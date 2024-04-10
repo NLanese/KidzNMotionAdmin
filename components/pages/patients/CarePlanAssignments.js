@@ -27,6 +27,7 @@ import VideoCommentForm from "@forms/patients/VideoCommentForm";
 import { withRouter } from "next/router";
 import Router from "next/router";
 import AssignMedalsForm from "./AssignMedals";
+import VideoMedals from "../medals/videoMedals";
 
 var dateFormat = require("dateformat");
 
@@ -59,21 +60,11 @@ function CarePlanAssignments({
   ////////////////
 
   // Renders Medals per Video in Assignment Block
-  const renderMedals = (medals) => {
-    return medals.map((medalObject) => {
-      return (
-        <Tooltip
-          key={medalObject.createdAt}
-          title={`${medalObject.level} | Completed: ${dateFormat(
-            medalObject.createdAt,
-            "mmmm dd, yyyy"
-          )}`}
-        >
-          <Avatar src={medalObject.description} />
-        </Tooltip>
-      );
-    });
+  const renderMedals = (video) => {
+   return <VideoMedals videoTitle={video.contentfulID} userMedals={medals} size={"sm"}/>
   };
+
+
 
   const renderVideoDetails = (assignmentObject) => {
     return assignmentObject.videos.map((videoObject) => {
@@ -127,7 +118,7 @@ function CarePlanAssignments({
 
               {/* Medals */}
               <Descriptions.Item label="Medals">
-                <Avatar.Group>{renderMedals(videoObject.medals)}</Avatar.Group>
+                <Avatar.Group>{renderMedals(videoObject)}</Avatar.Group>
               </Descriptions.Item>
             </Descriptions>
           </Col>
