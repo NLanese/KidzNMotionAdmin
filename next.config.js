@@ -42,7 +42,9 @@ const moduleExports = withAntdLess({
     // Add the following lines to handle NEXT_RUNTIME
     // const nextRuntime = process.env.NEXT_RUNTIME || 'default_runtime_value';
     const nextRuntime = 
-      'http://localhost:3000/api/graphql' 
+      // 'http://localhost:3000/api/graphql' 
+      // 'production'
+      'development'
       // process.env.API_URL
 
     config.plugins.push(
