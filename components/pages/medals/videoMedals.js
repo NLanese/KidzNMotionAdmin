@@ -28,9 +28,16 @@ function VideoMedals({videoTitle, userMedals, size="md" }) {
         else if (color === "gold"){
             "#FFEF00"
         }
+
+        let medalSize = "64px"
+        if (size === "sm"){
+            medalSize = "32px"
+        }
+
+
         return(
             <div style={{borderColor: color, borderWidth: 8, padding: 5, borderStyle: "solid",  borderRadius: 45, justifyContent: 'center', margin: 10}}>
-                <StarFilled style={{ fontSize: "64px", color: color}}/>
+                <StarFilled style={{ fontSize: medalSize, color: color}}/>
             </div>
         )
     }
@@ -74,10 +81,14 @@ function VideoMedals({videoTitle, userMedals, size="md" }) {
         }
     }
 
+    let padding = 75
+    if (size === "sm"){
+        padding = 20
+    }
     return(
         <div style={{margin: 10, backgroundColor: 'rgba(236,236,236,0.65)', borderRadius: 35, justifyContent: 'center'}}>
             {renderTitleDiv()}
-            <div style={{display: 'flex', flexDirection: "row", justifyContent: 'space-between', paddingRight: 75, paddingLeft: 75}}>
+            <div style={{display: 'flex', flexDirection: "row", justifyContent: 'space-between', paddingRight: padding, paddingLeft: padding}}>
                 {renderMedal("bronze", determineUnlocked("bronze", videoTitle))}
                 {renderMedal("silver", determineUnlocked("silver", videoTitle))}
                 {renderMedal("gold", determineUnlocked("gold", videoTitle))}
