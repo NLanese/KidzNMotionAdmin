@@ -79,7 +79,7 @@ export default {
       ///////////////////////////
       // Valid Care Plan Check //
       if (childCarePlan.therapist.id !== context.user.id) {
-        throw new UserInputError("Access denied");
+        throw new UserInputError("Access denied, you do not appear to be this User's Therapist");
       }
 
       //////////////////////////
@@ -91,9 +91,7 @@ export default {
         }
       });
       if (!videoValid) {
-        throw new UserInputError(
-          "One of your video ids is not a valid contentful ID"
-        );
+        throw new UserInputError("One of your selected videos is not valid.");
       }
 
 

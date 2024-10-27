@@ -42,19 +42,26 @@ function AssignmentForm({}) {
   const handleCreateAssignment = async (formValues) => {
     let uniques = removeDuplicates(formValues.selectedClientIDs)
 
+    // Finds all video IDS 
+    let videos = formValues.selectedVideoIDs.filter(val => {
+      if (val && val !== "" && val.length !== 0){
+        return val
+      }
+    })
+
     // For every Child this assignment is intended for...
     uniques.forEach(async (id) => {
-      if (id === "" || id === null || id.length < 2){
-        return
-      }
-      let desc = (formValues.description && formValues.description.length > 0) ? formValues.description : "No special instructions"
-      let videos = formValues.selectedVideoIDs.filter(val => {
-        if (val && val !== "" && val.length !== 0){
-          return val
-        }
-      })
 
-      // ...Create the Assignment by executing Mutation
+      // If the childID is null or invalid, return
+      if (id === "" || id === null || id.length < 2){
+        console.warn("INVALID CHILD ID")
+        return 
+      }
+
+      // Creates the Description with a default if null value is provided
+      let desc = (formValues.description && formValues.description.length > 0) ? formValues.description : "No special instructions"
+
+      // Create the Assignment by executing Mutation
       await createAssignment({
         variables: {
           childCarePlanID: id,
@@ -65,27 +72,28 @@ function AssignmentForm({}) {
           videoIDs: videos
         }
       })
-        // ...then Notify the user of success
-        .then(async (resolved) => {
-          message.success("Successfully Created Assignment for child " + id);
-          Router.push("/assignments");
-  
-          // ...and run another query to get the new list of assignments so that the page reflects the changes
-          await client
-            .query({
-              query: GET_USER_ASSIGNMENTS,
-              fetchPolicy: "network-only",
-            })
-            .then(async (resolved) => {
-              setAssignments(resolved.data.getAssignments);
-            })
-            .catch((error) => {
-              message.error("Sorry, there was an error getting this information");
-            });
-        })
-        .catch((error) => {
-          message.error(error.message);
-        });
+      // Then Notify the user of success
+      .then(async (resolved) => {
+        message.success("Successfully Created Assignment for child " + id);
+        Router.push("/assignments");
+
+        // ...and run another query to get the new list of assignments so that the page reflects the changes
+        await client
+          .query({
+            query: GET_USER_ASSIGNMENTS,
+            fetchPolicy: "network-only",
+          })
+          .then(async (resolved) => {
+            setAssignments(resolved.data.getAssignments);
+          })
+          .catch((error) => {
+            message.error("Sorry, there was an error getting this information");
+          });
+      })
+      .catch((error) => {
+        console.warn("ERROR: ", error.message)
+        message.error(error.message);
+      });
     })
     
   };
