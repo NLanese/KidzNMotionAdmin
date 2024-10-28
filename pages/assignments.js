@@ -49,6 +49,7 @@ function Assignments({ router }) {
 
   const [assignments, setAssignments] = useRecoilState(assignmentsState);
   const [passedAssignments, setPassedAssignments] = useRecoilState(passedAssignmentsState)
+  const [loading, setLoading] = useState(false)
 
   ///////////////////////////
   // MUTATIONS and QUERIES //
@@ -92,9 +93,10 @@ function Assignments({ router }) {
           assignments.forEach((assign) => {
   
             if (assign.id) {
-              if (true) {
-                current.push(assign); // Use push instead of append
-              } else {
+              if (new Date(assign.dateDue) > new Date()) {
+                current.push(assign); 
+              } 
+              else {
                 passed.push(assign);
               }
             }
@@ -102,7 +104,7 @@ function Assignments({ router }) {
   
           current = orderAssignmentsByStartDate(current)
           setAssignments(current);
-          // setPassedAssignments(passed);
+          setPassedAssignments(passed);
           return;
         }
       } catch (error) {
@@ -114,6 +116,7 @@ function Assignments({ router }) {
     } else {
       setAssignments(null);
     }
+    setLoading(false)
   };
 
   // Runs Query on Init
@@ -169,7 +172,11 @@ function Assignments({ router }) {
     return(
       <Col lg={24} xl={12}>
         <ContentCard>
-          <AssignmentsTable assignments={assignments} setAssignments={setAssignments} passedAssignments={assignments} userID={user.id} userRole={user.role}/>
+          <AssignmentsTable 
+            assignments={assignments} setAssignments={setAssignments} 
+            passedAssignments={assignments} 
+            userID={user.id} userRole={user.role}
+          />
         </ContentCard>
       </Col>
     )
@@ -190,7 +197,14 @@ function Assignments({ router }) {
   /////////////////
   // MAIN RETURN //
   /////////////////
-
+  if (loading){
+    return (
+      <AssignmentsWrapper>
+        <NextSeo title="Assignments" />
+       {renderCreateAssignmentButton()}
+      </AssignmentsWrapper>
+    );
+  }
   return (
     <AssignmentsWrapper>
       <NextSeo title="Assignments" />
