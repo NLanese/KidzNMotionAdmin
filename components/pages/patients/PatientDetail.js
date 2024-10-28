@@ -188,6 +188,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
 
   // Sets Calendar Date
   const setPDFCalenderDate = (date) => {
+    console.log(date)
     setDateToUse(date);
   };
 
@@ -263,7 +264,8 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
                     <Calendar
                       fullscreen={false}
                       onChange={(value) => setPDFCalenderDate(value)}
-                      value={dateToUse}
+                      // value={dateToUse}
+                       
                     />
                   </CalenderWrapper>
                 </>
