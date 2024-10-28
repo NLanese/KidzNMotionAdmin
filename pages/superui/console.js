@@ -39,16 +39,12 @@ function Console() {
   const [selectedTherapist, setSelectedTherapist] = useState(false)
 
 
-  //////////////////////////////////////
-  // DELETE ASSIGNMENTS / ACTIVATE USERS
+  //////////////////
+  // SELECTED IDS //
 
-    // Assignment Delete Data
+    // Holds selected IDs for really anything, since most operations iterate by ID
     const [arrayIDText, setArrayIDText] = useState("")
     const [arrayIDs, setArrayIDs] = useState([])
-
-  
-
-
 
   // This determines the information inside of the modal ( or if not displayed )
   // - false (default)
@@ -79,8 +75,8 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
   // Queries clients and therapists
   useEffect(() => {
   
+    // GETS ALL CLIENTS \\
     if (!clientsError && !clients){
-      // Get All Clients
       client
       .query({
         query: GET_ALL_CLIENTS,
@@ -99,8 +95,8 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
       });
     }
 
+    // GETS ALL THERAPISTS \\
     if (!therapistsError && !therapists){
-        // Get All Therapists
         client
         .query({
           query: GET_ALL_THERAPISTS,
@@ -120,7 +116,6 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
     }
   }, [])
 
-
 ///////////////
 // Functions //
 ///////////////
@@ -129,75 +124,81 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
   // EXPIRED ASSIGNMENT //
   ////////////////////////
 
-  async function createExpiredAssignmentFunction(){
-    console.log("Creating Expired Assignment")
-    await createExpiredAssignment({
-      variables: {
-        superUserKey: process.env.SUPER_USER_SECRET_KEY
-      }
-    })
-  }
+    async function createExpiredAssignmentFunction(){
+      console.log("Creating Expired Assignment")
+      await createExpiredAssignment({
+        variables: {
+          superUserKey: process.env.SUPER_USER_SECRET_KEY
+        }
+      })
+    }
 
   ///////////////////
   // SET THERAPIST //
   ///////////////////
   
-  async function executeSetTherapistMutation(){
-    console.log("SELECTED CLIENT::::: ")
-    console.log(selectedClient)
-    let careID
-    if (selectedClient.childCarePlans.length === 0){
-      console.log("EMPTY CARE PLANS")
-      careID = "false"
-    }
-    else{
-      careID = selectedClient.childCarePlans[0].id
-    }
-    console.log("Mut Params")
-    console.log(careID)
-    console.log(selectedClient.id)
-    console.log(selectedClient.guardian.id)
-    console.log("executing...")
-    await setTherapistMutation({
-      variables: {
-        childCarePlanID: careID,
-        childID: selectedClient.id,
-        guardianID: selectedClient.guardian.id,
-        therapistID: selectedTherapist.id,
-        superUserKey: process.env.SUPER_USER_SECRET_KEY
-      },
-    })
-      .then(async (resolved) => {
-        console.log("Set Therapist Complete")
-        console.log("New Client Object...")
-        console.log(resolved.data.superSetTherapist)
-        setGeneralLoading(false)
+    async function executeSetTherapistMutation(){
+      console.log("SELECTED CLIENT::::: ")
+      console.log(selectedClient)
+      let careID
+      if (selectedClient.childCarePlans.length === 0){
+        console.log("EMPTY CARE PLANS")
+        careID = "false"
+      }
+      else{
+        careID = selectedClient.childCarePlans[0].id
+      }
+      console.log("Mut Params")
+      console.log(careID)
+      console.log(selectedClient.id)
+      console.log(selectedClient.guardian.id)
+      console.log("executing...")
+      await setTherapistMutation({
+        variables: {
+          childCarePlanID: careID,
+          childID: selectedClient.id,
+          guardianID: selectedClient.guardian.id,
+          therapistID: selectedTherapist.id,
+          superUserKey: process.env.SUPER_USER_SECRET_KEY
+        },
       })
-      .catch((error) => {
-        message.error(error);
-      });
-  }
-
+        .then(async (resolved) => {
+          console.log("Set Therapist Complete")
+          console.log("New Client Object...")
+          console.log(resolved.data.superSetTherapist)
+          setGeneralLoading(false)
+        })
+        .catch((error) => {
+          message.error(error);
+        });
+    }
 
   ////////////////////////////////////////
   // DELETE ASSIGNMENTS / ACIVATE USERS //
   ////////////////////////////////////////
 
-  function addToArrayID(){
-    if (arrayIDText.length > 2){
-      setArrayIDs( prev => [...prev, arrayIDText])
-      setArrayIDText("")
-    }
-  }
-
-  function removeIDFromArray(id){
-    setarrayIDs( prev => prev.filter(savedID => {
-      if (id !== savedID){
-        return savedID
+    // Adds a chosen ID from the Selected ID Array
+    function addToArrayID(){
+      if (arrayIDText.length > 2){
+        setArrayIDs( prev => [...prev, arrayIDText])
+        setArrayIDText("")
       }
-    }))
-  }
+    }
 
+    // Removes a chosen ID from the Selected ID Array
+    function removeIDFromArray(id){
+      setArrayIDs( prev => prev.filter(savedID => {
+        if (id !== savedID){
+          return savedID
+        }
+      }))
+    }
+
+  ///////////////////////
+  // Mutation Handlers //
+  ///////////////////////
+
+  // Handles the deletion of an Assignment 
   async function handleDeleteAssignments(){
     await deleteAssignments({
       variables: {
@@ -207,6 +208,7 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
     })
   }
 
+  // Handles the deletion of a User 
   async function handleDeleteUsers(){
     arrayIDs.forEach( async id => {
       await deleteUser({
@@ -218,6 +220,7 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
     })
   }
 
+  // Handles the Activation of a User(s) 
   async function handleActivateUsers(){
     await superActivateUsers({
       variables: {
@@ -486,7 +489,8 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
     }
   }
 
-  const assignmentMAIN = () => {
+  // Renders the console to Delete Assignments
+  const renderAssignmentMAIN = () => {
     return (
       <div>
         <h4>Assignments to Delete...</h4>
@@ -506,6 +510,7 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
     )
   }
 
+  // Renders Console to Create an Expired Assignment
   const expiredAssignmentMAIN = () => {
     return(
       <div>
@@ -514,7 +519,8 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
     )
   }
 
-  const activateUsersMAIN = () => {
+  // Renders the Activate Users console
+  const renderActivateUsersMAIN = () => {
     return (
       <div>
         <h4>Accounts to Activate...</h4>
@@ -534,7 +540,8 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
     )
   }
 
-  const deleteUsersMAIN = () => {
+  // Renders the Delete Users console
+  const renderDeleteUsersMAIN = () => {
     return (
       <div>
         <h4>Users to Delete...</h4>
@@ -554,7 +561,12 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
     )
   }
   
-  return deleteUsersMAIN();
+
+
+  //////////\\\\\\\\\\\
+  //   MAIN RETURN   \\
+  /////////||\\\\\\\\\\
+  return renderAssignmentMAIN();
 }
   
 export default Console;

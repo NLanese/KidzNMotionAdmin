@@ -65,8 +65,8 @@ function AssignmentForm({}) {
       await createAssignment({
         variables: {
           childCarePlanID: id,
-          dateStart: formValues.dateStart.toString().slice(0,15),
-          dateDue: formValues.dateDue.toString().slice(0,15),
+          dateStart: formValues.dateStart.toString().slice(0,16),
+          dateDue: formValues.dateDue.toString().slice(0,16),
           description: desc,
           title: formValues.title,
           videoIDs: videos

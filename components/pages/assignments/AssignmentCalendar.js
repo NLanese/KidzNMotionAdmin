@@ -18,8 +18,16 @@ function AssignmentCalendar({ router, assignments }) {
 
   const dateCellRender = (value) => {
     return assignments.map((assignmentObject, index) => {
-      console.log(moment(assignmentObject.dateStart).isBefore(value, "date"))
-      console.log(moment(assignmentObject.dateDue).isBefore(value, "date"))
+      console.log("=-=-=----=-=-=---=-=-=---=-=---=-==-=-=---=-")
+      console.log("ASSIGNMENT ", index)
+      console.log("STARTED ON: ", assignmentObject.dateStart)
+      console.log("ENDS ON: ", assignmentObject.dateDue)
+      console.log(value)
+      // console.log(moment(assignmentObject.dateStart).isBefore(value, "date"))
+      // console.log(moment(assignmentObject.dateDue).isBefore(value, "date"))
+      // console.log(moment(assignmentObject.dateStart).isAfter(value, "date"))
+      // console.log(moment(assignmentObject.dateDue).isAfter(value, "date"))
+      console.log("==---=-=--===-=-=---=-=-===---=-=-=---=-=-=")
       if (
 
         // IF Due Date is after Current Date AND Start Date is before current date
@@ -41,15 +49,6 @@ function AssignmentCalendar({ router, assignments }) {
             <Badge status="success" text={assignmentObject.title } />
           </li>
         );
-      }
-      else{
-        console.log("=-=-=-=-=-=-")
-        console.log("START::: ", moment(assignmentObject.dateStart))
-        console.log("DUE::: ", moment(assignmentObject.dateDue))
-        console.log(value.$d)
-        console.log("AFTER ", assignmentObject.dateStart, "? ", moment(assignmentObject.dateStart).isBefore(value, "date"))
-        console.log("BEFORE ", assignmentObject.dateDue, "? ", moment(assignmentObject.dateDue).isAfter(value, "date"))
-        console.log("=-=-=-=-=-=-")
       }
     });
 
