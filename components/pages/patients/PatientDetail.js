@@ -188,7 +188,6 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
 
   // Sets Calendar Date
   const setPDFCalenderDate = (date) => {
-    console.log(date)
     setDateToUse(date);
   };
 

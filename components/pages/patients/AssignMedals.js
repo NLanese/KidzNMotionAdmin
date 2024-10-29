@@ -50,7 +50,8 @@ function AssignMedalsForm({ router, getUser, childID }) {
 
     if (instructions === "no" && neededBreak === "no" && seconds === "full60") {
       return "gold";
-    } else if (
+    } 
+    else if (
       (instructions === "yes" || neededBreak === "yes") &&
       seconds === "less60"
     ) {

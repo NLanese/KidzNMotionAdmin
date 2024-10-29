@@ -18,5 +18,8 @@ export async function makeMedal(level, videoId, childCareId){
             },
           },
         }
+    }).then(res => {
+      console.log("MEDAL CREATED WITH THE FOLLOWING DETAILS")
+      console.log(res)
     })
 }

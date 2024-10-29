@@ -8,7 +8,7 @@ export default {
   Mutation: {
     setVideoCompleted: async (_, { videoID, medalType, childID }, context) => {
       if (!context.user) throw new UserInputError("Login required");
-
+      console.log("Inside setVideoCompeted")
       let video = VIDEOS[videoID]
 
 
@@ -37,31 +37,30 @@ export default {
           "If you are creating an indepentent video, you also need to pass in the child ID"
         );
       }
-      if (childID) {
 
-        // Find the child object to determine if the are under the guardian account
-        let childUser = await prisma.user.findUnique({
-          where: {
-            id: childID,
-          },
-          select: {
-            guardianId: true,
-            id: true,
-          },
-        });
+      // Find the child object to determine if the are under the guardian account
+      let childUser = await prisma.user.findUnique({
+        where: {
+          id: childID,
+        },
+        select: {
+          guardianId: true,
+          id: true,
+        },
+      });
 
-        // If they are not, then return user input error
-        if (!childUser) {
-          throw new UserInputError("Child does not exist");
-        }
+      // If they are not, then return user input error
+      if (!childUser) {
+        throw new UserInputError("Child does not exist");
       }
 
 
       ///////////////////
       // CHECKS PASSED //
       ///////////////////
+      
       if (childID && VIDEOS[videoID]) {
-
+        console.log("Checks passed")
       //////////////////////
       // ASSIGNMENT CHECK //
       //////////////////////
@@ -95,6 +94,8 @@ export default {
           },
         });
 
+        console.log("Found User")
+
         // Finds 'Video' Instances within this Child's Assignments
         let sameVideos = []
         childUser.childCarePlans[0].assignments.forEach(assignment => {
@@ -107,10 +108,14 @@ export default {
             })
           }
         })
+
+        console.log("Filled out SAME VIDEOS")
+        console.log(sameVideos)
           
 
         // Runs the Mutation on each applicable 
         sameVideos.forEach(async (vidID) => {
+          console.log("Updating Video...   " , vidID)
           await prisma.video.update({
             where: {
               id: vidID
@@ -156,17 +161,20 @@ export default {
         //     }
         //   });
 
+        console.log("Before Medal creation")
+        console.log(medalType.toUpperCase())
         // CREATES MEDALS 
-        if (medalType === "GOLD"){
+        if (medalType.toUpperCase() === "GOLD"){
+          console.log("Making gold, silver and bronze medals")
           await makeMedal("GOLD", video.id, childUser.childCarePlans[0].id)
           await makeMedal("SILVER", video.id, childUser.childCarePlans[0].id)
           await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
         }
-        else if (medalType === "SILVER"){
+        else if (medalType.toUpperCase() === "SILVER"){
           await makeMedal("SILVER", video.id, childUser.childCarePlans[0].id)
           await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
         }
-        else if (medalType === "BRONZE"){
+        else if (medalType.toUpperCase() === "BRONZE"){
           await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
         }
 
