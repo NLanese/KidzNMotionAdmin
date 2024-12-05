@@ -128,7 +128,7 @@ export default {
 
       } 
       
-        // IF //
+      // IF //
       // Therapist User //
       else {
         if (userObject.organizations) {
@@ -155,8 +155,6 @@ export default {
           }
         }
       }
-
-      console.log("4")
 
 
       userObject.subscriptionStatus = subscriptionStatus;
