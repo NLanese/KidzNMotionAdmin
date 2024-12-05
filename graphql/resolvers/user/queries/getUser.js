@@ -6,31 +6,26 @@ export default {
   Query: {
     getUser: async (_, {}, context) => {
 
-      console.log("1")
-
       /////////////////
       // LOGIN CHECK //
       if (!context.user) throw new UserInputError("Login required");
-
-      console.log("2")
 
 
       /////////////////////////////
       // SELECTS ALL USER FIELDS //
       let userObject = await getUserObject(context.user);
 
-      console.log("3")
 
       ///////////////////////////////
       // SUBSCRIPTION STATUS CHECK //
       let subscriptionStatus;
       let daysLeft;
 
-             // IF //
+      // IF //
       // Organization Owner //
       if (userObject.ownedOrganization) {
 
-                // IF //
+        // IF //
         //  No Subscription ID (no Payment) //
         if (!userObject.ownedOrganization.stripeSubscriptionID) {
 
@@ -49,31 +44,28 @@ export default {
           else {
             subscriptionStatus = "trial";
           }
-
         } 
         
-            // IF //
-        //  No Subscription ID (no Payment) //
+        // IF //
+        //  Yes Subscription ID (Yes Payment) //
         else {
           subscriptionStatus = "active";
         }
 
       } 
       
-          // IF //
+      // IF //
       // Guardian User //      
       else if (userObject.role === "GUARDIAN") {
 
-        console.log("3.5")
 
-
-          // IF //
+        // IF //
         // User Paid //
         if (userObject.soloStripeSubscriptionID) {
           subscriptionStatus = "active";
         } 
 
-          // IF //
+        // IF //
         // User Did not Pay //
         else {
           daysLeft = parseInt(
@@ -90,17 +82,35 @@ export default {
           }
         }
 
-        console.log("3.8")
-        console.log(userObject.organizations)
         
-        let orgStatus = userObject.organizations ? userObject.organizations.length > 0 ? userObject.organizations[0].organization.stripeSubscriptionID : false: false
+        let orgStatus = userObject.organizations ? userObject.organizations.length > 0 ? userObject.organizations[0].organization : false: false
         console.log(orgStatus)
         
-          // IF //
-        // Org Did Not Pay //
+        // IF //
+        // User is NOT SOLO //
         if (orgStatus) {
-
+          if (userObject.organizations[0].organization.stripeSubscriptionID){
+            subscriptionStatus = "active"
+          }
+          else{
+            daysLeft = parseInt(
+              8 -
+                (new Date().getTime() -
+                  new Date(userObject.organizations[0].organization.createdAt).getTime()) /
+                  (1000 * 3600 * 24)
+            )
+            if (daysLeft <= 0) {
+              // subscriptionStatus = "expiredOwner";
+              subscriptionStatus = "active"
+            } 
+            // else {
+            //   subscriptionStatus = "org_trial";
+            // }
+          }
         }
+
+        // IF //
+        // User is SOLO USER // 
         else{
           daysLeft = parseInt(
             8 -
@@ -155,3 +165,4 @@ export default {
     },
   },
 };
+
