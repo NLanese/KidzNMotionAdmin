@@ -53,50 +53,63 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
         handleSignUpFail("Invalid Therapist Org")
       }
     }
-    await signUpUser({
-      variables: {
-        email: formValues.email,
-        password: formValues.password,
-        firstName: formValues.firstName,
-        lastName: formValues.lastName,
-        role: role,
-        phoneNumber: formValues.phoneNumber,
-        organizationInviteKey: formValues.organizationInviteKey,
-        
-        // GUARDIAN
-        childFirstName: formValues.childFirstName,
-        childLastName: formValues.childLastName,
-        childDateOfBirth: formValues.childDateOfBirth,
-        
-        // ADMIN or THERAPIST
-        title: formValues.title,
-        organizationName: formValues.organizationName,
-      },
-    })
+    console.log("attempting Sign up")
+    try{
+      await signUpUser({
+        variables: {
+          email: formValues.email,
+          password: formValues.password,
+          firstName: formValues.firstName,
+          lastName: formValues.lastName,
+          role: role,
+          phoneNumber: formValues.phoneNumber,
+          organizationInviteKey: formValues.organizationInviteKey,
+          
+          // GUARDIAN
+          childFirstName: formValues.childFirstName,
+          childLastName: formValues.childLastName,
+          childDateOfBirth: formValues.childDateOfBirth,
+          
+          // ADMIN or THERAPIST
+          title: formValues.title,
+          organizationName: formValues.organizationName,
+        },
+      })
       .then(async (resolved) => {
-        message.success("Successfully Signed Up");
-
-        // Set the form spinner
-        setRedirectLogin(true);
-
-        // // Set token into local stoate
-        localStorage.setItem("token", resolved.data.signUpUser.token);
-
-        // Get the full user object and set that to state
-        await client
-          .query({
-            query: GET_USER,
-          })
-          .then(async (resolved) => {
-            setUser(resolved.data.getUser);
-          })
-          .catch((error) => {
-            message.error("Sorry, there was an error getting this information");
-          });
+          message.success("Successfully Signed Up");
+  
+          console.log("1")
+          
+          // Set the form spinner
+          setRedirectLogin(true);
+  
+          // // Set token into local stoate
+          localStorage.setItem("token", resolved.data.signUpUser.token);
+  
+          console.log("2")
+          // Get the full user object and set that to state
+          await client
+            .query({
+              query: GET_USER,
+            })
+            .then(async (resolved) => {
+              console.log("DATA RESOLVED")
+              console.log(resolved)
+              setUser(resolved.data.getUser);
+            })
+            .catch((error) => {
+              message.error("Sorry, there was an error getting this information");
+            });
+            console.log("3")
       })
       .catch((error) => {
+        console.log(error)
         handleSignUpFail(error);
       });
+    }
+    catch(error){
+      console.log(error)
+    }
   };
 
   return (

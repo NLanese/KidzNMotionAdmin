@@ -6,13 +6,20 @@ export default {
   Query: {
     getUser: async (_, {}, context) => {
 
+      console.log("1")
+
       /////////////////
       // LOGIN CHECK //
       if (!context.user) throw new UserInputError("Login required");
 
+      console.log("2")
+
+
       /////////////////////////////
       // SELECTS ALL USER FIELDS //
       let userObject = await getUserObject(context.user);
+
+      console.log("3")
 
       ///////////////////////////////
       // SUBSCRIPTION STATUS CHECK //
@@ -57,6 +64,9 @@ export default {
       // Guardian User //      
       else if (userObject.role === "GUARDIAN") {
 
+        console.log("3.5")
+
+
           // IF //
         // User Paid //
         if (userObject.soloStripeSubscriptionID) {
@@ -80,11 +90,15 @@ export default {
           }
         }
 
-        let orgStatus = userObject.organizations[0].organization.stripeSubscriptionID
+        console.log("3.8")
+        console.log(userObject.organizations)
+        
+        let orgStatus = userObject.organizations ? userObject.organizations[0].organization.stripeSubscriptionID : false
 
           // IF //
         // Org Did Not Pay //
         if (orgStatus) {
+
         }
         else{
           daysLeft = parseInt(
@@ -130,6 +144,9 @@ export default {
           }
         }
       }
+
+      console.log("4")
+
 
       userObject.subscriptionStatus = subscriptionStatus;
 

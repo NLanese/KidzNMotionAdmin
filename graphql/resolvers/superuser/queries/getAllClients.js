@@ -13,7 +13,7 @@ export default {
 
             let clients = await prisma.user.findMany({
                 where: {
-                    role: "CHILD"
+                  in: ["CHILD", "GUARDIAN"]
                 },
                 select: {
                     id: true,

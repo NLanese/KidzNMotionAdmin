@@ -136,6 +136,7 @@ export default {
         // GUARDIAN Connections to ORG //
         //                             //
         if (role === "GUARDIAN") {
+          
           // The guardian is signing up without an organization invite key, mark their account as solo
           if (!organizationInviteKey) {
             await prisma.user.update({
