@@ -12,11 +12,11 @@ export default {
       if (!context.user){
         throw new UserInputError("Login required");
       }
-      if ( context.user.email.toLowerCase() !== "nlanese21@gmail.com" ){
+      if ( context.user.email.toLowerCase() !== "nlanese21@gmail.com" &&  context.user.email.toLowerCase() !== "ostrichdeveloper@gmail.com" ){
         throw new UserInputError("Acccess Denied! Super class actions are restricted to Super Users only.")
       }
       if (superUserKey !== `${process.env.SUPER_USER_SECRET_KEY}`){
-        throw new UserInputError("Acccess Denied! Super Key was incorrect.")
+        throw new UserInputError("Acccess Denied! Super Key was incorrect -- ", superUserKey)
       }
 
 
@@ -74,7 +74,10 @@ export default {
             where: {
               id: usersToPurge[i],
             },
-          });
+          }).then(() => {
+            console.log("Account Deleted...")
+            console.log(usersToPurge[i])
+          })
         } catch {
           console.warn("No child");
         }

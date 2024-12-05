@@ -211,6 +211,8 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
   // Handles the deletion of a User 
   async function handleDeleteUsers(){
     arrayIDs.forEach( async id => {
+      console.log("Deleting user ", id)
+      console.log(process.env.SUPER_USER_SECRET_KEY)
       await deleteUser({
         variables: {
           userId: id,
@@ -409,7 +411,7 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
             onClick={() => handleDeleteUsers()}
             disabled={ arrayIDs.length > 0 ? false : true}
           >
-            DELETE LISTED USER EMAIL
+            DELETE LISTED USER ID(s)
           </Button>
         )
       }
@@ -566,7 +568,7 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
   //////////\\\\\\\\\\\
   //   MAIN RETURN   \\
   /////////||\\\\\\\\\\
-  return renderAssignmentMAIN();
+  return renderDeleteUsersMAIN();
 }
   
 export default Console;

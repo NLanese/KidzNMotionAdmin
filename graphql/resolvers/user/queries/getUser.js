@@ -93,8 +93,9 @@ export default {
         console.log("3.8")
         console.log(userObject.organizations)
         
-        let orgStatus = userObject.organizations ? userObject.organizations[0].organization.stripeSubscriptionID : false
-
+        let orgStatus = userObject.organizations ? userObject.organizations.length > 0 ? userObject.organizations[0].organization.stripeSubscriptionID : false: false
+        console.log(orgStatus)
+        
           // IF //
         // Org Did Not Pay //
         if (orgStatus) {
