@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import PageHeader from "@common/PageHeader";
-
-// Ant Design
-import { Row, Col, message, Button, Typography } from "antd";
+import { Row, Col, message, Typography } from "antd";
 import { Drawer } from "antd";
 import ContentCard from "@common/content/ContentCard";
 import Router from "next/router";
@@ -19,7 +17,7 @@ import LoadingBlock from "@common/LoadingBlock";
 import { withRouter } from "next/router";
 
 // Mutations and Queries
-import { GET_USER_ASSIGNMENTS, CREATE_ASSIGNMENT } from "@graphql/operations";
+import { GET_USER_ASSIGNMENTS } from "@graphql/operations";
 import client from "@utils/apolloClient";
 
 // Components
@@ -29,7 +27,7 @@ import AssignmentForm from "@components/forms/assignments/AssignmentForm";
 import EditAssignmentForm from "../components/forms/assignments/EditAssignmentForm";
 import orderAssignmentsByStartDate from "../functions/orderAssignmentsByStartDate";
 
-const { Text, Title } = Typography;
+const { Title } = Typography;
 
 const AssignmentsWrapper = styled.div`
   max-width: ${(props) => props.theme.contentSize.standard};
@@ -40,99 +38,76 @@ const AssignmentsWrapper = styled.div`
 `;
 
 function Assignments({ router }) {
-
   ///////////
   // STATE //
   ///////////
 
   const user = useRecoilValue(userState);
-
   const [assignments, setAssignments] = useRecoilState(assignmentsState);
-  const [passedAssignments, setPassedAssignments] = useRecoilState(passedAssignmentsState)
-  const [loading, setLoading] = useState(false)
+  const [passedAssignments, setPassedAssignments] = useRecoilState(passedAssignmentsState);
+  const [loading, setLoading] = useState(false);
 
-  ///////////////////////////
-  // MUTATIONS and QUERIES //
-  ///////////////////////////
+  ///////////////////////
+  // EFFECT & FETCHING //
+  ///////////////////////
 
-
-  // Queries all Assignments
-  const getUserAssignments = async () => {
-    const token = localStorage.getItem("token");
-  
-    if (token) {
-      try {
-        const resolved = await client.query({
-          query: GET_USER_ASSIGNMENTS,
-          fetchPolicy: "network-only",
-        });
-  
-        // NO ASSIGNMENTS RESPONSE
-        if (resolved.data.getAssignments.length === 0) {
-          setAssignments([]);
-          setPassedAssignments([]);
-          return;
-        } 
-
-        else {
-          let rawAssignments = resolved.data.getAssignments
-          let passed = [];
-          let current = [];
-          let assignments = rawAssignments.filter(assign => {
-            if (assign.id){
-              return assign
-            }
-          })
-          assignments = assignments.length > 0 ? resolved.data.getAssignments : "No Assignments";
-  
-          if (assignments === "No Assignments") {
-            return;
-          }
-
-  
-          assignments.forEach((assign) => {
-  
-            if (assign.id) {
-              if (new Date(assign.dateDue) > new Date()) {
-                current.push(assign); 
-              } 
-              else {
-                passed.push(assign);
-              }
-            }
-          });
-  
-          current = orderAssignmentsByStartDate(current)
-          setAssignments(current);
-          setPassedAssignments(passed);
-          return;
-        }
-      } catch (error) {
-        setAssignments(null);
-        message.error(
-          "Sorry, there was an error getting your assignments. Please try again!"
-        );
-      }
-    } else {
-      setAssignments(null);
-    }
-    setLoading(false)
-  };
-
-  // Runs Query on Init
   useEffect(() => {
-    getUserAssignments();
-  }, []);
+    const fetchUserAssignments = async () => {
+      const token = localStorage.getItem("token");
 
+      if (token) {
+        setLoading(true);
+        try {
+          const resolved = await client.query({
+            query: GET_USER_ASSIGNMENTS,
+            fetchPolicy: "network-only",
+          });
+
+          if (resolved.data.getAssignments.length === 0) {
+            setAssignments([]);
+            setPassedAssignments([]);
+          } else {
+            let rawAssignments = resolved.data.getAssignments;
+            let passed = [];
+            let current = [];
+
+            rawAssignments.forEach((assign) => {
+              if (assign.id) {
+                if (new Date(assign.dateDue) > new Date()) {
+                  current.push(assign);
+                } else {
+                  passed.push(assign);
+                }
+              }
+            });
+
+            current = orderAssignmentsByStartDate(current);
+            setAssignments(current);
+            setPassedAssignments(passed);
+          }
+        } catch (error) {
+          setAssignments(null);
+          message.error(
+            "Sorry, there was an error getting your assignments. Please try again!"
+          );
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setAssignments(null);
+      }
+    };
+
+    fetchUserAssignments();
+  }, [setAssignments, setPassedAssignments]);
 
   ////////////////
   // RENDERINGS //
   ////////////////
 
-  // Renders Button to Create an Assignment (if Therapist)
   const renderCreateAssignmentButton = () => {
-    if (user.role === "THERAPIST"){
-      return(
+    if (user.role === "THERAPIST") {
+      return (
         <PageHeader
           title="Assignments"
           createURL={"/assignments?create=true"}
@@ -140,19 +115,16 @@ function Assignments({ router }) {
             user.role === "THERAPIST" ? "Create Assignment" : "Request Assignment"
           }
         />
-      )
+      );
     }
-  }
+  };
 
-  // Renders the Assignment Creation / Editing Form
   const renderForm = () => {
-    return(
+    return (
       <Drawer
         placement="right"
         width={500}
-        title={router.query.create ? 
-          "Create Assignment" : "Edit Assignment"
-        }
+        title={router.query.create ? "Create Assignment" : "Edit Assignment"}
         onClose={() => Router.push("/assignments", null, { shallow: true })}
         open={router.query.create || router.query.id}
       >
@@ -164,51 +136,52 @@ function Assignments({ router }) {
           />
         )}
       </Drawer>
-    )
-  }
+    );
+  };
 
-  // Renders the Table Column
   const renderTableColumn = () => {
-    return(
+    return (
       <Col lg={24} xl={12}>
         <ContentCard>
-          <AssignmentsTable 
-            assignments={assignments} setAssignments={setAssignments} 
-            passedAssignments={assignments} 
-            userID={user.id} userRole={user.role}
+          <AssignmentsTable
+            assignments={assignments}
+            setAssignments={setAssignments}
+            passedAssignments={assignments}
+            userID={user.id}
+            userRole={user.role}
           />
         </ContentCard>
       </Col>
-    )
-  }
+    );
+  };
 
-  // Renders the Calendar Column
   const renderCalendarColumn = () => {
-    return(
+    return (
       <Col lg={24} xl={12}>
         <ContentCard>
           <AssignmentCalendar assignments={[...assignments, ...passedAssignments]} userID={user.id} />
         </ContentCard>
       </Col>
-    )
-  }
-
+    );
+  };
 
   /////////////////
   // MAIN RETURN //
   /////////////////
-  if (loading){
+
+  if (loading) {
     return (
       <AssignmentsWrapper>
         <NextSeo title="Assignments" />
-       {renderCreateAssignmentButton()}
+        {renderCreateAssignmentButton()}
       </AssignmentsWrapper>
     );
   }
+
   return (
     <AssignmentsWrapper>
       <NextSeo title="Assignments" />
-     {renderCreateAssignmentButton()}
+      {renderCreateAssignmentButton()}
       {assignments && assignments.loading && <LoadingBlock />}
       {assignments && !assignments.loading && (
         <Row gutter={[16, 16]}>

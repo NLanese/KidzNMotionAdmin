@@ -14,6 +14,7 @@ function CreateCarePlanComment({
   assignment,
 }) {
   const [loading, setLoading] = useState(false);
+  const [comments, setComments] = useState([]); // State to hold multiple comments
 
   // Mutations
   const [editFunction, {}] = useMutation(CREATE_CHILD_CARE_PLAN_COMMENT);
@@ -30,10 +31,18 @@ function CreateCarePlanComment({
       .then(async (resolved) => {
         setLoading(false);
         await getUser();
+
+        // Add the newly submitted comment to the state
+        setComments((prevComments) => [
+          ...prevComments,
+          formValues.commentContent,
+        ]);
+
         Router.replace(returnUrl, null, {
           shallow: true,
           scroll: false,
         });
+
         message.success("Successfully Saved Comment");
       })
       .catch((error) => {
@@ -98,11 +107,21 @@ function CreateCarePlanComment({
               size={"large"}
               disabled={invalid || pristine}
             >
-              Create
+              Create Comment
             </Button>
           </form>
         )}
       />
+
+      {/* Displaying the list of comments */}
+      <div>
+        <h3>Previous Comments:</h3>
+        <ul>
+          {comments.map((comment, index) => (
+            <li key={index}>{comment}</li>
+          ))}
+        </ul>
+      </div>
     </Spin>
   );
 }

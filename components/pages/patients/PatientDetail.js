@@ -61,7 +61,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
       if (patientDetail){
         getChildsMedals()
       }
-    }, [patientDetail])
+    }, [getChildsMedals, patientDetail])
 
   /////////////
   // Queries //

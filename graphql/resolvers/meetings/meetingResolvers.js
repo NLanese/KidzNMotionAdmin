@@ -10,7 +10,7 @@ import getMeetings from "./queries/getMeetings"
 export default {
     Query: {
         // MEETING QUERIRES
-       ...getMeetings.Query
+    ...getMeetings.Query
     },
     Mutation: {
         // MEETING MUTATIONS
