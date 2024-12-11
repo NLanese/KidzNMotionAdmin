@@ -11,8 +11,6 @@ export default {
             if (!context.user){
               throw new UserInputError("Login required");
             }
-            console.log(context)
-            console.log(context.user.email.toLowerCase())
             if ( context.user.email.toLowerCase() !== "nlanese21@gmail.com" && context.user.email.toLowerCase() !== "ostrichdeveloper@gmail.com"){
               throw new UserInputError("Acccess Denied! Super class actions are restricted to Super Users only. Nice try, ", context.user.email )
             }
@@ -60,7 +58,6 @@ export default {
               let dataDate
               let BeforeDateString = idArray[0]
               let BeforeDate = BeforeDateString.split(" - ")[1]
-              console.log(BeforeDate)
               if (!BeforeDate.includes(".")){
                 dataDate = BeforeDate
               }

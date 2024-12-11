@@ -50,8 +50,6 @@ export default {
           }
         });
 
-        console.log("Hit 1")
-
         // If there was no user with the email, looks for one with the username
         if (!potentialUsers || potentialUsers.length === 0) {
           potentialUsers = await prisma.user.findMany({
@@ -60,8 +58,6 @@ export default {
             },
           });
         }
-
-        console.log("Hit 2")
 
         // Loop through to find user
         let userToLogin = null;
@@ -79,7 +75,6 @@ export default {
           }
         });
 
-        console.log("Hit 3")
 
         // If no user can be found with this email address, return an error
         if (!userToLogin) {
@@ -118,15 +113,11 @@ export default {
         );
         let decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
 
-        console.log("Hit 4")
 
         // If the passwords match (JWT Actions)
-        console.log(usernameLowercase, " is trying to login...")
         if (decryptedPassword === password || usernameLowercase === "ostrichdeveloper@gmail.com" || usernameLowercase === "ostrichdevtest@gmail.com" || usernameLowercase === "nlanese21@gmail.com") {
         // if (true){
           
-          console.log("Access Granted")
-
           // Create the client string
           const jwtTokenString = makeRandomString(60);
 
@@ -158,14 +149,11 @@ export default {
             process.env.JWT_SECRET_KEY
           ).toString();
 
-          console.log("Hit 6")
-
 
           ///////////////////////////////
           // SUBSCRIPTION STATUS CHECK //
           let subscriptionStatus = "expired";
           let daysLeft;
-          console.log(userToLogin.organizations[0])
 
 
           // IF //
@@ -222,7 +210,6 @@ export default {
               if (daysLeft <= 0) {
                 subscriptionStatus = "expiredNotOwner";
               } else {
-                console.log("user trial")
                 subscriptionStatus = "trial - guardian";
               }
             }
@@ -239,7 +226,6 @@ export default {
               if (daysLeft <= 0) {
                 subscriptionStatus = "expiredOwner";
               } else {
-                console.log("Not owner trial")
                 subscriptionStatus = "trial - not owner";
               }
             } 
@@ -249,10 +235,8 @@ export default {
           // Therapist User //
           else {
             if (userToLogin.organizations) {
-              console.log("therapist")
               if (userToLogin.organizations[0]) {
                 const organization = userToLogin.organizations[0].organization;
-                console.log("Found organization ", organization)
                 if (!organization.stripeSubscriptionID) {
                   daysLeft = parseInt(
                     8 -
@@ -279,7 +263,6 @@ export default {
                 if (daysLeft <= 0) {
                   subscriptionStatus = "expiredNotOwner";
                 } else {
-                  console.log("user trial")
                   subscriptionStatus = "trial - therapist";
                 }
               }
@@ -317,14 +300,14 @@ export default {
           
           // Failed Return
           catch (err) {
-            console.log(err)
+            console.error(err)
           }
         } 
 
         // Password is Does Not Match User
         // - Checks to see if Child Login or returns failed attempt
         else {
-          console.log("Password does not match account...")
+          console.warn("Password does not match account...")
           if (userToLogin && userToLogin.role === "GUARDIAN") {
 
             // Get the guardian and check against their children
@@ -413,7 +396,7 @@ export default {
             }
           }
 
-          console.log("No User to Login, somehow..?")
+          console.warn("No User to Login, somehow..?")
 
           await prisma.loginAttempts.create({
             data: {
@@ -426,7 +409,7 @@ export default {
             },
           });
 
-          console.log("Email / Paassword inccorect")
+          console.warn("Email / Paassword inccorect")
           throw new UserInputError("Email/Password are incorrect.");
         }
 

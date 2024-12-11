@@ -73,7 +73,6 @@ export default async function handler(req, res) {
   await sgMail
     .send(msg)
     .then(() => {
-      // // console.log('Email sent')
     })
     .catch((error) => {
       console.error(error.response.body);

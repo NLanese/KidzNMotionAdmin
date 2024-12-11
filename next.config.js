@@ -23,7 +23,7 @@ const moduleExports = withAntdLess({
         ? 'http://localhost:3000/api/graphql'
         : process.env.API_URL;
 
-      console.log("Hitting ", apiUrl)
+      console.log("Accessing API at ", apiUrl)
       config.plugins.push(
         new webpack.DefinePlugin({
           'process.env.API_URL': JSON.stringify(

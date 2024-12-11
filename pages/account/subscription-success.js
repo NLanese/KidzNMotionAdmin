@@ -61,7 +61,6 @@ function SubscriptionSuccess({ router }) {
   // Mutations
 
   const updatePaymentStatus = async (userID, sessionID) => {
-    console.log(userID, sessionID);
     await updateSoloGuardianSubscription(userID, sessionID);
   };
 

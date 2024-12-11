@@ -20,7 +20,7 @@ try {
         "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-r0ewz%40kidznmotionios.iam.gserviceaccount.com",
     }),
   });
-  // console.log("Initialized.");
+  console.log("Firebase Initialized.");
 } catch (error) {
   /*
    * We skip the "already exists" message which is

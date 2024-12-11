@@ -8,7 +8,6 @@ export default {
   Mutation: {
     setVideoCompleted: async (_, { videoID, medalType, childID }, context) => {
       if (!context.user) throw new UserInputError("Login required");
-      console.log("Inside setVideoCompeted")
       let video = VIDEOS[videoID]
 
 
@@ -60,7 +59,6 @@ export default {
       ///////////////////
       
       if (childID && VIDEOS[videoID]) {
-        console.log("Checks passed")
       //////////////////////
       // ASSIGNMENT CHECK //
       //////////////////////
@@ -94,7 +92,6 @@ export default {
           },
         });
 
-        console.log("Found User")
 
         // Finds 'Video' Instances within this Child's Assignments
         let sameVideos = []
@@ -107,15 +104,10 @@ export default {
               }
             })
           }
-        })
-
-        console.log("Filled out SAME VIDEOS")
-        console.log(sameVideos)
-          
+        })          
 
         // Runs the Mutation on each applicable 
         sameVideos.forEach(async (vidID) => {
-          console.log("Updating Video...   " , vidID)
           await prisma.video.update({
             where: {
               id: vidID
@@ -161,11 +153,9 @@ export default {
         //     }
         //   });
 
-        console.log("Before Medal creation")
-        console.log(medalType.toUpperCase())
+
         // CREATES MEDALS 
         if (medalType.toUpperCase() === "GOLD"){
-          console.log("Making gold, silver and bronze medals")
           await makeMedal("GOLD", video.id, childUser.childCarePlans[0].id)
           await makeMedal("SILVER", video.id, childUser.childCarePlans[0].id)
           await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)

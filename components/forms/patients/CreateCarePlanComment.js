@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Form, Field } from "react-final-form";
 import { TextAreaField } from "@fields";
@@ -7,20 +8,32 @@ import { useMutation } from "@apollo/client";
 import { CREATE_CHILD_CARE_PLAN_COMMENT } from "@graphql/operations";
 import Router from "next/router";
 
+/////////////////////////////////////////////
+//                                         //
+//   This is the Sidebar that Opens        //
+//   when a User Selects 'Add New Comment' //
+//                                         //
+/////////////////////////////////////////////
 function CreateCarePlanComment({
   getUser,
   initialValues,
   returnUrl,
   assignment,
 }) {
+
+  ///////////
+  // State //
+  ///////////
   const [loading, setLoading] = useState(false);
 
   // Mutations
-  const [editFunction, {}] = useMutation(CREATE_CHILD_CARE_PLAN_COMMENT);
+  const [createComment, {}] = useMutation(CREATE_CHILD_CARE_PLAN_COMMENT);
 
+
+  // Handles Entire Process of Submitting a New Comment
   const handleFormSubmit = async (formValues) => {
     setLoading(true);
-    await editFunction({
+    await createComment({
       variables: {
         commentContent: formValues.commentContent,
         childCarePlanID: initialValues.childCarePlanID,
@@ -44,6 +57,8 @@ function CreateCarePlanComment({
 
   return (
     <Spin spinning={loading}>
+
+      {/* Form Settings */}
       <Form
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
@@ -60,6 +75,9 @@ function CreateCarePlanComment({
 
           return errors;
         }}
+
+
+        // Form Render //
         render={({
           handleSubmit,
           pristine,

@@ -50,12 +50,11 @@ function GuardianBilling() {
   const generatePortalURL = async () => {
     await generateSoloGuardianPortalLink()
       .then(async (resolved) => {
-        // console.log(resolved);
         window.location = resolved.data.generateSoloGuardianPortalLink;
       })
 
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
   useEffect(() => {

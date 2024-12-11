@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     .then((resp) => {
     })
     .catch((err) => {
-      // console.log("Failed to send the message:", err);
+      console.warn("Failed to send the message:", err);
     });
 
   res.status(200).json({});

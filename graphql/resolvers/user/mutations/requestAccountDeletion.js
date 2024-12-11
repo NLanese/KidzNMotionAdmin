@@ -75,8 +75,7 @@ export default {
               id: usersToPurge[i],
             },
           }).then(() => {
-            console.log("Account Deleted...")
-            console.log(usersToPurge[i])
+            console.warn("Account Deleted...")
           })
         } catch {
           console.warn("No child");

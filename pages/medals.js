@@ -118,9 +118,6 @@ function MedalsPage() {
         getChildsMedals()
     }, [selectedChild])
 
-    useEffect(() => {
-        console.log(medals)
-    }, [medals])
     /////////////////
     // MAIN RETURN //
     /////////////////

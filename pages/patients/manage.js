@@ -48,7 +48,6 @@ function ManagePatients({ router }) {
     user.organizations[0].organization.organizationUsers.map(
       (orgUserObject) => {
 
-        // console.log(orgUserObject);
         let user = Object.assign({}, orgUserObject.user);
         if (patientCarePlans[user.id]) {
           user.carePlan = patientCarePlans[user.id];

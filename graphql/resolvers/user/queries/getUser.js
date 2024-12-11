@@ -84,7 +84,6 @@ export default {
 
         
         let orgStatus = userObject.organizations ? userObject.organizations.length > 0 ? userObject.organizations[0].organization : false: false
-        console.log(orgStatus)
         
         // IF //
         // User is NOT SOLO //
@@ -142,7 +141,6 @@ export default {
                     new Date(organization.createdAt).getTime()) /
                     (1000 * 3600 * 24)
               );
-              console.log(daysLeft);
               if (daysLeft <= 0) {
                 // subscriptionStatus = "expiredNotOwner";
                 subscriptionStatus = "active"

@@ -53,7 +53,6 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
         handleSignUpFail("Invalid Therapist Org")
       }
     }
-    console.log("attempting Sign up")
     try{
       await signUpUser({
         variables: {
@@ -77,38 +76,32 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
       })
       .then(async (resolved) => {
           message.success("Successfully Signed Up");
-  
-          console.log("1")
-          
+            
           // Set the form spinner
           setRedirectLogin(true);
   
           // // Set token into local stoate
           localStorage.setItem("token", resolved.data.signUpUser.token);
   
-          console.log("2")
           // Get the full user object and set that to state
           await client
             .query({
               query: GET_USER,
             })
             .then(async (resolved) => {
-              console.log("DATA RESOLVED")
-              console.log(resolved)
               setUser(resolved.data.getUser);
             })
             .catch((error) => {
               message.error("Sorry, there was an error getting this information");
             });
-            console.log("3")
       })
       .catch((error) => {
-        console.log(error)
+        console.error(error)
         handleSignUpFail(error);
       });
     }
     catch(error){
-      console.log(error)
+      console.error(error)
     }
   };
 

@@ -3,7 +3,6 @@ import { handleAuth } from "@helpers/api/auth";
 
 export default async function handler(req, res) {
 
-  console.log("HANDLER REQUEST...")
   const body = req.body;
   const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 

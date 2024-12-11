@@ -944,7 +944,6 @@ export const getUserObject = async (user) => {
   }
 
   // Super User
-  // console.log(userObject.email.toLowerCase())
   // if (
   //   userObject.email.toLowerCase() === "nlanese21@gmail.com" ||
   //   userObject.email.toLowerCase() === "ostrichdeveloper@gmail.com" ||

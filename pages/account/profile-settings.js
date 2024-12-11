@@ -54,8 +54,6 @@ function ProfileSettings() {
             fetchPolicy: "network-only",
           })
           .then(async (resolved) => {
-            // console.clear()
-            // // console.log(resolved);
             setUser(resolved.data.getUser);
           })
           .catch((error) => {

@@ -48,7 +48,6 @@ export default async function handler(req, res) {
     }
   );
 
-  console.log("-------");
   // Get the portal session for the user to click on the link to edit their payment settings
   const portalSession = await stripe.billingPortal.sessions.create({
     customer: customer.id,
