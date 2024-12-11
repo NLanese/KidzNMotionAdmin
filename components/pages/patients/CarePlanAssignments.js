@@ -57,8 +57,6 @@ function CarePlanAssignments({
 
   // Renders Medals per Video in Assignment Block
   const renderMedals = (video) => {
-    console.log(video)
-    console.log(medals)
    return <VideoMedals videoTitle={video.contentfulID} userMedals={medals} size={"sm"}/>
   };
 

@@ -1,37 +1,73 @@
-import React, { useState } from "react";
+
+// React Imports
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import ReactPlayer from "react-player";
+
+// Ant Design
 import { message, Popconfirm, Empty, Input, Button, Form, Select, Typography, Space } from "antd";
 import { Comment } from "@ant-design/compatible";
-import ReactPlayer from "react-player";
 import ContentCard from "@common/content/ContentCard";
 
-const { Title, Text } = Typography;
-const { Option } = Select;
+// Constants
+import VIDEOS from "../../../constants/videos";
 
-var dateFormat = require("dateformat");
-
+// Mutations
 import { useMutation } from "@apollo/client";
 import { DELETE_CHILD_CARE_PLAN_COMMENT } from "@graphql/operations";
 
+// Styles
 const CommentContainer = styled.div`
   margin-top: 40px;
 `;
 
+// Other
+const { Title, Text } = Typography;
+const { Option } = Select;
+var dateFormat = require("dateformat");
+
+///////////////
+// COMPONENT //
+///////////////
 function CarePlanComments({
   comments,
   getUser,
   returnUrl,
   assignmentID,
   videoID,
-  VIDEOS, // Assuming VIDEOS is passed as a prop
   initialValues,
   handleFormSubmit,
 }) {
+
+  ///////////
+  // State //
+  ///////////
+
+  // Input for staged comment
   const [newComment, setNewComment] = useState("");
+
+  // (Optional) Video ID's related to Comment
+  const [relatedIDs, setRelatedIDs] = useState([])
+
+  useEffect(() => {
+    console.log(relatedIDs)
+  }, [relatedIDs])
+  
+  // Displayed Comments
   const [localComments, setLocalComments] = useState(comments || []);
 
+  ///////////////
+  // Mutations //
+  ///////////////
+
+  // Delete Comment Mutation Trigger
   const [deleteChildCarePlanComment] = useMutation(DELETE_CHILD_CARE_PLAN_COMMENT);
 
+  //////////////
+  // Handlers //
+  //////////////
+
+  // Handles the Deletion of a Comment
   const deleteComment = async (commentID) => {
     await deleteChildCarePlanComment({
       variables: {
@@ -50,6 +86,7 @@ function CarePlanComments({
       });
   };
 
+  // Adds a comment
   const addComment = async () => {
     if (!newComment.trim()) {
       message.warning("Comment cannot be empty!");
@@ -67,14 +104,15 @@ function CarePlanComments({
     message.success("Comment added successfully!");
   };
 
+  // -- Unsure
   const renderVideoOptions = () => {
     let options = [];
     for (var key in VIDEOS) {
       if (VIDEOS[key].id !== "great_job") {
         if (VIDEOS.hasOwnProperty(key)) {
           options.push({
-            value: VIDEOS[key].id,
-            text: `${VIDEOS[key].title} - Level: ${VIDEOS[key].level}`,
+            value: VIDEOS[key].title,
+            text: `${VIDEOS[key].title}`,
           });
         }
       }
@@ -82,6 +120,7 @@ function CarePlanComments({
     options = options.sort((a, b) => a.text.localeCompare(b.text)); // Sort alphabetically
     return options;
   };
+
 
   const renderAssignedVideos = (videoIDs) => {
     return videoIDs.map((videoID) => {
@@ -119,14 +158,15 @@ function CarePlanComments({
         {/* Video Dropdown */}
         <Form.Item
           name="videoIDs"
-          label="Assigned Videos"
-          rules={[{ required: true, message: "Please select videos!" }]}
+          label="Related Videos (Optional)"
+          rules={[{ required: false, message: "Please select videos!" }]}
         >
           <Select
             mode="multiple"
             placeholder="Select videos"
             style={{ width: "100%", marginTop: "10px" }}
             options={renderVideoOptions()}
+            onChange={(e) => setRelatedIDs(e)}
           />
         </Form.Item>
 
