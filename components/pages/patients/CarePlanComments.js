@@ -111,13 +111,13 @@ function CarePlanComments({
       if (VIDEOS[key].id !== "great_job") {
         if (VIDEOS.hasOwnProperty(key)) {
           options.push({
-            value: VIDEOS[key].title,
-            text: `${VIDEOS[key].title}`,
+            value: VIDEOS[key].id,
+            label: VIDEOS[key].title,
           });
         }
       }
     }
-    options = options.sort((a, b) => a.text.localeCompare(b.text)); // Sort alphabetically
+    options = options.sort((a, b) => a.label.localeCompare(b.label)); // Sort alphabetically
     return options;
   };
 
@@ -158,11 +158,11 @@ function CarePlanComments({
         {/* Video Dropdown */}
         <Form.Item
           name="videoIDs"
-          label="Related Videos (Optional)"
-          rules={[{ required: false, message: "Please select videos!" }]}
+          label="Related Video (Optional)"
+          rules={[{ required: false, message: "Select a video if necessary!" }]}
         >
           <Select
-            mode="multiple"
+            mode="single"
             placeholder="Select videos"
             style={{ width: "100%", marginTop: "10px" }}
             options={renderVideoOptions()}
