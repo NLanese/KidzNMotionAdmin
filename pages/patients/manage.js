@@ -76,7 +76,7 @@ function ManagePatients({ router }) {
       else {
         console.warn("[Manage.js] - No Patient Found 2")
         setPatientDetail(null);
-        Router.push("/");
+        // Router.push("/");
       }
     }, [router, user]);
 

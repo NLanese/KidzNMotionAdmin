@@ -1,24 +1,39 @@
+// React and Antd
 import React, { useState } from "react";
-
 import styled from "styled-components";
 import { message, Popconfirm, Empty } from "antd";
 import { Comment } from '@ant-design/compatible';
+
+// Date
 var dateFormat = require("dateformat");
 
+// Apollo / GraphQl
 import { useMutation } from "@apollo/client";
 import { DELETE_CHILD_CARE_PLAN_COMMENT } from "@graphql/operations";
 
+// Videos
+import {VIDEOS} from "../../../constants/videos"
+
+
+// Style
 const CommentContainer = styled.div`
   margin-top: 40px;
 `;
 
+///////////////
+// Component //
+///////////////
+
 function CarePlanComments({
   comments,
   getUser,
+  patientDetail,
   returnUrl,
   assignmentID,
   videoID,
 }) {
+
+
   // Mutations
   const [deleteChildCarePlanComment, {}] = useMutation(
     DELETE_CHILD_CARE_PLAN_COMMENT
@@ -40,49 +55,79 @@ function CarePlanComments({
       });
   };
 
+  // Renders Comments
   const renderComments = () => {
     return comments.map((commentObject) => {
-      if (!videoID) {
-        if (commentObject.videoId) {
-          return;
-        }
-        if (!assignmentID) {
-          if (commentObject.assignmentId) return;
-        } else {
-          if (commentObject.assignmentId !== assignmentID) return;
-        }
-      } else {
-        if (commentObject.videoId !== videoID) {
-          return;
-        }
-      }
-
       return (
-        <div key={commentObject.id}>
-          <Comment
-            author={"You"}
-            key={commentObject.id}
-            avatar="/logos/Main.png"
-            content={commentObject.content}
-            datetime={dateFormat(commentObject.createdAt, "m/dd hh:MM tt")}
-            actions={[
-              <Popconfirm
-                key={"topLeft"}
-                placement="topLeft"
-                title={"Are you sure you want to delete this comment?"}
-                onConfirm={() => deleteComment(commentObject.id)}
-                okText="Yes, Delete"
-                cancelText="No, Cancel"
-              >
-                <span style={{ color: "#e74c3c" }}>Delete Comment</span>
-              </Popconfirm>,
-            ]}
-          />
+        <div key={commentObject.id} style={{padding: 3.5, borderTop: '2px solid #ffbe76', display: 'flex', flexDirection: 'row'}}>
+          <div style={{flex: 9}}>
+            <Comment
+              author={"You"}
+              key={commentObject.id}
+              avatar="/logos/Main.png"
+              content={commentObject.content}
+              datetime={dateFormat(commentObject.createdAt, "m/dd hh:MM tt")}
+              actions={[
+                <Popconfirm
+                  key={"topLeft"}
+                  placement="topLeft"
+                  title={"Are you sure you want to delete this comment?"}
+                  onConfirm={() => deleteComment(commentObject.id)}
+                  okText="Yes, Delete"
+                  cancelText="No, Cancel"
+                >
+                  <span style={{ color: "#e74c3c" }}>Delete Comment</span>
+                </Popconfirm>,
+              ]}
+            />
+          </div>
+          <div style={{flex: 3}}>
+              {renderForVideo(commentObject)}
+              {renderForAssignment(commentObject)}
+          </div>
         </div>
       );
     });
   };
 
+  // (In Comment -- Optional) Renders Related Video Title
+  const renderForVideo = (commentObject) => {
+    if (commentObject.videoId){
+      return(
+        <Comment
+              author={"For Video"}
+              key={(commentObject.id) + "-" + (commentObject.videoId)}
+              content={getVideoTitleById(commentObject.videoId)}
+        />
+      )
+    }
+  }
+
+   // (In Comment -- Optional) Renders Related Assignment Title
+  const renderForAssignment = (commentObject) => {
+    if (commentObject.assignmentId){
+      return(
+        <Comment
+              author={"For Assignment"}
+              key={(commentObject.id) + "-" + (commentObject.assignmentId)}
+              content={getAssignmentTitleById(commentObject.assignmentId)}
+        />
+      )
+    }
+  }
+
+  function getVideoTitleById(id) {
+    const video = Object.values(VIDEOS).find(video => video.id === id);
+    return video ? video.title : `Video with id "${id}" not found.`;
+  }
+
+  function getAssignmentTitleById(id){
+    let assignments = patientDetail.carePlan.assignments
+    const assign = Object.values(assignments).find(ass => ass.id === id);
+    return assign ? assign.title : `Assignment not found.`;
+  }
+
+  // Returns Empty Container if no Comments
   if (comments.length === 0) {
     return (
       <CommentContainer style={{ textAlign: "center" }}>
@@ -91,6 +136,7 @@ function CarePlanComments({
     );
   }
 
+  // Main Return
   return <CommentContainer>{renderComments()}</CommentContainer>;
 }
 

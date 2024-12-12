@@ -221,25 +221,18 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
       )
     }
 
+    // Renders Create Assignmnet Button for Menu, as well as Previous Assignments
     function renderCreateNewAssignment(){
       return(
         <TabPane tab="Assignments" key="1">
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "flex-end",
-            }}
-          >
-            <BasicLink
-              href={`/patients/manage?id=${patientDetail.id}&createAssignment=true`}
-              shallow={true}
-            >
+          <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end"}}>
+            <BasicLink href={`/patients/manage?id=${patientDetail.id}&createAssignment=true`} shallow={true}>
               <Button type="primary" style={{ float: "right" }}>
                 Create New Assignment +
               </Button>
             </BasicLink>
           </div>
+
           <CarePlanAssignments
             getUser={getUser}
             patient={patientDetail}
@@ -255,22 +248,21 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
       )
     }
 
+    // Renders Create Comment Button for Menu, as well as Previous Comments
     function renderCreateNewComment(){
       return(
         <TabPane tab="Care Plan Comments" key="2">
-        <BasicLink
-          href={`/patients/manage?id=${patientDetail.id}&createComment=true`}
-          shallow={true}
-        >
-          <Button type="primary" style={{ float: "right" }}>
-            Add New Comment +
-          </Button>
-        </BasicLink>
+          <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end"}}>
+            <BasicLink href={`/patients/manage?id=${patientDetail.id}&createComment=true`} shallow={true}>
+              <Button type="primary" style={{ float: "right" }}>
+                Add New Comment +
+              </Button>
+            </BasicLink>
+          </div>
         <CarePlanComments
           getUser={getUser}
-          initialValues={{
-            childCarePlanID: patientDetail.carePlan.id,
-          }}
+          patientDetail={patientDetail}
+          initialValues={{childCarePlanID: patientDetail.carePlan.id,}}
           returnUrl={`/patients/manage?id=${patientDetail.id}`}
           comments={patientDetail.carePlan.comments}
         />
