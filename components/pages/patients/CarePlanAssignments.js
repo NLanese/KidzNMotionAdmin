@@ -150,6 +150,7 @@ function CarePlanAssignments({
             />
           </Col>
 
+          {/* Comments */}
           <Col xs={24} sm={24}>
             <Collapse defaultActiveKey={[]} bordered={true}>
               <Panel
@@ -161,7 +162,7 @@ function CarePlanAssignments({
                   returnUrl={returnUrl}
                   initialValues={{
                     ...initialValues,
-                    videoID: videoObject.id,
+                    videoID: videoObject.contentfulID,
                   }}
                 />
                 <Divider />
@@ -170,7 +171,7 @@ function CarePlanAssignments({
                   comments={comments}
                   assignmentID={assignmentObject.id}
                   videoID={videoObject.id}
-                  showOnly={"squat"}
+                  showOnlyVid={videoObject.contentfulID}
                 />
               </Panel>
             </Collapse>
@@ -243,6 +244,7 @@ function CarePlanAssignments({
                 <CarePlanComments
                   getUser={getUser}
                   comments={comments}
+                  showOnlyAssign={assignmentObject.id}
                   assignmentID={assignmentObject.id}
                 />
               </Panel>

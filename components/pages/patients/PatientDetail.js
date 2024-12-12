@@ -59,7 +59,6 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
 
     useEffect(() => {
       if (patientDetail){
-        console.log(patientDetail)
         getChildsMedals()
       }
     }, [patientDetail])

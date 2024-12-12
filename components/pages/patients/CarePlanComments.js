@@ -12,7 +12,7 @@ import { useMutation } from "@apollo/client";
 import { DELETE_CHILD_CARE_PLAN_COMMENT } from "@graphql/operations";
 
 // Videos
-import {VIDEOS} from "../../../constants/videos"
+import VIDEOS from "../../../constants/videos"
 
 
 // Style
@@ -28,10 +28,8 @@ function CarePlanComments({
   comments,
   getUser,
   patientDetail,
-  showOnly,
-  returnUrl,
-  assignmentID,
-  videoID,
+  showOnlyVid,
+  showOnlyAssign,
 }) {
 
 
@@ -59,8 +57,13 @@ function CarePlanComments({
   // Renders Comments
   const renderComments = () => {
     return comments.map((commentObject) => {
-      if (showOnly){
-        if (commentObject.videoId !== showOnly){
+      if (showOnlyVid){
+        if (commentObject.videoId !== showOnlyVid){
+          return false
+        }
+      }
+      if (showOnlyAssign){
+        if (commentObject.assignmentId !== showOnlyAssign){
           return false
         }
       }
@@ -111,6 +114,7 @@ function CarePlanComments({
 
    // (In Comment -- Optional) Renders Related Assignment Title
   const renderForAssignment = (commentObject) => {
+    console.log(commentObject)
     if (commentObject.assignmentId){
       return(
         <Comment
