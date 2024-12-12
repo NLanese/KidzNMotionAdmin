@@ -59,6 +59,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
 
     useEffect(() => {
       if (patientDetail){
+        console.log(patientDetail)
         getChildsMedals()
       }
     }, [patientDetail])
@@ -105,105 +106,120 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
   // Functions //
   ///////////////
 
-  // Determines which Drawer is Open
-  const getDrawerOpen = () => {
-    if (router.query.editPlan) {
-      return true;
-    }
-    if (router.query.createAssignment) {
-      return true;
-    }
-    if (router.query.createComment) {
-      return true;
-    }
-    return false;
-  };
+    // Determines which Drawer is Open
+    const getDrawerOpen = () => {
+      if (router.query.editPlan) {
+        return true;
+      }
+      if (router.query.createAssignment) {
+        return true;
+      }
+      if (router.query.createComment) {
+        return true;
+      }
+      return false;
+    };
 
-  // Gets title of Active Displayed Drawer
-  const getDrawerTitle = () => {
-    if (router.query.editPlan) {
-      return "Edit Care Plan Information";
+    // Gets title of Active Displayed Drawer
+    const getDrawerTitle = () => {
+      if (router.query.editPlan) {
+        return "Edit Care Plan Information";
+      }
+      if (router.query.createAssignment) {
+        return "Create Assignment";
+      }
+      if (router.query.createComment) {
+        return "Create Comment";
+      }
+
+      return "-";
+    };
+
+    // Handles the Closing of Side Drawer
+    const getDrawerCloseLink = () => {
+      Router.push(`/patients/manage?id=${patientDetail.id}`, null, {
+        shallow: true,
+      });
+    };
+
+    // Fetches the content for the displayed drawer when active
+    const getDrawerContent = () => {
+      if (router.query.editPlan) {
+        return (
+          <EditChildCareDetailsForm
+            getUser={getUser}
+            initialValues={{
+              childLevel: patientDetail.carePlan.level.toString(),
+              childCarePlanID: patientDetail.carePlan.id,
+              diagnosis: patientDetail.carePlan.child.diagnosis,
+
+              blockedVideos: patientDetail.carePlan.blockedVideos
+                ? patientDetail.carePlan.blockedVideos.ids
+                : [],
+            }}
+            returnUrl={`/patients/manage?id=${patientDetail.id}`}
+          />
+        );
+      }
+      if (router.query.createAssignment) {
+        return (
+          <CreateCarePlanAssignmentForm
+            getUser={getUser}
+            initialValues={{
+              childCarePlanID: patientDetail.carePlan.id,
+              videoIDs: [],
+            }}
+            returnUrl={`/patients/manage?id=${patientDetail.id}`}
+          />
+        );
+      }
+      if (router.query.createComment) {
+        return (
+          <CreateCarePlanComment
+            getUser={getUser}
+            initialValues={{
+              childCarePlanID: patientDetail.carePlan.id,
+            }}
+            returnUrl={`/patients/manage?id=${patientDetail.id}`}
+          />
+        );
+      }
+      return <div />;
+    };
+
+    // Sets Calendar Date
+    const setPDFCalenderDate = (date) => {
+      setDateToUse(date);
+    };
+
+    // Processes Medal Query Data
+    function processMedalData(getAllUserMedals){
+      let rObj = {}
+      getAllUserMedals.forEach(medal => {
+          rObj = ({...rObj, [medal.title]: addToMedalKey(rObj[medal.title], medal)})
+      })
+      return rObj
     }
-    if (router.query.createAssignment) {
-      return "Create Assignment";
+
+    // Handles Object Data Additionl
+    function addToMedalKey(obj, medal){
+      return {...obj, [medal.level]: [medal]}
     }
-    if (router.query.createComment) {
-      return "Create Comment";
+  
+  ///////////////
+  // Rendering //
+  ///////////////
+
+    function renderCalendar(){
+      return(
+        <CalenderWrapper style={{ maxWidth: "290px" }}>
+          <Calendar
+            fullscreen={false}
+            onChange={(value) => setPDFCalenderDate(value)}
+          />
+        </CalenderWrapper>
+      )
     }
-
-    return "-";
-  };
-
-  // Handles the Closing of Side Drawer
-  const getDrawerCloseLink = () => {
-    Router.push(`/patients/manage?id=${patientDetail.id}`, null, {
-      shallow: true,
-    });
-  };
-
-  // Fetches the content for the displayed drawer when active
-  const getDrawerContent = () => {
-    if (router.query.editPlan) {
-      return (
-        <EditChildCareDetailsForm
-          getUser={getUser}
-          initialValues={{
-            childLevel: patientDetail.carePlan.level.toString(),
-            childCarePlanID: patientDetail.carePlan.id,
-            diagnosis: patientDetail.carePlan.child.diagnosis,
-
-            blockedVideos: patientDetail.carePlan.blockedVideos
-              ? patientDetail.carePlan.blockedVideos.ids
-              : [],
-          }}
-          returnUrl={`/patients/manage?id=${patientDetail.id}`}
-        />
-      );
-    }
-    if (router.query.createAssignment) {
-      return (
-        <CreateCarePlanAssignmentForm
-          getUser={getUser}
-          initialValues={{
-            childCarePlanID: patientDetail.carePlan.id,
-            videoIDs: [],
-          }}
-          returnUrl={`/patients/manage?id=${patientDetail.id}`}
-        />
-      );
-    }
-    if (router.query.createComment) {
-      return (
-        <CreateCarePlanComment
-          getUser={getUser}
-          initialValues={{
-            childCarePlanID: patientDetail.carePlan.id,
-          }}
-          returnUrl={`/patients/manage?id=${patientDetail.id}`}
-        />
-      );
-    }
-    return <div />;
-  };
-
-  // Sets Calendar Date
-  const setPDFCalenderDate = (date) => {
-    setDateToUse(date);
-  };
-
-  // Processes Medal Query Data
-  function processMedalData(getAllUserMedals){
-    let rObj = {}
-    getAllUserMedals.forEach(medal => {
-        rObj = ({...rObj, [medal.title]: addToMedalKey(rObj[medal.title], medal)})
-    })
-    return rObj
-  }
-
-  // Handles Object Data Additionl
-  function addToMedalKey(obj, medal){
-    return {...obj, [medal.level]: [medal]}
-  }
 
   /////////////////
   // Main Return //
@@ -214,10 +230,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
   return (
     <>
       <Drawer
-        title={
-          patientDetail &&
-          `${patientDetail.firstName} ${patientDetail.lastName}`
-        }
+        title={patientDetail ? `${patientDetail.firstName} ${patientDetail.lastName}` : "No Patient Data"}
         placement="right"
         width={1000}
         onClose={() => Router.push("/patients/manage", null, { shallow: true })}
@@ -225,10 +238,9 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
       >
         {patientDetail && (
           <>
-            <BasicLink
-              href={`/patients/manage?id=${patientDetail.id}&editPlan=true`}
-              shallow={true}
-            >
+
+            {/* Edit Care Plan Button */}
+            <BasicLink href={`/patients/manage?id=${patientDetail.id}&editPlan=true`} shallow={true}>
               <Button type="ghost" style={{ float: "right" }}>
                 Edit Care Plan Information
               </Button>
@@ -249,24 +261,10 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
               }}
               title={
                 <>
-                  <p
-                    style={{
-                      width: "240px",
-                      textAlign: "center",
-                      margin: "auto",
-                    }}
-                  >
-                    To edit this document, please download the PDF and edit it
-                    on your computer.
+                  <p style={{ width: "240px", textAlign: "center", margin: "auto"}}>
+                    To edit this document, please download the PDF and edit it on your computer.
                   </p>
-                  <CalenderWrapper style={{ maxWidth: "290px" }}>
-                    <Calendar
-                      fullscreen={false}
-                      onChange={(value) => setPDFCalenderDate(value)}
-                      // value={dateToUse}
-                       
-                    />
-                  </CalenderWrapper>
+                  {renderCalendar()}
                 </>
               }
             >
