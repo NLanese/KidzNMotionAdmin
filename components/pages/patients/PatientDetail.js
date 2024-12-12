@@ -221,6 +221,63 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
       )
     }
 
+    function renderCreateNewAssignment(){
+      return(
+        <TabPane tab="Assignments" key="1">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "flex-end",
+            }}
+          >
+            <BasicLink
+              href={`/patients/manage?id=${patientDetail.id}&createAssignment=true`}
+              shallow={true}
+            >
+              <Button type="primary" style={{ float: "right" }}>
+                Create New Assignment +
+              </Button>
+            </BasicLink>
+          </div>
+          <CarePlanAssignments
+            getUser={getUser}
+            patient={patientDetail}
+            comments={patientDetail.carePlan.comments}
+            initialValues={{
+              childCarePlanID: patientDetail.carePlan.id,
+            }}
+            returnUrl={`/patients/manage?id=${patientDetail.id}`}
+            assignments={patientDetail.carePlan.assignments}
+            medals={medals}
+          />
+      </TabPane>
+      )
+    }
+
+    function renderCreateNewComment(){
+      return(
+        <TabPane tab="Care Plan Comments" key="2">
+        <BasicLink
+          href={`/patients/manage?id=${patientDetail.id}&createComment=true`}
+          shallow={true}
+        >
+          <Button type="primary" style={{ float: "right" }}>
+            Add New Comment +
+          </Button>
+        </BasicLink>
+        <CarePlanComments
+          getUser={getUser}
+          initialValues={{
+            childCarePlanID: patientDetail.carePlan.id,
+          }}
+          returnUrl={`/patients/manage?id=${patientDetail.id}`}
+          comments={patientDetail.carePlan.comments}
+        />
+      </TabPane>
+      )
+    }
+
   /////////////////
   // Main Return //
   /////////////////
@@ -279,53 +336,8 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
             <PatientInformation patientDetail={patientDetail} user={user} />
 
             <Tabs defaultActiveKey="1">
-              <TabPane tab="Assignments" key="1">
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignItems: "flex-end",
-                  }}
-                >
-                  <BasicLink
-                    href={`/patients/manage?id=${patientDetail.id}&createAssignment=true`}
-                    shallow={true}
-                  >
-                    <Button type="primary" style={{ float: "right" }}>
-                      Create New Assignment +
-                    </Button>
-                  </BasicLink>
-                </div>
-                <CarePlanAssignments
-                  getUser={getUser}
-                  patient={patientDetail}
-                  comments={patientDetail.carePlan.comments}
-                  initialValues={{
-                    childCarePlanID: patientDetail.carePlan.id,
-                  }}
-                  returnUrl={`/patients/manage?id=${patientDetail.id}`}
-                  assignments={patientDetail.carePlan.assignments}
-                  medals={medals}
-                />
-              </TabPane>
-              <TabPane tab="Care Plan Comments" key="2">
-                <BasicLink
-                  href={`/patients/manage?id=${patientDetail.id}&createComment=true`}
-                  shallow={true}
-                >
-                  <Button type="primary" style={{ float: "right" }}>
-                    Add New Comment +
-                  </Button>
-                </BasicLink>
-                <CarePlanComments
-                  getUser={getUser}
-                  initialValues={{
-                    childCarePlanID: patientDetail.carePlan.id,
-                  }}
-                  returnUrl={`/patients/manage?id=${patientDetail.id}`}
-                  comments={patientDetail.carePlan.comments}
-                />
-              </TabPane>
+              {renderCreateNewAssignment()}
+              {renderCreateNewComment()}
             </Tabs>
 
             <Drawer

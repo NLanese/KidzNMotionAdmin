@@ -1,19 +1,25 @@
+// React
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 
+// Ant and Next Frameworks
+import styled from "styled-components";
 import { NextSeo } from "next-seo";
+import { withRouter } from "next/router";
+import Router from "next/router";
+
+// Page Components
 import PageHeader from "@common/PageHeader";
 import ContentCard from "@common/content/ContentCard";
 import PatientTable from "@pages/patients/PatientTable";
 import PatientDetail from "@pages/patients/PatientDetail";
 import InviteUserDrawer from "@pages/users/InviteUserDrawer";
 
-import { withRouter } from "next/router";
-
+// Recoil 
 import { userState } from "@atoms";
 import { useRecoilState } from "recoil";
-import Router from "next/router";
 
+
+// Style
 const IndexWrapper = styled.div`
   max-width: ${(props) => props.theme.contentSize.standard};
   margin: auto;
@@ -27,15 +33,53 @@ const IndexWrapper = styled.div`
   }
 `;
 
+///////////////
+// Component //
+///////////////
 function ManagePatients({ router }) {
-  const [user, setUser] = useRecoilState(userState);
-  const [patientDetail, setPatientDetail] = useState(null);
 
-  useEffect(() => {
-    if (user.role !== "THERAPIST") {
-      Router.push("/");
-    }
-  }, []);
+  ///////////
+  // State //
+  ///////////
+
+    // User
+    const [user, setUser] = useRecoilState(userState);
+
+    // Selected Patient's Details
+    const [patientDetail, setPatientDetail] = useState(null);
+
+  ////////////////
+  // UseEffects //
+  ////////////////
+
+    // If not a Therapist, Prevents Access
+    useEffect(() => {
+      if (user.role !== "THERAPIST") {
+        Router.push("/");
+      }
+    }, []);
+
+    // Sets the Patient Information via Router Data
+    useEffect(() => {
+      // Valid Patient Data
+      if (router.query.id) {
+        if (renderPatientData(true)[router.query.id]) {
+          console.log("[Manage.js] - Patient Found ")
+          console.log(renderPatientData(true)[router.query.id])
+          setPatientDetail(renderPatientData(true)[router.query.id]);
+        } else {
+          console.log("[Manage.js] - No Patient Found ")
+          setPatientDetail(null);
+        }
+      } 
+      // No valid Patient Data
+      else {
+        console.warn("[Manage.js] - No Patient Found 2")
+        setPatientDetail(null);
+        Router.push("/");
+      }
+    }, [router, user]);
+
 
   const renderPatientData = (renderIDKey) => {
     // Get list of all children with child care plans
@@ -69,21 +113,6 @@ function ManagePatients({ router }) {
     return users;
   };
 
-  useEffect(() => {
-    if (router.query.id) {
-      if (renderPatientData(true)[router.query.id]) {
-        console.log("[Manage.js] - Patient Found ")
-        console.log(renderPatientData(true)[router.query.id])
-        setPatientDetail(renderPatientData(true)[router.query.id]);
-      } else {
-        console.log("[Manage.js] - No Patient Found ")
-        setPatientDetail(null);
-      }
-    } else {
-      console.log("[Manage.js] - No Patient Found 2")
-      setPatientDetail(null);
-    }
-  }, [router, user]);
 
   return (
     <IndexWrapper>
