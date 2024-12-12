@@ -28,6 +28,7 @@ function CarePlanComments({
   comments,
   getUser,
   patientDetail,
+  showOnly,
   returnUrl,
   assignmentID,
   videoID,
@@ -58,6 +59,11 @@ function CarePlanComments({
   // Renders Comments
   const renderComments = () => {
     return comments.map((commentObject) => {
+      if (showOnly){
+        if (commentObject.videoId !== showOnly){
+          return false
+        }
+      }
       return (
         <div key={commentObject.id} style={{padding: 3.5, borderTop: '2px solid #ffbe76', display: 'flex', flexDirection: 'row'}}>
           <div style={{flex: 9}}>
@@ -117,11 +123,17 @@ function CarePlanComments({
   }
 
   function getVideoTitleById(id) {
+    if (!id || !VIDEOS){
+      return
+    }
     const video = Object.values(VIDEOS).find(video => video.id === id);
     return video ? video.title : `Video with id "${id}" not found.`;
   }
 
   function getAssignmentTitleById(id){
+    if (!patientDetail || !id ){
+      return
+    }
     let assignments = patientDetail.carePlan.assignments
     const assign = Object.values(assignments).find(ass => ass.id === id);
     return assign ? assign.title : `Assignment not found.`;

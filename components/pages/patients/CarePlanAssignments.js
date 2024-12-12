@@ -1,5 +1,5 @@
+// React and AntD
 import React, { useState, useEffect } from "react";
-
 import styled from "styled-components";
 import {
   Card,
@@ -21,20 +21,30 @@ import BasicLink from "@common/BasicLink";
 import { Collapse } from "antd";
 const { Panel } = Collapse;
 import ReactPlayer from "react-player";
+
+// Pages
 import CarePlanComments from "@pages/patients/CarePlanComments";
 import CreateCarePlanComment from "@forms/patients/CreateCarePlanComment";
 import VideoCommentForm from "@forms/patients/VideoCommentForm";
-import { withRouter } from "next/router";
-import Router from "next/router";
 import AssignMedalsForm from "./AssignMedals";
 import VideoMedals from "../medals/videoMedals";
 
+// Next
+import { withRouter } from "next/router";
+import Router from "next/router";
+
+// Date
 var dateFormat = require("dateformat");
 
+// Style
 const AssignmentContainer = styled.div`
   margin-top: 40px;
 `;
 
+
+///////////////
+// Component // 
+///////////////
 function CarePlanAssignments({
   assignments,
   returnUrl,
@@ -60,38 +70,46 @@ function CarePlanAssignments({
    return <VideoMedals videoTitle={video.contentfulID} userMedals={medals} size={"sm"}/>
   };
 
+  const renderAssignMedalsButton = (videoObject) => {
+    return(
+      <Col xs={24} sm={12}>
+        <Button
+          onClick={() =>
+            Router.push(
+              "/patients/manage?id=" +
+                router.query.id +
+                "&video=" +
+                videoObject.id +
+                "&video_id=" +
+                videoObject.file.id,
+              null,
+              {
+                shallow: true,
+              }
+            )
+          }
+          style={{ float: "right" }}
+        >
+          Assign Medal For Video
+        </Button>
+    </Col>
+    )
+  }
 
 
   const renderVideoDetails = (assignmentObject) => {
     return assignmentObject.videos.map((videoObject) => {
       return (
+
         <Row gutter={[16, 3]} key={videoObject.id}>
+
+          {/* Video Title */}
           <Col xs={24} sm={12}>
             <h2> {videoObject.file.title.toString()}</h2>
           </Col>
 
           {/* Assign Medal Button */}
-          <Col xs={24} sm={12}>
-            <Button
-              onClick={() =>
-                Router.push(
-                  "/patients/manage?id=" +
-                    router.query.id +
-                    "&video=" +
-                    videoObject.id +
-                    "&video_id=" +
-                    videoObject.file.id,
-                  null,
-                  {
-                    shallow: true,
-                  }
-                )
-              }
-              style={{ float: "right" }}
-            >
-              Assign Medal For Video
-            </Button>
-          </Col>
+          {renderAssignMedalsButton(videoObject)}
 
           {/* Video Description and Medals */}
           <Col xs={24} sm={16}>
@@ -106,6 +124,8 @@ function CarePlanAssignments({
               <Descriptions.Item label="Video Description">
                 {videoObject.file.description.toString()}
               </Descriptions.Item>
+
+              {/* Completion Status */}
               <Descriptions.Item label="Completed">
                 {videoObject.completed
                   ? "Video Completed"
@@ -116,8 +136,11 @@ function CarePlanAssignments({
               <Descriptions.Item label="Medals">
                 <Avatar.Group>{renderMedals(videoObject)}</Avatar.Group>
               </Descriptions.Item>
+
             </Descriptions>
           </Col>
+
+          {/* Video */}
           <Col xs={24} sm={8}>
             <ReactPlayer
               url={videoObject.file.videoURL}
@@ -138,7 +161,6 @@ function CarePlanAssignments({
                   returnUrl={returnUrl}
                   initialValues={{
                     ...initialValues,
-                    assignmentID: assignmentObject.id,
                     videoID: videoObject.id,
                   }}
                 />
@@ -148,6 +170,7 @@ function CarePlanAssignments({
                   comments={comments}
                   assignmentID={assignmentObject.id}
                   videoID={videoObject.id}
+                  showOnly={"squat"}
                 />
               </Panel>
             </Collapse>

@@ -1,26 +1,36 @@
+// React, Next and Antd
 import React, { useState } from "react";
 import { Form, Field } from "react-final-form";
 import { TextAreaField } from "@fields";
 import { Col, Row, Button, message, Spin } from "antd";
-
-import { useMutation } from "@apollo/client";
-import { CREATE_CHILD_CARE_PLAN_COMMENT } from "@graphql/operations";
 import Router from "next/router";
 
-function VideoCommentForm({ getUser, initialValues, returnUrl, assignment }) {
+
+// Apollo / GraphQL
+import { useMutation } from "@apollo/client";
+import { CREATE_CHILD_CARE_PLAN_COMMENT } from "@graphql/operations";
+
+// Videos
+import VIDEOS from "../../../constants/videos";
+
+///////////////
+// Component //
+///////////////
+function VideoCommentForm({ getUser, initialValues, returnUrl }) {
   const [loading, setLoading] = useState(false);
 
   // Mutations
-  const [editFunction, {}] = useMutation(CREATE_CHILD_CARE_PLAN_COMMENT);
+  const [editOrCreateComment, {}] = useMutation(CREATE_CHILD_CARE_PLAN_COMMENT);
+
 
   const handleFormSubmit = async (formValues) => {
     setLoading(true);
-    await editFunction({
+    await editOrCreateComment({
       variables: {
         commentContent: formValues.commentContent,
         childCarePlanID: initialValues.childCarePlanID,
-        assignmentID: initialValues.assignmentID,
-        videoID: initialValues.videoID,
+        assignmentID: initialValues.assignmentID ? initialValues.assignmentID : null,
+        videoID: initialValues.videoID ? initialValues.videoID : null
       },
     })
       .then(async (resolved) => {
