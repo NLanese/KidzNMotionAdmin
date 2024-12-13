@@ -1,5 +1,5 @@
 // React
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 // Ant and Next Frameworks
 import styled from "styled-components";
