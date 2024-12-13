@@ -24,7 +24,12 @@ function CreateCarePlanComment({
   ///////////
   // State //
   ///////////
+
+  // Page Loading
   const [loading, setLoading] = useState(false);
+
+  // Related Video ID
+  const [relatedVideoId, setRelatedVideoId] = useState(null)
 
   // Mutations
   const [createComment, {}] = useMutation(CREATE_CHILD_CARE_PLAN_COMMENT);
@@ -105,6 +110,22 @@ function CreateCarePlanComment({
                   size={"large"}
                   required={false}
                 />
+              </Col>
+              <Col>
+                {/* Video Dropdown */}
+                <Form.Item
+                  name="videoIDs"
+                  label="Related Video (Optional)"
+                  rules={[{ required: false, message: "Select a video if necessary!" }]}
+                >
+                  <Select
+                    mode="single"
+                    placeholder="Select videos"
+                    style={{ width: "100%", marginTop: "10px" }}
+                    options={renderVideoOptions()}
+                    onChange={(e) => setRelatedIDs(e)}
+                  />
+                </Form.Item>
               </Col>
             </Row>
 
