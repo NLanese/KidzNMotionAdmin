@@ -15,7 +15,7 @@ import PatientDetail from "@pages/patients/PatientDetail";
 import InviteUserDrawer from "@pages/users/InviteUserDrawer";
 
 // Recoil 
-import { userState } from "@atoms";
+import { userState, patientDataState } from "@atoms";
 import { useRecoilState } from "recoil";
 
 
@@ -46,7 +46,7 @@ function ManagePatients({ router }) {
     const [user, setUser] = useRecoilState(userState);
 
     // Selected Patient's Details
-    const [patientDetail, setPatientDetail] = useState(null);
+    const [patientDetail, setPatientDetail] = useRecoilState(patientDataState);
 
   ////////////////
   // UseEffects //
@@ -77,6 +77,7 @@ function ManagePatients({ router }) {
     }, [router, user]);
 
 
+  // Extracts Patient Data from Router Data
   const renderPatientData = (renderIDKey) => {
     // Get list of all children with child care plans
     let patientCarePlans = {};

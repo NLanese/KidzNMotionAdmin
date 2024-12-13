@@ -15,6 +15,12 @@ export const userState = atom({
 	},
 });
 
+// Selected Patient Data
+export const patientDataState = atom({
+	key: 'patientDataState',
+	default: false
+})
+
 // Meetings
 export const meetingsState = atom({
 	key: 'meetingsState',
