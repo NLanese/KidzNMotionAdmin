@@ -37,6 +37,16 @@ function PatientComments({router}){
     // Selected Patient's Details
     const [patientDetail, setPatientDetail] = useRecoilState(patientDataState);
 
+    // Selected Date Range Start (Defaults to Last Week)
+    const [DateRangeStart, SetDateRangeStart] = useState(() => {
+        const lastWeek = new Date();
+        lastWeek.setDate(lastWeek.getDate() - 7);
+        return lastWeek;
+      });
+
+    // Selected Date Range End (Defaults to Today)
+    const [DateRangeEnd, SetDateRangeEnd] = useState(new Date());
+
   ////////////////
   // UseEffects //
   ////////////////
