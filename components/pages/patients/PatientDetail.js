@@ -59,6 +59,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
 
     useEffect(() => {
       if (patientDetail){
+        console.log(patientDetail)
         getChildsMedals()
       }
     }, [patientDetail])
@@ -92,12 +93,13 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
               childCareID: patientDetail.carePlan.id
           }
       }).then( (resolved) => {
-          setMedals(processMedalData(resolved.data.getAllUserMedals))
-          setLoading(false)
-          return
+        console.log(resolved)
+        setMedals(processMedalData(resolved.data.getAllUserMedals))
+        setLoading(false)
+        return
       }).catch(err => {
-          console.warn("Error getting the Medals")
-          setLoading(false)
+        console.warn("Error getting the Medals")
+        setLoading(false)
       })
   }
 
