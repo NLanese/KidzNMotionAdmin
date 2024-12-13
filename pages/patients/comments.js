@@ -70,3 +70,5 @@ function PatientComments({router}){
     </IndexWrapper>
   )
 }
+
+export default PatientComments
