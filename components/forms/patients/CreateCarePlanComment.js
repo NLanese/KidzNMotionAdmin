@@ -2,7 +2,7 @@
 // React and AntD
 import React, { useState } from "react";
 import { Form, Field } from "react-final-form";
-import { TextAreaField } from "@fields";
+import { TextAreaField, SelectField } from "@fields";
 import { message, Popconfirm, Button, Row, Col, Select } from "antd";
 
 // GraphQL / Apollo
@@ -35,9 +35,6 @@ function CreateCarePlanComment({
     // Page Loading
     const [loading, setLoading] = useState(false);
 
-    // Related Video ID
-    const [relatedVideoId, setRelatedVideoId] = useState(null)
-
     // Mutations
     const [createComment, {}] = useMutation(CREATE_CHILD_CARE_PLAN_COMMENT);
 
@@ -47,13 +44,21 @@ function CreateCarePlanComment({
 
     // Handles Entire Process of Submitting a New Comment
     const handleFormSubmit = async (formValues) => {
+      console.log(
+        {
+          commentContent: formValues.commentContent,
+          childCarePlanID: initialValues.childCarePlanID,
+          assignmentID: assignment && initialValues.assignmentID,
+          videoID: formValues.videoID ? formValues.videoID : null
+        }
+      )
       setLoading(true);
       await createComment({
         variables: {
           commentContent: formValues.commentContent,
           childCarePlanID: initialValues.childCarePlanID,
           assignmentID: assignment && initialValues.assignmentID,
-          videoID: relatedVideoId ? relatedVideoId : null
+          videoID: formValues.videoID ? formValues.videoID : null
         },
       })
         .then(async (resolved) => {
@@ -83,12 +88,12 @@ function CreateCarePlanComment({
         if (VIDEOS.hasOwnProperty(key)) {
           options.push({
             value: VIDEOS[key].id,
-            label: VIDEOS[key].title,
+            text: VIDEOS[key].title,
           });
         }
       }
     }
-    options = options.sort((a, b) => a.label.localeCompare(b.label)); // Sort alphabetically
+    options = options.sort((a, b) => a.text.localeCompare(b.text)); // Sort alphabetically
     return options;
   };
 
@@ -96,94 +101,91 @@ function CreateCarePlanComment({
 
   return (
     // <Spin spinning={loading}>
-    <div></div>
-    // <div>
-    //   {/* Form Settings */}
-    //   <Form
-    //     // On Submit
-    //     onSubmit={handleFormSubmit}
-    //     initialValues={initialValues}
+    <div>
+      {/* Form Settings */}
+      <Form
+        // On Submit
+        onSubmit={handleFormSubmit}
+        initialValues={initialValues}
 
-    //     // Form Mutators
-    //     mutators={{
-    //       setValue: ([field, value], state, { changeValue }) => {
-    //         changeValue(state, field, () => value);
-    //       },
-    //     }}
+        // Form Mutators
+        mutators={{
+          setValue: ([field, value], state, { changeValue }) => {
+            changeValue(state, field, () => value);
+          },
+        }}
 
-    //     // Form Validators
-    //     validate={(values) => {
-    //       const errors = {};
-    //       if (!values.commentContent) {
-    //         errors.commentContent = "Required";
-    //       }
+        // Form Validators
+        validate={(values) => {
+          const errors = {};
+          if (!values.commentContent) {
+            errors.commentContent = "Required";
+          }
 
-    //       return errors;
-    //     }}
+          return errors;
+        }}
 
-    //     // Form Render //
-    //     render={({
-    //       handleSubmit,
-    //       pristine,
-    //       invalid,
-    //       submitting,
-    //       form,
-    //       values,
-    //     }) => (
-    //       <form
-    //         onSubmit={(event) => {
-    //           handleSubmit(event).then((event) => {
-    //             form.mutators.setValue("commentContent", "");
-    //           });
-    //         }}
-    //       >
-    //         <Row gutter={16}>
+        // Form Render //
+        render={({
+          handleSubmit,
+          pristine,
+          invalid,
+          submitting,
+          form,
+          values,
+        }) => (
+          <form
+            onSubmit={(event) => {
+              handleSubmit(event).then((event) => {
+                form.mutators.setValue("commentContent", "");
+              });
+            }}
+          >
+            <Row gutter={16}>
 
-    //           {/* Text Area */}
-    //           <Col xs={24} md={24}>
-    //             <Field
-    //               name="commentContent"
-    //               component={TextAreaField}
-    //               htmlType="text"
-    //               label={
-    //                 assignment ? "Assignment Progress" : "Care Plan Comment"
-    //               }
-    //               size={"large"}
-    //               required={false}
-    //             />
-    //           </Col>
+              {/* Text Area */}
+              <Col xs={24} md={24}>
+                <Field
+                  name="commentContent"
+                  component={TextAreaField}
+                  htmlType="text"
+                  label={
+                    assignment ? "Assignment Progress" : "Care Plan Comment"
+                  }
+                  size={"large"}
+                  required={false}
+                />
+              </Col>
 
-    //           {/* Video Dropdown */}
-    //           <Col>
-    //             <Form.Item name="videoIDs"
-    //               label="Related Video (Optional)"
-    //               rules={[{ required: false, message: "Select a video if necessary!" }]}
-    //             >
-    //               <Select
-    //                 mode="single"
-    //                 placeholder="Select videos"
-    //                 style={{ width: "100%", marginTop: "10px" }}
-    //                 options={renderVideoOptions()}
-    //                 onChange={(e) => setRelatedVideoId(e)}
-    //               />
-    //             </Form.Item>
-    //           </Col>
-    //         </Row>
+              {/* Video Dropdown */}
+              <Col>
+                <Field
+                    name="videoID"
+                    component={SelectField}
+                    options={renderVideoOptions()} 
+                    htmlType="dropdown"
+                    label="Attach a Related Video if Necessary"
+                    placeholder="No Related Video"
+                    size={"large"}
+                    required={false}
+                  />
+              </Col>
+            </Row>
 
-    //         <Button
-    //           type="primary"
-    //           loading={submitting}
-    //           htmlType="submit"
-    //           block={true}
-    //           size={"large"}
-    //           disabled={invalid || pristine}
-    //         >
-    //           Create
-    //         </Button>
-    //       </form>
-    //     )}
-    //   />
-    // </div>
+            <Button
+              type="primary"
+              loading={submitting}
+              htmlType="submit"
+              block={true}
+              size={"large"}
+              disabled={invalid || pristine}
+            >
+              Create
+            </Button>
+          </form>
+        )}
+      />
+    </div>
 
     // </Spin>
   );
