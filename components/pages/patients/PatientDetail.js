@@ -302,12 +302,13 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
               cancelText="Cancel"
               icon=""
               onConfirm={() => {
-                window.open(
-                  `/patients/pdf?id=${patientDetail.id}&date=${dateToUse.format(
-                    "MM/DD/YYYY"
-                  )}`,
-                  "_blank"
-                );
+                // window.open(
+                //   `/patients/pdf?id=${patientDetail.id}&date=${dateToUse.format(
+                //     "MM/DD/YYYY"
+                //   )}`,
+                //   "_blank"
+                // );
+                Router.push("/patients/comments")
               }}
               title={
                 <>
