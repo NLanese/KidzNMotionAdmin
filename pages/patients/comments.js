@@ -1,5 +1,6 @@
     // React
     import React, { useEffect, useState } from "react";
+    import styled from "styled-components";
 
     // Recoil
     import { userState, patientDataState } from "@atoms";
