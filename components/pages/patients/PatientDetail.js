@@ -26,7 +26,6 @@ import CreateCarePlanAssignmentForm from "@forms/patients/CreateCarePlanAssignme
 import CreateCarePlanComment from "@forms/patients/CreateCarePlanComment";
 import CarePlanComments from "@pages/patients/CarePlanComments";
 import CarePlanAssignments from "@pages/patients/CarePlanAssignments";
-import { useReactiveVar } from "@apollo/client";
 
 const CalenderWrapper = styled.div`
   .ant-popover-message-title {
@@ -35,113 +34,89 @@ const CalenderWrapper = styled.div`
 `;
 
 function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
-
   ///////////
   // State //
   ///////////
 
-    // User 
-    const setUser = useSetRecoilState(userState);
+  // User
+  const setUser = useSetRecoilState(userState);
 
-    // User Medals
-    const [medals, setMedals] = useState([])
+  // User Medals
+  const [medals, setMedals] = useState([]);
 
-    // Loading
-    const [loading, setLoading] = useState(true)
-    
-    // Current Date
-    const [dateToUse, setDateToUse] = React.useState(new moment());
+  // Loading
+  const [loading, setLoading] = useState(true);
 
-    // Constant Drawer Width
-    const getDrawerWidth = () => {
-      return 700;
-    };
+  // Current Date
+  const [dateToUse, setDateToUse] = React.useState(new moment());
 
-    useEffect(() => {
-      if (patientDetail){
-        getChildsMedals()
-      }
-    }, [getChildsMedals, patientDetail])
+  // Constant Drawer Width
+  const getDrawerWidth = () => {
+    return 700;
+  };
+
+  useEffect(() => {
+    if (patientDetail) {
+      getChildsMedals();
+    }
+  }, [patientDetail, getChildsMedals]);
 
   /////////////
   // Queries //
   /////////////
 
-    // Reset User Function
-    const getUser = async () => {
-      await client
-        .query({
-          query: GET_USER,
-          fetchPolicy: "network-only",
-        })
-        .then(async (resolved) => {
-          setUser(resolved.data.getUser);
-        })
-        .catch((error) => {
-          message.error("Sorry, there was an error getting this information");
-        });
-    };
-
-    // Gets all Medals from Relevant Child
-    async function getChildsMedals(){
-      // QUERY
-      await client.query({
-          query: GET_ALL_USER_MEDALS,
-          fetchPolicy: 'network-only',
-          variables: {
-              childCareID: patientDetail.carePlan.id
-          }
-      }).then( (resolved) => {
-          setMedals(processMedalData(resolved.data.getAllUserMedals))
-          setLoading(false)
-          return
-      }).catch(err => {
-          console.warn("Error getting the Medals")
-          setLoading(false)
+  // Reset User Function
+  const getUser = async () => {
+    await client
+      .query({
+        query: GET_USER,
+        fetchPolicy: "network-only",
       })
-  }
+      .then((resolved) => {
+        setUser(resolved.data.getUser);
+      })
+      .catch(() => {
+        message.error("Sorry, there was an error getting this information");
+      });
+  };
+
+  // Gets all Medals from Relevant Child
+  async function getChildsMedals() {
+    await client
+      .query({
+        query: GET_ALL_USER_MEDALS,
+        fetchPolicy: "network-only",
+        variables: {
+          childCareID: patientDetail.carePlan.id,
+        },
+      })
+      .then((resolved) => {
+        setMedals(processMedalData(resolved.data.getAllUserMedals));
+        setLoading(false);
+      })
+      .catch(() => {
+        console.warn("Error getting the Medals");
+        setLoading(false);
+      });
+  } 
 
   ///////////////
   // Functions //
   ///////////////
 
-  // Determines which Drawer is Open
-  const getDrawerOpen = () => {
-    if (router.query.editPlan) {
-      return true;
-    }
-    if (router.query.createAssignment) {
-      return true;
-    }
-    if (router.query.createComment) {
-      return true;
-    }
-    return false;
-  };
+  const getDrawerOpen = () =>
+    router.query.editPlan || router.query.createAssignment || router.query.createComment;
 
-  // Gets title of Active Displayed Drawer
   const getDrawerTitle = () => {
-    if (router.query.editPlan) {
-      return "Edit Care Plan Information";
-    }
-    if (router.query.createAssignment) {
-      return "Create Assignment";
-    }
-    if (router.query.createComment) {
-      return "Create Comment";
-    }
-
+    if (router.query.editPlan) return "Edit Care Plan Information";
+    if (router.query.createAssignment) return "Create Assignment";
+    if (router.query.createComment) return "Create Comment";
     return "-";
   };
 
-  // Handles the Closing of Side Drawer
-  const getDrawerCloseLink = () => {
-    Router.push(`/patients/manage?id=${patientDetail.id}`, null, {
-      shallow: true,
-    });
-  };
+  const getDrawerCloseLink = () =>
+    Router.push(`/patients/manage?id=${patientDetail.id}`, null, { shallow: true });
 
-  // Fetches the content for the displayed drawer when active
   const getDrawerContent = () => {
     if (router.query.editPlan) {
       return (
@@ -151,10 +126,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
             childLevel: patientDetail.carePlan.level.toString(),
             childCarePlanID: patientDetail.carePlan.id,
             diagnosis: patientDetail.carePlan.child.diagnosis,
-
-            blockedVideos: patientDetail.carePlan.blockedVideos
-              ? patientDetail.carePlan.blockedVideos.ids
-              : [],
+            blockedVideos: patientDetail.carePlan.blockedVideos?.ids || [],
           }}
           returnUrl={`/patients/manage?id=${patientDetail.id}`}
         />
@@ -186,31 +158,27 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
     return <div />;
   };
 
-  // Sets Calendar Date
   const setPDFCalenderDate = (date) => {
     setDateToUse(date);
   };
 
-  // Processes Medal Query Data
-  function processMedalData(getAllUserMedals){
-    let rObj = {}
-    getAllUserMedals.forEach(medal => {
-        rObj = ({...rObj, [medal.title]: addToMedalKey(rObj[medal.title], medal)})
-    })
-    return rObj
+  function processMedalData(getAllUserMedals) {
+    let rObj = {};
+    getAllUserMedals.forEach((medal) => {
+      rObj = { ...rObj, [medal.title]: addToMedalKey(rObj[medal.title], medal) };
+    });
+    return rObj;
   }
 
-  // Handles Object Data Additionl
-  function addToMedalKey(obj, medal){
-    return {...obj, [medal.level]: [medal]}
+  function addToMedalKey(obj, medal) {
+    return { ...obj, [medal.level]: [medal] };
   }
 
   /////////////////
   // Main Return //
   /////////////////
-  if (loading){
-    return null
-  }
+  if (loading) return null;
+
   return (
     <>
       <Drawer
@@ -221,7 +189,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
         placement="right"
         width={1000}
         onClose={() => Router.push("/patients/manage", null, { shallow: true })}
-        open={patientDetailOpen ? true : false}
+        open={!!patientDetailOpen}
       >
         {patientDetail && (
           <>
@@ -238,7 +206,6 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
               placement="bottom"
               okText="Generate PDF"
               cancelText="Cancel"
-              icon=""
               onConfirm={() => {
                 window.open(
                   `/patients/pdf?id=${patientDetail.id}&date=${dateToUse.format(
@@ -249,32 +216,20 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
               }}
               title={
                 <>
-                  <p
-                    style={{
-                      width: "240px",
-                      textAlign: "center",
-                      margin: "auto",
-                    }}
-                  >
-                    To edit this document, please download the PDF and edit it
-                    on your computer.
+                  <p style={{ width: "240px", textAlign: "center" }}>
+                    To edit this document, download and edit the PDF.
                   </p>
-                  <CalenderWrapper style={{ maxWidth: "290px" }}>
+                  <CalenderWrapper>
                     <Calendar
                       fullscreen={false}
                       onChange={(value) => setPDFCalenderDate(value)}
-                      // value={dateToUse}
-                       
                     />
                   </CalenderWrapper>
                 </>
               }
             >
-              <Button
-                type="ghost"
-                style={{ float: "right", marginRight: "10px" }}
-              >
-                Generate A PDF Document
+              <Button type="ghost" style={{ float: "right", marginRight: "10px" }}>
+                Generate PDF Document
               </Button>
             </Popconfirm>
 
@@ -282,30 +237,18 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
 
             <Tabs defaultActiveKey="1">
               <TabPane tab="Assignments" key="1">
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignItems: "flex-end",
-                  }}
+                <BasicLink
+                  href={`/patients/manage?id=${patientDetail.id}&createAssignment=true`}
+                  shallow={true}
                 >
-                  <BasicLink
-                    href={`/patients/manage?id=${patientDetail.id}&createAssignment=true`}
-                    shallow={true}
-                  >
-                    <Button type="primary" style={{ float: "right" }}>
-                      Create New Assignment +
-                    </Button>
-                  </BasicLink>
-                </div>
+                  <Button type="primary" style={{ float: "right" }}>
+                    Create New Assignment +
+                  </Button>
+                </BasicLink>
                 <CarePlanAssignments
                   getUser={getUser}
                   patient={patientDetail}
                   comments={patientDetail.carePlan.comments}
-                  initialValues={{
-                    childCarePlanID: patientDetail.carePlan.id,
-                  }}
-                  returnUrl={`/patients/manage?id=${patientDetail.id}`}
                   assignments={patientDetail.carePlan.assignments}
                   medals={medals}
                 />
@@ -321,10 +264,6 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
                 </BasicLink>
                 <CarePlanComments
                   getUser={getUser}
-                  initialValues={{
-                    childCarePlanID: patientDetail.carePlan.id,
-                  }}
-                  returnUrl={`/patients/manage?id=${patientDetail.id}`}
                   comments={patientDetail.carePlan.comments}
                 />
               </TabPane>
@@ -333,7 +272,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
             <Drawer
               title={getDrawerTitle()}
               width={getDrawerWidth()}
-              onClose={() => getDrawerCloseLink()}
+              onClose={getDrawerCloseLink}
               open={getDrawerOpen()}
             >
               {getDrawerContent()}
