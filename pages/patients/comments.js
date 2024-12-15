@@ -48,9 +48,8 @@
 
     // Effects
     useEffect(() => {
-        if (user.role !== "THERAPIST") {
-        Router.push("/");
-        }
+        // Reroutes off page is User is not a Therapist
+        if (user.role !== "THERAPIST") { Router.push("/") }
         console.log("In COMMENTS Page with the following Data:", patientDetail);
     }, [user, patientDetail]);
 
