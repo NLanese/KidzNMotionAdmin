@@ -35,9 +35,12 @@ function CreateCarePlanComment({
     // Page Loading
     const [loading, setLoading] = useState(false);
 
+    // Stored Comments
+    const [comments, setComments] = useState([]); 
+
     // Mutations
     const [createComment, {}] = useMutation(CREATE_CHILD_CARE_PLAN_COMMENT);
-
+    
   //////////////
   // Handlers //
   //////////////
@@ -61,20 +64,7 @@ function CreateCarePlanComment({
           videoID: formValues.videoID ? formValues.videoID : null
         },
       })
-        .then(async (resolved) => {
-          setLoading(false);
-          await getUser();
-          Router.replace(returnUrl, null, {
-            shallow: true,
-            scroll: false,
-          });
-          message.success("Successfully Saved Comment");
-        })
-        .catch((error) => {
-          setLoading(false);
-          message.error("Something went wrong here.");
-        });
-    };
+    }
   
   /////////////
   // Renders //
@@ -100,7 +90,7 @@ function CreateCarePlanComment({
 
 
   return (
-    // <Spin spinning={loading}>
+    <Spin spinning={loading}>
     <div>
       {/* Form Settings */}
       <Form
@@ -180,14 +170,14 @@ function CreateCarePlanComment({
               size={"large"}
               disabled={invalid || pristine}
             >
-              Create
+              Create Comment
             </Button>
           </form>
         )}
       />
     </div>
 
-    // </Spin>
+    </Spin>
   );
 }
 

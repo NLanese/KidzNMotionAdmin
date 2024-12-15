@@ -44,12 +44,14 @@ function CarePlanComments({
         commentID: commentID,
       },
     })
-      .then(async (resolved) => {
+      .then(async () => {
         await getUser();
-
         message.success("Successfully Deleted Comment");
+        setLocalComments((prevComments) =>
+          prevComments.filter((comment) => comment.id !== commentID)
+        );
       })
-      .catch((error) => {
+      .catch(() => {
         message.error("Something went wrong here.");
       });
   };

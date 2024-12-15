@@ -13,7 +13,7 @@ import deleteComment from './mutations/deleteComment';
 import createAssignment from './mutations/createAssignment';
 
 
-export default {
+const resolvers = {
     Query: {
         ...getChildVideoStatistics.Query,
         ...getAssignments.Query,
@@ -26,7 +26,8 @@ export default {
         ...createComment.Mutation,
         ...deleteComment.Mutation,
         ...createAssignment.Mutation,
-      
+    
     },
     JSON: GraphQLJSON,
 }
+export default resolvers;

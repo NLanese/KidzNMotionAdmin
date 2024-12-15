@@ -7,7 +7,8 @@ import invitePatient from "./mutations/invitePatient.js";
 import changeUserNotifications from "./mutations/changeUserNotifications.js";
 import deletePatient from "./mutations/deletePatient.js";
 
-export default {
+
+const resolvers = {
   Mutation: {
     // THERAPIST MUTATIONS
     ...editNotificationSettings.Mutation,
@@ -18,3 +19,4 @@ export default {
   },
   JSON: GraphQLJSON,
 };
+export default resolvers;

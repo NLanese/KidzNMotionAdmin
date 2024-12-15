@@ -6,53 +6,47 @@ const { withSentryConfig } = require("@sentry/nextjs");
 const withAntdLess = require('next-plugin-antd-less');
 
 const moduleExports = withAntdLess({
+  lessVarsFilePath: './styles/variables.less',
   webpack: (config, { isServer }) => {
     config.plugins = config.plugins || [];
 
-    config.plugins = [
-      ...config.plugins,
+    config.plugins.push(
       new Dotenv({
-        path: path.join(__dirname, '.env'),
-        systemvars: true
+        path: path.resolve(process.cwd(), '.env'), // Corrected path resolution
+        systemvars: true,
       })
-    ];
+    );
 
-    // Set API_URL environment variable for local development
     if (!isServer) {
-      const apiUrl = process.env.NODE_ENV === 'development'
-        ? 'http://localhost:3000/api/graphql'
-        : process.env.API_URL;
+      const apiUrl =
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:3000/api/graphql'
+          : process.env.API_URL;
+
+      console.log("Hitting ", apiUrl);
 
       console.log("Accessing API at ", apiUrl)
       config.plugins.push(
         new webpack.DefinePlugin({
-          'process.env.API_URL': JSON.stringify(
-            'http://localhost:3000/api/graphql' 
-            // process.env.API_URL
-          ),
+          'process.env.API_URL': JSON.stringify(apiUrl), // Simplified environment variable definition
         })
       );
     }
 
-    // Add the following lines to handle NEXT_RUNTIME
-    const nextRuntime = process.env.NEXT_RUNTIME || 'default_runtime_value';
-
     config.plugins.push(
       new webpack.DefinePlugin({
-        'process.env.NEXT_RUNTIME': JSON.stringify(nextRuntime),
+        'process.env.NEXT_RUNTIME': JSON.stringify(process.env.NEXT_RUNTIME || 'default_runtime_value'),
       })
     );
 
     return config;
   },
-  lessVarsFilePath: './styles/variables.less',
-  images: {
+  images: { // Moved to top-level configuration
     formats: ['image/webp'],
     domains: ["images.ctfassets.net", "images.contentful.com", "cdn.shopify.com"],
     deviceSizes: [240, 360, 460, 640, 750, 828, 1080, 1200, 1920, 2048],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
-  outputFileTracing: false
 });
 
 const SentryWebpackPluginOptions = {

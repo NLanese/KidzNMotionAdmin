@@ -13,7 +13,9 @@ import meetingResolvers from "./meetings/meetingResolvers.js";
 import notificationResolvers from "./notifications/notificationResolvers.js";
 import superuserResolvers from "./superuser/superuserResolvers.js";
 
-export default {
+
+// Assign the object to a variable
+const resolvers = {
   Query: {
     ...userResolvers.Query,
     ...chatRoomResolvers.Query,
@@ -22,7 +24,7 @@ export default {
     ...childCarePlanResolvers.Query,
     ...meetingResolvers.Query,
     ...notificationResolvers.Query,
-    ...superuserResolvers.Query
+    ...superuserResolvers.Query,
   },
   Mutation: {
     ...userResolvers.Mutation,
@@ -33,7 +35,10 @@ export default {
     ...childCarePlanResolvers.Mutation,
     ...meetingResolvers.Mutation,
     ...notificationResolvers.Mutation,
-    ...superuserResolvers.Mutation
+    ...superuserResolvers.Mutation,
   },
   JSON: GraphQLJSON,
 };
+
+// Export the variable
+export default resolvers;

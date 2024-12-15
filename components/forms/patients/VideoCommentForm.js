@@ -18,6 +18,7 @@ import VIDEOS from "../../../constants/videos";
 ///////////////
 function VideoCommentForm({ getUser, initialValues, returnUrl }) {
   const [loading, setLoading] = useState(false);
+  const [hasComment, setHasComment] = useState(false);
 
   // Mutations
   const [editOrCreateComment, {}] = useMutation(CREATE_CHILD_CARE_PLAN_COMMENT);
@@ -33,7 +34,7 @@ function VideoCommentForm({ getUser, initialValues, returnUrl }) {
         videoID: initialValues.videoID ? initialValues.videoID : null
       },
     })
-      .then(async (resolved) => {
+      .then(async () => {
         setLoading(false);
         await getUser();
         Router.replace(returnUrl, null, {
@@ -47,6 +48,14 @@ function VideoCommentForm({ getUser, initialValues, returnUrl }) {
         message.error("Something went wrong here.");
       });
   };
+
+  if (queryLoading) {
+    return <Spin spinning={true} />;
+  }
+
+  if (hasComment) {
+    return <p>You have already submitted a comment for this video.</p>;
+  }
 
   return (
     <Spin spinning={loading}>
@@ -76,7 +85,7 @@ function VideoCommentForm({ getUser, initialValues, returnUrl }) {
         }) => (
           <form
             onSubmit={(event) => {
-              handleSubmit(event).then((event) => {
+              handleSubmit(event).then(() => {
                 form.mutators.setValue("commentContent", "");
               });
             }}

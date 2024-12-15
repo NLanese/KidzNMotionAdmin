@@ -95,7 +95,7 @@ function setVideoStats(videoStats, medalObject, videoObject) {
   return videoStats;
 }
 
-export default {
+const resolvers = {
   Query: {
     getChildVideoStatistics: async (_, { childID }, context) => {
       if (!context.user) throw new UserInputError("Login required");
@@ -259,3 +259,4 @@ export default {
     },
   },
 };
+export default resolvers;

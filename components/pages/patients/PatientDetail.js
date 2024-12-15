@@ -26,7 +26,6 @@ import CreateCarePlanAssignmentForm from "@forms/patients/CreateCarePlanAssignme
 import CreateCarePlanComment from "@forms/patients/CreateCarePlanComment";
 import CarePlanComments from "@pages/patients/CarePlanComments";
 import CarePlanAssignments from "@pages/patients/CarePlanAssignments";
-import { useReactiveVar } from "@apollo/client";
 
 const CalenderWrapper = styled.div`
   .ant-popover-message-title {
@@ -35,27 +34,26 @@ const CalenderWrapper = styled.div`
 `;
 
 function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
-
   ///////////
   // State //
   ///////////
 
-    // User 
-    const setUser = useSetRecoilState(userState);
+  // User
+  const setUser = useSetRecoilState(userState);
 
-    // User Medals
-    const [medals, setMedals] = useState([])
+  // User Medals
+  const [medals, setMedals] = useState([]);
 
-    // Loading
-    const [loading, setLoading] = useState(true)
-    
-    // Current Date
-    const [dateToUse, setDateToUse] = React.useState(new moment());
+  // Loading
+  const [loading, setLoading] = useState(true);
 
-    // Constant Drawer Width
-    const getDrawerWidth = () => {
-      return 700;
-    };
+  // Current Date
+  const [dateToUse, setDateToUse] = React.useState(new moment());
+
+  // Constant Drawer Width
+  const getDrawerWidth = () => {
+    return 700;
+  };
 
     useEffect(() => {
       if (patientDetail){
@@ -68,20 +66,20 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
   // Queries //
   /////////////
 
-    // Reset User Function
-    const getUser = async () => {
-      await client
-        .query({
-          query: GET_USER,
-          fetchPolicy: "network-only",
-        })
-        .then(async (resolved) => {
-          setUser(resolved.data.getUser);
-        })
-        .catch((error) => {
-          message.error("Sorry, there was an error getting this information");
-        });
-    };
+  // Reset User Function
+  const getUser = async () => {
+    await client
+      .query({
+        query: GET_USER,
+        fetchPolicy: "network-only",
+      })
+      .then((resolved) => {
+        setUser(resolved.data.getUser);
+      })
+      .catch(() => {
+        message.error("Sorry, there was an error getting this information");
+      });
+  };
 
     // Gets all Medals from Relevant Child
     async function getChildsMedals(){
@@ -274,9 +272,8 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
   /////////////////
   // Main Return //
   /////////////////
-  if (loading){
-    return null
-  }
+  if (loading) return null;
+
   return (
     <>
       <Drawer
@@ -284,7 +281,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
         placement="right"
         width={1000}
         onClose={() => Router.push("/patients/manage", null, { shallow: true })}
-        open={patientDetailOpen ? true : false}
+        open={!!patientDetailOpen}
       >
         {patientDetail && (
           <>
@@ -300,7 +297,6 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
               placement="bottom"
               okText="Generate PDF"
               cancelText="Cancel"
-              icon=""
               onConfirm={() => {
                 // window.open(
                 //   `/patients/pdf?id=${patientDetail.id}&date=${dateToUse.format(
@@ -319,11 +315,8 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
                 </>
               }
             >
-              <Button
-                type="ghost"
-                style={{ float: "right", marginRight: "10px" }}
-              >
-                Generate A PDF Document
+              <Button type="ghost" style={{ float: "right", marginRight: "10px" }}>
+                Generate PDF Document
               </Button>
             </Popconfirm>
 
@@ -337,7 +330,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
             <Drawer
               title={getDrawerTitle()}
               width={getDrawerWidth()}
-              onClose={() => getDrawerCloseLink()}
+              onClose={getDrawerCloseLink}
               open={getDrawerOpen()}
             >
               {getDrawerContent()}

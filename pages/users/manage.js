@@ -33,7 +33,7 @@ function ManageUsers({ router }) {
     if (!user.ownedOrganization) {
       Router.push("/");
     }
-  }, []);
+  }, [user.ownedOrganization]);
 
   return (
     <IndexWrapper>
