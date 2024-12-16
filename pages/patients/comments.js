@@ -1,7 +1,6 @@
     // React
     import React, { useEffect, useState } from "react";
     import styled from "styled-components";
-    import {Popconfirm} from "antd";
     import { Comment } from '@ant-design/compatible';
 
 
@@ -95,6 +94,8 @@
 
         // Fetches all Comments, sorts within range
         useEffect(() => {
+            console.log(DateRangeStart)
+            console.log(DateRangeEnd)
             if (patientDetail?.id && comments.length > 0) {
                 filterComments();
             }
@@ -113,6 +114,8 @@
                 } 
                 return false
             })
+            console.log("Setting filtered comments...")
+            console.log(datedComments)
             setFilteredComments(datedComments)
             setLoading(false)
         };
@@ -144,8 +147,8 @@
     ////////////////
 
         const renderComments = () => {
-            if (comments.length > 0 || loading){
-                return comments.map(commentObject => {
+            if (filteredComments.length > 0 || loading){
+                return filteredComments.map(commentObject => {
                     return(
                         <div key={commentObject.id} style={{padding: 3.5, borderTop: '2px solid #ffbe76', display: 'flex', flexDirection: 'row'}}>
                             <div style={{flex: 9}}>
