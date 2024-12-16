@@ -1,8 +1,9 @@
     // React
     import React, { useEffect, useState } from "react";
+    import { Form, Field } from "react-final-form";
+    import { SelectField } from "@fields";
     import styled from "styled-components";
     import { Comment } from '@ant-design/compatible';
-
 
     // Recoil
     import { userState, patientDataState } from "@atoms";
@@ -76,6 +77,9 @@
         // Toggle between "ALL" and "VIDEO"
         const [viewMode, setViewMode] = useState("ALL"); 
 
+        // Selected Video to Track Progress of
+        const [givenVideo, setGivenVideo] = useState(false)
+
     /////////////
     // Effects //
     /////////////
@@ -106,7 +110,7 @@
     ///////////////
 
         // Filters the Comments based on Date Range
-        const filterComments = async () => {
+        const filterComments = () => {
             setLoading(true)
             let datedComments = [...comments].filter(comment => {
                 if (new Date(comment.createdAt) >= DateRangeStart && new Date(comment.createdAt) <= DateRangeEnd){
@@ -114,11 +118,21 @@
                 } 
                 return false
             })
-            console.log("Setting filtered comments...")
-            console.log(datedComments)
             setFilteredComments(datedComments)
             setLoading(false)
         };
+
+        const extractVideoComments = (these) => {
+            let videoComments = these.filter(comment => {
+                console.log(comment)
+                if (comment.videoID){
+                    return true
+                }
+                else{
+                    return false
+                }
+            })
+        }
 
         // Changes Comment Type
         const toggleView = (mode) => {
@@ -141,6 +155,10 @@
             const newDate = new Date(e.target.value);
             type === "start" ? setDateRangeStart(newDate) : setDateRangeEnd(newDate);
         };
+
+        function determineSelectedVideo(){
+
+        }
 
     ////////////////
     // Renderings //
@@ -213,7 +231,74 @@
             }
             const video = Object.values(VIDEOS).find(video => video.id === id);
             return video ? video.title : `Video with id "${id}" not found.`;
-          }
+        }
+
+        // Sets values for Videos Dropdown
+        const renderVideoOptions = () => {
+            let options = [];
+            for (var key in VIDEOS) {
+            if (VIDEOS[key].id !== "great_job") {
+                if (VIDEOS.hasOwnProperty(key)) {
+                options.push({
+                    value: VIDEOS[key].id,
+                    text: VIDEOS[key].title,
+                });
+                }
+            }
+            }
+            options = options.sort((a, b) => a.text.localeCompare(b.text)); // Sort alphabetically
+            return options;
+        };
+
+        const renderVideoSelectionDropdown = () => {
+            return(
+            <Form
+                onSubmit={determineSelectedVideo}
+                mutators={{
+                    setValue: ([field, value], state, { changeValue }) => {
+                    changeValue(state, field, () => value);
+                    },
+                }}
+                render={({
+                    handleSubmit,
+                    pristine,
+                    invalid,
+                    submitting,
+                    form,
+                    values,
+                  }) => (
+                    <form
+                      onSubmit={(event) => {
+                        handleSubmit(event).then((event) => {
+                          form.mutators.setValue("commentContent", "");
+                        });
+                      }}
+                    >
+                    <Field
+                        name="videoID"
+                        component={SelectField}
+                        options={renderVideoOptions()} 
+                        htmlType="dropdown"
+                        label="Attach a Related Video if Necessary"
+                        placeholder="No Related Video"
+                        size={"large"}
+                        required={false}
+                    />
+                    <Button
+                        type="primary"
+                        loading={submitting}
+                        htmlType="submit"
+                        block={true}
+                        size={"large"}
+                        disabled={invalid || pristine}
+                        >
+                        Search for Video Progress
+                    </Button>
+                    </form>
+                  )}
+            />
+            )
+        }
 
     /////////////////
     // Main Render //
