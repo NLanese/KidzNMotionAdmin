@@ -57,7 +57,6 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
 
     useEffect(() => {
       if (patientDetail){
-        console.log(patientDetail)
         getChildsMedals()
       }
     }, [patientDetail])
@@ -91,7 +90,6 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
               childCareID: patientDetail.carePlan.id
           }
       }).then( (resolved) => {
-        console.log(resolved)
         setMedals(processMedalData(resolved.data.getAllUserMedals))
         setLoading(false)
         return
@@ -293,7 +291,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
               </Button>
             </BasicLink>
 
-            <Popconfirm
+            {/* <Popconfirm
               placement="bottom"
               okText="Generate PDF"
               cancelText="Cancel"
@@ -314,11 +312,13 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
                   {renderCalendar()}
                 </>
               }
-            >
-              <Button type="ghost" style={{ float: "right", marginRight: "10px" }}>
+            > */}
+              <Button type="ghost" style={{ float: "right", marginRight: "10px" }}
+                onClick={() => Router.push("/patients/comments")}
+              >
                 Generate PDF Document
               </Button>
-            </Popconfirm>
+            {/* </Popconfirm> */}
 
             <PatientInformation patientDetail={patientDetail} user={user} />
 

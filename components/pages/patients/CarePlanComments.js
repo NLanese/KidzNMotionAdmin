@@ -71,7 +71,7 @@ function CarePlanComments({
       }
       return (
         <div key={commentObject.id} style={{padding: 3.5, borderTop: '2px solid #ffbe76', display: 'flex', flexDirection: 'row'}}>
-          <div style={{flex: 9}}>
+          <div style={{flex: 9, height: '100%'}}>
             <Comment
               author={"You"}
               key={commentObject.id}
@@ -80,19 +80,19 @@ function CarePlanComments({
               datetime={dateFormat(commentObject.createdAt, "m/dd hh:MM tt")}
               actions={[
                 <Popconfirm
-                  key={"topLeft"}
-                  placement="topLeft"
-                  title={"Are you sure you want to delete this comment?"}
-                  onConfirm={() => deleteComment(commentObject.id)}
-                  okText="Yes, Delete"
-                  cancelText="No, Cancel"
+                    key={"topLeft"}
+                    placement="topLeft"
+                    title={"Are you sure you want to delete this comment?"}
+                    onConfirm={() => deleteComment(commentObject.id)}
+                    okText="Yes, Delete"
+                    cancelText="No, Cancel"
                 >
-                  <span style={{ color: "#e74c3c" }}>Delete Comment</span>
+                    <span style={{ color: "#e74c3c" }}>Delete Comment</span>
                 </Popconfirm>,
-              ]}
+                ]}
             />
           </div>
-          <div style={{flex: 3}}>
+          <div style={{flex: 3, height: '100%'}}>
               {renderForVideo(commentObject)}
               {renderForAssignment(commentObject)}
           </div>
@@ -116,7 +116,6 @@ function CarePlanComments({
 
    // (In Comment -- Optional) Renders Related Assignment Title
   const renderForAssignment = (commentObject) => {
-    console.log(commentObject)
     if (commentObject.assignmentId){
       return(
         <Comment

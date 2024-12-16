@@ -62,7 +62,6 @@ function ManagePatients({ router }) {
     let users = [];
     user.organizations[0].organization.organizationUsers.map(
       (orgUserObject) => {
-        // console.log(orgUserObject);
         let user = Object.assign({}, orgUserObject.user);
         if (patientCarePlans[user.id]) {
           user.carePlan = patientCarePlans[user.id];
@@ -88,7 +87,6 @@ function ManagePatients({ router }) {
     if (router.query.id) {
       if (renderPatientData(true)[router.query.id]) {
         // console.clear();
-        // console.log(renderPatientData(true)[router.query.id]);
         if (router.query.date) {
           const date = new moment(router.query.date);
           setDateToUse(date);

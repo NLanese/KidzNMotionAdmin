@@ -47,14 +47,6 @@ function CreateCarePlanComment({
 
     // Handles Entire Process of Submitting a New Comment
     const handleFormSubmit = async (formValues) => {
-      console.log(
-        {
-          commentContent: formValues.commentContent,
-          childCarePlanID: initialValues.childCarePlanID,
-          assignmentID: assignment && initialValues.assignmentID,
-          videoID: formValues.videoID ? formValues.videoID : null
-        }
-      )
       setLoading(true);
       await createComment({
         variables: {
