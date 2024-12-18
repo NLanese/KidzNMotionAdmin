@@ -68,11 +68,11 @@
         // ALL Curent Patient Medals
         const [medals, setMedals] = useState([])
 
-        // Filtered Medals by Date
-        const [filteredMedals, setFilteredMedals] = useState([])
 
         // Medals and Comment Render Chunks
         const [renderList, setRenderList] = useState([])
+
+        const [filteredRenderList, setFilteredRenderList] = useState([])
 
         // Start Date
         const [DateRangeStart, setDateRangeStart] = useState(() => {
@@ -87,7 +87,7 @@
         // ALL Comments
         const [comments, setComments] = useState([]);
 
-        // Comments within Date Range
+        // Filtered Comments
         const [filteredComments, setFilteredComments] = useState([]);
 
         // Toggle between "ALL" and "VIDEO"
@@ -103,17 +103,13 @@
         // Reroutes off page is User is not a Therapist
         useEffect(() => {
             if (user.role !== "THERAPIST") { Router.push("/") }
-            console.log(patientDetail)
         }, [user]);
 
+        // Fetches Data upon Page Entrance
         useEffect(() => {
             if(patientDetail && loading){
                 setComments(patientDetail.carePlan.comments)
-                getChildsMedals().then(() => {
-
-                })
-                .catch(() => {setLoading(false)})
-               
+                getChildsMedals()
             }
         }, [patientDetail])
 
@@ -124,6 +120,33 @@
             }
         }, [comments, medals, DateRangeStart, DateRangeEnd]);
 
+        // Adjusts final Render List 
+        useEffect(() => {
+            setLoading(true)
+            if (givenVideo){
+                setViewMode("VIDEO")
+                let newRenderList = renderList.filter(itm => {
+                    if (itm.__typename === "Medal"){
+                        if (itm.title === givenVideo){
+                            return true
+                        }
+                        return false
+                    }
+                    else if (itm.__typename === "Comment"){
+                        if (itm.videoId === givenVideo){
+                            return true
+                        }
+                        return false
+                    }
+                })
+                setFilteredRenderList(newRenderList)
+            }
+            else{
+                setViewMode("ALL")
+            }
+            setLoading(false)
+        }, [givenVideo])
+
     ///////////////
     // Functions //
     ///////////////
@@ -132,37 +155,25 @@
         // Page //
         //////////
 
-            // Changes Comment Type
-            const toggleView = (mode) => {
-                setViewMode(mode);
-            };
-
-            // Determines which Comments are to be displayed based off Date Range and Type
-            const determineDisplayedComments = () => {
-                if (viewMode === "ALL"){
-                    return filteredComments
-                }
-                else if (viewMode === "VIDEO"){
-                    // TO DO
-                    return filteredComments
-                }
-            }
-
             // Handles Date Changes for both Boundaries
             const handleDateChange = (e, type) => {
                 const newDate = new Date(e.target.value);
                 type === "start" ? setDateRangeStart(newDate) : setDateRangeEnd(newDate);
             };
 
+            // Handles the Changing of Data based on Date Ranges
             const handleContent = async () => {
                 await filterComments()
                 await processMedalData(medals)
                 let fullList = [...comments, ...medals]
                 fullList = fullList.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)); 
-                console.log("Full List")
-                console.log(fullList)
                 setRenderList(fullList)
                 setLoading(false)
+            }
+
+            // Handles Submission of Specific Video of Progress Tracking
+            const handleSubmitVideoFilter = (formValues) => {
+                setGivenVideo(formValues.videoId)
             }
 
         //////////////
@@ -181,22 +192,6 @@
                 setFilteredComments(datedComments)
             };
 
-            // Finds Comments that have a Video ID
-            const extractVideoComments = (these) => {
-                let videoComments = these.filter(comment => {
-                    console.log(comment)
-                    if (comment.videoID){
-                        return true
-                    }
-                    else{
-                        return false
-                    }
-                })
-            }
-
-            function determineSelectedVideo(){
-
-            }
 
         ////////////
         // Medals //
@@ -204,7 +199,6 @@
 
             // Gets all Medals from Relevant Child
             async function getChildsMedals(){
-                console.log("Querying medals....")
                 // QUERY
                 await client.query({
                     query: GET_ALL_USER_MEDALS,
@@ -213,13 +207,10 @@
                         childCareID: patientDetail.carePlan.id
                     }
                 }).then( (resolved) => {
-                    console.log("Setting Medals")
-                    console.log(resolved.data.getAllUserMedals)
                     setMedals(resolved.data.getAllUserMedals)
                     setLoading(false)
                     return
                 }).catch(err => {
-                    console.log("Query done goofed")
                     console.warn("Error getting the Medals: ", err)
                     setLoading(false)
                 })
@@ -227,7 +218,6 @@
 
             // Filters and Sorts Medals by Date
             async function processMedalData(getAllUserMedals) {
-                console.log("Processing Medal Data")
                 const filteredMedals = getAllUserMedals.filter(medal => {
                     if (new Date(medal.createdAt) >= DateRangeStart && new Date(medal.createdAt) <= DateRangeEnd){
                         return true
@@ -264,29 +254,28 @@
                 return options;
             };
 
+            // Renders Dropdown for all Videos to pick a Specific one
             const renderVideoSelectionDropdown = () => {
                 return(
                 <Form
-                    onSubmit={determineSelectedVideo}
+                    onSubmit={handleSubmitVideoFilter}
                     mutators={{
                         setValue: ([field, value], state, { changeValue }) => {
                         changeValue(state, field, () => value);
                         },
                     }}
                     render={({
-                        handleSubmit,
                         pristine,
                         invalid,
                         submitting,
                         form,
-                        values,
+                        handleSubmit
                     }) => (
                         <form
-                        onSubmit={(event) => {
-                            handleSubmit(event).then((event) => {
-                            form.mutators.setValue("commentContent", "");
-                            });
-                        }}
+                            onSubmit={(event) => {
+                                handleSubmit(event)
+                                form.mutators.setValue("videoId", "");
+                            }}
                         >
                         <Field
                             name="videoID"
@@ -299,11 +288,11 @@
                             required={false}
                         />
                         <Button
-                            type="primary"
+                            type="default"
                             loading={submitting}
                             htmlType="submit"
                             block={true}
-                            size={"large"}
+                            size={"small"}
                             disabled={invalid || pristine}
                             >
                             Filter for This Video
@@ -314,10 +303,10 @@
                 )
             }
 
+            // Renders the Filtered (or all) Content 
             const renderContent = () => {
-                return renderList.map(obj => {
-                    console.log(obj)
-                    console.log(obj.__typename)
+                const toRender = (viewMode === ("VIDEO"))? filteredRenderList : renderList
+                return toRender.map(obj => {
                     if (obj.__typename === "Comment"){
                         return renderSingleComment(obj)
                     }
@@ -404,7 +393,6 @@
 
             // Renders a Single Comment
             const renderSingleMedal = (medal) => {
-                console.log(medal)
                 return(
                     <div key={medal.id} style={{padding: 3.5, borderTop: '2px solid #ffbe76', display: 'flex', flexDirection: 'row'}}>
                         <div style={{flex: 9}}>
@@ -471,9 +459,10 @@
         </div>
 
         <div className="comments-toggle" style={{display: 'flex', justifyContent: 'row', width: '40%'}}>
-            <div style={{flex: 3}}>
+            <div style={{flex: 4}}>
                 {renderVideoSelectionDropdown()}
             </div>
+            <div style={{flex: 2}}/>
             <div style={{flex: 6}}>
                 <button onClick={() => print()}>
                 Generate PDF
