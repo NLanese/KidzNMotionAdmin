@@ -1,5 +1,5 @@
     // React
-    import React, { useEffect, useState } from "react";
+    import React, { useEffect, useState, useRef } from "react";
     import { Form, Field } from "react-final-form";
     import { SelectField } from "@fields";
     import styled from "styled-components";
@@ -68,13 +68,26 @@
         // ALL Curent Patient Medals
         const [medals, setMedals] = useState([])
 
-         // Date Filtered Patient Medals
-         const [filteredMedals, setFilteredMedals] = useState([])
+        // Date Filtered Patient Medals
+        const [filteredMedals, setFilteredMedals] = useState([])
 
         // Medals and Comment Render Chunks
         const [renderList, setRenderList] = useState([])
 
+        // Filtered Render List for Specific Videos
         const [filteredRenderList, setFilteredRenderList] = useState([])
+
+        const thisRender = useRef([])
+        useEffect(() => {
+            if (viewMode === "VIDEO"){
+                console.log("IN EFFECT",filteredRenderList)
+                thisRender.current = filteredRenderList
+            }
+            else{
+                console.log("IN EFFECT",renderList)
+                thisRender.current = renderList
+            }
+        }, [renderList, filteredRenderList])
 
         // Start Date
         const [DateRangeStart, setDateRangeStart] = useState(() => {
@@ -119,7 +132,10 @@
         useEffect(() => {
             if (patientDetail?.id && comments.length > 0) {
                 console.log("Handling content")
-                handleContent()
+                handleContent().then( (res) => {
+                    setRenderList(res)
+                    setLoading(false)
+                })
             }
         }, [comments, medals, DateRangeStart, DateRangeEnd]);
 
@@ -145,7 +161,7 @@
                         return false
                     }
                 })
-                setFilteredRenderList(newRenderList)
+                setFilteredRenderList([...newRenderList])
             }
             else{
                 setViewMode("ALL")
@@ -169,12 +185,12 @@
 
             // Handles the Changing of Data based on Date Ranges
             const handleContent = async () => {
+                setLoading(true)
                 await filterComments()
                 await processMedalData(medals)
                 let fullList = [...filteredComments, ...filteredMedals]
                 fullList = fullList.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)); 
-                setRenderList(fullList)
-                setLoading(false)
+                return fullList
             }
 
             // Handles Submission of Specific Video of Progress Tracking
@@ -190,13 +206,13 @@
 
             // Filters the Comments based on Date Range
             const filterComments = async () => {
-                setLoading(true)
                 let datedComments = [...comments].filter(comment => {
                     if (new Date(comment.createdAt) >= DateRangeStart && new Date(comment.createdAt) <= DateRangeEnd){
                         return true
                     } 
                     return false
                 })
+                console.log(datedComments)
                 setFilteredComments(datedComments)
                 return
             };
@@ -217,11 +233,9 @@
                     }
                 }).then( (resolved) => {
                     setMedals(resolved.data.getAllUserMedals)
-                    setLoading(false)
                     return
                 }).catch(err => {
                     console.warn("Error getting the Medals: ", err)
-                    setLoading(false)
                 })
             }
 
@@ -302,9 +316,13 @@
             }
 
             // Renders the Filtered (or all) Content 
-            const renderContent = () => {
-                const toRender = (viewMode === ("VIDEO"))? filteredRenderList : renderList
-                return toRender.map(obj => {
+            function renderContent(){
+                if (loading){
+                    return 
+                }
+                // let toRender = (viewMode === ("VIDEO"))? filteredRenderList : renderList
+                console.log("THIS RENDER" ,thisRender.current)
+                return thisRender.current.map(obj => {
                     if (obj.__typename === "Comment"){
                         return renderSingleComment(obj)
                     }
