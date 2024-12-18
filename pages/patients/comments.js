@@ -9,6 +9,11 @@
     import { userState, patientDataState } from "@atoms";
     import { useRecoilState } from "recoil";
 
+    // Query
+    import client from "@utils/apolloClient";
+    import { GET_ALL_USER_MEDALS } from "@graphql/operations";
+
+
     // Date
     var dateFormat = require("dateformat");
 
@@ -58,6 +63,9 @@
         // Curent Patient
         const [patientDetail, setPatientDetail] = useRecoilState(patientDataState);
 
+        // Curent Patient Medals
+        const [medals, setMedals] = useState([])
+
         // Start Date
         const [DateRangeStart, setDateRangeStart] = useState(() => {
             const lastWeek = new Date();
@@ -87,12 +95,17 @@
         // Reroutes off page is User is not a Therapist
         useEffect(() => {
             if (user.role !== "THERAPIST") { Router.push("/") }
+            console.log(patientDetail)
         }, [user]);
 
         useEffect(() => {
             if(patientDetail && loading){
                 setComments(patientDetail.carePlan.comments)
-                setLoading(false)
+                getChildsMedals().then(() => {
+                    setLoading(false)
+                })
+                .catch(() => {setLoading(false)})
+               
             }
         }, [patientDetail])
 
@@ -158,6 +171,44 @@
 
         function determineSelectedVideo(){
 
+        }
+        
+        // Gets all Medals from Relevant Child
+        async function getChildsMedals(){
+            console.log("Querying medals....")
+            // QUERY
+            await client.query({
+                query: GET_ALL_USER_MEDALS,
+                fetchPolicy: 'network-only',
+                variables: {
+                    childCareID: patientDetail.carePlan.id
+                }
+            }).then( (resolved) => {
+                console.log("Done with Query")
+                console.log(processMedalData(resolved.data.getAllUserMedals))
+                setMedals(processMedalData(resolved.data.getAllUserMedals))
+                setLoading(false)
+                return
+            }).catch(err => {
+                console.log("Query done goofed")
+                console.warn("Error getting the Medals: ", err)
+                setLoading(false)
+            })
+        }
+
+        // Processes Medal Query Data
+        function processMedalData(getAllUserMedals){
+            console.log("Processing medal data...")
+            let rObj = {}
+            getAllUserMedals.forEach(medal => {
+                rObj = ({...rObj, [medal.title]: addToMedalKey(rObj[medal.title], medal)})
+            })
+            return rObj
+        }
+
+        // Handles Object Data Additionl
+        function addToMedalKey(obj, medal){
+            return {...obj, [medal.level]: [medal]}
         }
 
     ////////////////
