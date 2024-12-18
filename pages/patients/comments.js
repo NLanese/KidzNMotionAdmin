@@ -68,6 +68,8 @@
         // ALL Curent Patient Medals
         const [medals, setMedals] = useState([])
 
+         // Date Filtered Patient Medals
+         const [filteredMedals, setFilteredMedals] = useState([])
 
         // Medals and Comment Render Chunks
         const [renderList, setRenderList] = useState([])
@@ -116,14 +118,18 @@
         // Fetches all Comments and Medals; sorts within range
         useEffect(() => {
             if (patientDetail?.id && comments.length > 0) {
+                console.log("Handling content")
                 handleContent()
             }
         }, [comments, medals, DateRangeStart, DateRangeEnd]);
 
         // Adjusts final Render List 
         useEffect(() => {
+            console.log("Given video changed")
+            console.log(givenVideo)
             setLoading(true)
             if (givenVideo){
+                console.log("Given video present")
                 setViewMode("VIDEO")
                 let newRenderList = renderList.filter(itm => {
                     if (itm.__typename === "Medal"){
@@ -165,7 +171,7 @@
             const handleContent = async () => {
                 await filterComments()
                 await processMedalData(medals)
-                let fullList = [...comments, ...medals]
+                let fullList = [...filteredComments, ...filteredMedals]
                 fullList = fullList.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)); 
                 setRenderList(fullList)
                 setLoading(false)
@@ -173,7 +179,9 @@
 
             // Handles Submission of Specific Video of Progress Tracking
             const handleSubmitVideoFilter = (formValues) => {
-                setGivenVideo(formValues.videoId)
+                console.log("HandleSubmit hit")
+                console.log(formValues)
+                setGivenVideo(formValues.videoID)
             }
 
         //////////////
@@ -190,6 +198,7 @@
                     return false
                 })
                 setFilteredComments(datedComments)
+                return
             };
 
 
@@ -224,8 +233,9 @@
                     } 
                     return false
                 })
-                const filteredAndSortedMedals = filteredMedals.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)); 
-                return filteredAndSortedMedals;
+                const filteredAndSortedMedals = filteredMedals.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+                setFilteredMedals(filteredAndSortedMedals);
+                return
             }
 
     ////////////////
@@ -244,62 +254,50 @@
                     if (VIDEOS.hasOwnProperty(key)) {
                     options.push({
                         value: VIDEOS[key].id,
-                        text: VIDEOS[key].title,
+                        label: VIDEOS[key].title,
                     });
                     }
                 }
                 }
-                options = options.sort((a, b) => a.text.localeCompare(b.text)); // Sort alphabetically
-                options.unshift({text: "None", value: false})
+                options = options.sort((a, b) => a.label.localeCompare(b.label)); // Sort alphabetically
+                options.unshift({label: "None", value: false})
                 return options;
             };
 
             // Renders Dropdown for all Videos to pick a Specific one
             const renderVideoSelectionDropdown = () => {
                 return(
-                <Form
+                    <Form
                     onSubmit={handleSubmitVideoFilter}
-                    mutators={{
-                        setValue: ([field, value], state, { changeValue }) => {
-                        changeValue(state, field, () => value);
-                        },
-                    }}
-                    render={({
-                        pristine,
-                        invalid,
-                        submitting,
-                        form,
-                        handleSubmit
-                    }) => (
-                        <form
-                            onSubmit={(event) => {
-                                handleSubmit(event)
-                                form.mutators.setValue("videoId", "");
-                            }}
-                        >
+                    render={({ pristine, invalid, submitting, handleSubmit }) => (
+                      <form onSubmit={handleSubmit}>
                         <Field
-                            name="videoID"
-                            component={SelectField}
-                            options={[...renderVideoOptions()]} 
-                            htmlType="dropdown"
-                            label="Attach a Related Video if Necessary"
-                            placeholder="No Related Video"
-                            size={"large"}
-                            required={false}
+                          name="videoID"
+                          render={({ input }) => (
+                            <Select
+                              {...input}
+                              options={renderVideoOptions()} // Ant Design's Select expects 'options'
+                              placeholder="No Related Video"
+                              size="large"
+                              onChange={(value) => input.onChange(value)} // Update form state
+                              value={input.label} 
+                              style={{minWidth: 150, paddingLeft: 5, marginBottom: 15}}
+                            />
+                          )}
                         />
                         <Button
-                            type="default"
-                            loading={submitting}
-                            htmlType="submit"
-                            block={true}
-                            size={"small"}
-                            disabled={invalid || pristine}
-                            >
-                            Filter for This Video
+                          type="default"
+                          loading={submitting}
+                          htmlType="submit"
+                          block
+                          size="small"
+                          disabled={invalid || pristine}
+                        >
+                          Filter for This Video
                         </Button>
-                        </form>
+                      </form>
                     )}
-                />
+                  />
                 )
             }
 
@@ -459,11 +457,11 @@
         </div>
 
         <div className="comments-toggle" style={{display: 'flex', justifyContent: 'row', width: '40%'}}>
-            <div style={{flex: 4}}>
+            <div style={{flex: 6}}>
                 {renderVideoSelectionDropdown()}
             </div>
             <div style={{flex: 2}}/>
-            <div style={{flex: 6}}>
+            <div style={{flex: 4}}>
                 <button onClick={() => print()}>
                 Generate PDF
                 </button>
