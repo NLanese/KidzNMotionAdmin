@@ -63,8 +63,14 @@
         // Curent Patient
         const [patientDetail, setPatientDetail] = useRecoilState(patientDataState);
 
-        // Curent Patient Medals
+        // ALL Curent Patient Medals
         const [medals, setMedals] = useState([])
+
+        // Filtered Medals by Date
+        const [filteredMedals, setFilteredMedals] = useState([])
+
+        // Medals and Comment Render Chunks
+        const [renderList, setRenderList] = useState([])
 
         // Start Date
         const [DateRangeStart, setDateRangeStart] = useState(() => {
@@ -102,254 +108,302 @@
             if(patientDetail && loading){
                 setComments(patientDetail.carePlan.comments)
                 getChildsMedals().then(() => {
-                    setLoading(false)
+
                 })
                 .catch(() => {setLoading(false)})
                
             }
         }, [patientDetail])
 
-        // Fetches all Comments, sorts within range
+        // Fetches all Comments and Medals; sorts within range
         useEffect(() => {
-            console.log(DateRangeStart)
-            console.log(DateRangeEnd)
             if (patientDetail?.id && comments.length > 0) {
-                filterComments();
+                handleContent()
             }
-        }, [comments, DateRangeStart, DateRangeEnd]);
+        }, [comments, medals, DateRangeStart, DateRangeEnd]);
 
     ///////////////
     // Functions //
     ///////////////
 
-        // Filters the Comments based on Date Range
-        const filterComments = () => {
-            setLoading(true)
-            let datedComments = [...comments].filter(comment => {
-                if (new Date(comment.createdAt) >= DateRangeStart && new Date(comment.createdAt) <= DateRangeEnd){
-                    return true
-                } 
-                return false
-            })
-            setFilteredComments(datedComments)
-            setLoading(false)
-        };
+        //////////
+        // Page //
+        //////////
 
-        const extractVideoComments = (these) => {
-            let videoComments = these.filter(comment => {
-                console.log(comment)
-                if (comment.videoID){
-                    return true
+            // Changes Comment Type
+            const toggleView = (mode) => {
+                setViewMode(mode);
+            };
+
+            // Determines which Comments are to be displayed based off Date Range and Type
+            const determineDisplayedComments = () => {
+                if (viewMode === "ALL"){
+                    return filteredComments
                 }
-                else{
+                else if (viewMode === "VIDEO"){
+                    // TO DO
+                    return filteredComments
+                }
+            }
+
+            // Handles Date Changes for both Boundaries
+            const handleDateChange = (e, type) => {
+                const newDate = new Date(e.target.value);
+                type === "start" ? setDateRangeStart(newDate) : setDateRangeEnd(newDate);
+            };
+
+            const handleContent = async () => {
+                await filterComments()
+                await processMedalData(medals)
+                let fullList = [...comments, ...medals]
+                fullList = fullList.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)); 
+                console.log("Full List")
+                console.log(fullList)
+                setRenderList(fullList)
+                setLoading(false)
+            }
+
+        //////////////
+        // Comments //
+        //////////////
+
+            // Filters the Comments based on Date Range
+            const filterComments = async () => {
+                setLoading(true)
+                let datedComments = [...comments].filter(comment => {
+                    if (new Date(comment.createdAt) >= DateRangeStart && new Date(comment.createdAt) <= DateRangeEnd){
+                        return true
+                    } 
                     return false
-                }
-            })
-        }
+                })
+                setFilteredComments(datedComments)
+            };
 
-        // Changes Comment Type
-        const toggleView = (mode) => {
-            setViewMode(mode);
-        };
-
-        // Determines which Comments are to be displayed based off Date Range and Type
-        const determineDisplayedComments = () => {
-            if (viewMode === "ALL"){
-                return filteredComments
+            // Finds Comments that have a Video ID
+            const extractVideoComments = (these) => {
+                let videoComments = these.filter(comment => {
+                    console.log(comment)
+                    if (comment.videoID){
+                        return true
+                    }
+                    else{
+                        return false
+                    }
+                })
             }
-            else if (viewMode === "VIDEO"){
-                // TO DO
-                return filteredComments
+
+            function determineSelectedVideo(){
+
             }
-        }
 
-        // Handles Date Changes for both Boundaries
-        const handleDateChange = (e, type) => {
-            const newDate = new Date(e.target.value);
-            type === "start" ? setDateRangeStart(newDate) : setDateRangeEnd(newDate);
-        };
+        ////////////
+        // Medals //
+        ////////////
 
-        function determineSelectedVideo(){
+            // Gets all Medals from Relevant Child
+            async function getChildsMedals(){
+                console.log("Querying medals....")
+                // QUERY
+                await client.query({
+                    query: GET_ALL_USER_MEDALS,
+                    fetchPolicy: 'network-only',
+                    variables: {
+                        childCareID: patientDetail.carePlan.id
+                    }
+                }).then( (resolved) => {
+                    console.log("Setting Medals")
+                    console.log(resolved.data.getAllUserMedals)
+                    setMedals(resolved.data.getAllUserMedals)
+                    setLoading(false)
+                    return
+                }).catch(err => {
+                    console.log("Query done goofed")
+                    console.warn("Error getting the Medals: ", err)
+                    setLoading(false)
+                })
+            }
 
-        }
-        
-        // Gets all Medals from Relevant Child
-        async function getChildsMedals(){
-            console.log("Querying medals....")
-            // QUERY
-            await client.query({
-                query: GET_ALL_USER_MEDALS,
-                fetchPolicy: 'network-only',
-                variables: {
-                    childCareID: patientDetail.carePlan.id
-                }
-            }).then( (resolved) => {
-                console.log("Done with Query")
-                console.log(processMedalData(resolved.data.getAllUserMedals))
-                setMedals(processMedalData(resolved.data.getAllUserMedals))
-                setLoading(false)
-                return
-            }).catch(err => {
-                console.log("Query done goofed")
-                console.warn("Error getting the Medals: ", err)
-                setLoading(false)
-            })
-        }
-
-        // Processes Medal Query Data
-        function processMedalData(getAllUserMedals){
-            console.log("Processing medal data...")
-            let rObj = {}
-            getAllUserMedals.forEach(medal => {
-                rObj = ({...rObj, [medal.title]: addToMedalKey(rObj[medal.title], medal)})
-            })
-            return rObj
-        }
-
-        // Handles Object Data Additionl
-        function addToMedalKey(obj, medal){
-            return {...obj, [medal.level]: [medal]}
-        }
+            // Filters and Sorts Medals by Date
+            async function processMedalData(getAllUserMedals) {
+                console.log("Processing Medal Data")
+                const filteredMedals = getAllUserMedals.filter(medal => {
+                    if (new Date(medal.createdAt) >= DateRangeStart && new Date(medal.createdAt) <= DateRangeEnd){
+                        return true
+                    } 
+                    return false
+                })
+                const filteredAndSortedMedals = filteredMedals.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)); 
+                return filteredAndSortedMedals;
+            }
 
     ////////////////
     // Renderings //
     ////////////////
 
-        const renderComments = () => {
-            if (filteredComments.length > 0 || loading){
-                return filteredComments.map(commentObject => {
-                    return(
-                        <div key={commentObject.id} style={{padding: 3.5, borderTop: '2px solid #ffbe76', display: 'flex', flexDirection: 'row'}}>
-                            <div style={{flex: 9}}>
-                            <Comment
-                                author={"You"}
-                                key={commentObject.id}
-                                avatar="/logos/Main.png"
-                                content={commentObject.content}
-                                datetime={dateFormat(commentObject.createdAt, "m/dd hh:MM tt")}
-                            />
+        //////////
+        // Page //
+        //////////
+
+            // Sets values for Videos Dropdown
+            const renderVideoOptions = () => {
+                let options = [];
+                for (var key in VIDEOS) {
+                if (VIDEOS[key].id !== "great_job") {
+                    if (VIDEOS.hasOwnProperty(key)) {
+                    options.push({
+                        value: VIDEOS[key].id,
+                        text: VIDEOS[key].title,
+                    });
+                    }
+                }
+                }
+                options = options.sort((a, b) => a.text.localeCompare(b.text)); // Sort alphabetically
+                return options;
+            };
+
+            const renderVideoSelectionDropdown = () => {
+                return(
+                <Form
+                    onSubmit={determineSelectedVideo}
+                    mutators={{
+                        setValue: ([field, value], state, { changeValue }) => {
+                        changeValue(state, field, () => value);
+                        },
+                    }}
+                    render={({
+                        handleSubmit,
+                        pristine,
+                        invalid,
+                        submitting,
+                        form,
+                        values,
+                    }) => (
+                        <form
+                        onSubmit={(event) => {
+                            handleSubmit(event).then((event) => {
+                            form.mutators.setValue("commentContent", "");
+                            });
+                        }}
+                        >
+                        <Field
+                            name="videoID"
+                            component={SelectField}
+                            options={renderVideoOptions()} 
+                            htmlType="dropdown"
+                            label="Attach a Related Video if Necessary"
+                            placeholder="No Related Video"
+                            size={"large"}
+                            required={false}
+                        />
+                        <Button
+                            type="primary"
+                            loading={submitting}
+                            htmlType="submit"
+                            block={true}
+                            size={"large"}
+                            disabled={invalid || pristine}
+                            >
+                            Search for Video Progress
+                        </Button>
+                        </form>
+                    )}
+                />
+                )
+            }
+
+            const renderContent = () => {
+                return renderList.map(obj => {
+                    console.log(obj)
+                    console.log(obj.__typename)
+                    if (obj.__typename === "Comment"){
+                        return renderSingleComment(obj)
+                    }
+                    else{
+                        return(
+                            <div>
+                                <p>Medal Earned</p>
                             </div>
-                            <div style={{flex: 3}}>
-                                {renderForVideo(commentObject)}
-                                {renderForAssignment(commentObject)}
-                            </div>
-                        </div>
-                    )
+                        )
+                    }
                 })
             }
-        }
 
-        // (In Comment -- Optional) Renders Related Video Title
-        const renderForVideo = (commentObject) => {
-            if (commentObject.videoId){
-            return(
-                <Comment
-                    author={"For Video"}
-                    key={(commentObject.id) + "-" + (commentObject.videoId)}
-                    content={getVideoTitleById(commentObject.videoId)}
-                />
-            )
+
+        /////////////
+        // Comment //
+        /////////////
+
+            // Renders a Single Comment
+            const renderSingleComment = (commentObject) => {
+                return(
+                    <div key={commentObject.id} style={{padding: 3.5, borderTop: '2px solid #ffbe76', display: 'flex', flexDirection: 'row'}}>
+                        <div style={{flex: 9}}>
+                        <Comment
+                            author={"You"}
+                            key={commentObject.id}
+                            avatar="/logos/Main.png"
+                            content={commentObject.content}
+                            datetime={dateFormat(commentObject.createdAt, "m/dd hh:MM tt")}
+                        />
+                        </div>
+                        <div style={{flex: 3}}>
+                            {renderForVideo(commentObject)}
+                            {renderForAssignment(commentObject)}
+                        </div>
+                    </div>
+                )
             }
-        }
 
-        // (In Comment -- Optional) Renders Related Assignment Title
-        const renderForAssignment = (commentObject) => {
-            if (commentObject.assignmentId){
-            return(
-                <Comment
-                    author={"For Assignment"}
-                    key={(commentObject.id) + "-" + (commentObject.assignmentId)}
-                    content={getAssignmentTitleById(commentObject.assignmentId)}
-                />
-            )
-            }
-        }
-
-        // Finds Assignment Title for Rendering
-        function getAssignmentTitleById(id){
-            if (!patientDetail || !id ){
-              return
-            }
-            let assignments = patientDetail.carePlan.assignments
-            const assign = Object.values(assignments).find(ass => ass.id === id);
-            return assign ? assign.title : `Assignment not found.`;
-        }
-
-        // Finds Video Title for Rendering
-        function getVideoTitleById(id) {
-            if (!id || !VIDEOS){
-              return
-            }
-            const video = Object.values(VIDEOS).find(video => video.id === id);
-            return video ? video.title : `Video with id "${id}" not found.`;
-        }
-
-        // Sets values for Videos Dropdown
-        const renderVideoOptions = () => {
-            let options = [];
-            for (var key in VIDEOS) {
-            if (VIDEOS[key].id !== "great_job") {
-                if (VIDEOS.hasOwnProperty(key)) {
-                options.push({
-                    value: VIDEOS[key].id,
-                    text: VIDEOS[key].title,
-                });
+            // (In Comment -- Optional) Renders Related Video Title
+            const renderForVideo = (commentObject) => {
+                if (commentObject.videoId){
+                return(
+                    <Comment
+                        author={"For Video"}
+                        key={(commentObject.id) + "-" + (commentObject.videoId)}
+                        content={getVideoTitleById(commentObject.videoId)}
+                    />
+                )
                 }
             }
-            }
-            options = options.sort((a, b) => a.text.localeCompare(b.text)); // Sort alphabetically
-            return options;
-        };
 
-        const renderVideoSelectionDropdown = () => {
-            return(
-            <Form
-                onSubmit={determineSelectedVideo}
-                mutators={{
-                    setValue: ([field, value], state, { changeValue }) => {
-                    changeValue(state, field, () => value);
-                    },
-                }}
-                render={({
-                    handleSubmit,
-                    pristine,
-                    invalid,
-                    submitting,
-                    form,
-                    values,
-                  }) => (
-                    <form
-                      onSubmit={(event) => {
-                        handleSubmit(event).then((event) => {
-                          form.mutators.setValue("commentContent", "");
-                        });
-                      }}
-                    >
-                    <Field
-                        name="videoID"
-                        component={SelectField}
-                        options={renderVideoOptions()} 
-                        htmlType="dropdown"
-                        label="Attach a Related Video if Necessary"
-                        placeholder="No Related Video"
-                        size={"large"}
-                        required={false}
+            // (In Comment -- Optional) Renders Related Assignment Title
+            const renderForAssignment = (commentObject) => {
+                if (commentObject.assignmentId){
+                return(
+                    <Comment
+                        author={"For Assignment"}
+                        key={(commentObject.id) + "-" + (commentObject.assignmentId)}
+                        content={getAssignmentTitleById(commentObject.assignmentId)}
                     />
-                    <Button
-                        type="primary"
-                        loading={submitting}
-                        htmlType="submit"
-                        block={true}
-                        size={"large"}
-                        disabled={invalid || pristine}
-                        >
-                        Search for Video Progress
-                    </Button>
-                    </form>
-                  )}
-            />
-            )
-        }
+                )
+                }
+            }
+
+            // Finds Assignment Title for Rendering
+            function getAssignmentTitleById(id){
+                if (!patientDetail || !id ){
+                return
+                }
+                let assignments = patientDetail.carePlan.assignments
+                const assign = Object.values(assignments).find(ass => ass.id === id);
+                return assign ? assign.title : `Assignment not found.`;
+            }
+
+            // Finds Video Title for Rendering
+            function getVideoTitleById(id) {
+                if (!id || !VIDEOS){
+                return
+                }
+                const video = Object.values(VIDEOS).find(video => video.id === id);
+                return video ? video.title : `Video with id "${id}" not found.`;
+            }
+         
+        ///////////
+        // Medal //
+        ///////////
+
+
 
     /////////////////
     // Main Render //
@@ -389,7 +443,7 @@
         </div>
 
         <div className="comments-list" style={{backgroundColor: 'white', marginTop: 35}}>
-            {renderComments()}
+            {renderContent()}
         </div>
         </IndexWrapper>
     );
