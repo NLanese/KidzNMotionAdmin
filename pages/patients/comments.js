@@ -4,6 +4,8 @@
     import { SelectField } from "@fields";
     import styled from "styled-components";
     import { Comment } from '@ant-design/compatible';
+    import { message, Popconfirm, Button, Row, Col, Select, Spin } from "antd";
+
 
     // Recoil
     import { userState, patientDataState } from "@atoms";
@@ -258,6 +260,7 @@
                 }
                 }
                 options = options.sort((a, b) => a.text.localeCompare(b.text)); // Sort alphabetically
+                options.unshift({text: "None", value: false})
                 return options;
             };
 
@@ -288,7 +291,7 @@
                         <Field
                             name="videoID"
                             component={SelectField}
-                            options={renderVideoOptions()} 
+                            options={[...renderVideoOptions()]} 
                             htmlType="dropdown"
                             label="Attach a Related Video if Necessary"
                             placeholder="No Related Video"
@@ -303,20 +306,12 @@
                             size={"large"}
                             disabled={invalid || pristine}
                             >
-                            Search for Video Progress
+                            Filter for This Video
                         </Button>
                         </form>
                     )}
                 />
                 )
-            }
-
-            function formatDateString(dateString) {
-                const date = new Date(dateString);
-                const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-                const day = String(date.getDate()).padStart(2, '0');
-                const year = String(date.getFullYear()).slice(-2); // Get last 2 digits of year
-                return `${month}-${day}-${year}`;
             }
 
             const renderContent = () => {
@@ -475,16 +470,15 @@
             </div>
         </div>
 
-        <div className="comments-toggle">
-            <button onClick={() => toggleView("ALL")}>
-            View All Progress
-            </button>
-            <button onClick={() => toggleView("VIDEO")}>
-            View Specific Video Progress
-            </button>
-            <button onClick={() => print()}>
-            Generate PDF
-            </button>
+        <div className="comments-toggle" style={{display: 'flex', justifyContent: 'row', width: '40%'}}>
+            <div style={{flex: 3}}>
+                {renderVideoSelectionDropdown()}
+            </div>
+            <div style={{flex: 6}}>
+                <button onClick={() => print()}>
+                Generate PDF
+                </button>
+            </div>
         </div>
 
         <div className="comments-list" style={{backgroundColor: 'white', marginTop: 35}}>

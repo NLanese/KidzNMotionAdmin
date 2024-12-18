@@ -316,7 +316,7 @@ function PatientDetail({ patientDetailOpen, patientDetail, user, router }) {
               <Button type="ghost" style={{ float: "right", marginRight: "10px" }}
                 onClick={() => Router.push("/patients/comments")}
               >
-                Generate PDF Document
+                View Child Progress
               </Button>
             {/* </Popconfirm> */}
 
