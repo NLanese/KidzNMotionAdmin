@@ -311,6 +311,14 @@
                 )
             }
 
+            function formatDateString(dateString) {
+                const date = new Date(dateString);
+                const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+                const day = String(date.getDate()).padStart(2, '0');
+                const year = String(date.getFullYear()).slice(-2); // Get last 2 digits of year
+                return `${month}-${day}-${year}`;
+            }
+
             const renderContent = () => {
                 return renderList.map(obj => {
                     console.log(obj)
@@ -318,12 +326,8 @@
                     if (obj.__typename === "Comment"){
                         return renderSingleComment(obj)
                     }
-                    else{
-                        return(
-                            <div>
-                                <p>Medal Earned</p>
-                            </div>
-                        )
+                    else if (obj.__typename === "Medal"){
+                        return renderSingleMedal(obj)
                     }
                 })
             }
@@ -403,7 +407,45 @@
         // Medal //
         ///////////
 
+            // Renders a Single Comment
+            const renderSingleMedal = (medal) => {
+                console.log(medal)
+                return(
+                    <div key={medal.id} style={{padding: 3.5, borderTop: '2px solid #ffbe76', display: 'flex', flexDirection: 'row'}}>
+                        <div style={{flex: 9}}>
+                        <Comment
+                            author={`${patientDetail.firstName} ${patientDetail.lastName}`}
+                            key={medal.id}
+                            avatar="/logos/Main.png"
+                            content={`${medal.level} Medal For ${getTitleFromSlug(medal.title)}`}
+                            datetime={dateFormat(medal.createdAt, "m/dd hh:MM tt")}
+                        />
+                        </div>
+                        {/* <div style={{flex: 3}}>
+                            {renderForVideo(commentObject)}
+                            {renderForAssignment(commentObject)}
+                        </div> */}
+                    </div>
 
+                    // <div>
+                    //     <p>{medal.level} Medal For {getTitleFromSlug(medal.title)} on {medal.createdAt} </p>
+                    // </div>
+                )
+            }
+
+            // Gets the Video Title from_a_slug
+            const getTitleFromSlug = (slug) => {
+                let words = slug.split("_");
+                let capWords = words.map(word => {
+                    return `${word[0].toUpperCase()}${word.slice(1)}`;
+                });
+            
+                if (capWords.length > 1) {
+                    return capWords.join(" ");
+                } else {
+                    return capWords[0]; // Return the single word as a string
+                }
+            };
 
     /////////////////
     // Main Render //
@@ -435,10 +477,13 @@
 
         <div className="comments-toggle">
             <button onClick={() => toggleView("ALL")}>
-            View All Comments
+            View All Progress
             </button>
             <button onClick={() => toggleView("VIDEO")}>
-            View Comments by Video
+            View Specific Video Progress
+            </button>
+            <button onClick={() => print()}>
+            Generate PDF
             </button>
         </div>
 
