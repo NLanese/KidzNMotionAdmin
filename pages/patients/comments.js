@@ -120,7 +120,6 @@
             if (patientDetail?.id && comments.length > 0) {
                 handleContent().then( (res) => {
                     stageContent(res).then( (res) => {
-                        console.log("Setting render list with....", res)
                         setRenderList(prev => [...res])
                     })
                 })
@@ -129,11 +128,9 @@
 
         // Adjusts final Render List 
         useEffect(() => {
-            console.log("Given video changed")
-            console.log(givenVideo)
             setLoading(true)
             if (givenVideo){
-                console.log("Given video present")
+                console.log("Given Video::: ", givenVideo)
                 setViewMode("VIDEO")
                 let newRenderList = renderList.filter(itm => {
                     if (itm.__typename === "Medal"){
@@ -149,6 +146,7 @@
                         return false
                     }
                 })
+                console.log("For Video ", givenVideo , " found: ", newRenderList)
                 setFilteredRenderList([...newRenderList])
             }
             else{
@@ -157,15 +155,16 @@
             setLoading(false)
         }, [givenVideo])
 
+        // Finishes Loading when RenderList is complete
         useEffect(() => {
             if (viewMode === "ALL"){
                 if (renderList){
-                    console.log("TO RENDER",renderList)
                     setLoading(false)
                 }
             }
         }, [renderList])
 
+        // Finishes Loading when FilteredRenderList is complete
         useEffect(() => {
             if (viewMode === "VIDEO"){
                 if (filteredRenderList){
@@ -193,11 +192,11 @@
                 setLoading(true)
                 let com = await filterComments()
                 let med = await processMedalData(medals)
-                return [...com, med]
+                return [...com, ...med]
             }
 
+            // Additional Async Prep to ensure proper rendering on state changes
             const stageContent = async (prepList) => {
-                console.log("Setting Full List with", prepList)
                 let fullList = prepList.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)); 
                 return fullList
             }
@@ -219,7 +218,6 @@
                     } 
                     return false
                 })
-                console.log("setting Filtered Comments to ", datedComments)
                 setFilteredComments([...datedComments])
                 return datedComments
             };
@@ -329,14 +327,29 @@
                 if (loading){
                     return 
                 }
-                return renderList.map(obj => {
-                    if (obj.__typename === "Comment"){
-                        return renderSingleComment(obj)
-                    }
-                    else if (obj.__typename === "Medal"){
-                        return renderSingleMedal(obj)
-                    }
-                })
+                if (viewMode === "ALL"){
+                    console.log("rendering for all")
+                    return renderList.map(obj => {
+                        if (obj.__typename === "Comment"){
+                            return renderSingleComment(obj)
+                        }
+                        else if (obj.__typename === "Medal"){
+                            return renderSingleMedal(obj)
+                        }
+                    })
+                }
+                else if (viewMode === "VIDEO"){
+                    console.log("Rendering for specific video ", givenVideo)
+                    return filteredRenderList.map(obj => {
+                        if (obj.__typename === "Comment"){
+                            return renderSingleComment(obj)
+                        }
+                        else if (obj.__typename === "Medal"){
+                            return renderSingleMedal(obj)
+                        }
+                    })
+                }
+                
             }
 
 
