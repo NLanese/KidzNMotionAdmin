@@ -1,7 +1,6 @@
     // React
     import React, { useEffect, useState, useRef } from "react";
     import { Form, Field } from "react-final-form";
-    import { SelectField } from "@fields";
     import styled from "styled-components";
     import { Comment } from '@ant-design/compatible';
     import { message, Popconfirm, Button, Row, Col, Select, Spin } from "antd";
@@ -77,18 +76,6 @@
         // Filtered Render List for Specific Videos
         const [filteredRenderList, setFilteredRenderList] = useState([])
 
-        const thisRender = useRef([])
-        useEffect(() => {
-            if (viewMode === "VIDEO"){
-                console.log("IN EFFECT",filteredRenderList)
-                thisRender.current = filteredRenderList
-            }
-            else{
-                console.log("IN EFFECT",renderList)
-                thisRender.current = renderList
-            }
-        }, [renderList, filteredRenderList])
-
         // Start Date
         const [DateRangeStart, setDateRangeStart] = useState(() => {
             const lastWeek = new Date();
@@ -131,10 +118,11 @@
         // Fetches all Comments and Medals; sorts within range
         useEffect(() => {
             if (patientDetail?.id && comments.length > 0) {
-                console.log("Handling content")
                 handleContent().then( (res) => {
-                    setRenderList(res)
-                    setLoading(false)
+                    stageContent(res).then( (res) => {
+                        console.log("Setting render list with....", res)
+                        setRenderList(prev => [...res])
+                    })
                 })
             }
         }, [comments, medals, DateRangeStart, DateRangeEnd]);
@@ -169,6 +157,23 @@
             setLoading(false)
         }, [givenVideo])
 
+        useEffect(() => {
+            if (viewMode === "ALL"){
+                if (renderList){
+                    console.log("TO RENDER",renderList)
+                    setLoading(false)
+                }
+            }
+        }, [renderList])
+
+        useEffect(() => {
+            if (viewMode === "VIDEO"){
+                if (filteredRenderList){
+                    setLoading(false)
+                }
+            }
+        }, [filteredRenderList])
+
     ///////////////
     // Functions //
     ///////////////
@@ -186,17 +191,19 @@
             // Handles the Changing of Data based on Date Ranges
             const handleContent = async () => {
                 setLoading(true)
-                await filterComments()
-                await processMedalData(medals)
-                let fullList = [...filteredComments, ...filteredMedals]
-                fullList = fullList.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)); 
+                let com = await filterComments()
+                let med = await processMedalData(medals)
+                return [...com, med]
+            }
+
+            const stageContent = async (prepList) => {
+                console.log("Setting Full List with", prepList)
+                let fullList = prepList.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)); 
                 return fullList
             }
 
             // Handles Submission of Specific Video of Progress Tracking
             const handleSubmitVideoFilter = (formValues) => {
-                console.log("HandleSubmit hit")
-                console.log(formValues)
                 setGivenVideo(formValues.videoID)
             }
 
@@ -212,9 +219,9 @@
                     } 
                     return false
                 })
-                console.log(datedComments)
-                setFilteredComments(datedComments)
-                return
+                console.log("setting Filtered Comments to ", datedComments)
+                setFilteredComments([...datedComments])
+                return datedComments
             };
 
 
@@ -248,8 +255,9 @@
                     return false
                 })
                 const filteredAndSortedMedals = filteredMedals.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-                setFilteredMedals(filteredAndSortedMedals);
-                return
+                console.log("setting Filtered Medals to ", filteredAndSortedMedals)
+                setFilteredMedals([...filteredAndSortedMedals]);
+                return filteredAndSortedMedals
             }
 
     ////////////////
@@ -300,6 +308,7 @@
                           )}
                         />
                         <Button
+                          style={{paddingLeft: 0, maxWidth: 170}}
                           type="default"
                           loading={submitting}
                           htmlType="submit"
@@ -316,13 +325,11 @@
             }
 
             // Renders the Filtered (or all) Content 
-            function renderContent(){
+            const renderContent = () => {
                 if (loading){
                     return 
                 }
-                // let toRender = (viewMode === ("VIDEO"))? filteredRenderList : renderList
-                console.log("THIS RENDER" ,thisRender.current)
-                return thisRender.current.map(obj => {
+                return renderList.map(obj => {
                     if (obj.__typename === "Comment"){
                         return renderSingleComment(obj)
                     }
@@ -474,12 +481,12 @@
             </div>
         </div>
 
-        <div className="comments-toggle" style={{display: 'flex', justifyContent: 'row', width: '40%'}}>
-            <div style={{flex: 6}}>
+        <div className="comments-toggle" style={{display: 'flex', justifyContent: 'row', width: '80%'}}>
+            <div style={{flex: 7}}>
                 {renderVideoSelectionDropdown()}
             </div>
-            <div style={{flex: 2}}/>
-            <div style={{flex: 4}}>
+            <div style={{flex: 1}}/>
+            <div style={{flex: 4, alignContent: 'flex-end', alignContent: 'flex-start', paddingTop: 5}}>
                 <button onClick={() => print()}>
                 Generate PDF
                 </button>
