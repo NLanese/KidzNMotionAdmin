@@ -1,7 +1,8 @@
 ===== TESTING =====
 to run locally...
-- nvm use 18.10
+- nvm use 16.10
 - npm run dev
+
 
 to access the graphQL Playground, go to these urls
 - locaolhost:3000/api/graphql (local)
@@ -9,6 +10,9 @@ to access the graphQL Playground, go to these urls
 
 ===== TO POST UPDATES =====
 - Updating the master branch in this repo will automatically trigger an update on the live site
+
+===== BEFORE PUBLISHING =====
+
 
 === DB Updates ====
 npx prisma generate
