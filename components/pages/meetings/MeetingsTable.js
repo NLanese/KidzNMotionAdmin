@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Table, Tag, Typography } from "antd";
 import BasicLink from "@common/BasicLink";
 import { EditOutlined } from "@ant-design/icons";
-var dateFormat = require("dateformat");
+import dateFormat from "dateformat";
 import { Switch, Space } from "antd";
 const { Text } = Typography;
 import { changeTimeZone } from "@helpers/common";

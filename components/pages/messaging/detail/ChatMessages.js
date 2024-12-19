@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Empty, Divider } from "antd";
-var dateFormat = require("dateformat");
+import dateFormat from "dateformat";
 import ChatBubble from "./ChatBubble";
 
 const ChatMessagesWrapper = styled.div`

@@ -8,7 +8,7 @@ import BasicLink from "@common/BasicLink";
 import { Switch, Space, Button, message, Card } from "antd";
 
 // Misc
-var dateFormat = require("dateformat");
+import dateFormat from "dateformat";
 const { Text } = Typography;
 import { changeTimeZone } from "@helpers/common";
 

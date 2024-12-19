@@ -16,7 +16,7 @@
 
 
     // Date
-    var dateFormat = require("dateformat");
+    import dateFormat from "dateformat";
 
     // Videos
     import VIDEOS from "../../constants/videos";

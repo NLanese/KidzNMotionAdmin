@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Typography } from "antd";
-var dateFormat = require("dateformat");
+import dateFormat from "dateformat";
 
 const { Text } = Typography;
 

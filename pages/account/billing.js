@@ -28,7 +28,8 @@ import {
 } from "@helpers/billing";
 import Router from "next/router";
 
-var dateFormat = require("dateformat");
+// import dateFormat from "dateformat";
+import dateFormat from "dateformat";
 
 import BillingInformationRow from "@components/pages/billing/BillingInformationRow";
 
