@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import dateFormat from "dateformat";
-// var dateFormat = require("dateformat");
+// import dateFormat from "dateformat";
 import { menuState } from "@atoms";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import Router from "next/router";

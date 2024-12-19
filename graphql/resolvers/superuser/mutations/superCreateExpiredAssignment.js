@@ -2,7 +2,7 @@
 import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
 import VIDEOS from "@constants/videos";
-var dateFormat = require("dateformat");
+import dateFormat from "dateformat";
 
 export default {
   Mutation: {

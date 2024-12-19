@@ -5,7 +5,7 @@ import { message, Popconfirm, Empty } from "antd";
 import { Comment } from '@ant-design/compatible';
 
 // Date
-var dateFormat = require("dateformat");
+import dateFormat from "dateformat";
 
 // Apollo / GraphQl
 import { useMutation } from "@apollo/client";

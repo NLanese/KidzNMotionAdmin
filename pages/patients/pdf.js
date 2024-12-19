@@ -5,7 +5,7 @@ import { NextSeo } from "next-seo";
 import { makeRandomString, changeTimeZone } from "@helpers/common";
 
 import { withRouter } from "next/router";
-var dateFormat = require("dateformat");
+import dateFormat from "dateformat";
 import { userState } from "@atoms";
 import { useRecoilState } from "recoil";
 import Router from "next/router";

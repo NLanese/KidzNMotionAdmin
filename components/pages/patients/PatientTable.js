@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Table, Tag, Typography, Dropdown, Collapse } from "antd";
 import BasicLink from "@common/BasicLink";
 import { EditOutlined } from "@ant-design/icons";
-var dateFormat = require("dateformat");
+import dateFormat from "dateformat";
 import Router from "next/router";
 import orderAssignmentsByStartDate from "../../../functions/orderAssignmentsByStartDate";
 const { Panel } = Collapse;

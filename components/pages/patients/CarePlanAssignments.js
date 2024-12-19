@@ -34,7 +34,7 @@ import { withRouter } from "next/router";
 import Router from "next/router";
 
 // Date
-var dateFormat = require("dateformat");
+import dateFormat from "dateformat";
 
 // Style
 const AssignmentContainer = styled.div`

@@ -1,7 +1,7 @@
 import React from "react";
 import { Drawer, Descriptions, Divider, Typography, Tabs, Image } from "antd";
 import styled from "styled-components";
-var dateFormat = require("dateformat");
+import dateFormat from "dateformat";
 import VIDEOS from "@constants/videos";
 
 function PatientInformation({ patientDetail, user }) {

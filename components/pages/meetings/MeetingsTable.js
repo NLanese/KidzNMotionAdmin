@@ -3,12 +3,13 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Table, Tag, Typography } from "antd";
 import BasicLink from "@common/BasicLink";
-import { EditOutlined } from "@ant-design/icons";
-var dateFormat = require("dateformat");
+// import { EditOutlined } from "@ant-design/icons";
+// import dateFormat from "dateformat";
+import dateFormat from "dateformat";
 import { Switch, Space } from "antd";
 const { Text } = Typography;
 import { changeTimeZone } from "@helpers/common";
-import moment from "moment";
+// import moment from "moment";
 
 
 ////////////

@@ -5,10 +5,11 @@ import { DefaultSeo } from "next-seo";
 import Script from "next/script";
 import Head from "next/head";
 
-import Layout from "@containers/Layout";
+import Layout from "../containers/Layout";
 import { RecoilRoot } from "recoil";
 
-require("@styles/variables.less");
+// require("@styles/variables.less");
+require("../styles/variables.less")
 
 import { ApolloProvider } from "@apollo/client";
 import client from "@utils/apolloClient";
