@@ -12,7 +12,7 @@ to access the graphQL Playground, go to these urls
 - Updating the master branch in this repo will automatically trigger an update on the live site
 
 ===== BEFORE PUBLISHING =====
-
+.
 
 === DB Updates ====
 npx prisma generate
