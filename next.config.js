@@ -6,13 +6,15 @@ const { withSentryConfig } = require("@sentry/nextjs");
 const withAntdLess = require('next-plugin-antd-less');
 
 const moduleExports = withAntdLess({
-  lessVarsFilePath: './styles/variables.less',
+  modifyVars: {
+    hack: `true; @import "${path.resolve(__dirname, './styles/variables.less')}";`,
+  },
   webpack: (config, { isServer }) => {
     config.plugins = config.plugins || [];
 
     config.plugins.push(
       new Dotenv({
-        path: path.resolve(process.cwd(), '.env'), // Corrected path resolution
+        path: path.resolve(process.cwd(), '.env'),
         systemvars: true,
       })
     );
@@ -25,23 +27,24 @@ const moduleExports = withAntdLess({
 
       console.log("Hitting ", apiUrl);
 
-      console.log("Accessing API at ", apiUrl)
       config.plugins.push(
         new webpack.DefinePlugin({
-          'process.env.API_URL': JSON.stringify(apiUrl), // Simplified environment variable definition
+          'process.env.API_URL': JSON.stringify(apiUrl),
         })
       );
     }
 
     config.plugins.push(
       new webpack.DefinePlugin({
-        'process.env.NEXT_RUNTIME': JSON.stringify(process.env.NEXT_RUNTIME || 'default_runtime_value'),
+        'process.env.NEXT_RUNTIME': JSON.stringify(
+          process.env.NEXT_RUNTIME || 'default_runtime_value'
+        ),
       })
     );
 
     return config;
   },
-  images: { // Moved to top-level configuration
+  images: {
     formats: ['image/webp'],
     domains: ["images.ctfassets.net", "images.contentful.com", "cdn.shopify.com"],
     deviceSizes: [240, 360, 460, 640, 750, 828, 1080, 1200, 1920, 2048],
