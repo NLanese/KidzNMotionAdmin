@@ -21,6 +21,7 @@ const moduleExports = withAntdLess({
       net: false,           // Shim `net` module
       dns: false,           // Shim `dns` module
       tls: false,           // Shim `tls` module
+      sws: false,           // Shim `sws` module
       worker_threads: false // Shim 'worker_threads' for the browser
     };
     config.plugins = config.plugins || [];
@@ -30,14 +31,14 @@ const moduleExports = withAntdLess({
     // Add Dotenv for .env file support
     config.plugins.push(
       new webpack.DefinePlugin({
-        'process.env.API_URL': JSON.stringify(
+        'process.env.API_URL': 
           process.env.NODE_ENV === 'development'
             ? 'http://localhost:3000/api/graphql'
             : process.env.API_URL
-        ),
-        'process.env.NEXT_RUNTIME': JSON.stringify(
+        ,
+        'process.env.NEXT_RUNTIME': 
           process.env.NEXT_RUNTIME || 'default_runtime_value'
-        ),
+        ,
       })
     );
     return config;
