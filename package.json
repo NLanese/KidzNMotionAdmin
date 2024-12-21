@@ -21,7 +21,7 @@
     "@react-pdf/renderer": "^3.0.0",
     "@sendgrid/mail": "^7.7.0",
     "@sentry/nextjs": "^6.17.3",
-    "antd": "^4.24.16",
+    "antd": "^4.6.3",
     "apollo-link-http": "^1.5.17",
     "apollo-server": "^3.10.0",
     "apollo-server-core": "^3.10.0",
