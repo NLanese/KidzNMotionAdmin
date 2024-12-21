@@ -6,12 +6,13 @@ import TopMenu from "@components/navigation/TopMenu";
 import SideMenu from "@components/navigation/SideMenu";
 import theme from "@styles/theme";
 import { ThemeProvider } from "styled-components";
-import { withRouter } from "next/router";
+// import { withRouter } from "next/router";
+import { useRouter } from "next/router";
 import AuthLayout from "./AuthLayout";
 import LoadingLayout from "./LoadingLayout";
 import { message } from "antd";
 import NextNprogress from "nextjs-progressbar";
-import axios from "axios";
+// import axios from "axios";
 import { GET_USER } from "@graphql/operations";
 import client from "@utils/apolloClient";
 
@@ -173,7 +174,8 @@ const ChildrenContentWrapper = styled.main`
   }
 `;
 
-function Layout({ children, router }) {
+function Layout({ children }) {
+  const router = useRouter();  // Access router with useRouter hook
   const [user, setUser] = useRecoilState(userState);
   const [color, setColor] = useState("#ff9800");
 
@@ -284,4 +286,4 @@ function Layout({ children, router }) {
   );
 }
 
-export default withRouter(Layout);
+export default Layout;
