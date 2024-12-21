@@ -10,10 +10,8 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@ant-design/charts": "^2.2.6",
     "@ant-design/cssinjs": "^1.19.1",
     "@ant-design/icons": "^4.7.0",
-    "@antv/react-g": "^2.0.30",
     "@apollo/client": "^3.6.8",
     "@planetscale/database": "^1.13.0",
     "@prisma/adapter-planetscale": "^5.7.1",
