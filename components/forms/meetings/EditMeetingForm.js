@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Field } from "react-final-form";
-import { OnChange } from "react-final-form-listeners";
+// import { OnChange } from "react-final-form-listeners";
 import { PlainTextField, SelectField, DateField, SwitchField } from "@fields";
 import { Col, Row, Button, message, Spin } from "antd";
 
@@ -198,13 +198,20 @@ function EditMeetingForm({ initialValues, createMeeting }) {
                       options={getPossibleGuardians()}
                       size={"large"}
                       required={true}
+
+                      // TO FIX
+                      onChange={(event) => {
+                        const value = event.target.value;
+                        // Do something with the value
+                        form.mutators.setValue("child", value); // Reset child value
+                      }}
                     />
-                    <OnChange name="guardian">
+                    {/* <OnChange name="guardian">
                       {(value, previous) => {
                         // do something
                         form.mutators.setValue("child", null);
                       }}
-                    </OnChange>
+                    </OnChange> */}
                   </Col>
                   <Col xs={24} md={24}>
                     <Field
