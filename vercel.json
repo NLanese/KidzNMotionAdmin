@@ -8,5 +8,6 @@
         "env": {
           "NODE_OPTIONS": ""
         }
-    }
+    },
+    "rewrites": [{ "source": "/(.*)", "destination": "/" }] 
 }
