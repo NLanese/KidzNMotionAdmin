@@ -13,6 +13,7 @@ import {
   Space,
   Tag,
 } from "antd";
+import Image from "next/image";
 import ContentCard from "@common/content/ContentCard";
 import LoadingBlock from "@common/LoadingBlock";
 const { Text } = Typography;
@@ -127,7 +128,7 @@ function Billing() {
         fetchAndSetBillingInformation();
         return;
       }
-    }, []);
+    }, [user]);
 
     //  Handles Session Information to validate payment if necessary
     useEffect(() => {
@@ -307,8 +308,8 @@ function Billing() {
                   <Col span={20}>
                     <Space direction="horizontal" size={12}>
                       <PaymentIcon>
-                        <img
-                          src={`/payment-icons/cc-${billingInformation.paymentMethod.brand}.svg`}
+                        <Image
+                          src={`/payment-icons/cc-${billingInformation.paymentMethod.brand}.svg`} alt="Payment Method"
                         />
                       </PaymentIcon>
                       <Space direction="vertical" size={3}>
@@ -407,7 +408,7 @@ function Billing() {
                   <Col span={20}>
                     <Space direction="horizontal" size={12}>
                       <SubscriptionIcon>
-                        <img src="/logos/Main.png" />
+                        <Image src="/logos/Main.png" alt="Subscription Icon"/>
                       </SubscriptionIcon>
                       <Space direction="vertical" size={3}>
                         <Text style={{ fontWeight: "600" }}>

@@ -67,7 +67,7 @@ function OrganizationSettings() {
     if (!user.ownedOrganization) {
       Router.push("/");
     }
-  }, []);
+  }, [user]);
 
   return (
     <IndexWrapper>

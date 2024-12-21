@@ -64,7 +64,7 @@ function GuardianBilling() {
     if (user.soloStripeSubscriptionID) {
       generatePortalURL();
     }
-  }, []);
+  }, [user]);
 
   return (
     <IndexWrapper>
