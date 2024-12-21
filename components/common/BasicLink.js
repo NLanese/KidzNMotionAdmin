@@ -1,20 +1,25 @@
 import Link from "next/link";
 
-// Used in place of the Next LInk > A with the as, href, and Pass Href
-// Consolodates these 5 items into a more conviente components
-// Best used for pure A tag text links that dont require additional image Contetent
-const BasicLink = (props) => (
-  <>
-    {props.realLink ? (
-      <a href={props.href}>{props.content ? props.content : props.children}</a>
-    ) : (
-      <Link href={props.href} passHref={true} scroll={props.scroll} shallow={props.shallow}>
-        <a fontStyle={props.fontStyle} color={props.color}>
-          {props.content ? props.content : props.children}
-        </a>
-      </Link>
-    )}
-  </>
-);
+const BasicLink = (props) => {
+  const { realLink, href, content, children, fontStyle, color, scroll, shallow, ...rest } = props;
+
+  if (realLink) {
+    return (
+      <a href={href} style={{ fontStyle, color }} {...rest}>
+        {content || children}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={href} scroll={scroll} shallow={shallow} {...rest}>
+      {content || (
+        <span style={{ fontStyle, color }}>
+          {children}
+        </span>
+      )}
+    </Link>
+  );
+};
 
 export default BasicLink;
