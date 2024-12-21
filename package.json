@@ -10,7 +10,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@ant-design/charts": "^2.2.6",  // Updated version
+    "@ant-design/charts": "^2.2.6", 
     "@ant-design/compatible": "^5.1.2",
     "@ant-design/cssinjs": "^1.19.1",
     "@ant-design/icons": "^4.7.0",
@@ -21,7 +21,7 @@
     "@react-pdf/renderer": "^3.0.0",
     "@sendgrid/mail": "^7.7.0",
     "@sentry/nextjs": "^6.17.3",
-    "antd": "^4.24.16",  // Confirming you have this version
+    "antd": "^4.24.16", 
     "apollo-link-http": "^1.5.17",
     "apollo-server": "^3.10.0",
     "apollo-server-core": "^3.10.0",
