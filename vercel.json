@@ -6,9 +6,8 @@
     ],
     "build": {
         "env": {
-          "NODE_OPTIONS": ""
-        },
-        "use": "@vercel/next"
+          "NODE_OPTIONS": "--openssl-legacy-provider"
+        }
     },
     "rewrites": [{ "source": "/(.*)", "destination": "/" }] 
 }
