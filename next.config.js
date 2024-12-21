@@ -7,6 +7,9 @@ const withAntdLess = require('next-plugin-antd-less');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 const moduleExports = withAntdLess({
+
+  distDir: 'build',
+
   // Custom Webpack configuration
   webpack: (config, { isServer }) => {
     config.plugins = config.plugins || [];
