@@ -43,11 +43,10 @@ function LoadingBlock({ table }) {
                     size="small"
                     block={true}
                   />
-             
                 </Space>
               </Col>
               <Col sm={24} md={2}>
-                <Space >
+                <Space>
                   <Skeleton.Button
                     active={true}
                     shape={"round"}
@@ -60,7 +59,6 @@ function LoadingBlock({ table }) {
             <br />
             <Skeleton active={true} paragraph={{ rows: 4, width: "100%" }} />
           </ContentCard>
-  
         </BodyLoading>
       </LoadingContainer>
     );
