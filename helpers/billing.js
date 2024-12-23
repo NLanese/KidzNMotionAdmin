@@ -5,18 +5,18 @@ export const getCheckoutURL = async (annual, promo = "") => {
   let url
   if (annual){
     if (promo.toUpperCase() === "FOUNDER50"){
-      url = "api/billing/get-half-price-annual-checkout-url"
+      url = "/api/billing/get-annual-checkout-url?discount=true"
     }
     else{
-      url = "/api/billing/get-annual-checkout-url"
+      url = "/api/billing/get-annual-checkout-url?discount=false"
     }
   }
   else{
     if (promo.toUpperCase() === "FOUNDER50"){
-      url = "/api/billing/get-half-price-checkout-url"
+     url = "/api/billing/get-checkout-url?discount=true"
     }
     else{
-      url = "/api/billing/get-checkout-url"
+      url = "/api/billing/get-checkout-url?discount=false"
     }
   }
   return await axios({

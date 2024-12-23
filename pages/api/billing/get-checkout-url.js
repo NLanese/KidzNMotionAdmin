@@ -19,12 +19,22 @@ export default async function handler(req, res) {
   }
 
   const user = await handleAuth(body.token);
+  const discount = body.discount; 
 
   // Kidz-N-Motion Pro Plan Product ID
-  const priceId =
+  let priceId 
+  if (discount){
+    priceId =
+    process.env.NODE_ENV === "development"
+      ? "price_1Onu8EAbL8OcaqqPjg0V3dXJ"
+      : "price_1Onu8EAbL8OcaqqPjg0V3dXJ";
+  }
+  else{
+    priceId =
     process.env.NODE_ENV === "development"
       ? "price_1MNeaIAbL8OcaqqPql1CgC36"
       : "price_1MNeVyAbL8OcaqqPUtXzrBYf";
+  }
 
   let userCount = 0;
 
