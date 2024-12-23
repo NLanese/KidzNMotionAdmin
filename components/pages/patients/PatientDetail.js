@@ -12,7 +12,7 @@ import {
   Calendar,
 } from "antd";
 
-import moment from "moment";
+import dayjs from 'dayjs';;
 import { GET_USER, GET_ALL_USER_MEDALS } from "@graphql/operations";
 import client from "@utils/apolloClient";
 

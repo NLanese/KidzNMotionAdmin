@@ -8,7 +8,7 @@ import dateFormat from "dateformat";
 import { Switch, Space } from "antd";
 const { Text } = Typography;
 import { changeTimeZone } from "@helpers/common";
-import moment from "moment";
+import dayjs from 'dayjs';;
 
 
 ////////////

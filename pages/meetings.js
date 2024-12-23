@@ -27,7 +27,7 @@ import { useMutation } from "@apollo/client";
 import MeetingsTable from "@pages/meetings/MeetingsTable";
 import MeetingForm from "@components/forms/meetings/MeetingForm";
 import EditMeetingForm from "../components/forms/meetings/EditMeetingForm";
-import moment from "moment";
+import dayjs from 'dayjs';;
 import MeetingCalendar from "../components/pages/meetings/MeetingCalendar";
 
 const { Text, Title } = Typography;

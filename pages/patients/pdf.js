@@ -11,7 +11,7 @@ import { useRecoilState } from "recoil";
 import Router from "next/router";
 import { Button } from "antd";
 
-import moment from "moment";
+import dayjs from 'dayjs';;
 
 import {
   Page,

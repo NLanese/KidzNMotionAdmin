@@ -8,7 +8,11 @@ import Head from "next/head";
 import Layout from "@containers/Layout";
 import { RecoilRoot } from "recoil";
 
-require("@styles/variables.less");
+import "antd/dist/reset.css"; // Ant Design modern CSS reset
+import { StyleProvider } from '@ant-design/cssinjs';
+import { ConfigProvider } from 'antd';
+import enUS from 'antd/es/locale/en_US';
+
 
 import { ApolloProvider } from "@apollo/client";
 import client from "@utils/apolloClient";
@@ -47,16 +51,18 @@ class MyApp extends App {
             key="viewport"
           />
         </Head>
-
         <>
           <DefaultSeo title="Home" titleTemplate="%s  | Kidz-N-Motion" />
-
           <RecoilRoot>
+          <StyleProvider hashPriority="high">
             <ApolloProvider client={client}>
+            <ConfigProvider locale={enUS}>
               <Layout>
                 <Component {...pageProps} />
               </Layout>
+            </ConfigProvider>;
             </ApolloProvider>
+          </StyleProvider>
           </RecoilRoot>
           {/* <style  */}
           {/* jsx="true"

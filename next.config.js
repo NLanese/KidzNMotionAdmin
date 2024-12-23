@@ -1,14 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
 const { withSentryConfig } = require('@sentry/nextjs');
-const withAntdLess = require('next-plugin-antd-less');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 // Load environment variables
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
-const moduleExports = withAntdLess({
-  distDir: 'build',
+const moduleExports = {
+  distDir: 'build', 
 
   webpack: (config, { isServer }) => {
     config.plugins = config.plugins || [];
@@ -28,41 +26,19 @@ const moduleExports = withAntdLess({
       })
     );
 
-    // Add MiniCssExtractPlugin for handling CSS/LESS
-    if (!isServer) {
-      config.plugins.push(
-        new MiniCssExtractPlugin({
-          filename: 'static/css/[name].[contenthash].css',
-          chunkFilename: 'static/css/[id].[contenthash].css',
-        })
-      );
-    }
-
-    // Update Ant Design LESS rule
+    // CSS Loader for global CSS files (like Ant Design reset.css)
     config.module.rules.push({
-      test: /\.less$/,
+      test: /\.css$/,
       use: [
         isServer
-          ? 'null-loader' // Server-side should not process styles into CSS
-          : MiniCssExtractPlugin.loader,
+          ? 'style-loader' // Let Next.js handle server-side CSS imports
+          : 'style-loader',
         {
           loader: 'css-loader',
           options: {
             importLoaders: 1,
             sourceMap: true,
-            modules: false, // Disable CSS modules for global Ant Design styles
-          },
-        },
-        {
-          loader: 'less-loader',
-          options: {
-            lessOptions: {
-              modifyVars: {
-                'primary-color': '#1890ff', // Customize primary color
-                'link-color': '#1DA57A', // Customize link color
-              },
-              javascriptEnabled: true,
-            },
+            modules: false, // Disable CSS modules for global styles
           },
         },
       ],
@@ -83,7 +59,7 @@ const moduleExports = withAntdLess({
   },
 
   outputFileTracing: false,
-});
+};
 
 const SentryWebpackPluginOptions = {
   silent: true,

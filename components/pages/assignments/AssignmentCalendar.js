@@ -2,7 +2,7 @@ import { Badge, Calendar } from "antd";
 import React from "react";
 import { withRouter } from "next/router";
 import styled from "styled-components";
-import moment from "moment";
+import dayjs from 'dayjs';;
 
 const CalenderContainer = styled.div`
   & ul {

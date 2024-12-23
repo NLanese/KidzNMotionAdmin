@@ -1,7 +1,7 @@
 import React from "react";
 import { DatePicker } from "antd";
 import { FormItem, FormLabel, ErrorText } from "@fields/styles";
-import moment from 'moment';
+import dayjs from 'dayjs';;
 const { RangePicker } = DatePicker;
 
 
