@@ -8,7 +8,7 @@ import Head from "next/head";
 import Layout from "@containers/Layout";
 import { RecoilRoot } from "recoil";
 
-import "antd/dist/reset.css"; // Ant Design modern CSS reset
+// import "antd/dist/reset.css"; // Ant Design modern CSS reset
 import { StyleProvider } from '@ant-design/cssinjs';
 import { ConfigProvider } from 'antd';
 import enUS from 'antd/es/locale/en_US';

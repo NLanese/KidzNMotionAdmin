@@ -1,12 +1,14 @@
 const path = require('path');
 const webpack = require('webpack');
 const { withSentryConfig } = require('@sentry/nextjs');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const withTM = require('next-transpile-modules')(['antd', 'rc-pagination']); // Add any other packages you need transpiled
 
 // Load environment variables
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
-const moduleExports = {
-  distDir: 'build', 
+const moduleExports = withTM({
+  distDir: 'build',
 
   webpack: (config, { isServer }) => {
     config.plugins = config.plugins || [];
@@ -30,9 +32,7 @@ const moduleExports = {
     config.module.rules.push({
       test: /\.css$/,
       use: [
-        isServer
-          ? 'style-loader' // Let Next.js handle server-side CSS imports
-          : 'style-loader',
+        isServer ? 'null-loader' : MiniCssExtractPlugin.loader,
         {
           loader: 'css-loader',
           options: {
@@ -42,6 +42,24 @@ const moduleExports = {
           },
         },
       ],
+    });
+
+    // Add MiniCssExtractPlugin for CSS extraction
+    if (!isServer) {
+      config.plugins.push(
+        new MiniCssExtractPlugin({
+          filename: 'static/css/[name].[contenthash].css',
+          chunkFilename: 'static/css/[id].[contenthash].css',
+        })
+      );
+    }
+
+    // Handle ES Module Compatibility
+    config.module.rules.push({
+      test: /\.m?js$/,
+      resolve: {
+        fullySpecified: false,
+      },
     });
 
     return config;
@@ -59,7 +77,7 @@ const moduleExports = {
   },
 
   outputFileTracing: false,
-};
+});
 
 const SentryWebpackPluginOptions = {
   silent: true,
