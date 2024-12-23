@@ -58,7 +58,8 @@
     "stripe": "^9.8.0",
     "styled-components": "^4.3.1",
     "styled-components-modifiers": "^1.2.5",
-    "undici": "^6.3.0"
+    "undici": "^6.3.0",
+    "webpack": "^5.97.1"
   },
   "devDependencies": {
     "babel-plugin-import": "^1.13.5",

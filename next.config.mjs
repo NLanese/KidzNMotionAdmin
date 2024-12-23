@@ -1,13 +1,15 @@
-const path = require('path');
-const webpack = require('webpack');
-const { withSentryConfig } = require('@sentry/nextjs');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const withTM = require('next-transpile-modules')(['antd', 'rc-pagination']); // Add any other packages you need transpiled
+import path from 'path';
+import webpack from 'webpack';
+import { withSentryConfig } from '@sentry/nextjs';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import withTM from 'next-transpile-modules'; // For transpiling external modules like `antd` and `rc-picker`
 
 // Load environment variables
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 const moduleExports = withTM({
+  transpileModules: ['antd', 'rc-picker'], // Ensure `antd` and `rc-picker` are transpiled
+
   distDir: 'build',
 
   webpack: (config, { isServer }) => {
@@ -44,6 +46,34 @@ const moduleExports = withTM({
       ],
     });
 
+    // LESS Loader for Ant Design styles
+    config.module.rules.push({
+      test: /\.less$/,
+      use: [
+        isServer ? 'null-loader' : MiniCssExtractPlugin.loader,
+        {
+          loader: 'css-loader',
+          options: {
+            importLoaders: 1,
+            sourceMap: true,
+            modules: false,
+          },
+        },
+        {
+          loader: 'less-loader',
+          options: {
+            lessOptions: {
+              modifyVars: {
+                'primary-color': '#1890ff', // Customize primary color
+                'link-color': '#1DA57A', // Customize link color
+              },
+              javascriptEnabled: true,
+            },
+          },
+        },
+      ],
+    });
+
     // Add MiniCssExtractPlugin for CSS extraction
     if (!isServer) {
       config.plugins.push(
@@ -54,11 +84,17 @@ const moduleExports = withTM({
       );
     }
 
-    // Handle ES Module Compatibility
+    // Ensure ES module imports are handled correctly
     config.module.rules.push({
       test: /\.m?js$/,
       resolve: {
-        fullySpecified: false,
+        fullySpecified: false, // Allow non-fully-specified imports
+      },
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['next/babel'],
+        },
       },
     });
 
@@ -79,6 +115,7 @@ const moduleExports = withTM({
   outputFileTracing: false,
 });
 
+// Sentry configuration for error tracking
 const SentryWebpackPluginOptions = {
   silent: true,
   debug: false,
