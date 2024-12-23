@@ -18,14 +18,24 @@ export default async function handler(req, res) {
     });
   }
 
+  
   const user = await handleAuth(body.token);
-
+  const discount = body.discount; 
 
   // Kidz-N-Motion Pro Plan Product ID
-  const priceId =
+  let priceId
+  if (discount){
+    priceId =
+    process.env.NODE_ENV === "development"
+      ? "price_1Onu5tAbL8OcaqqP7pbr87zK"
+      : "price_1Onu5tAbL8OcaqqP7pbr87zK";
+  }
+  else{
+    priceId =
     process.env.NODE_ENV === "development"
       ? "price_1NszG1AbL8OcaqqPO3rJh55k"
       : "price_1NsaA0AbL8OcaqqPtvboBZLR";
+  }
 
   let userCount = 0;
 
