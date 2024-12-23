@@ -57,6 +57,7 @@ function GuardianBilling() {
         console.error(error);
       });
   };
+  
   useEffect(() => {
     if (!user.soloStripeSubscriptionID) {
       generateCheckoutURL();
