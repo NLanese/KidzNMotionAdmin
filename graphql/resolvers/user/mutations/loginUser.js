@@ -11,6 +11,7 @@ export default {
   Mutation: {
     loginUser: async (_, { username, password }) => {
       let email = username;
+      console.log("Attempting to login ", username)
       try {
 
         // Retrieve the users that match the email address
@@ -49,6 +50,9 @@ export default {
             }
           }
         });
+
+        console.log("Found Users...")
+        console.log(potentialUsers)
 
         // If there was no user with the email, looks for one with the username
         if (!potentialUsers || potentialUsers.length === 0) {
@@ -415,6 +419,7 @@ export default {
 
 
       } catch (error) {
+        console.log("ERROR -- ", error)
         throw new Error(error);
       }
     },

@@ -361,7 +361,7 @@
             const renderSingleComment = (commentObject) => {
                 return(
                     <div key={commentObject.id} style={{padding: 3.5, borderTop: '2px solid #ffbe76', display: 'flex', flexDirection: 'row'}}>
-                        <div style={{flex: 9}}>
+                        <div style={{flex: 8}}>
                         <Comment
                             author={"You"}
                             key={commentObject.id}
@@ -370,7 +370,7 @@
                             datetime={dateFormat(commentObject.createdAt, "m/dd hh:MM tt")}
                         />
                         </div>
-                        <div style={{flex: 3}}>
+                        <div style={{flex: 4}}>
                             {renderForVideo(commentObject)}
                             {renderForAssignment(commentObject)}
                         </div>
@@ -420,7 +420,23 @@
                 return
                 }
                 const video = Object.values(VIDEOS).find(video => video.id === id);
-                return video ? video.title : `Video with id "${id}" not found.`;
+                
+                return video ? `${video.title}${getMuscleGroupsForVideo(video.title)}` : `Video with id "${id}" not found.`;
+            }
+
+            function getMuscleGroupsForVideo(video){
+                if (video.toUpperCase() === "SQUAT"){
+                    return " : (Gluteus Maximus and Quadriceps Femoris strength)"
+                }
+                else if (video.toUpperCase() === "LEG LIFTS"){
+                    return " : (Pelvis drop on lifted leg indicates contralateral Gluteus Medius and Minimus weakness)"
+                }
+                else if (video.toUpperCase() === "ROLLING"){
+                    return " : (Trunk Strength, Symmetry)"
+                }
+                else{
+                    return ""
+                }
             }
          
         ///////////
@@ -473,24 +489,28 @@
     return (
         <IndexWrapper>
         <div className="comments-header">
-            <h2>Patient Comments</h2>
+            <h2 style={{textAlign: 'center'}}>Status Report</h2>
             <div>
-            <label>
-                Start Date:
-                <input
-                type="date"
-                value={DateRangeStart.toISOString().slice(0, 10)}
-                onChange={(e) => handleDateChange(e, "start")}
-                />
-            </label>
-            <label>
-                End Date:
-                <input
-                type="date"
-                value={DateRangeEnd.toISOString().slice(0, 10)}
-                onChange={(e) => handleDateChange(e, "end")}
-                />
-            </label>
+                <div style={{margin: 5, width: 200}}>
+                    <label>
+                        Selected Start Date:
+                        <input
+                        type="date"
+                        value={DateRangeStart.toISOString().slice(0, 10)}
+                        onChange={(e) => handleDateChange(e, "start")}
+                        />
+                    </label>
+                </div>
+                <div style={{margin: 5, marginTop: 25, width: 200}}>
+                    <label>
+                        Selected End Date:
+                        <input
+                        type="date"
+                        value={DateRangeEnd.toISOString().slice(0, 10)}
+                        onChange={(e) => handleDateChange(e, "end")}
+                        />
+                    </label>
+                </div>
             </div>
         </div>
 
