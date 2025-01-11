@@ -109,6 +109,7 @@
 
         // Fetches Data upon Page Entrance
         useEffect(() => {
+            console.log(patientDetail)
             if(patientDetail && loading){
                 setComments(patientDetail.carePlan.comments)
                 getChildsMedals()
@@ -130,7 +131,6 @@
         useEffect(() => {
             setLoading(true)
             if (givenVideo){
-                console.log("Given Video::: ", givenVideo)
                 setViewMode("VIDEO")
                 let newRenderList = renderList.filter(itm => {
                     if (itm.__typename === "Medal"){
@@ -146,7 +146,6 @@
                         return false
                     }
                 })
-                console.log("For Video ", givenVideo , " found: ", newRenderList)
                 setFilteredRenderList([...newRenderList])
             }
             else{
@@ -253,7 +252,6 @@
                     return false
                 })
                 const filteredAndSortedMedals = filteredMedals.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-                console.log("setting Filtered Medals to ", filteredAndSortedMedals)
                 setFilteredMedals([...filteredAndSortedMedals]);
                 return filteredAndSortedMedals
             }
@@ -322,13 +320,50 @@
                 )
             }
 
+            // Renders Dropdown for all Assignments to pick a Specific one (If applicable)
+            const renderAssignmentSelectionDropdown = () => {
+                return(
+                    <Form
+                    onSubmit={handleSubmitVideoFilter}
+                    render={({ pristine, invalid, submitting, handleSubmit }) => (
+                        <form onSubmit={handleSubmit}>
+                        <Field
+                            name="videoID"
+                            render={({ input }) => (
+                            <Select
+                                {...input}
+                                options={renderVideoOptions()} // Ant Design's Select expects 'options'
+                                placeholder="No Related Video"
+                                size="large"
+                                onChange={(value) => input.onChange(value)} // Update form state
+                                value={input.label} 
+                                style={{minWidth: 150, paddingLeft: 5, marginBottom: 15}}
+                            />
+                            )}
+                        />
+                        <Button
+                            style={{paddingLeft: 0, maxWidth: 170}}
+                            type="default"
+                            loading={submitting}
+                            htmlType="submit"
+                            block
+                            size="small"
+                            disabled={invalid || pristine}
+                        >
+                            Filter for This Video
+                        </Button>
+                        </form>
+                    )}
+                    />
+                )
+            }
+
             // Renders the Filtered (or all) Content 
             const renderContent = () => {
                 if (loading){
                     return 
                 }
                 if (viewMode === "ALL"){
-                    console.log("rendering for all")
                     return renderList.map(obj => {
                         if (obj.__typename === "Comment"){
                             return renderSingleComment(obj)
@@ -339,7 +374,6 @@
                     })
                 }
                 else if (viewMode === "VIDEO"){
-                    console.log("Rendering for specific video ", givenVideo)
                     return filteredRenderList.map(obj => {
                         if (obj.__typename === "Comment"){
                             return renderSingleComment(obj)
@@ -488,8 +522,26 @@
     
     return (
         <IndexWrapper>
+        <h2 style={{textAlign: 'center'}}>Status Report</h2>
         <div className="comments-header">
-            <h2 style={{textAlign: 'center'}}>Status Report</h2>
+            <div style={{width: '75%'}}>
+                <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
+                    <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
+                        <p>Name: {patientDetail.firstName} {patientDetail.lastName}</p>
+                    </div>      
+                    <div style={{width: '50%', paddingLeft: 5}}>
+                        <p>DOB: {patientDetail.childDateOfBirth.toString().substring(0,10)}</p>
+                    </div>          
+                </div>
+                <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
+                    <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
+                        <p>Diagnosis: {patientDetail.carePlan.child.diagnosis ? patientDetail.carePlan.child.diagnosis.length > 0 ? patientDetail.carePlan.child.diagnosis: "No Given Diagnosis" : "No Given Diagnosis"}</p>
+                    </div>      
+                    <div style={{width: '50%', paddingLeft: 5}}>
+                        <p>Functional Level: {patientDetail.carePlan.level}</p>
+                    </div>          
+                </div>
+            </div>
             <div>
                 <div style={{margin: 5, width: 200}}>
                     <label>
