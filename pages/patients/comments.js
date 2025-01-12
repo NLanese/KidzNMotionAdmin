@@ -55,20 +55,32 @@
     // State //
     ///////////
 
-        // Current User
-        const [user, setUser] = useRecoilState(userState);
+        // Users // 
 
-        // Page Loading
-        const [loading, setLoading] = useState(true)
+            // Current User
+            const [user, setUser] = useRecoilState(userState);
 
-        // Curent Patient
-        const [patientDetail, setPatientDetail] = useRecoilState(patientDataState);
+        // Patient //
 
-        // ALL Curent Patient Medals
-        const [medals, setMedals] = useState([])
+            // Curent Patient
+            const [patientDetail, setPatientDetail] = useRecoilState(patientDataState);
 
-        // Date Filtered Patient Medals
-        const [filteredMedals, setFilteredMedals] = useState([])
+            // ALL Curent Patient Medals
+            const [medals, setMedals] = useState([])
+
+            // Date Filtered Patient Medals
+            const [filteredMedals, setFilteredMedals] = useState([])
+
+            // Patient Assignments
+            const [patientAssigns, setPatientAssigns] = useState([])
+
+            // Selected Patient Assignments
+            const [selectedAssign, setSelectedAssign] = useState()
+
+        // Page //
+
+            // Page Loading
+            const [loading, setLoading] = useState(true)
 
         // Medals and Comment Render Chunks
         const [renderList, setRenderList] = useState([])
@@ -109,8 +121,10 @@
 
         // Fetches Data upon Page Entrance
         useEffect(() => {
+            console.log(patientDetail)
             if(patientDetail && loading){
                 setComments(patientDetail.carePlan.comments)
+                setPatientAssigns(patientDetail.carePlan.assignments)
                 getChildsMedals()
             }
         }, [patientDetail])
@@ -130,7 +144,6 @@
         useEffect(() => {
             setLoading(true)
             if (givenVideo){
-                console.log("Given Video::: ", givenVideo)
                 setViewMode("VIDEO")
                 let newRenderList = renderList.filter(itm => {
                     if (itm.__typename === "Medal"){
@@ -146,7 +159,6 @@
                         return false
                     }
                 })
-                console.log("For Video ", givenVideo , " found: ", newRenderList)
                 setFilteredRenderList([...newRenderList])
             }
             else{
@@ -173,6 +185,21 @@
             }
         }, [filteredRenderList])
 
+        // Sets Date Ranges based on View Mode (i.e. sets all dates for VIDEO and ASSIGN)
+        useEffect(() =>{
+            if (viewMode === "VIDEO"){
+                setDateRangeStart(new Date("Jan 01 1999"))
+            }
+            else if (viewMode === "ASSIGN"){
+                setDateRangeStart(new Date("Jan 01 1999"))
+            }
+            else if (viewMode === "ALL"){
+                const lastWeek = new Date();
+                lastWeek.setDate(lastWeek.getDate() - 7);
+                setDateRangeStart(lastWeek)
+            }
+        }, [viewMode])
+
     ///////////////
     // Functions //
     ///////////////
@@ -193,6 +220,12 @@
                 let com = await filterComments()
                 let med = await processMedalData(medals)
                 return [...com, ...med]
+            }
+
+            // Handles the Dropdown Selection of Document / Progression Type
+            const handleTypeChange = (input, value) => {
+                setViewMode(value)
+                input.onChange(value)
             }
 
             // Additional Async Prep to ensure proper rendering on state changes
@@ -253,7 +286,6 @@
                     return false
                 })
                 const filteredAndSortedMedals = filteredMedals.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-                console.log("setting Filtered Medals to ", filteredAndSortedMedals)
                 setFilteredMedals([...filteredAndSortedMedals]);
                 return filteredAndSortedMedals
             }
@@ -265,6 +297,34 @@
         //////////
         // Page //
         //////////
+
+            // Renders View Mode Dropdown
+            const renderProgressionTypeDropdown = () => {
+                return(
+                    <Form
+                    style={{width: '70%'}}
+                    onSubmit={handleSubmitVideoFilter}
+                    render={({ pristine, invalid, submitting, handleSubmit }) => (
+                      <form onSubmit={handleSubmit}>
+                        <Field
+                          name="videoID"
+                          render={({ input }) => (
+                            <Select
+                              {...input}
+                              options={[{label: "General Progress", value: "ALL"}, {label: "Execrise Progress", value: "VIDEO"}, {label: "Assignment Progress", value: 'ASSIGN'}]} // Ant Design's Select expects 'options'
+                              placeholder="Nothing Selected"
+                              size="large"
+                              onChange={(value) => handleTypeChange(input, value)} // Update form state
+                              value={input.label} 
+                              style={{minWidth: 150, paddingLeft: 5, marginBottom: 15}}
+                            />
+                          )}
+                        />
+                      </form>
+                    )}
+                  />
+                )
+            }
 
             // Sets values for Videos Dropdown
             const renderVideoOptions = () => {
@@ -287,38 +347,59 @@
             // Renders Dropdown for all Videos to pick a Specific one
             const renderVideoSelectionDropdown = () => {
                 return(
-                    <Form
-                    onSubmit={handleSubmitVideoFilter}
-                    render={({ pristine, invalid, submitting, handleSubmit }) => (
-                      <form onSubmit={handleSubmit}>
-                        <Field
-                          name="videoID"
-                          render={({ input }) => (
-                            <Select
-                              {...input}
-                              options={renderVideoOptions()} // Ant Design's Select expects 'options'
-                              placeholder="No Related Video"
-                              size="large"
-                              onChange={(value) => input.onChange(value)} // Update form state
-                              value={input.label} 
-                              style={{minWidth: 150, paddingLeft: 5, marginBottom: 15}}
+                    <div style={{height: '100%', justifyContent: 'center', alignItems: 'center', justifyItems: 'center', alignContent: 'center'}}>
+                        <Form
+                        onSubmit={handleSubmitVideoFilter}
+                        render={({ pristine, invalid, submitting, handleSubmit }) => (
+                        <form onSubmit={handleSubmit}>
+                            <Field
+                            name="videoID"
+                            render={({ input }) => (
+                                <Select
+                                {...input}
+                                options={renderVideoOptions()} // Ant Design's Select expects 'options'
+                                placeholder="No Selected Video"
+                                size="large"
+                                onChange={(value) => input.onChange(value)} // Update form state
+                                value={input.label} 
+                                style={{minWidth: 150, paddingLeft: 5, marginBottom: 15}}
+                                />
+                            )}
                             />
-                          )}
+                        </form>
+                        )}
                         />
-                        <Button
-                          style={{paddingLeft: 0, maxWidth: 170}}
-                          type="default"
-                          loading={submitting}
-                          htmlType="submit"
-                          block
-                          size="small"
-                          disabled={invalid || pristine}
-                        >
-                          Filter for This Video
-                        </Button>
-                      </form>
-                    )}
-                  />
+                    </div>
+                    
+                )
+            }
+
+            // Renders Dropdown for all Assignments to pick a Specific one (If applicable)
+            const renderAssignmentSelectionDropdown = () => {
+                return(
+                    <div style={{height: '100%', justifyContent: 'center', alignItems: 'center', justifyItems: 'center', alignContent: 'center'}}>
+                        <Form
+                        onSubmit={handleSubmitVideoFilter}
+                        render={({ pristine, invalid, submitting, handleSubmit }) => (
+                            <form onSubmit={handleSubmit}>
+                            <Field
+                                name="videoID"
+                                render={({ input }) => (
+                                <Select
+                                    {...input}
+                                    options={renderVideoOptions()} // Ant Design's Select expects 'options'
+                                    placeholder="No Related Video"
+                                    size="large"
+                                    onChange={(value) => input.onChange(value)} // Update form state
+                                    value={input.label} 
+                                    style={{minWidth: 150, paddingLeft: 5, marginBottom: 15}}
+                                />
+                                )}
+                            />
+                            </form>
+                        )}
+                        />
+                    </div>
                 )
             }
 
@@ -328,7 +409,6 @@
                     return 
                 }
                 if (viewMode === "ALL"){
-                    console.log("rendering for all")
                     return renderList.map(obj => {
                         if (obj.__typename === "Comment"){
                             return renderSingleComment(obj)
@@ -339,7 +419,6 @@
                     })
                 }
                 else if (viewMode === "VIDEO"){
-                    console.log("Rendering for specific video ", givenVideo)
                     return filteredRenderList.map(obj => {
                         if (obj.__typename === "Comment"){
                             return renderSingleComment(obj)
@@ -352,6 +431,107 @@
                 
             }
 
+            // Renders a top level document dropdown depending on the ViewMode
+            const renderFinalDropdown = () => {
+                if (viewMode === "ALL"){
+                    return(
+                        <div style={{display: 'flex', flexDirection: 'row', paddingTop: 25}}>
+                            <div style={{padding: 5}}>
+                                <label>
+                                    Selected Start Date:
+                                    <input
+                                    type="date"
+                                    value={DateRangeStart.toISOString().slice(0, 10)}
+                                    onChange={(e) => handleDateChange(e, "start")}
+                                    />
+                                </label>
+                            </div>
+                            <div style={{padding: 5}}>
+                                <label>
+                                    Selected End Date:
+                                    <input
+                                    type="date"
+                                    value={DateRangeEnd.toISOString().slice(0, 10)}
+                                    onChange={(e) => handleDateChange(e, "end")}
+                                    />
+                                </label>
+                            </div>
+                        </div>
+                    )
+                }
+
+                else if (viewMode === "VIDEO"){
+                    return renderVideoSelectionDropdown()
+                }
+
+                else if (viewMode === "ASSIGN"){
+                    return renderAssignmentSelectionDropdown()
+                }
+
+                else return(
+                    <div>
+                        No Document Type selected
+                    </div>
+                )
+            }
+
+            // Renders Top Document Section
+            const renderTopSection = () => {
+                return(
+                    <div className="comments-header">
+                    <div style={{width: '100%'}}>
+                        <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
+                            <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
+                                <p>Name: {patientDetail.firstName} {patientDetail.lastName}</p>
+                            </div>      
+                            <div style={{width: '50%', paddingLeft: 5}}>
+                                <p>DOB: {patientDetail.childDateOfBirth.toString().substring(0,10)}</p>
+                            </div>          
+                        </div>
+                        <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
+                            <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
+                                <p>Diagnosis: {patientDetail.carePlan.child.diagnosis ? patientDetail.carePlan.child.diagnosis.length > 0 ? patientDetail.carePlan.child.diagnosis: "No Given Diagnosis" : "No Given Diagnosis"}</p>
+                            </div>      
+                            <div style={{width: '50%', paddingLeft: 5}}>
+                                <p>Functional Level: {patientDetail.carePlan.level}</p>
+                            </div>          
+                        </div>
+                        <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
+                            <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
+                                <p>Progression of</p>
+                                {renderProgressionTypeDropdown()}
+                            </div>      
+                            <div style={{width: '50%', paddingLeft: 5}}>
+                                {renderFinalDropdown()}
+                            </div>          
+                        </div>
+                    </div>
+                </div>
+                )
+            }
+
+            const renderTopSectionContinued = () => {
+                if (!selectedAssign){
+                    return null
+                }
+                if (viewMode === "ASSIGN"){
+                    return(
+                        <div>
+                            <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
+                                <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
+                                    <p>Goal: {selectedAssign.description ? selectedAssign.description : "No Specific Goal Provided"}</p>
+                                </div>        
+                            </div>
+                            <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
+                                <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
+                                    <p>Progress: {patientDetail.carePlan.child.diagnosis ? patientDetail.carePlan.child.diagnosis.length > 0 ? patientDetail.carePlan.child.diagnosis: "No Given Diagnosis" : "No Given Diagnosis"}</p>
+                                </div>        
+                            </div>
+                        </div>
+                        
+                    )
+                }
+            }
 
         /////////////
         // Comment //
@@ -361,16 +541,16 @@
             const renderSingleComment = (commentObject) => {
                 return(
                     <div key={commentObject.id} style={{padding: 3.5, borderTop: '2px solid #ffbe76', display: 'flex', flexDirection: 'row'}}>
-                        <div style={{flex: 9}}>
+                        <div style={{flex: 8}}>
                         <Comment
-                            author={"You"}
+                            author={`${user.firstName} ${user.lastName}`}
                             key={commentObject.id}
                             avatar="/logos/Main.png"
                             content={commentObject.content}
                             datetime={dateFormat(commentObject.createdAt, "m/dd hh:MM tt")}
                         />
                         </div>
-                        <div style={{flex: 3}}>
+                        <div style={{flex: 4}}>
                             {renderForVideo(commentObject)}
                             {renderForAssignment(commentObject)}
                         </div>
@@ -383,7 +563,7 @@
                 if (commentObject.videoId){
                 return(
                     <Comment
-                        author={"For Video"}
+                        author={"Exercise:"}
                         key={(commentObject.id) + "-" + (commentObject.videoId)}
                         content={getVideoTitleById(commentObject.videoId)}
                     />
@@ -420,7 +600,23 @@
                 return
                 }
                 const video = Object.values(VIDEOS).find(video => video.id === id);
-                return video ? video.title : `Video with id "${id}" not found.`;
+                
+                return video ? `${video.title}${getMuscleGroupsForVideo(video.title)}` : `Video with id "${id}" not found.`;
+            }
+
+            function getMuscleGroupsForVideo(video){
+                if (video.toUpperCase() === "SQUAT"){
+                    return " : (Gluteus Maximus and Quadriceps Femoris strength)"
+                }
+                else if (video.toUpperCase() === "LEG LIFTS"){
+                    return " : (Pelvis drop on lifted leg indicates contralateral Gluteus Medius and Minimus weakness)"
+                }
+                else if (video.toUpperCase() === "ROLLING"){
+                    return " : (Trunk Strength, Symmetry)"
+                }
+                else{
+                    return ""
+                }
             }
          
         ///////////
@@ -472,31 +668,12 @@
     
     return (
         <IndexWrapper>
-        <div className="comments-header">
-            <h2>Patient Comments</h2>
-            <div>
-            <label>
-                Start Date:
-                <input
-                type="date"
-                value={DateRangeStart.toISOString().slice(0, 10)}
-                onChange={(e) => handleDateChange(e, "start")}
-                />
-            </label>
-            <label>
-                End Date:
-                <input
-                type="date"
-                value={DateRangeEnd.toISOString().slice(0, 10)}
-                onChange={(e) => handleDateChange(e, "end")}
-                />
-            </label>
-            </div>
-        </div>
+        <h2 style={{textAlign: 'center'}}>Status Report</h2>
+        {renderTopSection()}
 
         <div className="comments-toggle" style={{display: 'flex', justifyContent: 'row', width: '80%'}}>
             <div style={{flex: 7}}>
-                {renderVideoSelectionDropdown()}
+                {/* {renderVideoSelectionDropdown()} */}
             </div>
             <div style={{flex: 1}}/>
             <div style={{flex: 4, alignContent: 'flex-end', alignContent: 'flex-start', paddingTop: 5}}>
