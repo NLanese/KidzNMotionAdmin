@@ -179,6 +179,21 @@
             }
         }, [filteredRenderList])
 
+        // Sets Date Ranges based on View Mode (i.e. sets all dates for VIDEO and ASSIGN)
+        useEffect(() =>{
+            if (viewMode === "VIDEO"){
+                setDateRangeStart(new Date("Jan 01 1999"))
+            }
+            else if (viewMode === "ASSIGN"){
+                setDateRangeStart(new Date("Jan 01 1999"))
+            }
+            else if (viewMode === "ALL"){
+                const lastWeek = new Date();
+                lastWeek.setDate(lastWeek.getDate() - 7);
+                setDateRangeStart(lastWeek)
+            }
+        })
+
     ///////////////
     // Functions //
     ///////////////
@@ -324,38 +339,30 @@
             // Renders Dropdown for all Videos to pick a Specific one
             const renderVideoSelectionDropdown = () => {
                 return(
-                    <Form
-                    onSubmit={handleSubmitVideoFilter}
-                    render={({ pristine, invalid, submitting, handleSubmit }) => (
-                      <form onSubmit={handleSubmit}>
-                        <Field
-                          name="videoID"
-                          render={({ input }) => (
-                            <Select
-                              {...input}
-                              options={renderVideoOptions()} // Ant Design's Select expects 'options'
-                              placeholder="No Related Video"
-                              size="large"
-                              onChange={(value) => input.onChange(value)} // Update form state
-                              value={input.label} 
-                              style={{minWidth: 150, paddingLeft: 5, marginBottom: 15}}
+                    <div style={{height: '100%', justifyContent: 'center', alignItems: 'center', justifyItems: 'center', alignContent: 'center'}}>
+                        <Form
+                        onSubmit={handleSubmitVideoFilter}
+                        render={({ pristine, invalid, submitting, handleSubmit }) => (
+                        <form onSubmit={handleSubmit}>
+                            <Field
+                            name="videoID"
+                            render={({ input }) => (
+                                <Select
+                                {...input}
+                                options={renderVideoOptions()} // Ant Design's Select expects 'options'
+                                placeholder="No Selected Video"
+                                size="large"
+                                onChange={(value) => input.onChange(value)} // Update form state
+                                value={input.label} 
+                                style={{minWidth: 150, paddingLeft: 5, marginBottom: 15}}
+                                />
+                            )}
                             />
-                          )}
+                        </form>
+                        )}
                         />
-                        <Button
-                          style={{paddingLeft: 0, maxWidth: 170}}
-                          type="default"
-                          loading={submitting}
-                          htmlType="submit"
-                          block
-                          size="small"
-                          disabled={invalid || pristine}
-                        >
-                          Filter for This Video
-                        </Button>
-                      </form>
-                    )}
-                  />
+                    </div>
+                    
                 )
             }
 
@@ -429,8 +436,8 @@
             const renderFinalDropdown = () => {
                 if (viewMode === "ALL"){
                     return(
-                        <div>
-                            <div style={{margin: 5, width: 200}}>
+                        <div style={{display: 'flex', flexDirection: 'row', paddingTop: 25}}>
+                            <div style={{padding: 5}}>
                                 <label>
                                     Selected Start Date:
                                     <input
@@ -440,7 +447,7 @@
                                     />
                                 </label>
                             </div>
-                            <div style={{margin: 5, marginTop: 25, width: 200}}>
+                            <div style={{padding: 5}}>
                                 <label>
                                     Selected End Date:
                                     <input
@@ -607,7 +614,7 @@
         <IndexWrapper>
         <h2 style={{textAlign: 'center'}}>Status Report</h2>
         <div className="comments-header">
-            <div style={{width: '75%'}}>
+            <div style={{width: '100%'}}>
                 <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
                     <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
                         <p>Name: {patientDetail.firstName} {patientDetail.lastName}</p>
