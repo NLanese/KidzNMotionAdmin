@@ -60,22 +60,27 @@
             // Current User
             const [user, setUser] = useRecoilState(userState);
 
-             // Curent Patient
+        // Patient //
+
+            // Curent Patient
             const [patientDetail, setPatientDetail] = useRecoilState(patientDataState);
 
             // ALL Curent Patient Medals
             const [medals, setMedals] = useState([])
 
+            // Date Filtered Patient Medals
+            const [filteredMedals, setFilteredMedals] = useState([])
+
+            // Patient Assignments
+            const [patientAssigns, setPatientAssigns] = useState([])
+
+            // Selected Patient Assignments
+            const [selectedAssign, setSelectedAssign] = useState()
+
         // Page //
 
             // Page Loading
             const [loading, setLoading] = useState(true)
-
-        // Video Specific //
-       
-
-        // Date Filtered Patient Medals
-        const [filteredMedals, setFilteredMedals] = useState([])
 
         // Medals and Comment Render Chunks
         const [renderList, setRenderList] = useState([])
@@ -119,6 +124,7 @@
             console.log(patientDetail)
             if(patientDetail && loading){
                 setComments(patientDetail.carePlan.comments)
+                setPatientAssigns(patientDetail.carePlan.assignments)
                 getChildsMedals()
             }
         }, [patientDetail])
@@ -192,7 +198,7 @@
                 lastWeek.setDate(lastWeek.getDate() - 7);
                 setDateRangeStart(lastWeek)
             }
-        })
+        }, [viewMode])
 
     ///////////////
     // Functions //
@@ -292,9 +298,11 @@
         // Page //
         //////////
 
+            // Renders View Mode Dropdown
             const renderProgressionTypeDropdown = () => {
                 return(
                     <Form
+                    style={{width: '70%'}}
                     onSubmit={handleSubmitVideoFilter}
                     render={({ pristine, invalid, submitting, handleSubmit }) => (
                       <form onSubmit={handleSubmit}>
@@ -369,38 +377,29 @@
             // Renders Dropdown for all Assignments to pick a Specific one (If applicable)
             const renderAssignmentSelectionDropdown = () => {
                 return(
-                    <Form
-                    onSubmit={handleSubmitVideoFilter}
-                    render={({ pristine, invalid, submitting, handleSubmit }) => (
-                        <form onSubmit={handleSubmit}>
-                        <Field
-                            name="videoID"
-                            render={({ input }) => (
-                            <Select
-                                {...input}
-                                options={renderVideoOptions()} // Ant Design's Select expects 'options'
-                                placeholder="No Related Video"
-                                size="large"
-                                onChange={(value) => input.onChange(value)} // Update form state
-                                value={input.label} 
-                                style={{minWidth: 150, paddingLeft: 5, marginBottom: 15}}
+                    <div style={{height: '100%', justifyContent: 'center', alignItems: 'center', justifyItems: 'center', alignContent: 'center'}}>
+                        <Form
+                        onSubmit={handleSubmitVideoFilter}
+                        render={({ pristine, invalid, submitting, handleSubmit }) => (
+                            <form onSubmit={handleSubmit}>
+                            <Field
+                                name="videoID"
+                                render={({ input }) => (
+                                <Select
+                                    {...input}
+                                    options={renderVideoOptions()} // Ant Design's Select expects 'options'
+                                    placeholder="No Related Video"
+                                    size="large"
+                                    onChange={(value) => input.onChange(value)} // Update form state
+                                    value={input.label} 
+                                    style={{minWidth: 150, paddingLeft: 5, marginBottom: 15}}
+                                />
+                                )}
                             />
-                            )}
+                            </form>
+                        )}
                         />
-                        <Button
-                            style={{paddingLeft: 0, maxWidth: 170}}
-                            type="default"
-                            loading={submitting}
-                            htmlType="submit"
-                            block
-                            size="small"
-                            disabled={invalid || pristine}
-                        >
-                            Filter for This Video
-                        </Button>
-                        </form>
-                    )}
-                    />
+                    </div>
                 )
             }
 
@@ -476,6 +475,63 @@
                 )
             }
 
+            // Renders Top Document Section
+            const renderTopSection = () => {
+                return(
+                    <div className="comments-header">
+                    <div style={{width: '100%'}}>
+                        <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
+                            <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
+                                <p>Name: {patientDetail.firstName} {patientDetail.lastName}</p>
+                            </div>      
+                            <div style={{width: '50%', paddingLeft: 5}}>
+                                <p>DOB: {patientDetail.childDateOfBirth.toString().substring(0,10)}</p>
+                            </div>          
+                        </div>
+                        <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
+                            <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
+                                <p>Diagnosis: {patientDetail.carePlan.child.diagnosis ? patientDetail.carePlan.child.diagnosis.length > 0 ? patientDetail.carePlan.child.diagnosis: "No Given Diagnosis" : "No Given Diagnosis"}</p>
+                            </div>      
+                            <div style={{width: '50%', paddingLeft: 5}}>
+                                <p>Functional Level: {patientDetail.carePlan.level}</p>
+                            </div>          
+                        </div>
+                        <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
+                            <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
+                                <p>Progression of</p>
+                                {renderProgressionTypeDropdown()}
+                            </div>      
+                            <div style={{width: '50%', paddingLeft: 5}}>
+                                {renderFinalDropdown()}
+                            </div>          
+                        </div>
+                    </div>
+                </div>
+                )
+            }
+
+            const renderTopSectionContinued = () => {
+                if (!selectedAssign){
+                    return null
+                }
+                if (viewMode === "ASSIGN"){
+                    return(
+                        <div>
+                            <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
+                                <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
+                                    <p>Goal: {selectedAssign.description ? selectedAssign.description : "No Specific Goal Provided"}</p>
+                                </div>        
+                            </div>
+                            <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
+                                <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
+                                    <p>Progress: {patientDetail.carePlan.child.diagnosis ? patientDetail.carePlan.child.diagnosis.length > 0 ? patientDetail.carePlan.child.diagnosis: "No Given Diagnosis" : "No Given Diagnosis"}</p>
+                                </div>        
+                            </div>
+                        </div>
+                        
+                    )
+                }
+            }
 
         /////////////
         // Comment //
@@ -613,39 +669,11 @@
     return (
         <IndexWrapper>
         <h2 style={{textAlign: 'center'}}>Status Report</h2>
-        <div className="comments-header">
-            <div style={{width: '100%'}}>
-                <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
-                    <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
-                        <p>Name: {patientDetail.firstName} {patientDetail.lastName}</p>
-                    </div>      
-                    <div style={{width: '50%', paddingLeft: 5}}>
-                        <p>DOB: {patientDetail.childDateOfBirth.toString().substring(0,10)}</p>
-                    </div>          
-                </div>
-                <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
-                    <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
-                        <p>Diagnosis: {patientDetail.carePlan.child.diagnosis ? patientDetail.carePlan.child.diagnosis.length > 0 ? patientDetail.carePlan.child.diagnosis: "No Given Diagnosis" : "No Given Diagnosis"}</p>
-                    </div>      
-                    <div style={{width: '50%', paddingLeft: 5}}>
-                        <p>Functional Level: {patientDetail.carePlan.level}</p>
-                    </div>          
-                </div>
-                <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
-                    <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
-                        <p>Progression of</p>
-                        {renderProgressionTypeDropdown()}
-                    </div>      
-                    <div style={{width: '50%', paddingLeft: 5}}>
-                        {renderFinalDropdown()}
-                    </div>          
-                </div>
-            </div>
-        </div>
+        {renderTopSection()}
 
         <div className="comments-toggle" style={{display: 'flex', justifyContent: 'row', width: '80%'}}>
             <div style={{flex: 7}}>
-                {renderVideoSelectionDropdown()}
+                {/* {renderVideoSelectionDropdown()} */}
             </div>
             <div style={{flex: 1}}/>
             <div style={{flex: 4, alignContent: 'flex-end', alignContent: 'flex-start', paddingTop: 5}}>
