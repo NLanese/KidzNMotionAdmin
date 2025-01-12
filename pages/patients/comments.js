@@ -55,17 +55,24 @@
     // State //
     ///////////
 
-        // Current User
-        const [user, setUser] = useRecoilState(userState);
+        // Users // 
 
-        // Page Loading
-        const [loading, setLoading] = useState(true)
+            // Current User
+            const [user, setUser] = useRecoilState(userState);
 
-        // Curent Patient
-        const [patientDetail, setPatientDetail] = useRecoilState(patientDataState);
+             // Curent Patient
+            const [patientDetail, setPatientDetail] = useRecoilState(patientDataState);
 
-        // ALL Curent Patient Medals
-        const [medals, setMedals] = useState([])
+            // ALL Curent Patient Medals
+            const [medals, setMedals] = useState([])
+
+        // Page //
+
+            // Page Loading
+            const [loading, setLoading] = useState(true)
+
+        // Video Specific //
+       
 
         // Date Filtered Patient Medals
         const [filteredMedals, setFilteredMedals] = useState([])
@@ -194,6 +201,12 @@
                 return [...com, ...med]
             }
 
+            // Handles the Dropdown Selection of Document / Progression Type
+            const handleTypeChange = (input, value) => {
+                setViewMode(value)
+                input.onChange(value)
+            }
+
             // Additional Async Prep to ensure proper rendering on state changes
             const stageContent = async (prepList) => {
                 let fullList = prepList.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)); 
@@ -263,6 +276,32 @@
         //////////
         // Page //
         //////////
+
+            const renderProgressionTypeDropdown = () => {
+                return(
+                    <Form
+                    onSubmit={handleSubmitVideoFilter}
+                    render={({ pristine, invalid, submitting, handleSubmit }) => (
+                      <form onSubmit={handleSubmit}>
+                        <Field
+                          name="videoID"
+                          render={({ input }) => (
+                            <Select
+                              {...input}
+                              options={[{label: "General Progress", value: "ALL"}, {label: "Execrise Progress", value: "VIDEO"}, {label: "Assignment Progress", value: 'ASSIGN'}]} // Ant Design's Select expects 'options'
+                              placeholder="Nothing Selected"
+                              size="large"
+                              onChange={(value) => handleTypeChange(input, value)} // Update form state
+                              value={input.label} 
+                              style={{minWidth: 150, paddingLeft: 5, marginBottom: 15}}
+                            />
+                          )}
+                        />
+                      </form>
+                    )}
+                  />
+                )
+            }
 
             // Sets values for Videos Dropdown
             const renderVideoOptions = () => {
@@ -386,6 +425,50 @@
                 
             }
 
+            // Renders a top level document dropdown depending on the ViewMode
+            const renderFinalDropdown = () => {
+                if (viewMode === "ALL"){
+                    return(
+                        <div>
+                            <div style={{margin: 5, width: 200}}>
+                                <label>
+                                    Selected Start Date:
+                                    <input
+                                    type="date"
+                                    value={DateRangeStart.toISOString().slice(0, 10)}
+                                    onChange={(e) => handleDateChange(e, "start")}
+                                    />
+                                </label>
+                            </div>
+                            <div style={{margin: 5, marginTop: 25, width: 200}}>
+                                <label>
+                                    Selected End Date:
+                                    <input
+                                    type="date"
+                                    value={DateRangeEnd.toISOString().slice(0, 10)}
+                                    onChange={(e) => handleDateChange(e, "end")}
+                                    />
+                                </label>
+                            </div>
+                        </div>
+                    )
+                }
+
+                else if (viewMode === "VIDEO"){
+                    return renderVideoSelectionDropdown()
+                }
+
+                else if (viewMode === "ASSIGN"){
+                    return renderAssignmentSelectionDropdown()
+                }
+
+                else return(
+                    <div>
+                        No Document Type selected
+                    </div>
+                )
+            }
+
 
         /////////////
         // Comment //
@@ -397,7 +480,7 @@
                     <div key={commentObject.id} style={{padding: 3.5, borderTop: '2px solid #ffbe76', display: 'flex', flexDirection: 'row'}}>
                         <div style={{flex: 8}}>
                         <Comment
-                            author={"You"}
+                            author={`${user.firstName} ${user.lastName}`}
                             key={commentObject.id}
                             avatar="/logos/Main.png"
                             content={commentObject.content}
@@ -417,7 +500,7 @@
                 if (commentObject.videoId){
                 return(
                     <Comment
-                        author={"For Video"}
+                        author={"Exercise:"}
                         key={(commentObject.id) + "-" + (commentObject.videoId)}
                         content={getVideoTitleById(commentObject.videoId)}
                     />
@@ -541,27 +624,14 @@
                         <p>Functional Level: {patientDetail.carePlan.level}</p>
                     </div>          
                 </div>
-            </div>
-            <div>
-                <div style={{margin: 5, width: 200}}>
-                    <label>
-                        Selected Start Date:
-                        <input
-                        type="date"
-                        value={DateRangeStart.toISOString().slice(0, 10)}
-                        onChange={(e) => handleDateChange(e, "start")}
-                        />
-                    </label>
-                </div>
-                <div style={{margin: 5, marginTop: 25, width: 200}}>
-                    <label>
-                        Selected End Date:
-                        <input
-                        type="date"
-                        value={DateRangeEnd.toISOString().slice(0, 10)}
-                        onChange={(e) => handleDateChange(e, "end")}
-                        />
-                    </label>
+                <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
+                    <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
+                        <p>Progression of</p>
+                        {renderProgressionTypeDropdown()}
+                    </div>      
+                    <div style={{width: '50%', paddingLeft: 5}}>
+                        {renderFinalDropdown()}
+                    </div>          
                 </div>
             </div>
         </div>
