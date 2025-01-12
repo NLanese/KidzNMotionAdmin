@@ -2,7 +2,7 @@
     import React, { useEffect, useState, useRef } from "react";
     import { Form, Field } from "react-final-form";
     import styled from "styled-components";
-    import { Comment } from '@ant-design/';
+    import { Comment } from '@ant-design/compatible';
     import { message, Popconfirm, Button, Row, Col, Select, Spin } from "antd";
 
 

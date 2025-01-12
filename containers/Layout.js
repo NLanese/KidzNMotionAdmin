@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import AuthLayout from "./AuthLayout";
 import LoadingLayout from "./LoadingLayout";
 import { message } from "antd";
-// import NextNprogress from "nextjs-progressbar";
+import NextNprogress from "nextjs-progressbar";
 // import axios from "axios";
 import { GET_USER } from "@graphql/operations";
 import client from "@utils/apolloClient";
