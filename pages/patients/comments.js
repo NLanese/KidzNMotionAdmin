@@ -125,6 +125,7 @@
             if(patientDetail && loading){
                 setComments(patientDetail.carePlan.comments)
                 setPatientAssigns(patientDetail.carePlan.assignments)
+                console.log(patientDetail.carePlan.assignments)
                 getChildsMedals()
             }
         }, [patientDetail])
@@ -255,6 +256,14 @@
                 return datedComments
             };
 
+        /////////////////
+        // Assignments //
+        /////////////////
+
+            const handleAssignmentChange = (input, value) => {
+                setSelectedAssign(value)
+                input.onChange(value)
+            }
 
         ////////////
         // Medals //
@@ -374,6 +383,16 @@
                 )
             }
 
+
+            // Sets values for Videos Dropdown
+            const renderAssignOptions = () => {
+                let options = [];
+                options = patientAssigns.map(assign => {
+                    return {label: assign.title, value: assign}
+                })
+                return options;
+            };
+
             // Renders Dropdown for all Assignments to pick a Specific one (If applicable)
             const renderAssignmentSelectionDropdown = () => {
                 return(
@@ -387,10 +406,10 @@
                                 render={({ input }) => (
                                 <Select
                                     {...input}
-                                    options={renderVideoOptions()} // Ant Design's Select expects 'options'
+                                    options={renderAssignOptions()} // Ant Design's Select expects 'options'
                                     placeholder="No Related Video"
                                     size="large"
-                                    onChange={(value) => input.onChange(value)} // Update form state
+                                    onChange={(value) => handleAssignmentChange(input, value)} // Update form state
                                     value={input.label} 
                                     style={{minWidth: 150, paddingLeft: 5, marginBottom: 15}}
                                 />
@@ -505,6 +524,7 @@
                                 {renderFinalDropdown()}
                             </div>          
                         </div>
+                        {renderTopSectionContinued()}
                     </div>
                 </div>
                 )
@@ -514,20 +534,20 @@
                 if (!selectedAssign){
                     return null
                 }
-                if (viewMode === "ASSIGN"){
+                else if (viewMode === "ASSIGN"){
                     return(
-                        <div>
+                        <>
                             <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
                                 <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
                                     <p>Goal: {selectedAssign.description ? selectedAssign.description : "No Specific Goal Provided"}</p>
                                 </div>        
                             </div>
                             <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
-                                <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
+                                <div style={{width: '50%', paddingLeft: 5}}>
                                     <p>Progress: {patientDetail.carePlan.child.diagnosis ? patientDetail.carePlan.child.diagnosis.length > 0 ? patientDetail.carePlan.child.diagnosis: "No Given Diagnosis" : "No Given Diagnosis"}</p>
                                 </div>        
                             </div>
-                        </div>
+                        </>
                         
                     )
                 }
