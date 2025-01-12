@@ -4,6 +4,7 @@
     import styled from "styled-components";
     import { Comment } from '@ant-design/compatible';
     import { message, Popconfirm, Button, Row, Col, Select, Spin } from "antd";
+    import TextArea from "antd/lib/input/TextArea";
 
 
     // Recoil
@@ -75,7 +76,7 @@
             const [patientAssigns, setPatientAssigns] = useState([])
 
             // Selected Patient Assignments
-            const [selectedAssign, setSelectedAssign] = useState({})
+            const [selectedAssign, setSelectedAssign] = useState(false)
 
             // Selected Video to Track Progress of
             const [givenVideo, setGivenVideo] = useState(false)
@@ -116,6 +117,12 @@
 
             // Filtered Comments
             const [filteredComments, setFilteredComments] = useState([]);
+
+        // Document //
+
+            const [progress, setProgress] = useState("")
+
+            const [showProgressInput, setShowProgressInput] = useState(false)
 
     
     /////////////
@@ -203,11 +210,14 @@
                 setDateRangeStart(new Date("Jan 01 1999"))
             }
             else if (viewMode === "ALL"){
+                setSelectedAssign(false)
+                setGivenVideo(false)
                 const lastWeek = new Date();
                 lastWeek.setDate(lastWeek.getDate() - 7);
                 setDateRangeStart(lastWeek)
             }
         }, [viewMode])
+
 
     ///////////////
     // Functions //
@@ -552,17 +562,53 @@
                     return(
                         <>
                             <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
-                                <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
+                                <div style={{width: '100%', paddingLeft: 5}}>
                                     <p>Goal: {selectedAssign.description ? selectedAssign.description : "No Specific Goal Provided"}</p>
                                 </div>        
                             </div>
                             <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
-                                <div style={{width: '50%', paddingLeft: 5}}>
-                                    <p>Progress: {patientDetail.carePlan.child.diagnosis ? patientDetail.carePlan.child.diagnosis.length > 0 ? patientDetail.carePlan.child.diagnosis: "No Given Diagnosis" : "No Given Diagnosis"}</p>
-                                </div>        
+                                {renderProgressSection()}
                             </div>
                         </>
                         
+                    )
+                }
+            }
+
+            const renderProgressSection= () => {
+                if (!showProgressInput){
+                    return(
+                        <div style={{width: '100%', paddingLeft: 5, display: 'flex', flexDirection: 'row'}}>
+                            <div style={{flex: 9}}>
+                                <p>Progress: {progress ? progress : "No Input Provided"}</p>
+                            </div>
+                            <div style={{flex: 3, marginLeft: 50, justifyContent: 'center', alignContent: 'center', justifyItems: 'center', alignItems: 'center'}}>
+                                <Button type="round" style={{backgroundColor: 'lightgrey'}}
+                                onClick={() => setShowProgressInput(true)}
+                                >
+                                Add Input
+                                </Button>
+                            </div>
+                        </div>
+                    )
+                }
+                else if (showProgressInput){
+                    return(
+                        <div style={{width: '100%', paddingLeft: 5, display: 'flex', flexDirection: 'row'}}>
+                            <div style={{flex: 9}}>
+                                <TextArea 
+                                    onChange={(event) => setProgress(event.target.value)}
+                                />
+                            </div>
+                            <div style={{flex: 3, marginLeft: 50, justifyContent: 'center', alignContent: 'center', justifyItems: 'center', alignItems: 'center'}}>
+                                <Button type="round" style={{backgroundColor: 'lightgrey'}}
+                                onClick={() => setShowProgressInput(false)}
+                                >
+                                Enter
+                                </Button>
+                            </div>
+                           
+                        </div>
                     )
                 }
             }
