@@ -75,41 +75,49 @@
             const [patientAssigns, setPatientAssigns] = useState([])
 
             // Selected Patient Assignments
-            const [selectedAssign, setSelectedAssign] = useState()
+            const [selectedAssign, setSelectedAssign] = useState({})
+
+            // Selected Video to Track Progress of
+            const [givenVideo, setGivenVideo] = useState(false)
+
 
         // Page //
 
             // Page Loading
             const [loading, setLoading] = useState(true)
 
-        // Medals and Comment Render Chunks
-        const [renderList, setRenderList] = useState([])
+            // Medals and Comment Render Chunks
+            const [renderList, setRenderList] = useState([])
 
-        // Filtered Render List for Specific Videos
-        const [filteredRenderList, setFilteredRenderList] = useState([])
+            // Filtered Render List for Specific Videos
+            const [filteredRenderList, setFilteredRenderList] = useState([])
 
-        // Start Date
-        const [DateRangeStart, setDateRangeStart] = useState(() => {
-            const lastWeek = new Date();
-            lastWeek.setDate(lastWeek.getDate() - 7);
-            return lastWeek;
-        });
+            // Toggle between "ALL" and "VIDEO"
+            const [viewMode, setViewMode] = useState("ALL"); 
 
-        // End Date
-        const [DateRangeEnd, setDateRangeEnd] = useState(new Date());
 
-        // ALL Comments
-        const [comments, setComments] = useState([]);
+        // Date //
 
-        // Filtered Comments
-        const [filteredComments, setFilteredComments] = useState([]);
+            // Start Date
+            const [DateRangeStart, setDateRangeStart] = useState(() => {
+                const lastWeek = new Date();
+                lastWeek.setDate(lastWeek.getDate() - 7);
+                return lastWeek;
+            });
 
-        // Toggle between "ALL" and "VIDEO"
-        const [viewMode, setViewMode] = useState("ALL"); 
+            // End Date
+            const [DateRangeEnd, setDateRangeEnd] = useState(new Date());
 
-        // Selected Video to Track Progress of
-        const [givenVideo, setGivenVideo] = useState(false)
 
+        // Comments //
+
+            // ALL Comments
+            const [comments, setComments] = useState([]);
+
+            // Filtered Comments
+            const [filteredComments, setFilteredComments] = useState([]);
+
+    
     /////////////
     // Effects //
     /////////////
@@ -261,8 +269,14 @@
         /////////////////
 
             const handleAssignmentChange = (input, value) => {
-                setSelectedAssign(value)
+                console.log(value)
                 input.onChange(value)
+                let selected = {}
+                patientAssigns.forEach(assign => {
+                    if (assign.id === value){
+                        setSelectedAssign(assign)
+                    }
+                })
             }
 
         ////////////
@@ -388,7 +402,7 @@
             const renderAssignOptions = () => {
                 let options = [];
                 options = patientAssigns.map(assign => {
-                    return {label: assign.title, value: assign}
+                    return {label: assign.title, value: assign.id}
                 })
                 return options;
             };
