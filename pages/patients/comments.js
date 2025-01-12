@@ -118,6 +118,8 @@
             // Filtered Comments
             const [filteredComments, setFilteredComments] = useState([]);
 
+            const [assignComments, setAssignComments] = useState([])
+
         // Document //
 
             const [progress, setProgress] = useState("")
@@ -136,11 +138,9 @@
 
         // Fetches Data upon Page Entrance
         useEffect(() => {
-            console.log(patientDetail)
             if(patientDetail && loading){
                 setComments(patientDetail.carePlan.comments)
                 setPatientAssigns(patientDetail.carePlan.assignments)
-                console.log(patientDetail.carePlan.assignments)
                 getChildsMedals()
             }
         }, [patientDetail])
@@ -159,23 +159,8 @@
         // Adjusts final Render List 
         useEffect(() => {
             setLoading(true)
-            if (givenVideo){
-                setViewMode("VIDEO")
-                let newRenderList = renderList.filter(itm => {
-                    if (itm.__typename === "Medal"){
-                        if (itm.title === givenVideo){
-                            return true
-                        }
-                        return false
-                    }
-                    else if (itm.__typename === "Comment"){
-                        if (itm.videoId === givenVideo){
-                            return true
-                        }
-                        return false
-                    }
-                })
-                setFilteredRenderList([...newRenderList])
+            if (givenVideo && viewMode === "VIDEO"){
+                filterContentForVideos()
             }
             else{
                 setViewMode("ALL")
@@ -204,19 +189,29 @@
         // Sets Date Ranges based on View Mode (i.e. sets all dates for VIDEO and ASSIGN)
         useEffect(() =>{
             if (viewMode === "VIDEO"){
+                setShowProgressInput(false)
+                setSelectedAssign(false)
                 setDateRangeStart(new Date("Jan 01 1999"))
             }
             else if (viewMode === "ASSIGN"){
+                setGivenVideo(false)
                 setDateRangeStart(new Date("Jan 01 1999"))
             }
             else if (viewMode === "ALL"){
                 setSelectedAssign(false)
                 setGivenVideo(false)
+                setShowProgressInput(false)
                 const lastWeek = new Date();
                 lastWeek.setDate(lastWeek.getDate() - 7);
                 setDateRangeStart(lastWeek)
             }
         }, [viewMode])
+
+        useEffect(() => {
+            if (selectedAssign && viewMode === "ASSIGN"){
+                filterContentForAssign()
+            }
+        }, [selectedAssign])
 
 
     ///////////////
@@ -270,16 +265,40 @@
                     } 
                     return false
                 })
+                console.log(datedComments)
                 setFilteredComments([...datedComments])
                 return datedComments
             };
+
+        ////////////
+        // Videos //
+        ////////////
+
+            // Filters the Comments for a specific Video
+            const filterContentForVideos = () => {
+                let newRenderList = renderList.filter(itm => {
+                    if (itm.__typename === "Medal"){
+                        if (itm.title === givenVideo){
+                            return true
+                        }
+                        return false
+                    }
+                    else if (itm.__typename === "Comment"){
+                        if (itm.videoId === givenVideo){
+                            return true
+                        }
+                        return false
+                    }
+                })
+                setFilteredRenderList([...newRenderList])
+            }
+
 
         /////////////////
         // Assignments //
         /////////////////
 
             const handleAssignmentChange = (input, value) => {
-                console.log(value)
                 input.onChange(value)
                 let selected = {}
                 patientAssigns.forEach(assign => {
@@ -287,6 +306,27 @@
                         setSelectedAssign(assign)
                     }
                 })
+            }
+
+            // Filters the Comments for a specific Assignmnet
+            const filterContentForAssign = () => {
+                const thisID = selectedAssign.id
+                const includedVideos = selectedAssign
+                let newRenderList = renderList.filter(itm => {
+                    if (itm.__typename === "Medal"){
+                        if (itm.title === givenVideo){
+                            return true
+                        }
+                        return false
+                    }
+                    else if (itm.__typename === "Comment"){
+                        if (itm.videoId === givenVideo){
+                            return true
+                        }
+                        return false
+                    }
+                })
+                setFilteredRenderList([...newRenderList])
             }
 
         ////////////
@@ -319,6 +359,7 @@
                     return false
                 })
                 const filteredAndSortedMedals = filteredMedals.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+                console.log(filteredAndSortedMedals)
                 setFilteredMedals([...filteredAndSortedMedals]);
                 return filteredAndSortedMedals
             }
@@ -462,6 +503,16 @@
                     })
                 }
                 else if (viewMode === "VIDEO"){
+                    return filteredRenderList.map(obj => {
+                        if (obj.__typename === "Comment"){
+                            return renderSingleComment(obj)
+                        }
+                        else if (obj.__typename === "Medal"){
+                            return renderSingleMedal(obj)
+                        }
+                    })
+                }
+                else if (viewMode === "ASSIGN"){
                     return filteredRenderList.map(obj => {
                         if (obj.__typename === "Comment"){
                             return renderSingleComment(obj)
