@@ -2,7 +2,6 @@ require('dotenv').config();
 const Dotenv = require('dotenv-webpack');
 const path = require('path');
 const webpack = require('webpack');
-const { withSentryConfig } = require("@sentry/nextjs");
 const withAntdLess = require('next-plugin-antd-less');
 
 const moduleExports = withAntdLess({
@@ -42,6 +41,12 @@ const moduleExports = withAntdLess({
       })
     );
 
+    // ** Add the hashFunction configuration **
+    config.output = {
+      ...config.output, // Preserve existing output settings
+      hashFunction: 'xxhash64',
+    };
+
     return config;
   },
   lessVarsFilePath: './styles/variables.less',
@@ -54,9 +59,4 @@ const moduleExports = withAntdLess({
   outputFileTracing: false
 });
 
-const SentryWebpackPluginOptions = {
-  silent: true,
-  debug: false,
-};
-
-module.exports = withSentryConfig(moduleExports, SentryWebpackPluginOptions);
+module.exports = moduleExports;

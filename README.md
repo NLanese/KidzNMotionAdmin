@@ -1,7 +1,15 @@
 ===== TESTING =====
 to run locally...
+
+( NPM )
 - nvm use 16.10
+- npm i 
 - npm run dev
+
+( Yarn -- Recommended)
+- nvm use 18
+- yarn install
+- yarn run dev
 
 
 to access the graphQL Playground, go to these urls
