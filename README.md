@@ -7,8 +7,9 @@ to run locally...
 - npm run dev
 
 ( Yarn -- Recommended)
-- nvm use 18
-- yarn install
+- nvm use 20
+- yarn 
+- yarn run build
 - yarn run dev
 
 
