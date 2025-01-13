@@ -209,6 +209,7 @@
 
         useEffect(() => {
             if (selectedAssign && viewMode === "ASSIGN"){
+                console.log(patientAssigns)
                 filterContentForAssign()
             }
         }, [selectedAssign])
@@ -274,6 +275,10 @@
         // Videos //
         ////////////
 
+            const handleVideoChange = () => {
+
+            }
+
             // Filters the Comments for a specific Video
             const filterContentForVideos = () => {
                 let newRenderList = renderList.filter(itm => {
@@ -311,21 +316,42 @@
             // Filters the Comments for a specific Assignmnet
             const filterContentForAssign = () => {
                 const thisID = selectedAssign.id
-                const includedVideos = selectedAssign
+                const thisStart = new Date(selectedAssign.dateStart)
+                const thisEnd = new Date(selectedAssign.dateDue)
+                const includedVideos = selectedAssign.videos.map(vid => {
+                    return vid.contentfulID.toLowerCase().replace(" ", "_")
+                })
+                console.log("Looking for comments with assignment id of ", thisID, " or with videos named ")
+                console.log(includedVideos)
+                console.log("But only after ", thisStart, " and before ", thisEnd)
+                let thisAssignComments = []
                 let newRenderList = renderList.filter(itm => {
                     if (itm.__typename === "Medal"){
-                        if (itm.title === givenVideo){
-                            return true
+                        if (includedVideos.includes(itm.title)){
+                            if (new Date(itm.createdAt) >= thisStart && new Date(itm.createdAt) <= thisEnd){
+                                return true
+                            }
+                            return false
                         }
                         return false
                     }
                     else if (itm.__typename === "Comment"){
-                        if (itm.videoId === givenVideo){
-                            return true
+                        if (itm.assignmentId){
+                            if (itm.assignmentId === thisID){
+                                thisAssignComments = [...thisAssignComments, itm]
+                                return false
+                            }
+                        }
+                        if (includedVideos.includes(itm.title)){
+                            if (new Date(itm.createdAt) >= thisStart && new Date(itm.createdAt) <= thisEnd){
+                                return true
+                            }
+                            return false
                         }
                         return false
                     }
                 })
+                setAssignComments([...thisAssignComments])
                 setFilteredRenderList([...newRenderList])
             }
 
@@ -423,7 +449,6 @@
                 return(
                     <div style={{height: '100%', justifyContent: 'center', alignItems: 'center', justifyItems: 'center', alignContent: 'center'}}>
                         <Form
-                        onSubmit={handleSubmitVideoFilter}
                         render={({ pristine, invalid, submitting, handleSubmit }) => (
                         <form onSubmit={handleSubmit}>
                             <Field
@@ -434,7 +459,7 @@
                                 options={renderVideoOptions()} // Ant Design's Select expects 'options'
                                 placeholder="No Selected Video"
                                 size="large"
-                                onChange={(value) => input.onChange(value)} // Update form state
+                                onChange={(value) => handleVideoChange(input, value)} // Update form state
                                 value={input.label} 
                                 style={{minWidth: 150, paddingLeft: 5, marginBottom: 15}}
                                 />
@@ -463,7 +488,6 @@
                 return(
                     <div style={{height: '100%', justifyContent: 'center', alignItems: 'center', justifyItems: 'center', alignContent: 'center'}}>
                         <Form
-                        onSubmit={handleSubmitVideoFilter}
                         render={({ pristine, invalid, submitting, handleSubmit }) => (
                             <form onSubmit={handleSubmit}>
                             <Field
@@ -605,6 +629,7 @@
                 )
             }
 
+            // More content for Assignments 
             const renderTopSectionContinued = () => {
                 if (!selectedAssign){
                     return null
@@ -620,10 +645,23 @@
                             <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
                                 {renderProgressSection()}
                             </div>
+                            {renderAssignmentCommentsOnTop()}
                         </>
                         
                     )
                 }
+            }
+
+            const renderAssignmentCommentsOnTop = () => {
+                return assignComments.map(com => {
+                    <>
+                        <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
+                            <div style={{width: '100%', paddingLeft: 5}}>
+                                <p>Observation: {com}</p>
+                            </div>        
+                        </div>
+                    </>
+                })
             }
 
             const renderProgressSection= () => {
