@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { message, Popconfirm, Empty } from "antd";
-// import { Comment } from '@ant-design/compatible';
-import Comment from "antd";
+import { Comment } from '@ant-design/compatible';
+// import Comment from "antd";
 
 // Date
 import dateFormat from "dateformat";
