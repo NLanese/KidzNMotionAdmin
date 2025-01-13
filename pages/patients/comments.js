@@ -170,7 +170,7 @@
 
         // Finishes Loading when RenderList is complete
         useEffect(() => {
-            if (viewMode === "ALL"){
+            if (viewMode === "ALL" || viewMode === "ASSIGN"){
                 if (renderList){
                     setLoading(false)
                 }
@@ -191,10 +191,12 @@
             if (viewMode === "VIDEO"){
                 setShowProgressInput(false)
                 setSelectedAssign(false)
+                setRenderList([])
                 setDateRangeStart(new Date("Jan 01 1999"))
             }
             else if (viewMode === "ASSIGN"){
                 setGivenVideo(false)
+                setRenderList([])
                 setDateRangeStart(new Date("Jan 01 1999"))
             }
             else if (viewMode === "ALL"){
@@ -210,7 +212,8 @@
         useEffect(() => {
             if (selectedAssign && viewMode === "ASSIGN"){
                 console.log(patientAssigns)
-                filterContentForAssign()
+                setDateRangeStart( new Date(selectedAssign.dateStart) )
+                setDateRangeEnd( new Date(selectedAssign.dateDue) )
             }
         }, [selectedAssign])
 
@@ -232,9 +235,24 @@
             // Handles the Changing of Data based on Date Ranges
             const handleContent = async () => {
                 setLoading(true)
-                let com = await filterComments()
-                let med = await processMedalData(medals)
-                return [...com, ...med]
+                if (selectedAssign){
+                    let obj = filterContentForAssign()
+                    console.log("COMMENTS")
+                    console.log(obj.com)
+                    console.log("MEDALS")
+                    console.log(obj.med)
+                    let med = await processMedalData(medals)
+                    let com = await filterComments(obj.com)
+                    console.log("NEW")
+                    console.log(com)
+                    console.log(med)
+                    return [...com, ...med]
+                }
+                else{
+                    let com = await filterComments()
+                    let med = await processMedalData(medals)
+                    return [...com, ...med]
+                }
             }
 
             // Handles the Dropdown Selection of Document / Progression Type
@@ -245,7 +263,11 @@
 
             // Additional Async Prep to ensure proper rendering on state changes
             const stageContent = async (prepList) => {
+                console.log("PREP LIST")
+                console.log(prepList)
                 let fullList = prepList.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)); 
+                console.log("FULL LIST")
+                console.log(fullList)
                 return fullList
             }
 
@@ -259,16 +281,28 @@
         //////////////
 
             // Filters the Comments based on Date Range
-            const filterComments = async () => {
-                let datedComments = [...comments].filter(comment => {
-                    if (new Date(comment.createdAt) >= DateRangeStart && new Date(comment.createdAt) <= DateRangeEnd){
-                        return true
-                    } 
-                    return false
-                })
-                console.log(datedComments)
-                setFilteredComments([...datedComments])
-                return datedComments
+            const filterComments = async (input=false) => {
+                if (input){
+                    let datedComments = [...input].filter(comment => {
+                        if (new Date(comment.createdAt) >= DateRangeStart && new Date(comment.createdAt) <= DateRangeEnd){
+                            return true
+                        } 
+                        return false
+                    })
+                    setFilteredComments([...datedComments])
+                    return datedComments
+                }
+                else{
+                    let datedComments = [...comments].filter(comment => {
+                        if (new Date(comment.createdAt) >= DateRangeStart && new Date(comment.createdAt) <= DateRangeEnd){
+                            return true
+                        } 
+                        return false
+                    })
+                    setFilteredComments([...datedComments])
+                    return datedComments
+                }
+                
             };
 
         ////////////
@@ -316,43 +350,61 @@
             // Filters the Comments for a specific Assignmnet
             const filterContentForAssign = () => {
                 const thisID = selectedAssign.id
-                const thisStart = new Date(selectedAssign.dateStart)
-                const thisEnd = new Date(selectedAssign.dateDue)
                 const includedVideos = selectedAssign.videos.map(vid => {
                     return vid.contentfulID.toLowerCase().replace(" ", "_")
                 })
                 console.log("Looking for comments with assignment id of ", thisID, " or with videos named ")
                 console.log(includedVideos)
-                console.log("But only after ", thisStart, " and before ", thisEnd)
                 let thisAssignComments = []
-                let newRenderList = renderList.filter(itm => {
+                let com = []
+                let med = []
+                renderList.filter(itm => {
+
                     if (itm.__typename === "Medal"){
+                        console.log("----------")
+                        console.log("Medal for")
+                        console.log(itm.title)
                         if (includedVideos.includes(itm.title)){
-                            if (new Date(itm.createdAt) >= thisStart && new Date(itm.createdAt) <= thisEnd){
-                                return true
-                            }
-                            return false
+                            console.log("FOUND")
+                            med = [...med, itm]
                         }
-                        return false
+                        else{
+                            console.log("Not found...")
+                        }
                     }
+
                     else if (itm.__typename === "Comment"){
                         if (itm.assignmentId){
+                            console.log("----------")
+                            console.log("Assignment Comment for")
+                            console.log("Assignment Comment, does it match the id?")
+                            console.log(itm.assignmentId, " -- ", thisID)
                             if (itm.assignmentId === thisID){
+                                console.log("FOUND")
                                 thisAssignComments = [...thisAssignComments, itm]
-                                return false
+                            }
+                            else{
+                                console.log("Not found...")
                             }
                         }
-                        if (includedVideos.includes(itm.title)){
-                            if (new Date(itm.createdAt) >= thisStart && new Date(itm.createdAt) <= thisEnd){
-                                return true
+                        
+                        else if (itm.videoId){
+                            console.log("----------")
+                            console.log("Video Comment for")
+                            console.log(itm.videoId)
+                            if (includedVideos.includes(itm.videoId)){
+                                console.log("FOUND")
+                                com = [...com, itm]
                             }
-                            return false
                         }
-                        return false
+
+                        else{
+                            console.log("----------")
+                            console.log("Not Relevant...")
+                        }
                     }
                 })
-                setAssignComments([...thisAssignComments])
-                setFilteredRenderList([...newRenderList])
+               return {com: com, med: med}
             }
 
         ////////////
@@ -449,6 +501,7 @@
                 return(
                     <div style={{height: '100%', justifyContent: 'center', alignItems: 'center', justifyItems: 'center', alignContent: 'center'}}>
                         <Form
+                        onSubmit={handleSubmitVideoFilter}
                         render={({ pristine, invalid, submitting, handleSubmit }) => (
                         <form onSubmit={handleSubmit}>
                             <Field
@@ -488,6 +541,7 @@
                 return(
                     <div style={{height: '100%', justifyContent: 'center', alignItems: 'center', justifyItems: 'center', alignContent: 'center'}}>
                         <Form
+                        onSubmit={handleSubmitVideoFilter}
                         render={({ pristine, invalid, submitting, handleSubmit }) => (
                             <form onSubmit={handleSubmit}>
                             <Field
@@ -514,8 +568,10 @@
             // Renders the Filtered (or all) Content 
             const renderContent = () => {
                 if (loading){
+                    console.log("LOADING")
                     return 
                 }
+                console.log("NOT LOADING")
                 if (viewMode === "ALL"){
                     return renderList.map(obj => {
                         if (obj.__typename === "Comment"){
@@ -537,7 +593,7 @@
                     })
                 }
                 else if (viewMode === "ASSIGN"){
-                    return filteredRenderList.map(obj => {
+                    return renderList.map(obj => {
                         if (obj.__typename === "Comment"){
                             return renderSingleComment(obj)
                         }
