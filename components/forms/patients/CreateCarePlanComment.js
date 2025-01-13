@@ -48,6 +48,12 @@ function CreateCarePlanComment({
     // Handles Entire Process of Submitting a New Comment
     const handleFormSubmit = async (formValues) => {
       setLoading(true);
+      console.log({
+            commentContent: formValues.commentContent,
+            childCarePlanID: initialValues.childCarePlanID,
+            assignmentID: assignment && initialValues.assignmentID,
+            videoID: formValues.videoID ? formValues.videoID : null
+          })
       await createComment({
         variables: {
           commentContent: formValues.commentContent,
@@ -56,30 +62,12 @@ function CreateCarePlanComment({
           videoID: formValues.videoID ? formValues.videoID : null
         },
       })
+      setLoading(false)
     }
   
   /////////////
   // Renders //
   /////////////
-
-  // Sets values for Videos Dropdown
-  const renderVideoOptions = () => {
-    let options = [];
-    for (var key in VIDEOS) {
-      if (VIDEOS[key].id !== "great_job") {
-        if (VIDEOS.hasOwnProperty(key)) {
-          options.push({
-            value: VIDEOS[key].id,
-            text: VIDEOS[key].title,
-          });
-        }
-      }
-    }
-    options = options.sort((a, b) => a.text.localeCompare(b.text)); // Sort alphabetically
-    return options;
-  };
-
-
 
   return (
     <Spin spinning={loading}>
@@ -139,19 +127,6 @@ function CreateCarePlanComment({
                 />
               </Col>
 
-              {/* Video Dropdown */}
-              <Col>
-                <Field
-                    name="videoID"
-                    component={SelectField}
-                    options={renderVideoOptions()} 
-                    htmlType="dropdown"
-                    label="Attach a Related Video if Necessary"
-                    placeholder="No Related Video"
-                    size={"large"}
-                    required={false}
-                  />
-              </Col>
             </Row>
 
             <Button

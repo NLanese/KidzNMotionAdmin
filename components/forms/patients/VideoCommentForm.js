@@ -49,9 +49,9 @@ function VideoCommentForm({ getUser, initialValues, returnUrl }) {
       });
   };
 
-  if (queryLoading) {
-    return <Spin spinning={true} />;
-  }
+  // if (queryLoading) {
+  //   return <Spin spinning={true} />;
+  // }
 
   if (hasComment) {
     return <p>You have already submitted a comment for this video.</p>;

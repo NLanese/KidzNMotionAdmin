@@ -40,26 +40,48 @@ export default {
         throw new UserInputError("Access denied");
       }
 
-        // Assuming `commentContent` is now an array of strings
-  for (const comment of commentContent) {
-    await prisma.comment.create({
-      data: {
-        content: comment, // Each comment in the array is processed
-        videoId: videoID, // Associates each comment with a specific video
-        assignmentId: assignmentID, // Associates each comment with an assignment
-        therapist: {
-          connect: {
-            id: context.user.id, // Links the comment to the therapist creating it
+      // Assuming `commentContent` is now an array of strings
+      if (Array.isArray(commentContent)){
+        for (const comment of commentContent) {
+          await prisma.comment.create({
+            data: {
+              content: comment, // Each comment in the array is processed
+              videoId: videoID, // Associates each comment with a specific video
+              assignmentId: assignmentID, // Associates each comment with an assignment
+              therapist: {
+                connect: {
+                  id: context.user.id, // Links the comment to the therapist creating it
+                },
+              },
+              childCarePlan: {
+                connect: {
+                  id: childCarePlanID, // Links the comment to the relevant child care plan
+                },
+              },
+            },
+          });
+        }
+      }
+      else{
+        await prisma.comment.create({
+          data: {
+            content: commentContent, // Each comment in the array is processed
+            videoId: videoID, // Associates each comment with a specific video
+            assignmentId: assignmentID, // Associates each comment with an assignment
+            therapist: {
+              connect: {
+                id: context.user.id, // Links the comment to the therapist creating it
+              },
+            },
+            childCarePlan: {
+              connect: {
+                id: childCarePlanID, // Links the comment to the relevant child care plan
+              },
+            },
           },
-        },
-        childCarePlan: {
-          connect: {
-            id: childCarePlanID, // Links the comment to the relevant child care plan
-          },
-        },
-      },
-    });
-  }
+        });
+      }
+      
 
 
       let updatedChildCarePlan = await prisma.childCarePlan.findUnique({
