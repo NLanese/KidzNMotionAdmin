@@ -82,6 +82,7 @@
             const [givenVideo, setGivenVideo] = useState(false)
 
 
+
         // Page //
 
             // Page Loading
@@ -102,7 +103,7 @@
             // Start Date
             const [DateRangeStart, setDateRangeStart] = useState(() => {
                 const lastWeek = new Date();
-                lastWeek.setDate(lastWeek.getDate() - 7);
+                // lastWeek.setDate(lastWeek.getDate() - 7);
                 return lastWeek;
             });
 
@@ -125,6 +126,18 @@
             const [progress, setProgress] = useState("")
 
             const [showProgressInput, setShowProgressInput] = useState(false)
+
+            const [dia, setDia] = useState(false)
+
+            const [showDiaInput, setShowDiaInput] = useState(false)
+
+            const [dur, setDur] = useState(false)
+
+            const [showDurInput, setShowDurInput] = useState(false)
+
+            const [goal, setGoal] = useState(false)
+
+            const [showGoalInput, setShowGoalInput] = useState(false)
 
     
     /////////////
@@ -229,7 +242,11 @@
             // Handles Date Changes for both Boundaries
             const handleDateChange = (e, type) => {
                 const newDate = new Date(e.target.value);
-                type === "start" ? setDateRangeStart(newDate) : setDateRangeEnd(newDate);
+                // if (type === "all"){
+                    setDateRangeStart(newDate)
+                    setDateRangeEnd(newDate)
+                // }
+                // type === "start" ? setDateRangeStart(newDate) : setDateRangeEnd(newDate);
             };
 
             // Handles the Changing of Data based on Date Ranges
@@ -293,8 +310,12 @@
                     return datedComments
                 }
                 else{
+                    console.log("Looking for comments made on ", DateRangeStart)
                     let datedComments = [...comments].filter(comment => {
-                        if (new Date(comment.createdAt) >= DateRangeStart && new Date(comment.createdAt) <= DateRangeEnd){
+                        if (
+                            new Date(comment.createdAt) >= DateRangeStart
+                            // && new Date(comment.createdAt) <= DateRangeEnd
+                        ){
                             return true
                         } 
                         return false
@@ -607,20 +628,21 @@
 
             // Renders a top level document dropdown depending on the ViewMode
             const renderFinalDropdown = () => {
-                if (viewMode === "ALL"){
+                // if (viewMode === "ALL"){
                     return(
                         <div style={{display: 'flex', flexDirection: 'row', paddingTop: 25}}>
                             <div style={{padding: 5}}>
                                 <label>
-                                    Selected Start Date:
+                                    Selected Date:
                                     <input
                                     type="date"
                                     value={DateRangeStart.toISOString().slice(0, 10)}
-                                    onChange={(e) => handleDateChange(e, "start")}
+                                    // onChange={(e) => handleDateChange(e, "start")}
+                                    onChange={(e) => handleDateChange(e, "all")}
                                     />
                                 </label>
                             </div>
-                            <div style={{padding: 5}}>
+                            {/* <div style={{padding: 5}}>
                                 <label>
                                     Selected End Date:
                                     <input
@@ -629,24 +651,24 @@
                                     onChange={(e) => handleDateChange(e, "end")}
                                     />
                                 </label>
-                            </div>
+                            </div> */}
                         </div>
                     )
-                }
+                // }
 
-                else if (viewMode === "VIDEO"){
-                    return renderVideoSelectionDropdown()
-                }
+                // else if (viewMode === "VIDEO"){
+                //     return renderVideoSelectionDropdown()
+                // }
 
-                else if (viewMode === "ASSIGN"){
-                    return renderAssignmentSelectionDropdown()
-                }
+                // else if (viewMode === "ASSIGN"){
+                //     return renderAssignmentSelectionDropdown()
+                // }
 
-                else return(
-                    <div>
-                        No Document Type selected
-                    </div>
-                )
+                // else return(
+                //     <div>
+                //         No Document Type selected
+                //     </div>
+                // )
             }
 
             // Renders Top Document Section
@@ -656,27 +678,37 @@
                     <div style={{width: '100%'}}>
                         <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
                             <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
-                                <p>Name: {patientDetail.firstName} {patientDetail.lastName}</p>
+                            <p><strong>Name:</strong> {patientDetail.firstName} {patientDetail.lastName}</p>
                             </div>      
                             <div style={{width: '50%', paddingLeft: 5}}>
-                                <p>DOB: {patientDetail.childDateOfBirth.toString().substring(0,10)}</p>
+                            <p><strong>DOB:</strong> {patientDetail.childDateOfBirth.toString().substring(0,10)}</p>
                             </div>          
                         </div>
                         <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
                             <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
-                                <p>Diagnosis: {patientDetail.carePlan.child.diagnosis ? patientDetail.carePlan.child.diagnosis.length > 0 ? patientDetail.carePlan.child.diagnosis: "No Given Diagnosis" : "No Given Diagnosis"}</p>
+                                {renderDiagnosisSection()}
+                                {/* <p>Diagnosis: {patientDetail.carePlan.child.diagnosis ? patientDetail.carePlan.child.diagnosis.length > 0 ? patientDetail.carePlan.child.diagnosis: "No Given Diagnosis" : "No Given Diagnosis"}</p> */}
                             </div>      
                             <div style={{width: '50%', paddingLeft: 5}}>
-                                <p>Functional Level: {patientDetail.carePlan.level}</p>
+                                {/* <p>Functional Level: {patientDetail.carePlan.level}</p> */}
+                                {renderDurationSection()}
                             </div>          
                         </div>
-                        <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
+                        {/* <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
                             <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
                                 <p>Progression of</p>
                                 {renderProgressionTypeDropdown()}
                             </div>      
                             <div style={{width: '50%', paddingLeft: 5}}>
                                 {renderFinalDropdown()}
+                            </div>          
+                        </div> */}
+                          <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%', height: '200%'}}>
+                            <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
+                                <p><strong>Functional Level:</strong>  {patientDetail.carePlan.level}</p>
+                            </div>      
+                            <div style={{width: '50%', paddingLeft: 5}}>
+                                {renderGoalSection()}
                             </div>          
                         </div>
                         {renderTopSectionContinued()}
@@ -720,6 +752,7 @@
                 })
             }
 
+            // Progress Text or Input Area
             const renderProgressSection= () => {
                 if (!showProgressInput){
                     return(
@@ -748,6 +781,121 @@
                             <div style={{flex: 3, marginLeft: 50, justifyContent: 'center', alignContent: 'center', justifyItems: 'center', alignItems: 'center'}}>
                                 <Button type="round" style={{backgroundColor: 'lightgrey'}}
                                 onClick={() => setShowProgressInput(false)}
+                                >
+                                Enter
+                                </Button>
+                            </div>
+                           
+                        </div>
+                    )
+                }
+            }
+
+            // Diagnosis Text or Input Area
+            const renderDiagnosisSection= () => {
+                if (!showDiaInput){
+                    return(
+                        <div style={{width: '100%', display: 'flex', flexDirection: 'row'}}>
+                            <div style={{flex: 9}}>
+                            <p><strong>Diagnosis:</strong> {dia ? dia : "No Input Provided"}</p>
+                            </div>
+                            <div style={{flex: 3, marginLeft: 20, justifyContent: 'center', alignContent: 'center', justifyItems: 'center', alignItems: 'center'}}>
+                                <Button type="round" style={{backgroundColor: 'lightgrey'}}
+                                onClick={() => setShowDiaInput(true)}
+                                >
+                                Add Input
+                                </Button>
+                            </div>
+                        </div>
+                    )
+                }
+                else if (showDiaInput){
+                    return(
+                        <div style={{width: '100%', display: 'flex', flexDirection: 'row'}}>
+                            <div style={{flex: 9}}>
+                                <TextArea 
+                                    onChange={(event) => setDia(event.target.value)}
+                                />
+                            </div>
+                            <div style={{flex: 3, marginLeft: 50, justifyContent: 'center', alignContent: 'center', justifyItems: 'center', alignItems: 'center'}}>
+                                <Button type="round" style={{backgroundColor: 'lightgrey'}}
+                                onClick={() => setShowDiaInput(false)}
+                                >
+                                Enter
+                                </Button>
+                            </div>
+                           
+                        </div>
+                    )
+                }
+            }
+
+            const renderDurationSection= () => {
+                if (!showDurInput){
+                    return(
+                        <div style={{width: '100%', paddingLeft: 5, display: 'flex', flexDirection: 'row'}}>
+                            <div style={{flex: 9}}>
+                                <p><strong>Duration:</strong> {dur ? dur : "No Input Provided"}</p>
+                            </div>
+                            <div style={{flex: 2, marginLeft: 20, justifyContent: 'center', alignContent: 'center', justifyItems: 'center', alignItems: 'center'}}>
+                                <Button type="round" style={{backgroundColor: 'lightgrey'}}
+                                onClick={() => setShowDurInput(true)}
+                                >
+                                Add Input
+                                </Button>
+                            </div>
+                        </div>
+                    )
+                }
+                else if (showDurInput){
+                    return(
+                        <div style={{width: '100%', paddingLeft: 5, display: 'flex', flexDirection: 'row'}}>
+                            <div style={{flex: 9}}>
+                                <TextArea 
+                                    onChange={(event) => setDur(event.target.value)}
+                                />
+                            </div>
+                            <div style={{flex: 2, marginLeft: 20, justifyContent: 'center', alignContent: 'center', justifyItems: 'center', alignItems: 'center'}}>
+                                <Button type="round" style={{backgroundColor: 'lightgrey'}}
+                                onClick={() => setShowDurInput(false)}
+                                >
+                                Enter
+                                </Button>
+                            </div>
+                           
+                        </div>
+                    )
+                }
+            }
+
+            const renderGoalSection= () => {
+                if (!showGoalInput){
+                    return(
+                        <div style={{width: '100%', paddingLeft: 5, display: 'flex', flexDirection: 'row'}}>
+                            <div style={{flex: 9}}>
+                                <p><strong>Goal:</strong> {goal ? goal : "No Input Provided"}</p>
+                            </div>
+                            <div style={{flex: 2, marginLeft: 20, justifyContent: 'center', alignContent: 'center', justifyItems: 'center', alignItems: 'center'}}>
+                                <Button type="round" style={{backgroundColor: 'lightgrey'}}
+                                onClick={() => setShowGoalInput(true)}
+                                >
+                                Add Input
+                                </Button>
+                            </div>
+                        </div>
+                    )
+                }
+                else if (showGoalInput){
+                    return(
+                        <div style={{width: '100%', paddingLeft: 5, display: 'flex', flexDirection: 'row'}}>
+                            <div style={{flex: 9}}>
+                                <TextArea 
+                                    onChange={(event) => setGoal(event.target.value)}
+                                />
+                            </div>
+                            <div style={{flex: 2, marginLeft: 20, justifyContent: 'center', alignContent: 'center', justifyItems: 'center', alignItems: 'center'}}>
+                                <Button type="round" style={{backgroundColor: 'lightgrey'}}
+                                onClick={() => setShowGoalInput(false)}
                                 >
                                 Enter
                                 </Button>
@@ -895,17 +1043,23 @@
         <IndexWrapper>
         <h2 style={{textAlign: 'center'}}>Status Report</h2>
         {renderTopSection()}
-
+        <div style={{display: 'flex', flexDirection: 'row'}}>
+            <div style={{flex: 8}}>
+                {renderFinalDropdown()}
+            </div>
+            <div style={{flex: 2, alignContent: 'flex-end', alignContent: 'flex-start', paddingTop: 5}}>
+                <button onClick={() => print()}>
+                Generate PDF
+                </button>
+            </div>
+        </div>
+        
         <div className="comments-toggle" style={{display: 'flex', justifyContent: 'row', width: '80%'}}>
             <div style={{flex: 7}}>
                 {/* {renderVideoSelectionDropdown()} */}
             </div>
             <div style={{flex: 1}}/>
-            <div style={{flex: 4, alignContent: 'flex-end', alignContent: 'flex-start', paddingTop: 5}}>
-                <button onClick={() => print()}>
-                Generate PDF
-                </button>
-            </div>
+            
         </div>
 
         <div className="comments-list" style={{backgroundColor: 'white', marginTop: 35}}>
