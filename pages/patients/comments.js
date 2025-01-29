@@ -703,7 +703,7 @@
                                 {renderFinalDropdown()}
                             </div>          
                         </div> */}
-                          <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%', height: '200%'}}>
+                        <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%', height: '200%'}}>
                             <div style={{width: '50%', borderRight: "1px solid grey", paddingLeft: 5}}>
                                 <p><strong>Functional Level:</strong>  {patientDetail.carePlan.level}</p>
                             </div>      
@@ -711,7 +711,11 @@
                                 {renderGoalSection()}
                             </div>          
                         </div>
-                        {renderTopSectionContinued()}
+                        <div style={{padding: 1.5, display: 'flex', flexDirection: 'row', border: "1px solid grey", width: '100%'}}>
+                            {renderProgressSection()}
+                        </div>
+
+                        {/* {renderTopSectionContinued()} */}
                     </div>
                 </div>
                 )
