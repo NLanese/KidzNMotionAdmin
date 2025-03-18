@@ -242,11 +242,8 @@
             // Handles Date Changes for both Boundaries
             const handleDateChange = (e, type) => {
                 const newDate = new Date(e.target.value);
-                // if (type === "all"){
                     setDateRangeStart(newDate)
                     setDateRangeEnd(newDate)
-                // }
-                // type === "start" ? setDateRangeStart(newDate) : setDateRangeEnd(newDate);
             };
 
             // Handles the Changing of Data based on Date Ranges
@@ -254,15 +251,8 @@
                 setLoading(true)
                 if (selectedAssign){
                     let obj = filterContentForAssign()
-                    console.log("COMMENTS")
-                    console.log(obj.com)
-                    console.log("MEDALS")
-                    console.log(obj.med)
                     let med = await processMedalData(medals)
                     let com = await filterComments(obj.com)
-                    console.log("NEW")
-                    console.log(com)
-                    console.log(med)
                     return [...com, ...med]
                 }
                 else{
@@ -301,8 +291,12 @@
             const filterComments = async (input=false) => {
                 if (input){
                     let datedComments = [...input].filter(comment => {
-                        if (new Date(comment.createdAt) >= DateRangeStart && new Date(comment.createdAt) <= DateRangeEnd){
-                            return true
+                        if (new Date(comment.createdAt) >= DateRangeStart){
+                            console.log(comment.createdAt , " is after ", DateRangeStart)
+                            if (new Date(comment.createdAt) <= DateRangeEnd){
+                                console.log(comment.createdAt , " is before ", DateRangeEnd)
+                                return true
+                            }
                         } 
                         return false
                     })
@@ -310,14 +304,20 @@
                     return datedComments
                 }
                 else{
+                    console.log(comments)
                     console.log("Looking for comments made on ", DateRangeStart)
                     let datedComments = [...comments].filter(comment => {
-                        if (
-                            new Date(comment.createdAt) >= DateRangeStart
-                            // && new Date(comment.createdAt) <= DateRangeEnd
-                        ){
+                        const isSameDate = new Date(comment.createdAt).toISOString().split("T")[0] === DateRangeStart.toISOString().split("T")[0];
+                        if (isSameDate){
                             return true
-                        } 
+                        }
+                        // if (new Date(comment.createdAt) >= DateRangeStart){
+                        //     console.log(comment.createdAt , " is after ", DateRangeStart)
+                        //     if (new Date(comment.createdAt) <= DateRangeEnd){
+                        //         console.log(comment.createdAt , " is before ", DateRangeEnd)
+                        //         return true
+                        //     }
+                        // } 
                         return false
                     })
                     setFilteredComments([...datedComments])
@@ -592,7 +592,7 @@
                     console.log("LOADING")
                     return 
                 }
-                console.log("NOT LOADING")
+                console.log("NOT LOADING -- ", viewMode)
                 if (viewMode === "ALL"){
                     return renderList.map(obj => {
                         if (obj.__typename === "Comment"){
