@@ -156,7 +156,7 @@ export default {
 
           ///////////////////////////////
           // SUBSCRIPTION STATUS CHECK //
-          let subscriptionStatus = "expired";
+          let subscriptionStatus = "free";
           let daysLeft;
 
 
@@ -177,7 +177,7 @@ export default {
               )
 
               if (daysLeft <= 0) {
-                subscriptionStatus = "expiredOwner";
+                subscriptionStatus = "free";
               } 
               else {
                 subscriptionStatus = "trial - owner";
@@ -212,7 +212,7 @@ export default {
                     (1000 * 3600 * 24)
               );
               if (daysLeft <= 0) {
-                subscriptionStatus = "expiredNotOwner";
+                subscriptionStatus = "free";
               } else {
                 subscriptionStatus = "trial - guardian";
               }
@@ -228,7 +228,7 @@ export default {
                     (1000 * 3600 * 24)
               );
               if (daysLeft <= 0) {
-                subscriptionStatus = "expiredOwner";
+                subscriptionStatus = "free";
               } else {
                 subscriptionStatus = "trial - not owner";
               }
@@ -249,7 +249,7 @@ export default {
                         (1000 * 3600 * 24)
                   );
                   if (daysLeft <= 0) {
-                    subscriptionStatus = "expiredNotOwner";
+                    subscriptionStatus = "free";
                   } else {
                     subscriptionStatus = "trial - therapist";
                   }
@@ -265,7 +265,7 @@ export default {
                       (1000 * 3600 * 24)
                 );
                 if (daysLeft <= 0) {
-                  subscriptionStatus = "expiredNotOwner";
+                  subscriptionStatus = "free";
                 } else {
                   subscriptionStatus = "trial - therapist";
                 }
