@@ -58,6 +58,8 @@ model User {
   role        Role     @default(GUARDIAN)
   createdAt   DateTime @default(now())
   fcmToken    String?
+  muteAllMessages          Boolean @default(false)
+  muteAllAssignments       Boolean @default(false)
   ////////////////
 
   // Parent / Child Specific //
@@ -78,8 +80,6 @@ model User {
   // Therapist Specific //
   title                    String?
   appointmentNotifications Boolean @default(true)
-  muteAllMessages          Boolean @default(false)
-  muteAllAssignments       Boolean @default(false)
   ////////////////////////
 
   // Child Security Settings //
