@@ -282,9 +282,9 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
       if (generalLoading){
         return null
       }
-      if (consoleState !== "setTherapist"){
-        return null
-      }
+      // if (consoleState !== "setTherapist"){
+      //   return null
+      // }
       if (!therapists){
         return null
       }
