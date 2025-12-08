@@ -568,7 +568,7 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
   //////////\\\\\\\\\\\
   //   MAIN RETURN   \\
   /////////||\\\\\\\\\\
-  return renderDeleteUsersMAIN();
+  return therapistMAIN();
 }
   
 export default Console;
