@@ -197,16 +197,16 @@ function SideMenu({ router, user }) {
                   Organization Settings
                 </Menu.Item>
 
-                <Menu.Item
+                {/* <Menu.Item
                   key={"/account/billing"}
                   onClick={() => pushLink("/account/billing")}
                 >
                   Billing & Subscription
-                </Menu.Item>
+                </Menu.Item> */}
               </>
             )}
 
-            {user.solo && (
+            {/* {user.solo && (
               <Menu.Item
                 key={"/account/guardian-billing"}
                 icon={<SettingOutlined style={{ fontSize: "20px" }} />}
@@ -214,7 +214,7 @@ function SideMenu({ router, user }) {
               >
                 Billing & Subscription
               </Menu.Item>
-            )}
+            )} */}
             <Menu.Item
               key={"/account/profile-settings"}
               onClick={() => pushLink("/account/profile-settings")}
