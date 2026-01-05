@@ -220,58 +220,58 @@ export default {
 
               // IF //
             // Org Did Not Pay //
-            if (!userToLogin.organizations[0].stripeSubscriptionID) {
-              daysLeft = parseInt(
-                8 -
-                  (new Date().getTime() -
-                    new Date(userToLogin.createdAt).getTime()) /
-                    (1000 * 3600 * 24)
-              );
-              if (daysLeft <= 0) {
-                subscriptionStatus = "free";
-              } else {
-                subscriptionStatus = "trial - not owner";
-              }
-            } 
+            // if (!userToLogin.organizations[0].stripeSubscriptionID) {
+            //   daysLeft = parseInt(
+            //     8 -
+            //       (new Date().getTime() -
+            //         new Date(userToLogin.createdAt).getTime()) /
+            //         (1000 * 3600 * 24)
+            //   );
+            //   if (daysLeft <= 0) {
+            //     subscriptionStatus = "free";
+            //   } else {
+            //     subscriptionStatus = "trial - not owner";
+            //   }
+            // } 
           } 
           
           // IF //
           // Therapist User //
-          else {
-            if (userToLogin.organizations) {
-              if (userToLogin.organizations[0]) {
-                const organization = userToLogin.organizations[0].organization;
-                if (!organization.stripeSubscriptionID) {
-                  daysLeft = parseInt(
-                    8 -
-                      (new Date().getTime() -
-                        new Date(organization.createdAt).getTime()) /
-                        (1000 * 3600 * 24)
-                  );
-                  if (daysLeft <= 0) {
-                    subscriptionStatus = "free";
-                  } else {
-                    subscriptionStatus = "trial - therapist";
-                  }
-                } else {
-                  subscriptionStatus = "active";
-                }
-              }
-              else {
-                daysLeft = parseInt(
-                  8 -
-                    (new Date().getTime() -
-                      new Date(userToLogin.createdAt).getTime()) /
-                      (1000 * 3600 * 24)
-                );
-                if (daysLeft <= 0) {
-                  subscriptionStatus = "free";
-                } else {
-                  subscriptionStatus = "trial - therapist";
-                }
-              }
-            }
-          }
+          // else {
+          //   if (userToLogin.organizations) {
+          //     if (userToLogin.organizations[0]) {
+          //       const organization = userToLogin.organizations[0].organization;
+          //       if (!organization.stripeSubscriptionID) {
+          //         daysLeft = parseInt(
+          //           8 -
+          //             (new Date().getTime() -
+          //               new Date(organization.createdAt).getTime()) /
+          //               (1000 * 3600 * 24)
+          //         );
+          //         if (daysLeft <= 0) {
+          //           subscriptionStatus = "free";
+          //         } else {
+          //           subscriptionStatus = "trial - therapist";
+          //         }
+          //       } else {
+          //         subscriptionStatus = "active";
+          //       }
+          //     }
+          //     else {
+          //       daysLeft = parseInt(
+          //         8 -
+          //           (new Date().getTime() -
+          //             new Date(userToLogin.createdAt).getTime()) /
+          //             (1000 * 3600 * 24)
+          //       );
+          //       if (daysLeft <= 0) {
+          //         subscriptionStatus = "free";
+          //       } else {
+          //         subscriptionStatus = "trial - therapist";
+          //       }
+          //     }
+          //   }
+          // }
 
           // IF //
           // Test Account (Free Bypass)
