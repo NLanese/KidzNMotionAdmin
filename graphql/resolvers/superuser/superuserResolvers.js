@@ -18,5 +18,5 @@ export default {
         ...getAllClients.Query,
         ...getAllTherapists.Query
     },
-    JSON: GraphQLJSON
+    JSON: GraphQLJSON 
 }

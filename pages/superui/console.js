@@ -213,12 +213,17 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
     arrayIDs.forEach( async id => {
       console.log("Deleting user ", id)
       console.log(process.env.SUPER_USER_SECRET_KEY)
-      await deleteUser({
-        variables: {
-          userId: id,
-          superUserKey: process.env.SUPER_USER_SECRET_KEY
-        }
-      })
+      try{
+        await deleteUser({
+          variables: {
+            userId: id,
+            superUserKey: process.env.SUPER_USER_SECRET_KEY
+          }
+        })
+      }
+      catch(err){
+        console.log(err)
+      }
     })
   }
 
