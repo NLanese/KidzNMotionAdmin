@@ -296,6 +296,10 @@ export default {
 
           // Return token and truncated user object
           try {
+            console.log("Returning... ", {
+              token: clientToken,
+              user: userToLogin,
+            })
             return {
               token: clientToken,
               user: userToLogin,

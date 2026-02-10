@@ -15,6 +15,7 @@ export default {
       role = role.replace(/[\r\n]/gm, "");
 
       // Check to ensure the user is logged in
+      console.log(context)
       if (!context.user) throw new UserInputError("Login required");
 
       // Check to make sure the user inviting, is they are the owner of the organization
