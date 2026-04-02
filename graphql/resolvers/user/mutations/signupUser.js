@@ -167,7 +167,7 @@ export default {
           });
 
           // If organization invite link - add them to the organization as an organization user
-          // TODO
+          
         }
         
         //                                    //
