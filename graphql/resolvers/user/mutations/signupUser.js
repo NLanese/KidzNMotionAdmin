@@ -5,6 +5,7 @@ var CryptoJS = require("crypto-js");
 import { makeRandomString, changeTimeZone } from "@helpers/common";
 
 const sgMail = require("@sendgrid/mail");
+var randomstring = require("randomstring");
 sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
 
 export default {
@@ -40,6 +41,8 @@ export default {
       let childUser;
 
       try {
+
+
 /* 
   CHECKS FOR CONFLICTS
 */
@@ -337,9 +340,9 @@ export default {
         }
 
 
-/* 
-  TOKEN RELATED FUNCTIONS
-*/
+      /* 
+        TOKEN RELATED FUNCTIONS
+      */
 
         // Creates Token
         const jwtTokenString = makeRandomString(60);
@@ -364,54 +367,204 @@ export default {
           process.env.JWT_SECRET_KEY
         ).toString();
 
+
+    //                             //
+    // FOR BETA TESTING THERAPISTS //
+    //                             //
+
+        if (role === "THERAPIST"  && title === "Beta Tester"){
+
+          // Create a Dummy Parent
+          let dummyParent = await prisma.user.create({
+            data: {
+              email: (randomstring.generate(8) + "@knm.net"),
+              password: randomstring.generate(12),
+              username: randomstring.generate(8),
+              role: "GUARDIAN",
+              title: "Test",
+              phoneNumber: "1234567890",
+              firstName: "DummyClient",
+              lastName: "DummyLastName",
+            },
+          });
+
+          // Create the child for the guardian account
+          let childUser = await prisma.user.create({
+            data: {
+              email: makeRandomString(60) + "@kidz-n-motion.com",
+              password: makeRandomString(60),
+              role: "CHILD",
+              firstName: childFirstName,
+              lastName: childLastName,
+              childDateOfBirth: childDateOfBirth,
+              guardian: {
+                connect: {
+                  id: dummyParent.id,
+                },
+              },
+            },
+          });
+
+          // Adds User to Org via Key //
+          let organizationInvite;
+          if (organizationInviteKey) {
+            organizationInvite = await prisma.organizationInviteKey.findMany({
+              where: {
+                id: organizationInviteKey,
+                active: true,
+              },
+              select: {
+                organizationId: true,
+                additionalInformation: true,
+              },
+            });
+          }
+
+        // Adds User to Org via Invite //
+        if (organizationInvite && organizationInvite[0]) {
+          await prisma.organizationUser.create({
+            data: {
+              active: true,
+              user: {
+                connect: {
+                  id: dummyParent.id,
+                },
+              },
+              organization: {
+                connect: {
+                  id: organizationInvite[0].organizationId,
+                },
+              },
+            },
+          });
+
+          // Create the organization user for the child as well //
+          if (childUser) {
+            await prisma.organizationUser.create({
+              data: {
+                active: true,
+                user: {
+                  connect: {
+                    id: childUser.id,
+                  },
+                },
+                organization: {
+                  connect: {
+                    id: organizationInvite[0].organizationId,
+                  },
+                },
+              },
+            });
+
+            // If there is a chidl user and the organization invite has additional information, then create:
+            //  - Child Care Plan
+            //  - Set Initial Therapist ID & Child Level
+
+            if (organizationInvite[0].additionalInformation.childTherapistID) {
+              await prisma.childCarePlan.create({
+                data: {
+                  child: {
+                    connect: {
+                      id: childUser.id,
+                    },
+                  },
+                  therapist: {
+                    connect: {
+                      id: organizationInvite[0].additionalInformation
+                        .childTherapistID,
+                    },
+                  },
+                  level: parseInt(
+                    organizationInvite[0].additionalInformation.childLevel
+                  ),
+                },
+              });
+            }
+
+            if (organizationInvite[0].additionalInformation.childTherapistID) {
+              await prisma.chatroom.create({
+                data: {
+                  users: {
+                    connect: [
+                      {
+                        id: childUser.id,
+                      },
+                      {
+                        id: organizationInvite[0].additionalInformation
+                          .childTherapistID,
+                      },
+                    ],
+                  },
+                },
+              });
+              await prisma.chatroom.create({
+                data: {
+                  users: {
+                    connect: [
+                      {
+                        id: baseUser.id,
+                      },
+                      {
+                        id: organizationInvite[0].additionalInformation
+                          .childTherapistID,
+                      },
+                    ],
+                  },
+                },
+              });
+            }
+          }
+        }
+      }
+
 /* 
   CREATES BASE USER AND MAKES MODEL CONNECTIONS
 */
 
-        const msg2 = {
-          to: email, // Change to your recipient
-          from: "noreply@em9019.kidz-n-motion.app", // Change to your verified sender
-          subject: "Your free trial is officially active!",
+        // const msg2 = {
+        //   to: email, // Change to your recipient
+        //   from: "noreply@em9019.kidz-n-motion.app", // Change to your verified sender
+        //   subject: "Your free trial is officially active!",
 
-          html: `
-              <div style="text-align: center">
-              <img src="https://kids-in-motion.vercel.app/logos/Main.png"  width="110px"/>
-              </div>
-                <br />
-                <p>Hi ${firstName},</p>
-                <br />
-                <p>Welcome to Kidz-N-Motion! Your 7-day trial is officially active. You have access to some of the features and functions of the app as well as the website. We are delighted that you chose to enhance your physical therapy services.</p>
-                <br />
-                <p>
-                  <b>Here’s what you need to know:</b>
-                </p>
-                <ol>
-                  <li>
-                  You will have 7 days to explore the features and functions of the app. You can cancel at anytime during the trial period.
-                  </li>
-                  <li>
-                  If you don’t cancel within 7 days your paid subscription will automatically start on your selected plan.
-                  </li>
-                  <li>
-                  You can access the website to learn more at: https://kidz-n-motion.app/
-                  </li>
-                </ol>
-                <br />
-                <p>Thank you, </p>
-                <p>Team Kidz-N-Motion</p>
+        //   html: `
+        //       <div style="text-align: center">
+        //       <img src="https://kids-in-motion.vercel.app/logos/Main.png"  width="110px"/>
+        //       </div>
+        //         <br />
+        //         <p>Hi ${firstName},</p>
+        //         <br />
+        //         <p>Welcome to Kidz-N-Motion! Your 7-day trial is officially active. You have access to some of the features and functions of the app as well as the website. We are delighted that you chose to enhance your physical therapy services.</p>
+        //         <br />
+        //         <p>
+        //           <b>Here’s what you need to know:</b>
+        //         </p>
+        //         <ol>
+        //           <li>
+        //           You will have 7 days to explore the features and functions of the app. You can cancel at anytime during the trial period.
+        //           </li>
+        //           <li>
+        //           If you don’t cancel within 7 days your paid subscription will automatically start on your selected plan.
+        //           </li>
+        //           <li>
+        //           You can access the website to learn more at: https://kidz-n-motion.app/
+        //           </li>
+        //         </ol>
+        //         <br />
+        //         <p>Thank you, </p>
+        //         <p>Team Kidz-N-Motion</p>
   
-            `,
-        };
+        //     `,
+        // };
 
-        if (role === "THERAPIST" || role === "ADMIN") {
-          await sgMail
-            .send(msg2)
-            .then(() => {
-            })
-            .catch((error) => {
-              console.error(error.response.body);
-            });
-        }
+        // if (role === "THERAPIST" || role === "ADMIN") {
+        //   await sgMail
+        //     .send(msg2)
+        //     .then(() => {
+        //     })
+        //     .catch((error) => {
+        //       console.error(error.response.body);
+        //     });
+        // }
 
         // Return the user object and jwt token for login
         return {

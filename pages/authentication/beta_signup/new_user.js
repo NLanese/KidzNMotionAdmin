@@ -3,7 +3,9 @@ import React, { useState, useEffect } from "react";
 
 // Mutations
 import { useMutation } from "@apollo/client";
-import { USER_SIGN_UP } from "@graphql/operations";
+import client from "@utils/apolloClient";
+import { USER_SIGN_UP, GET_USER } from "@graphql/operations";
+import { resolve } from "styled-jsx/css";
 
 
 function NewBetaUser() {
@@ -31,6 +33,8 @@ function NewBetaUser() {
     const [isAccountCreated, setIsAccountCreated] = useState(false)
     // RoleSelection
     const [roleSelected, setRoleSelected] = useState(false)
+    // New User
+    const [newUser, setNewUser] = useState(false)
 
   // Mutations \\
 
@@ -66,24 +70,43 @@ function NewBetaUser() {
                 password: testPassword,
                 firstName: name,
                 lastName: testLastName,
-                role: role,
-                phoneNumber: formValues.phoneNumber,
-                organizationInviteKey: formValues.organizationInviteKey,
+                role: roleSelected,
+                phoneNumber: "1234567890",
+                organizationInviteKey: therapistOrgInvite,
                 
                 // GUARDIAN
-                childFirstName: formValues.childFirstName,
-                childLastName: formValues.childLastName,
-                childDateOfBirth: formValues.childDateOfBirth,
+                childFirstName: testFirstName,
+                childLastName: testLastName,
+                childDateOfBirth: "01/01/2020",
                 
                 // ADMIN or THERAPIST
-                title: formValues.title,
-                organizationName: formValues.organizationName,
+                title: "Beta Tester",
                 },
+            }).then(async(resolved) => {
+                await handlePostCreation()
             })
         }
         catch(err){
             console.log(err)
         }
+    }
+
+    async function handlePostCreation(resolved){
+        // Set token into local stoate
+        console.log(resolved)
+        localStorage.setItem("token", resolved.data.signUpUser.token);
+
+        // Get the full user object and set that to state
+        await client
+        .query({
+            query: GET_USER,
+        })
+        .then(async (resolved) => {
+            console.log(resolved)
+        })
+        .catch((error) => {
+            message.error("Sorry, there was an error getting this information");
+        });
     }
 
 
@@ -171,7 +194,7 @@ function NewBetaUser() {
         }
         return(
             <div style={{display: 'flex', justifyContent: 'center', marginTop: 20}}>
-                <button >
+                <button onClick={() => createBetaUser()}>
                     Create Beta Account
                 </button>
             </div>

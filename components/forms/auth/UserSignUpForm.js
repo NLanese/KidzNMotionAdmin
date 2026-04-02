@@ -80,7 +80,7 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
           // Set the form spinner
           setRedirectLogin(true);
   
-          // // Set token into local stoate
+          // Set token into local stoate
           localStorage.setItem("token", resolved.data.signUpUser.token);
   
           // Get the full user object and set that to state
