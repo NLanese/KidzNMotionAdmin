@@ -16,8 +16,8 @@ function NewBetaUser() {
 
 
   // Constants \\
-  const testFirstName = "FirstName"
-  const testLastName = "LastName"
+  const testFirstName = "BetaTestFirstName"
+  const testLastName = "BetaTestLastName"
   const testPassword = randomstring.generate(7);
   const therapistOrgInvite = "a7c9cb52-a6ec-4d14-a5de-2da4c624e15d"
 
