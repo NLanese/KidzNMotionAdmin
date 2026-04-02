@@ -46,7 +46,7 @@ export default {
 /* 
   CHECKS FOR CONFLICTS
 */
-        if (context.user) throw new UserInputError("Already logged in");
+if (context.user) throw new UserInputError("Already logged in");
 
         // Check for conflicting user
         let potentialUsers = await prisma.user.findMany({
@@ -68,14 +68,14 @@ export default {
         if (conflict) {
           throw new UserInputError("Email already exists.");
         }
-       
+console.log("Conflicts Check Complete")
 
 /* 
   CHECKS FOR MISSING OR INCORRECT FIELDS
 */
-        if (role !== "GUARDIAN" && role !== "THERAPIST" && role !== "ADMIN") {
-          throw new UserInputError("Role does not exist.");
-        }
+  if (role !== "GUARDIAN" && role !== "THERAPIST" && role !== "ADMIN") {
+    throw new UserInputError("Role does not exist.");
+  }
 
         // Encrypt the user password
         const encryptedPassword = CryptoJS.AES.encrypt(
@@ -115,6 +115,8 @@ export default {
           }
         }
 
+console.log("Role Check Complete")
+
 /* 
   CREATES BASE USER AND MAKES MODEL CONNECTIONS
 */
@@ -134,6 +136,8 @@ export default {
             lastName: lastName,
           },
         });
+
+console.log("Base User Creation Complete")
 
         //                             //
         // GUARDIAN Connections to ORG //
@@ -168,8 +172,6 @@ export default {
               },
             },
           });
-
-          // If organization invite link - add them to the organization as an organization user
           
         }
         
@@ -234,21 +236,26 @@ export default {
         // Adds User to Org via Invite //
         //                             //
         if (organizationInvite && organizationInvite[0]) {
-          await prisma.organizationUser.create({
-            data: {
-              active: true,
-              user: {
-                connect: {
-                  id: baseUser.id,
+          try{
+             await prisma.organizationUser.create({
+              data: {
+                active: true,
+                user: {
+                  connect: {
+                    id: baseUser.id,
+                  },
+                },
+                organization: {
+                  connect: {
+                    id: organizationInvite[0].organizationId,
+                  },
                 },
               },
-              organization: {
-                connect: {
-                  id: organizationInvite[0].organizationId,
-                },
-              },
-            },
-          });
+            });
+          }
+          catch(err){
+            throw new UserInputError("Failed while connecting to Org via KEY")
+          }
 
           //                                                    //
           // Create the organization user for the child as well //
@@ -372,62 +379,88 @@ export default {
     // FOR BETA TESTING THERAPISTS //
     //                             //
 
-        if (role === "THERAPIST"  && title === "Beta Tester"){
+      if (role === "THERAPIST"  && title === "Beta Tester"){
 
-          // Create a Dummy Parent
-          let dummyParent = await prisma.user.create({
-            data: {
-              email: (randomstring.generate(8) + "@knm.net"),
-              password: randomstring.generate(12),
-              username: randomstring.generate(8),
-              role: "GUARDIAN",
-              title: "Test",
-              phoneNumber: "1234567890",
-              firstName: "DummyClient",
-              lastName: "DummyLastName",
-            },
-          });
-
-          // Create the child for the guardian account
-          let childUser = await prisma.user.create({
-            data: {
-              email: makeRandomString(60) + "@kidz-n-motion.com",
-              password: makeRandomString(60),
-              role: "CHILD",
-              firstName: childFirstName,
-              lastName: childLastName,
-              childDateOfBirth: childDateOfBirth,
-              guardian: {
-                connect: {
-                  id: dummyParent.id,
-                },
-              },
-            },
-          });
-
-          // Adds User to Org via Key //
-          let organizationInvite;
-          if (organizationInviteKey) {
-            organizationInvite = await prisma.organizationInviteKey.findMany({
-              where: {
-                id: organizationInviteKey,
-                active: true,
-              },
-              select: {
-                organizationId: true,
-                additionalInformation: true,
+        // Creates Dummy Parent and Child
+        let dummyParent
+        let childUser
+        try{
+            // Create a Dummy Parent
+            dummyParent = await prisma.user.create({
+              data: {
+                email: (randomstring.generate(8) + "@knm.net"),
+                password: randomstring.generate(12),
+                username: randomstring.generate(8),
+                role: "GUARDIAN",
+                title: "Test",
+                phoneNumber: "1234567890",
+                firstName: "DummyClient",
+                lastName: "DummyLastName",
               },
             });
-          }
 
-        // Adds User to Org via Invite //
-        if (organizationInvite && organizationInvite[0]) {
+            // Create the child for the guardian account
+            childUser = await prisma.user.create({
+              data: {
+                email: makeRandomString(60) + "@kidz-n-motion.com",
+                password: makeRandomString(60),
+                role: "CHILD",
+                firstName: childFirstName,
+                lastName: childLastName,
+                childDateOfBirth: childDateOfBirth,
+                guardian: {
+                  connect: {
+                    id: dummyParent.id,
+                  },
+                },
+              },
+            });
+        }
+        catch(err){
+          throw new UserInputError("Failed Creating Child and Parent")
+        }
+
+        // Adds User to Org via Key //
+        let organizationInvite;
+        if (organizationInviteKey) {
+          organizationInvite = await prisma.organizationInviteKey.findMany({
+            where: {
+              id: organizationInviteKey,
+              active: true,
+            },
+            select: {
+              organizationId: true,
+              additionalInformation: true,
+            },
+          });
+        }
+
+      // Adds User to Org via Invite //
+      if (organizationInvite && organizationInvite[0]) {
+        await prisma.organizationUser.create({
+          data: {
+            active: true,
+            user: {
+              connect: {
+                id: dummyParent.id,
+              },
+            },
+            organization: {
+              connect: {
+                id: organizationInvite[0].organizationId,
+              },
+            },
+          },
+        });
+
+        // Create the organization user for the child as well //
+        if (childUser) {
           await prisma.organizationUser.create({
             data: {
               active: true,
               user: {
                 connect: {
-                  id: dummyParent.id,
+                  id: childUser.id,
                 },
               },
               organization: {
@@ -438,85 +471,67 @@ export default {
             },
           });
 
-          // Create the organization user for the child as well //
-          if (childUser) {
-            await prisma.organizationUser.create({
+          // If there is a chidl user and the organization invite has additional information, then create:
+          //  - Child Care Plan
+          //  - Set Initial Therapist ID & Child Level
+
+          if (organizationInvite[0].additionalInformation.childTherapistID) {
+            await prisma.childCarePlan.create({
               data: {
-                active: true,
-                user: {
+                child: {
                   connect: {
                     id: childUser.id,
                   },
                 },
-                organization: {
+                therapist: {
                   connect: {
-                    id: organizationInvite[0].organizationId,
+                    id: organizationInvite[0].additionalInformation
+                      .childTherapistID,
                   },
                 },
+                level: parseInt(
+                  organizationInvite[0].additionalInformation.childLevel
+                ),
               },
             });
+          }
 
-            // If there is a chidl user and the organization invite has additional information, then create:
-            //  - Child Care Plan
-            //  - Set Initial Therapist ID & Child Level
-
-            if (organizationInvite[0].additionalInformation.childTherapistID) {
-              await prisma.childCarePlan.create({
-                data: {
-                  child: {
-                    connect: {
+          if (organizationInvite[0].additionalInformation.childTherapistID) {
+            await prisma.chatroom.create({
+              data: {
+                users: {
+                  connect: [
+                    {
                       id: childUser.id,
                     },
-                  },
-                  therapist: {
-                    connect: {
+                    {
                       id: organizationInvite[0].additionalInformation
                         .childTherapistID,
                     },
-                  },
-                  level: parseInt(
-                    organizationInvite[0].additionalInformation.childLevel
-                  ),
+                  ],
                 },
-              });
-            }
-
-            if (organizationInvite[0].additionalInformation.childTherapistID) {
-              await prisma.chatroom.create({
-                data: {
-                  users: {
-                    connect: [
-                      {
-                        id: childUser.id,
-                      },
-                      {
-                        id: organizationInvite[0].additionalInformation
-                          .childTherapistID,
-                      },
-                    ],
-                  },
+              },
+            });
+            await prisma.chatroom.create({
+              data: {
+                users: {
+                  connect: [
+                    {
+                      id: baseUser.id,
+                    },
+                    {
+                      id: organizationInvite[0].additionalInformation
+                        .childTherapistID,
+                    },
+                  ],
                 },
-              });
-              await prisma.chatroom.create({
-                data: {
-                  users: {
-                    connect: [
-                      {
-                        id: baseUser.id,
-                      },
-                      {
-                        id: organizationInvite[0].additionalInformation
-                          .childTherapistID,
-                      },
-                    ],
-                  },
-                },
-              });
-            }
+              },
+            });
           }
         }
       }
-
+      }
+          
 /* 
   CREATES BASE USER AND MAKES MODEL CONNECTIONS
 */
