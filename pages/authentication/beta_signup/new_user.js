@@ -120,9 +120,8 @@ function NewBetaUser() {
             <div style={{marginTop: '-3%'}}>
                 <h1>Welcome, Beta Testers!</h1>
                 <p>
-                    Please enter your email in the bow below, and then select whether your
-                    test account will be a THERAPIST account or a CLIENT account with a CHILD and
-                    a GUARDIAN. 
+                    Please enter your email in the box below, and then select the role you will be testing.
+                    This will either me a Therapist or a Client Account
                 </p>
             </div>
         )
