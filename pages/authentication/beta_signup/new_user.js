@@ -73,10 +73,10 @@ function NewBetaUser() {
         if (isEmailValid){
             return(
             <div style={{display: 'flex', flexDirection: 'row'}}>
-                <button style={cardStyle}>
+                <button style={cardStyle} onClick={() => setRoleSelected("Client")}>
                     Client Account
                 </button>
-                <button style={cardStyle}>
+                <button style={cardStyle} onClick={() => setRoleSelected("Therapist")}>
                     Therapist Account
                 </button>
             </div>
