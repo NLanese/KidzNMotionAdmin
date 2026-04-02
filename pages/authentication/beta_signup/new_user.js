@@ -83,7 +83,7 @@ function NewBetaUser() {
                 title: "Beta Tester",
                 },
             }).then(async(resolved) => {
-                await handlePostCreation()
+                await handlePostCreation(resolved)
             })
         }
         catch(err){
@@ -93,7 +93,6 @@ function NewBetaUser() {
 
     async function handlePostCreation(resolved){
         // Set token into local stoate
-        console.log(resolved)
         localStorage.setItem("token", resolved.data.signUpUser.token);
 
         // Get the full user object and set that to state
@@ -102,7 +101,8 @@ function NewBetaUser() {
             query: GET_USER,
         })
         .then(async (resolved) => {
-            console.log(resolved)
+            console.log(resolved.data.getUser)
+            setNewUser(resolved.data.getUser)
         })
         .catch((error) => {
             message.error("Sorry, there was an error getting this information");
@@ -201,10 +201,15 @@ function NewBetaUser() {
         ) 
     }
 
-    function renderAccountCreated(){
+    function renderAccountCreated(newUser){
+        if (!newUser){
+            return
+        }
         return(
-            <div style={{backgroundColor: 'white', padding: 20, borderRadius: 20, marginLeft: '10%', marginTop: 30, width: '80%'}}>
-
+            <div style={{backgroundColor: 'white', padding: 10, marginTop: 50, borderRadius: 20, marginLeft: '10%', width: '80%', height: 200}}>
+                <h1>New Account Created!</h1>
+                <p>Your Login Username: {email}</p>
+                <p>Your Login Password: {testPassword}</p>
             </div>
         )
     }
@@ -220,6 +225,7 @@ function NewBetaUser() {
                 {renderAccountTypes()}
                 {renderCreateBetaAccount()}
             </div>
+            {renderAccountCreated(newUser)}
         </div>
     )
 }

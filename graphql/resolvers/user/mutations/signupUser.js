@@ -235,6 +235,7 @@ console.log("Base User Creation Complete")
         //                             //
         // Adds User to Org via Invite //
         //                             //
+        console.log("Adding to Org")
         if (organizationInvite && organizationInvite[0]) {
           try{
              await prisma.organizationUser.create({
@@ -254,6 +255,7 @@ console.log("Base User Creation Complete")
             });
           }
           catch(err){
+            console.log("Failed at Org")
             throw new UserInputError("Failed while connecting to Org via KEY")
           }
 
@@ -350,6 +352,8 @@ console.log("Base User Creation Complete")
       /* 
         TOKEN RELATED FUNCTIONS
       */
+
+        console.log("Creating Tokens")
 
         // Creates Token
         const jwtTokenString = makeRandomString(60);
@@ -582,6 +586,8 @@ console.log("Base User Creation Complete")
         // }
 
         // Return the user object and jwt token for login
+        console.log("Safely Returning Value")
+        console.log(baseUser)
         return {
           user: baseUser,
           token: clientToken,
