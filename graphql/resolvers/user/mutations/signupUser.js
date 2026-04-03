@@ -350,6 +350,46 @@ console.log("Base User Creation Complete")
           });
         }
 
+        // Beta Testers
+        else{
+          if (title === "Beta Tester"){
+            if (role === "THERAPIST" || role == "ADMIN") {
+
+              // Creates Base Org
+              let baseOrganization = await prisma.organization.create({
+              data: {
+                organizationType: role === "THERAPIST" ? "PRACTICE" : "SCHOOL",
+                owner: {
+                  connect: {
+                    id: baseUser.id,
+                  },
+                },
+                name: organizationName,
+                phoneNumber: phoneNumber,
+              },
+              });
+
+
+              // Add them as the initial organization user
+              await prisma.organizationUser.create({
+                data: {
+                  active: true,
+                  user: {
+                    connect: {
+                      id: baseUser.id,
+                    },
+                  },
+                  organization: {
+                    connect: {
+                      id: baseOrganization.id,
+                    },
+                  },
+                },
+              });
+            }
+          }
+        }
+
 
       /* 
         TOKEN RELATED FUNCTIONS
