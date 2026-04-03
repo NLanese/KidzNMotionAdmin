@@ -68,11 +68,14 @@ const resolvers = {
 
       // Determine subscription status based on user role
       if (userObject.ownedOrganization) {
-        subscriptionStatus = getSubscriptionStatusForOwner(userObject);
+        subscriptionStatus = "Active"
+        // getSubscriptionStatusForOwner(userObject);
       } else if (userObject.role === "GUARDIAN") {
-        subscriptionStatus = getSubscriptionStatusForGuardian(userObject);
+        subscriptionStatus = "Active"
+        // getSubscriptionStatusForGuardian(userObject);
       } else {
-        subscriptionStatus = getSubscriptionStatusForTherapist(userObject);
+        subscriptionStatus = "Active"
+        // getSubscriptionStatusForTherapist(userObject);
       }
 
       // Assign subscription status to the user object
