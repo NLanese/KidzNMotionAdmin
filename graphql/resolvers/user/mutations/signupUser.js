@@ -135,7 +135,6 @@ console.log("Role Check Complete")
             firstName: firstName,
             lastName: lastName,
             soloSubscriptionStatus: "Active",
-            subscriptionStatus: "Active"
           },
         });
 
