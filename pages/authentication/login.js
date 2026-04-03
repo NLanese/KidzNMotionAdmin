@@ -27,14 +27,14 @@ function Login() {
         <Text type="secondary">
           Don't have a Kidz-N-Motion account?{" "}
           <BasicLink href="/authentication/get-started">
-            <span style={{ textDecoration: "underline" }}>Get Started</span>
+            <span style={{ textDecoration: "underline"}}>Get Started</span>
           </BasicLink>
         </Text>
         <Divider style={{ margin: "15px" }} />
-        <Text type="secondary">
-          Want to sign up as a Beta Tester{" "}
+        <Text type="primary">
+          <p style={{fontWeight: 600, margin: 0}}>Want to sign up as a Beta Tester?{" "}</p>
           <BasicLink href="/authentication/beta_signup/new_user">
-            <span style={{ textDecoration: "underline" }}>Begin Testing Here</span>
+            <span style={{ textDecoration: "underline", color: 'grey'}}>Begin Testing Here</span>
           </BasicLink>
         </Text>
       </>
