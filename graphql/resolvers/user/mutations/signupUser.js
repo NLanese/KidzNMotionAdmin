@@ -134,6 +134,8 @@ console.log("Role Check Complete")
             phoneNumber: phoneNumber,
             firstName: firstName,
             lastName: lastName,
+            soloSubscriptionStatus: "Active",
+            subscriptionStatus: "Active"
           },
         });
 
@@ -219,6 +221,7 @@ console.log("Base User Creation Complete")
         // Adds User to Org via Key //
         //                          //
         let organizationInvite;
+        console.log("Finding org key")
         if (organizationInviteKey) {
           organizationInvite = await prisma.organizationInviteKey.findMany({
             where: {
@@ -235,7 +238,7 @@ console.log("Base User Creation Complete")
         //                             //
         // Adds User to Org via Invite //
         //                             //
-        console.log("Adding to Org")
+        console.log("Adding to Org from ", organizationInvite)
         if (organizationInvite && organizationInvite[0]) {
           try{
              await prisma.organizationUser.create({
