@@ -30,6 +30,13 @@ function Login() {
             <span style={{ textDecoration: "underline" }}>Get Started</span>
           </BasicLink>
         </Text>
+        <Divider style={{ margin: "15px" }} />
+        <Text type="secondary">
+          Want to sign up as a Beta Tester{" "}
+          <BasicLink href="/authentication/beta_signup/new_user">
+            <span style={{ textDecoration: "underline" }}>Begin Testing Here</span>
+          </BasicLink>
+        </Text>
       </>
     </AuthCard>
   );
