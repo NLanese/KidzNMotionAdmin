@@ -1,11 +1,13 @@
-/* eslint-disable import/no-anonymous-default-export */
-import prisma from "@utils/prismaDB";
-import { UserInputError } from "apollo-server-errors";
-var CryptoJS = require("crypto-js");
+import prisma from "@utils/prismaDB"
 import { makeRandomString, changeTimeZone } from "@helpers/common";
+import { UserInputError } from "apollo-server-errors";
+import IsConflictingEmails from "../../../prisma_functions/user/checkForConflictingEmails";
+import findMissingGuardianFields from "../../../prisma_functions/user/checkMissingGuardianFields";
 
-const sgMail = require("@sendgrid/mail");
+var CryptoJS = require("crypto-js");
+var sgMail = require("@sendgrid/mail");
 var randomstring = require("randomstring");
+
 sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
 
 export default {
@@ -42,61 +44,34 @@ export default {
 
       try {
 
+  //////////////////////////
+  // CHECKS FOR CONFLICTS //
+  if (context.user) throw new UserInputError("Already logged in");
+  if (IsConflictingEmails(email)) {
+    throw new UserInputError("Email already exists.");
+  }
+  console.log("Conflicts Check Complete")
 
-/* 
-  CHECKS FOR CONFLICTS
-*/
-if (context.user) throw new UserInputError("Already logged in");
+  ////////////////////////////////////////////
+  // CHECKS FOR MISSING OR INCORRECT FIELDS //
 
-        // Check for conflicting user
-        let potentialUsers = await prisma.user.findMany({
-          where: {
-            email: email,
-          },
-          select: {
-            email: true,
-          },
-        });
-
-        let conflict = null;
-        potentialUsers.map((userObject) => {
-          if (userObject.email.toLowerCase() === email.toLowerCase()) {
-            conflict = userObject;
-          }
-        });
-
-        if (conflict) {
-          throw new UserInputError("Email already exists.");
-        }
-console.log("Conflicts Check Complete")
-
-/* 
-  CHECKS FOR MISSING OR INCORRECT FIELDS
-*/
+  // Checks User Role
   if (role !== "GUARDIAN" && role !== "THERAPIST" && role !== "ADMIN") {
     throw new UserInputError("Role does not exist.");
   }
 
-        // Encrypt the user password
-        const encryptedPassword = CryptoJS.AES.encrypt(
-          password,
-          process.env.PASSWORD_SECRET_KEY
-        ).toString();
+  // Encrypt the user password
+  const encryptedPassword = CryptoJS.AES.encrypt(
+    password,
+    process.env.PASSWORD_SECRET_KEY
+  ).toString();
 
         // Validate required fields for each user role
         let missingFields = "";
 
          // Guardian Check
         if (role === "GUARDIAN") {
-          if (!childFirstName) {
-            missingFields += "childFirstName, ";
-          }
-          if (!childLastName) {
-            missingFields += "childLastName, ";
-          }
-          if (!childDateOfBirth) {
-            missingFields += "childDateOfBirth, ";
-          }
+          missingFields = findMissingGuardianFields(childFirstName, childLastName, childDateOfBirth)
           if (missingFields.length >= 1) {
             throw new UserInputError(
               `Missing required fields for Guardian: ${missingFields}`
