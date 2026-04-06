@@ -16,104 +16,85 @@ export default {
       _,
       {
         // Required
-        email,
-        password,
-        firstName,
-        lastName,
-        role,
+        email, password, firstName, lastName, role,
 
         // Guardian required
-        childFirstName,
-        childLastName,
-        childDateOfBirth,
-        username,
-
+        username, childFirstName, childLastName, childDateOfBirth,
+        
         // School Admin / Therapist Practice required
-        organizationName,
-        phoneNumber,
-        title,
+        organizationName, phoneNumber, title,
 
         // Organization Invite Key
         organizationInviteKey,
       },
+
       context
     ) => {
 
       // Define a base child user to user later in create organizatino user
       let childUser;
 
-      try {
+try {
 
   //////////////////////////
   // CHECKS FOR CONFLICTS //
-  if (context.user) throw new UserInputError("Already logged in");
-  if (IsConflictingEmails(email)) {
-    throw new UserInputError("Email already exists.");
-  }
-  console.log("Conflicts Check Complete")
+
+    if (context.user) throw new UserInputError("Already logged in");
+    if (IsConflictingEmails(email)) {
+      throw new UserInputError("Email already exists.");
+    }
+    console.log("Conflicts Check Complete")
 
   ////////////////////////////////////////////
   // CHECKS FOR MISSING OR INCORRECT FIELDS //
 
-  // Checks User Role
-  if (role !== "GUARDIAN" && role !== "THERAPIST" && role !== "ADMIN") {
-    throw new UserInputError("Role does not exist.");
-  }
+    // Checks User Role
+    if (role !== "GUARDIAN" && role !== "THERAPIST" && role !== "ADMIN") {
+      throw new UserInputError("Role does not exist.");
+    }
 
-  // Encrypt the user password
-  const encryptedPassword = CryptoJS.AES.encrypt(
-    password,
-    process.env.PASSWORD_SECRET_KEY
-  ).toString();
+    // Encrypt the user password
+    const encryptedPassword = CryptoJS.AES.encrypt(
+      password,
+      process.env.PASSWORD_SECRET_KEY
+    ).toString();
 
-        // Validate required fields for each user role
-        let missingFields = "";
+    // Validate required fields for each user role
+    let missingFields = "";
 
-         // Guardian Check
-        if (role === "GUARDIAN") {
-          missingFields = findMissingGuardianFields(childFirstName, childLastName, childDateOfBirth)
-          if (missingFields.length >= 1) {
-            throw new UserInputError(
-              `Missing required fields for Guardian: ${missingFields}`
-            );
-          }
-        } 
-         // Therapist Check
-        else if (role === "THERAPIST") {
-          if (!title) {
-            missingFields += "title, ";
-          }
-          if (missingFields.length >= 1) {
-            throw new UserInputError(
-              `Missing required fields for Therapist: ${missingFields}`
-            );
-          }
-        }
+    // Guardian Check
+    if (role === "GUARDIAN") {
+      missingFields = findMissingGuardianFields(childFirstName, childLastName, childDateOfBirth)
+      if (missingFields.length >= 1) {
+        throw new UserInputError(
+          `Missing required fields for Guardian: ${missingFields}`
+        );
+      }
+    } 
 
-console.log("Role Check Complete")
+    console.log("Role Check Complete")
 
-/* 
-  CREATES BASE USER AND MAKES MODEL CONNECTIONS
-*/
+///////////////////////////////////////////////////
+// CREATES BASE USER AND MAKES MODEL CONNECTIONS //
 
-        const allVideos = await prisma.video.findMany;
+  const allVideos = await prisma.video.findMany;
 
-        // Create the base user
-        let baseUser = await prisma.user.create({
-          data: {
-            email: email,
-            password: encryptedPassword,
-            username: username,
-            role: role,
-            title: title,
-            phoneNumber: phoneNumber,
-            firstName: firstName,
-            lastName: lastName,
-            soloSubscriptionStatus: "Active",
-          },
-        });
+  // Create the base user
+  let baseUser = await prisma.user.create({
+    data: {
+      email: email,
+      password: encryptedPassword,
+      username: username,
+      role: role,
+      title: title,
+      phoneNumber: phoneNumber,
+      firstName: firstName,
+      lastName: lastName,
+      soloSubscriptionStatus: "Active",
+    },
+  });
 
-console.log("Base User Creation Complete")
+  console.log("Base User Creation Complete")
 
         //                             //
         // GUARDIAN Connections to ORG //
