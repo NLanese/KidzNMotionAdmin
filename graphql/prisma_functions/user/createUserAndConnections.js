@@ -8,7 +8,7 @@ const allVideos = await prisma.video.findMany;
 export default async function createUserAndConnections(
     email, encryptedPassword, username,
     role, title, phoneNumber, firstName, lastName,
-    organizationInviteKey
+    orgId, organizationInviteKey
 ){
     var guardianUser;
     var childUser;
@@ -23,7 +23,7 @@ export default async function createUserAndConnections(
         guardianUser = responseFromCreation.guardian
         childUser = responseFromCreation.child
 
-        if (organizationInviteKey){
+        if (orgId && !organizationInviteKey){
             addUserToOrgByIds(organizationInviteKey, guardianUser.id)
             addUserToOrgByIds(organizationInviteKey, childUser.id)
         }
