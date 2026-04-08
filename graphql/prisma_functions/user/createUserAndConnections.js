@@ -21,5 +21,8 @@ export default async function createUserAndConnections(
             guardianUser = responseFromCreation.guardian
             childUser = responseFromCreation.childUser
         }
+        else{
+            
+        }
     }
 }

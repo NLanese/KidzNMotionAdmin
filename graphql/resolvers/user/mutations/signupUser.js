@@ -77,7 +77,6 @@ try {
 ///////////////////////////////////////////////////
 // CREATES BASE USER AND MAKES MODEL CONNECTIONS //
 
-  const allVideos = await prisma.video.findMany;
 
   // Create the base user
   let baseUser = await prisma.user.create({
