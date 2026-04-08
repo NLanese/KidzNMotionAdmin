@@ -1,5 +1,7 @@
 import prisma from "@utils/prismaDB"
 import createParentAndChild from "./createParentAndChild";
+import findOrgByIdOrCode from "../organizations/findOrgByCode";
+import addUserToOrgByIds from "../organizations/addUserToOrgByIds";
 
 const allVideos = await prisma.video.findMany;
 
@@ -12,17 +14,17 @@ export default async function createUserAndConnections(
     var childUser;
 
     if (role === "GUARDIAN"){
-        if (!organizationInviteKey){
-            var responseFromCreation = await createParentAndChild(
-                email, encryptedPassword, username,
-                role, title, phoneNumber, firstName, lastName,
-                organizationInviteKey, true
-            )
-            guardianUser = responseFromCreation.guardian
-            childUser = responseFromCreation.childUser
-        }
-        else{
-            
+        var responseFromCreation = await createParentAndChild(
+            email, encryptedPassword, username,
+            role, title, phoneNumber, firstName, lastName,
+            (organizationInviteKey ? true : false)
+        )
+        
+        guardianUser = responseFromCreation.guardian
+        childUser = responseFromCreation.child
+
+        if (organizationInviteKey){
+            addUserToOrgByIds(organizationInviteKey, guardianUser.id)
         }
     }
 }

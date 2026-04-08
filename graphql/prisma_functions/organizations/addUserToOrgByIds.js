@@ -1,21 +1,20 @@
 import prisma from "@utils/prismaDB"
 
 export default async function addUserToOrgByIds(orgId, userId){
-    return await prisma.organization.findUnique({
-        where: {
-            id: code
-        },
-        select: {
-            id: true,
-            name: true,
-            active: true,
-            owner: {
-                select: {
-                    email: true,
-                    firstName: true,
-                    lastName: true
-                }
-            }
+
+    return await prisma.organizationUser.create({
+        data: {
+          active: true,
+          user: {
+            connect: {
+              id: userId,
+            },
+          },
+          organization: {
+            connect: {
+              id: orgId,
+            },
+          },
         }
     })
 }
