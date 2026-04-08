@@ -25,6 +25,7 @@ export default async function createUserAndConnections(
 
         if (organizationInviteKey){
             addUserToOrgByIds(organizationInviteKey, guardianUser.id)
+            addUserToOrgByIds(organizationInviteKey, childUser.id)
         }
     }
 }
