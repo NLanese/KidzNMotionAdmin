@@ -195,7 +195,7 @@ try {
         console.log("Adding to Org from ", organizationInvite)
         if (organizationInvite && organizationInvite[0]) {
           try{
-             await prisma.organizationUser.create({
+            await prisma.organizationUser.create({
               data: {
                 active: true,
                 user: {
