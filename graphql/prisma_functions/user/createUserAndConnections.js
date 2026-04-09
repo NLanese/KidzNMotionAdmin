@@ -1,4 +1,5 @@
-import prisma from "@utils/prismaDB"
+import { UserInputError } from "apollo-server-errors";
+
 import createParentAndChild from "./createParentAndChild";
 import addUserToOrgByIds from "../organizations/addUserToOrgByIds";
 import addUserWithTherapistToOrgByInvite from "../organizations/addUserWithTherapistToOrgByInvite";
