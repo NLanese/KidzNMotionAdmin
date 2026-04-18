@@ -1,6 +1,8 @@
 import prisma from "@utils/prismaDB"
+import findUsersByEmail from "./findManyByEmail"
 
 export default async function IsConflictingEmails(email){
+
     // Check for conflicting user
     let potentialUsers = await findUsersByEmail(email)
 
