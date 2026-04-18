@@ -5,13 +5,19 @@ export default async function IsConflictingEmails(email){
 
     // Check for conflicting user
     let potentialUsers = await findUsersByEmail(email)
+    let conflict = false
     console.log("Conflicts? ", potentialUsers)
 
-    let conflict = false;
     potentialUsers.map((userObject) => {
         if (userObject.email.toLowerCase() === email.toLowerCase()) {
             conflict = userObject;
         }
     });
-    return (conflict && conflict.length > 0) ? true : false
+    if (conflict && conflict.length > 0){
+        console.log("Conflict")
+        return true
+    }
+    else 
+        console.log("No conflict")
+        return false
 }

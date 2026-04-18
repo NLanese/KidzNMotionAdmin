@@ -90,7 +90,7 @@ function NewBetaUser() {
             })
         }
         catch(err){
-            setError(err)
+            setError(err.toString())
             console.log(err)
         }
     }

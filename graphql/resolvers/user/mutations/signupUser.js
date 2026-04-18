@@ -40,7 +40,7 @@ try {
   // CHECKS FOR CONFLICTS //
 
     if (context.user) throw new UserInputError("Already logged in");
-    if (IsConflictingEmails(email)) {
+    if (IsConflictingEmails(email) === true) {
       throw new UserInputError("Email already exists.");
     }
     console.log("Conflicts Check Complete")
