@@ -192,9 +192,6 @@ function NewBetaUser() {
     }
 
     function renderCreateBetaAccount(){
-        if (!roleSelected){
-            return renderError()
-        }
         return(
             <div style={{display: 'flex', justifyContent: 'center', marginTop: 20}}>
                 <button onClick={() => createBetaUser()}>
@@ -216,7 +213,7 @@ function NewBetaUser() {
 
     function renderAccountCreated(newUser){
         if (!newUser){
-            return
+            return renderError()
         }
         return(
             <div style={{backgroundColor: 'white', padding: 10, marginTop: 50, borderRadius: 20, marginLeft: '10%', width: '80%', height: 200}}>
