@@ -36,6 +36,9 @@ function NewBetaUser() {
     // New User
     const [newUser, setNewUser] = useState(false)
 
+    // Errors
+    const [error, setError] = useState(false)
+
   // Mutations \\
 
     const [signUpUser, {}] = useMutation(USER_SIGN_UP);
@@ -87,6 +90,7 @@ function NewBetaUser() {
             })
         }
         catch(err){
+            setError(err)
             console.log(err)
         }
     }
@@ -189,7 +193,7 @@ function NewBetaUser() {
 
     function renderCreateBetaAccount(){
         if (!roleSelected){
-            return
+            return renderError()
         }
         return(
             <div style={{display: 'flex', justifyContent: 'center', marginTop: 20}}>
@@ -198,6 +202,16 @@ function NewBetaUser() {
                 </button>
             </div>
         ) 
+    }
+
+    function renderError(){
+        if (error){
+            return(
+            <div style={{display: 'flex', justifyContent: 'center', marginTop: 20, color: 'red'}}>
+                {error}
+            </div>
+        ) 
+        }
     }
 
     function renderAccountCreated(newUser){
