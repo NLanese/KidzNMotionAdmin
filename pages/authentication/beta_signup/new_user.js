@@ -35,6 +35,8 @@ function NewBetaUser() {
     const [roleSelected, setRoleSelected] = useState(false)
     // New User
     const [newUser, setNewUser] = useState(false)
+    // Is Loading
+    const [loading, setLoading] = useState(false)
 
     // Errors
     const [error, setError] = useState(false)
@@ -66,6 +68,7 @@ function NewBetaUser() {
     ///////////////
 
     async function createBetaUser(){
+        setLoading(true)
         try{
             await signUpUser({
                 variables: {
@@ -107,6 +110,7 @@ function NewBetaUser() {
         .then(async (resolved) => {
             console.log(resolved.data.getUser)
             setNewUser(resolved.data.getUser)
+            setLoading(false)
         })
         .catch((error) => {
             message.error("Sorry, there was an error getting this information");
@@ -192,13 +196,29 @@ function NewBetaUser() {
     }
 
     function renderCreateBetaAccount(){
-        return(
-            <div style={{display: 'flex', justifyContent: 'center', marginTop: 20}}>
-                <button onClick={() => createBetaUser()}>
-                    Create Beta Account
-                </button>
-            </div>
-        ) 
+        if (loading){
+            return(
+                <div style={{display: 'flex', justifyContent: 'center', marginTop: 20}}>
+                    Loading, Please Wait!
+                </div>
+            )
+        }
+        else if (newUser){
+            return(
+                <div style={{display: 'flex', justifyContent: 'center', marginTop: 20}}>
+                    Account Created
+                </div>
+            )
+        }
+        else if (isEmailValid && roleSelected){
+            return(
+                <div style={{display: 'flex', justifyContent: 'center', marginTop: 20}}>
+                    <button onClick={() => createBetaUser()}>
+                        Create Beta Account
+                    </button>
+                </div>
+            ) 
+        }
     }
 
     function renderError(){
