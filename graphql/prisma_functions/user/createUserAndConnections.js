@@ -10,6 +10,7 @@ export default async function createUserAndConnections(
     role, title, phoneNumber, firstName, lastName,
     orgId, organizationInviteKey
 ){
+    var signUpMessage = "Thank you for Signing up to Kidz-n-Motion!" 
     var guardianUser;
     var childUser;
 
@@ -31,4 +32,6 @@ export default async function createUserAndConnections(
             addUserWithTherapistToOrgByInvite(organizationInviteKey, guardianUser.id, childUser.id)
         }
     }
+
+
 }
