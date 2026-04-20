@@ -1,7 +1,6 @@
 import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
-const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+import sendEmail from "../../../prisma_functions/sendGrid/sendEmail";
 
 export default {
   Mutation: {
@@ -49,13 +48,10 @@ export default {
         },
       });
 
-      const msg = {
-        to: userResetingPassword.email, // Change to your recipient
-        from: "noreply@em9019.kidz-n-motion.app", // Change to your verified sender
-        subject: "Kidz-N-Motion Password Reset",
-
-        html: `
-            <p>Please click the link below to reset your password</p>
+      sendEmail(
+        true,
+        null,
+        `<p>Please click the link below to reset your password</p>
             <br />
             <a href=${
               "https://dashboard.kidz-n-motion.app/authentication/reset-password-from-key?key=" +
@@ -67,14 +63,9 @@ export default {
             <br />
             <strong>If you did not request this password reset, you can ignore this message</strong>
         `,
-      };
-      await sgMail
-        .send(msg)
-        .then(() => {
-        })
-        .catch((error) => {
-          console.error(error.response.body);
-        });
+        userResetingPassword.email,
+        "Kidz-N-Motion Password Reset"
+      )
 
       return true;
     },

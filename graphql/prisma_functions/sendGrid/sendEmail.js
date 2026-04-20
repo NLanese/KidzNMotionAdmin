@@ -1,22 +1,35 @@
 import sgMail from '@sendgrid/mail';
+sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+
 
 export default async function sendEmail(
+    usesHTML = false,
     message,
+    html,
     recipient, 
     subject
 ){
 
-    const msg = {
+    let msg = {
         to: recipient,
-        from: 'no-reply@kidz-n-motion.app',
+        from: 'no-reply@dashboard.kidz-n-motion.app',
         subject: subject,
-        text: message,
     };
 
-    sgMail.send(msg)
-    .then(() => {
+    if(!usesHTML)
+        msg.text = message
+    else
+        msg.html = html
+
+
+    try{
+        await sgMail.send(msg)
         console.log('Email sent')
         return
-    })
-    .catch((err) => console.error(err));
+    }
+    catch(err){
+        console.error(err)
+        console.error('SendGrid error:', err.response?.body || err);
+    }
+    
 }
