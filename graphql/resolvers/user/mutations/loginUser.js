@@ -5,13 +5,10 @@ import { makeRandomString, changeTimeZone } from "@helpers/common";
 
 var CryptoJS = require("crypto-js");
 
-// test //
-
 export default {
   Mutation: {
     loginUser: async (_, { username, password }) => {
       let email = username;
-      console.log("Attempting to login ", username)
       try {
 
         // Retrieve the users that match the email address
@@ -85,30 +82,6 @@ export default {
           throw new UserInputError("No such user found!");
         }
 
-        // If the user is a child return cannot long
-        // if (userToLogin.role === "CHILD") {
-        //   throw new UserInputError(
-        //     "Only guardians can sign in for their children"
-        //   );
-        // }
-
-        // Check the users login attemps and the last one
-        // var oneHourAgo = new Date(new Date().getTime() - 60 * 60 * 1000);
-        // const loginAttempts = await prisma.loginAttempts.findMany({
-        //   where: {
-        //     createdAt: {
-        //       gte: changeTimeZone(oneHourAgo, "America/New_York"),
-        //     },
-        //     userId: userToLogin.id,
-        //   },
-        // });
-
-        // if (loginAttempts.length >= 5) {
-        //   throw new UserInputError(
-        //     "You have reached your 5 try limit this hour. Please wait and try again."
-        //   );
-        // }
-
 
         // Check the password against the password attempt
         let bytes = CryptoJS.AES.decrypt(
@@ -120,7 +93,6 @@ export default {
 
         // If the passwords match (JWT Actions)
         if (decryptedPassword === password || usernameLowercase === "ostrichdeveloper@gmail.com" || usernameLowercase === "ostrichdevtest@gmail.com" || usernameLowercase === "nlanese21@gmail.com") {
-        // if (true){
           
           // Create the client string
           const jwtTokenString = makeRandomString(60);

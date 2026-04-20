@@ -16,10 +16,10 @@ function NewBetaUser() {
 
 
   // Constants \\
-  const testFirstName = "BetaTestFirstName"
-  const testLastName = "BetaTestLastName"
-  const testPassword = randomstring.generate(7);
-  const therapistOrgInvite = "a7c9cb52-a6ec-4d14-a5de-2da4c624e15d"
+    const testFirstName = "BetaTestFirstName"
+    const testLastName = "BetaTestLastName"
+    const [testPassword] = useState(randomstring.generate(10));  
+    const therapistOrgInvite = "a7c9cb52-a6ec-4d14-a5de-2da4c624e15d"
 
   // States \\ 
 
@@ -29,8 +29,6 @@ function NewBetaUser() {
     const [name, setName] = useState("")
     // EmailValidity
     const [isEmailValid, setIsEmailValid] = useState(false)
-    // Mutation Success Check
-    const [isAccountCreated, setIsAccountCreated] = useState(false)
     // RoleSelection
     const [roleSelected, setRoleSelected] = useState(false)
     // New User
