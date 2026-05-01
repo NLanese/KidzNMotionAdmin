@@ -267,6 +267,7 @@ const typeDefs = gql`
 
     getAllClients: [User]
     getAllTherapists: [User]
+    getAllBetaUsers: [User]
 
   }
 

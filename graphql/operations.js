@@ -515,6 +515,17 @@ const GET_VIDEO_LIBRARY = gql`
   }
 `;
 
+// BETA TESTERS
+const GET_ALL_BETA_USERS = gql`
+  query Query{
+    getAllBetaUsers{
+      id
+      firstName
+      lastName
+    }
+  }
+`
+
 // MEDALS
 const GET_ALL_USER_MEDALS = gql`
   query Query(
@@ -1035,6 +1046,7 @@ export {
   SUPER_CREATE_EXPIRED_ASSIGNMENTS,
   SUPER_ACTIVATE_USERS,
   SUPER_DELETE_USER,
+  GET_ALL_BETA_USERS,
 
   // Organization
   EDIT_ORGANIZATION_SETTINGS,

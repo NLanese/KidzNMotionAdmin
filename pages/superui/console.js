@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 // Mutations and Queries
 import { useMutation } from "@apollo/client";
 import {
-  GET_ALL_CLIENTS, GET_ALL_THERAPISTS,
+  GET_ALL_CLIENTS, GET_ALL_THERAPISTS, GET_ALL_BETA_USERS,
   SUPER_SET_THERAPIST, SUPER_DELETE_ASSIGNMENTS, SUPER_DELETE_USER,
   SUPER_CREATE_EXPIRED_ASSIGNMENTS, SUPER_ACTIVATE_USERS
 } from "../../graphql/operations"
@@ -66,6 +66,7 @@ const [deleteAssignments, {}] = useMutation(SUPER_DELETE_ASSIGNMENTS);
 const [deleteUser, {}] = useMutation(SUPER_DELETE_USER);
 const [createExpiredAssignment, {}] = useMutation(SUPER_CREATE_EXPIRED_ASSIGNMENTS)
 const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
+
 
 
 /////////////////
@@ -421,6 +422,20 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
         )
       }
 
+    //////////////////
+    // BETA TESTERS //
+    //////////////////
+
+    async function FindBetaTesters(){
+        await client
+          .query({
+            query: GET_ALL_BETA_USERS,
+            fetchPolicy: "network-only",
+          }).then(async (resolved) => {
+            console.log(resolved)
+          })
+    }
+
   /////////////////
   // MAIN RETURN //
   /////////////////
@@ -543,6 +558,10 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
         <Row>
           {renderActivateButton()}
         </Row>
+
+        <Button onClick={() => FindBetaTesters()}>
+          Beta Testers
+        </Button>
       </div>
     )
   }
