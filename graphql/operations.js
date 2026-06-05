@@ -522,6 +522,7 @@ const GET_ALL_BETA_USERS = gql`
       id
       firstName
       lastName
+      email
     }
   }
 `

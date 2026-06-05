@@ -15,7 +15,8 @@ const resolvers = {
                 select: {
                     id: true,
                     firstName: true,
-                    lastName: true
+                    lastName: true,
+                    email: true
                 },
             });
             return betaTesters;
