@@ -1,7 +1,7 @@
 import { createNotification } from "@helpers/api/notifications";
 
 
-export default async function markAssignmentComplete(assignment, prisma, childUser){
+export default async function markAssignmentComplete(assignment, prisma, childUser, therapistId){
     await prisma.assignment.update({
         where: {
             id: assignment.id
@@ -14,7 +14,7 @@ export default async function markAssignmentComplete(assignment, prisma, childUs
         (childUser + " has completed an Assignment"),
         ("The Assignment with " + assignment.videos.length() + " that was assigned ", assignment.dateStart + " has been completed."),
         "MESSAGE",
-        childUser.id,
+        therapistId,
         childUser.id
     )
 
