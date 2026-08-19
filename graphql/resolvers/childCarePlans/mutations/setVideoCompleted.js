@@ -3,6 +3,8 @@ import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
 import { makeMedal } from "@helpers/medals";
 import VIDEOS from "@constants/videos";
+import determineAssignmentNewlyCompleted from "../../../../functions/AssignmentHelpers/determineAssignmentCompletion";
+import markAssignmentComplete from "../../../../functions/AssignmentHelpers/markAssignmentComplete";
 
 export default {
   Mutation: {
@@ -43,32 +45,6 @@ export default {
           id: childID,
         },
         select: {
-          guardianId: true,
-          id: true,
-        },
-      });
-
-      // If they are not, then return user input error
-      if (!childUser) {
-        throw new UserInputError("Child does not exist");
-      }
-
-
-      ///////////////////
-      // CHECKS PASSED //
-      ///////////////////
-      
-      if (childID && VIDEOS[videoID]) {
-      //////////////////////
-      // ASSIGNMENT CHECK //
-      //////////////////////
-
-        // Find the child object to determine if the are under the guardian account
-        let childUser = await prisma.user.findUnique({
-          where: {
-            id: childID,
-          },
-          select: {
             id: true,
             childCarePlans: {
               select: {
@@ -90,12 +66,30 @@ export default {
               }
             }
           },
-        });
+      });
 
+      // If they are not, then return user input error
+      if (!childUser) {
+        throw new UserInputError("Child does not exist");
+      }
+
+
+      ///////////////////
+      // CHECKS PASSED //
+      ///////////////////
+      
+      if (!childID || !VIDEOS[videoID]) {
+        return
+      }
+
+      //////////////////////
+      // ASSIGNMENT CHECK //
+      //////////////////////  
 
         // Finds 'Video' Instances within this Child's Assignments
         let sameVideos = []
-        childUser.childCarePlans[0].assignments.forEach(assignment => {
+        let foundAssignments = childUser.childCarePlans[0].assignments
+        foundAssignments.forEach(assignment => {
           if (new Date(assignment.dateStart) < new Date()){
             assignment.videos.forEach(vid => {
               if (vid.contentfulID === video.id){
@@ -118,6 +112,15 @@ export default {
           })
         })
 
+        // Sees if Assignment is completed or not
+        foundAssignments.forEach(assignment => {
+          if (determineAssignmentNewlyCompleted(assignment)){
+            markAssignmentComplete(assignment, prisma)
+          }
+        })
+
+
+
         ////////////////////
         // MEDAL CREATION //
         ////////////////////
@@ -134,25 +137,6 @@ export default {
           );
         }
 
-        // Create the medals based on what medal type was passed in
-        // let medalObjectsToCreate = [];
-        // if (medalType != "none") {
-        //   getAllMedalTypes().map((medalObject) => {
-        //     if (medalObject.videoID === video.contentfulID) {
-        //       if (medalType === "gold") {
-        //         medalObjectsToCreate.push(medalObject);
-        //       } else if (medalType === "silver") {
-        //         if (medalObject.level !== "GOLD") {
-        //           medalObjectsToCreate.push(medalObject);
-        //         }
-        //       } else if (medalType === "bronze") {
-        //         if (medalObject.level === "BRONZE") {
-        //           medalObjectsToCreate.push(medalObject);
-        //         }
-        //       }
-        //     }
-        //   });
-
 
         // CREATES MEDALS 
         if (medalType.toUpperCase() === "GOLD"){
@@ -168,40 +152,7 @@ export default {
           await makeMedal("BRONZE", video.id, childUser.childCarePlans[0].id)
         }
 
-
-
-        // Assignment-Video Complete
-        // await prisma.video.update({
-        //   where: {
-        //     id: video.id,
-        //   },
-        //   data: {
-        //     completed: true,
-        //   },
-        // });
-
-        // Get the full video object
-        // let completedVideo = await prisma.video.findUnique({
-        //   where: {
-        //     id: video.id,
-        //   },
-        //   select: {
-        //     id: true,
-        //     completed: true,
-        //     contentfulID: true,
-        //     medals: {
-        //       select: {
-        //         id: true,
-        //         title: true,
-        //         description: true,
-        //         level: true,
-        //       },
-        //     },
-        //   },
-        // });
-
         return true;
-        }
     },
   },
 };
