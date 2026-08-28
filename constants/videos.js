@@ -24,7 +24,7 @@ const VIDEOS = {
     description:
       "For this exercise, plant your feet about shoulder width apart, and squat down while trying to keep your back straight. This should test your leg strength as well as your balance!",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1669215530/Kids-N-Motion%20Videos/Squat_ddkhg6.mp4",
+      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/02_squat.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/squat_ujqj9j.png",
     medicalDescription: "(Gluteus maximus and quadriceps femoris strength)",
@@ -37,7 +37,7 @@ const VIDEOS = {
     description:
       "In this exercise, we are going to lie on the ground and roll from stomach to back from both sides. This should test your trunk control and strength.",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887194/Kids-N-Motion%20Videos/Rolling_ekboiz.mp4",
+      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/12_rolling.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/rolling_zfzebk.png",
     medicalDescription: "(Trunk strength, symmetry)",
@@ -50,7 +50,7 @@ const VIDEOS = {
     description:
       "In this video, we are going to stand on one leg and lift the other leg. This should test your balance and hip strength.",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887150/Kids-N-Motion%20Videos/Leg_lifts_r4a0dk.mp4",
+      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/13_leg_lifts.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948314/Kidz-N-Motion%20Thumbnails/leg_lifts_em2etl.png",
     medicalDescription:
@@ -63,7 +63,7 @@ const VIDEOS = {
     description:
       "In this video, we will start by laying on our stomach with our knees and hands straight. Then, bring your hands to about your chest, and bring your legs in so that you are on all fours, your knees and palms keeping you supported! This will test your body and hip strength.",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887166/Kids-N-Motion%20Videos/Hand_to_knees_xnf0jn.mp4",
+      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/14_hands_to_knees.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948312/Kidz-N-Motion%20Thumbnails/hand_to_knees_ygdegd.png",
     id: "hand_to_knees",
@@ -76,7 +76,7 @@ const VIDEOS = {
     description:
       "In this video, you will need to be seated on a chair that has armrests. Once you’re seated, try pushing off of the handles with your hands, and push your body up, so that your rear is no longer on the seat! This will test your upper body and hip strength.",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887207/Kids-N-Motion%20Videos/Chair_elevation_sbtm3t.mp4",
+      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/10_chair_elevation.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948312/Kidz-N-Motion%20Thumbnails/chair_elevation_ealjwh.png",
     id: "chair_elevation",
@@ -90,7 +90,7 @@ const VIDEOS = {
     description:
       "Here, we will start on our knees, and attempt to stand up without needing to grab onto something else. Try bringing your legs in, one at a time, and getting up on your feet!",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887218/Kids-N-Motion%20Videos/Floor_to_stand_t6v0fs.mp4",
+      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/07_floor_to_stand.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948313/Kidz-N-Motion%20Thumbnails/floor_to_stand_cfjgyg.png",
     id: "floor_to_stand",
@@ -109,7 +109,7 @@ const VIDEOS = {
     description:
       "Get some sort of small stool or step-up bench for this exercise! Here, we will try to step up, first with our left foot and then our right, so we have both feet on the platform! Then, step down, left the right and do it again!",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1668524544/Kids-N-Motion%20Videos/Step_up_ofg3pr.mp4",
+      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/03_step_up.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/step_up_egwcrb.png",
     medicalDescription:
@@ -123,7 +123,7 @@ const VIDEOS = {
     description:
       "Test your balance and your foot strength! Walk forward on your toes, then turn around and walk back on your heels!",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887209/Kids-N-Motion%20Videos/Toe_Walking_chevus.mp4",
+      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/09_toe_walking.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/toe_walking_uyqgpl.png",
     medicalDescription:
@@ -137,7 +137,7 @@ const VIDEOS = {
     description:
       "For this exercise, we will be jumping side to side, doing our best to keep our feet together. Imagine a line on the floor next to you, and try to jump over it and back!",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887221/Kids-N-Motion%20Videos/side_to_side_f23jwu.mp4",
+      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/06_side_to_side.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/side_to_side_ecnudh.png",
     medicalDescription: "(Strengthening, balance and coordination)",
@@ -149,7 +149,7 @@ const VIDEOS = {
     description:
       "In this exercise, you should try to use a balance beam, but if none are available that’s okay! Just try to find some marking or line on the floor, and walk as straight on this line as you can, without losing your balance or stepping off!",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887173/Kids-N-Motion%20Videos/bean_balancing_pjneck.mp4",
+      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/16_beam_balancing.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948312/Kidz-N-Motion%20Thumbnails/Bean_balancing_ks8kz9.png",
     id: "beam_balancing",
@@ -162,7 +162,7 @@ const VIDEOS = {
     description:
       "Here we will try to jump rope for 60 seconds! Keep a rhythm as you try to see how many times you can successfully jump over the rope in time!",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887233/Kids-N-Motion%20Videos/Jump_rope_weziop.mp4",
+      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/04_jump_rope.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948314/Kidz-N-Motion%20Thumbnails/jump_rope_mdtgcm.png",
     id: "jump_rope",
@@ -175,7 +175,7 @@ const VIDEOS = {
     description:
       "See if you can do jumping jacks for 60 seconds! This will test how well you can jump, as well as your coordination, endurance, and agility.",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887229/Kids-N-Motion%20Videos/Jumping_Jacks_olaf5a.mp4",
+      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/05_jumping_jacks.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948314/Kidz-N-Motion%20Thumbnails/jumping_jacks_m3uf1m.png",
     id: "jumping_jacks",
@@ -188,7 +188,7 @@ const VIDEOS = {
     description:
       "In this video, we will see how well you can jump with both feet together, going forwards and then backward. This will put your jumping ability to the test, as well as your balance!",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887214/Kids-N-Motion%20Videos/Jump_forward_and_back_amlvpx.mp4",
+      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/08_jump_forward_and_back.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948314/Kidz-N-Motion%20Thumbnails/jump_forward_and_back_u7h14j.png",
     id: "jump_forward_and_backward",
@@ -201,7 +201,7 @@ const VIDEOS = {
     description:
       "In this video, we will jump in a straight line. The first time we land, we will land on one foot, the next time, we will use both feet, and then one again! Try to match the video as best you can!",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887173/Kids-N-Motion%20Videos/hop_scotch_jka1bc.mp4",
+      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/15_hop_scotch.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948314/Kidz-N-Motion%20Thumbnails/hop_scotch_a770di.png",
     id: "hop_scotch",
@@ -214,7 +214,7 @@ const VIDEOS = {
     description:
       "In this exercise, we will want to get on all fours, with both our feet and our palms on the ground. Like this, continue to walk forwards without losing balance or standing up!",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887200/Kids-N-Motion%20Videos/Bear_Crawl_ddnoqb.mp4",
+      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/11_bear_crawl.mp4",
     previewPictureURL:
       "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948312/Kidz-N-Motion%20Thumbnails/Bear_crawl_1_wymsmn.png",
     id: "bear_crawl",
