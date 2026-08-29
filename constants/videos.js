@@ -14,7 +14,7 @@ const VIDEOS = {
     videoURL:
       "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887191/Kids-N-Motion%20Videos/Toe_Touches_jh5cdk.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/toe_touches_riskgj.png",
+      "https://video-stills.s3.us-east-2.amazonaws.com/02_squat.png",
     medicalDescription: "(Gower’s Maneuver)",
   },
   squat: {
@@ -87,12 +87,9 @@ const VIDEOS = {
   floor_to_stand: {
     level: 1,
     title: "Floor To Stand",
-    description:
-      "Here, we will start on our knees, and attempt to stand up without needing to grab onto something else. Try bringing your legs in, one at a time, and getting up on your feet!",
-    videoURL:
-      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/07_floor_to_stand.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948313/Kidz-N-Motion%20Thumbnails/floor_to_stand_cfjgyg.png",
+    description:"Here, we will start on our knees, and attempt to stand up without needing to grab onto something else. Try bringing your legs in, one at a time, and getting up on your feet!",
+    videoURL:"https://workout-videos-knm.s3.us-east-2.amazonaws.com/07_floor_to_stand.mp4",
+    previewPictureURL:"https://video-stills.s3.us-east-2.amazonaws.com/07_floor_to_stand.png",
     id: "floor_to_stand",
     medicalDescription: "(strength and coordination)",
   },
@@ -111,7 +108,7 @@ const VIDEOS = {
     videoURL:
       "https://workout-videos-knm.s3.us-east-2.amazonaws.com/03_step_up.mp4",
     previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/step_up_egwcrb.png",
+      "https://video-stills.s3.us-east-2.amazonaws.com/03_step_up.png",
     medicalDescription:
       "(Testing hip flexors, hamstrings, balance, and coordination)",
   },
@@ -134,12 +131,9 @@ const VIDEOS = {
     id: "side_to_side",
     level: 2,
     title: "Side To Side",
-    description:
-      "For this exercise, we will be jumping side to side, doing our best to keep our feet together. Imagine a line on the floor next to you, and try to jump over it and back!",
-    videoURL:
-      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/06_side_to_side.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/side_to_side_ecnudh.png",
+    description:"For this exercise, we will be jumping side to side, doing our best to keep our feet together. Imagine a line on the floor next to you, and try to jump over it and back!",
+    videoURL:"https://workout-videos-knm.s3.us-east-2.amazonaws.com/06_side_to_side.mp4",
+    previewPictureURL: "https://video-stills.s3.us-east-2.amazonaws.com/06_side_to_side.png",
     medicalDescription: "(Strengthening, balance and coordination)",
   },
 
@@ -159,12 +153,9 @@ const VIDEOS = {
   jump_rope: {
     level: 2,
     title: "Jump Rope",
-    description:
-      "Here we will try to jump rope for 60 seconds! Keep a rhythm as you try to see how many times you can successfully jump over the rope in time!",
-    videoURL:
-      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/04_jump_rope.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948314/Kidz-N-Motion%20Thumbnails/jump_rope_mdtgcm.png",
+    description:"Here we will try to jump rope for 60 seconds! Keep a rhythm as you try to see how many times you can successfully jump over the rope in time!",
+    videoURL:"https://workout-videos-knm.s3.us-east-2.amazonaws.com/04_jump_rope.mp4",
+    previewPictureURL: "https://video-stills.s3.us-east-2.amazonaws.com/04_jump_rope.png",
     id: "jump_rope",
     medicalDescription: "(Endurance, strengthening, balance, and coordination)",
   },
@@ -172,12 +163,9 @@ const VIDEOS = {
   jumping_jacks: {
     level: 2,
     title: "Jumping Jacks",
-    description:
-      "See if you can do jumping jacks for 60 seconds! This will test how well you can jump, as well as your coordination, endurance, and agility.",
-    videoURL:
-      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/05_jumping_jacks.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948314/Kidz-N-Motion%20Thumbnails/jumping_jacks_m3uf1m.png",
+    description: "See if you can do jumping jacks for 60 seconds! This will test how well you can jump, as well as your coordination, endurance, and agility.",
+    videoURL:"https://workout-videos-knm.s3.us-east-2.amazonaws.com/05_jumping_jacks.mp4",
+    previewPictureURL:"https://video-stills.s3.us-east-2.amazonaws.com/05_jumping_jacks.png",
     id: "jumping_jacks",
     medicalDescription: "(Endurance, strengthening, balance, and coordination)",
   },
