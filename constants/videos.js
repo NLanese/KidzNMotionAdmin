@@ -34,12 +34,9 @@ const VIDEOS = {
     id: "rolling",
     level: 1,
     title: "Rolling",
-    description:
-      "In this exercise, we are going to lie on the ground and roll from stomach to back from both sides. This should test your trunk control and strength.",
-    videoURL:
-      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/12_rolling.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/rolling_zfzebk.png",
+    description: "In this exercise, we are going to lie on the ground and roll from stomach to back from both sides. This should test your trunk control and strength.",
+    videoURL:"https://workout-videos-knm.s3.us-east-2.amazonaws.com/12_rolling.mp4",
+    previewPictureURL:"https://video-stills.s3.us-east-2.amazonaws.com/12_rolling.png",
     medicalDescription: "(Trunk strength, symmetry)",
   },
 
@@ -47,25 +44,18 @@ const VIDEOS = {
     id: "leg_lifts",
     level: 1,
     title: "Leg Lifts",
-    description:
-      "In this video, we are going to stand on one leg and lift the other leg. This should test your balance and hip strength.",
-    videoURL:
-      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/13_leg_lifts.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948314/Kidz-N-Motion%20Thumbnails/leg_lifts_em2etl.png",
-    medicalDescription:
-      "(pelvis drop on lifted leg indicates contralateral gluteus Medius and minimus weakness)",
+    description:"In this video, we are going to stand on one leg and lift the other leg. This should test your balance and hip strength.",
+    videoURL:"https://workout-videos-knm.s3.us-east-2.amazonaws.com/13_leg_lifts.mp4",
+    previewPictureURL: "https://video-stills.s3.us-east-2.amazonaws.com/13_leg_lifts.png",
+    medicalDescription:"(pelvis drop on lifted leg indicates contralateral gluteus Medius and minimus weakness)",
   },
 
   hand_to_knees: {
     level: 1,
     title: "Hands And Knees",
-    description:
-      "In this video, we will start by laying on our stomach with our knees and hands straight. Then, bring your hands to about your chest, and bring your legs in so that you are on all fours, your knees and palms keeping you supported! This will test your body and hip strength.",
-    videoURL:
-      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/14_hands_to_knees.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948312/Kidz-N-Motion%20Thumbnails/hand_to_knees_ygdegd.png",
+    description:"In this video, we will start by laying on our stomach with our knees and hands straight. Then, bring your hands to about your chest, and bring your legs in so that you are on all fours, your knees and palms keeping you supported! This will test your body and hip strength.",
+    videoURL:"https://workout-videos-knm.s3.us-east-2.amazonaws.com/14_hands_to_knees.mp4",
+    previewPictureURL:"https://video-stills.s3.us-east-2.amazonaws.com/14_hands_to_knees.png",
     id: "hand_to_knees",
     medicalDescription: "(proximal trunk stability, coordination, strength)",
   },
@@ -73,15 +63,11 @@ const VIDEOS = {
   chair_elevation: {
     level: 1,
     title: "Chair Pushup",
-    description:
-      "In this video, you will need to be seated on a chair that has armrests. Once you’re seated, try pushing off of the handles with your hands, and push your body up, so that your rear is no longer on the seat! This will test your upper body and hip strength.",
-    videoURL:
-      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/10_chair_elevation.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948312/Kidz-N-Motion%20Thumbnails/chair_elevation_ealjwh.png",
+    description:"In this video, you will need to be seated on a chair that has armrests. Once you’re seated, try pushing off of the handles with your hands, and push your body up, so that your rear is no longer on the seat! This will test your upper body and hip strength.",
+    videoURL:"https://workout-videos-knm.s3.us-east-2.amazonaws.com/10_chair_elevation.mp4",
+    previewPictureURL: "https://video-stills.s3.us-east-2.amazonaws.com/10_chair_elevation.png",
     id: "chair_elevation",
-    medicalDescription:
-      "(Trapezius, latissimus dorsi, scapular depressors, triceps, and hip flexor strength)",
+    medicalDescription:"(Trapezius, latissimus dorsi, scapular depressors, triceps, and hip flexor strength)",
   },
 
   floor_to_stand: {
@@ -117,14 +103,10 @@ const VIDEOS = {
     id: "toe_walking",
     level: 2,
     title: "Heel/Toe Walking",
-    description:
-      "Test your balance and your foot strength! Walk forward on your toes, then turn around and walk back on your heels!",
-    videoURL:
-      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/09_toe_walking.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948316/Kidz-N-Motion%20Thumbnails/toe_walking_uyqgpl.png",
-    medicalDescription:
-      "(Testing ankle dorsiflexors, gastrocnemius-soleus group)",
+    description:"Test your balance and your foot strength! Walk forward on your toes, then turn around and walk back on your heels!",
+    videoURL:"https://workout-videos-knm.s3.us-east-2.amazonaws.com/09_toe_walking.mp4",
+    previewPictureURL:"https://video-stills.s3.us-east-2.amazonaws.com/09_toe_walking.png",
+    medicalDescription:"(Testing ankle dorsiflexors, gastrocnemius-soleus group)",
   },
 
   side_to_side: {
@@ -173,12 +155,9 @@ const VIDEOS = {
   jump_forward_and_backward: {
     level: 2,
     title: "Forward Jump",
-    description:
-      "In this video, we will see how well you can jump with both feet together, going forwards and then backward. This will put your jumping ability to the test, as well as your balance!",
-    videoURL:
-      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/08_jump_forward_and_back.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948314/Kidz-N-Motion%20Thumbnails/jump_forward_and_back_u7h14j.png",
+    description:"In this video, we will see how well you can jump with both feet together, going forwards and then backward. This will put your jumping ability to the test, as well as your balance!",
+    videoURL:"https://workout-videos-knm.s3.us-east-2.amazonaws.com/08_jump_forward_and_back.mp4",
+    previewPictureURL: "https://video-stills.s3.us-east-2.amazonaws.com/08_jump_forward_and_back.png",
     id: "jump_forward_and_backward",
     medicalDescription: "(Balance and coordination)",
   },
