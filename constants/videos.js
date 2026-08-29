@@ -122,12 +122,9 @@ const VIDEOS = {
   beam_balancing: {
     level: 2,
     title: "Balance Beam",
-    description:
-      "In this exercise, you should try to use a balance beam, but if none are available that’s okay! Just try to find some marking or line on the floor, and walk as straight on this line as you can, without losing your balance or stepping off!",
-    videoURL:
-      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/16_beam_balancing.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948312/Kidz-N-Motion%20Thumbnails/Bean_balancing_ks8kz9.png",
+    description:"In this exercise, you should try to use a balance beam, but if none are available that’s okay! Just try to find some marking or line on the floor, and walk as straight on this line as you can, without losing your balance or stepping off!",
+    videoURL:"https://workout-videos-knm.s3.us-east-2.amazonaws.com/16_beam_balancing.mp4",
+    previewPictureURL:"https://video-stills.s3.us-east-2.amazonaws.com/16_beam_balancing.png",
     id: "beam_balancing",
     medicalDescription: "(Balance and coordination)",
   },
@@ -165,12 +162,9 @@ const VIDEOS = {
   hop_scotch: {
     level: 2,
     title: "Hop Scotch",
-    description:
-      "In this video, we will jump in a straight line. The first time we land, we will land on one foot, the next time, we will use both feet, and then one again! Try to match the video as best you can!",
-    videoURL:
-      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/15_hop_scotch.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948314/Kidz-N-Motion%20Thumbnails/hop_scotch_a770di.png",
+    description:"In this video, we will jump in a straight line. The first time we land, we will land on one foot, the next time, we will use both feet, and then one again! Try to match the video as best you can!",
+    videoURL:"https://workout-videos-knm.s3.us-east-2.amazonaws.com/15_hop_scotch.mp4",
+    previewPictureURL:"https://video-stills.s3.us-east-2.amazonaws.com/15_hop_scotch.png",
     id: "hop_scotch",
     medicalDescription: "(Balance and coordination)",
   },
