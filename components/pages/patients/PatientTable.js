@@ -6,7 +6,8 @@ import BasicLink from "@common/BasicLink";
 import { EditOutlined } from "@ant-design/icons";
 import dateFormat from "dateformat";
 import Router from "next/router";
-import orderAssignmentsByStartDate from "../../../functions/orderAssignmentsByStartDate";
+// import orderAssignmentsByStartDate from "../../../functions/orderAssignmentsByStartDate";
+import orderAssignmentsByStartDate from "../../../functions/AssignmentHelpers/orderAssignmentsByStartDate"
 const { Panel } = Collapse;
 
 const { Text } = Typography;
