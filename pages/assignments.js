@@ -25,7 +25,8 @@ import AssignmentsTable from "../components/pages/assignments/AssignmentTable";
 import AssignmentCalendar from "../components/pages/assignments/AssignmentCalendar";
 import AssignmentForm from "@components/forms/assignments/AssignmentForm";
 import EditAssignmentForm from "../components/forms/assignments/EditAssignmentForm";
-import orderAssignmentsByStartDate from "../functions/orderAssignmentsByStartDate";
+// import orderAssignmentsByStartDate from "../functions/orderAssignmentsByStartDate";
+import orderAssignmentsByStartDate from "../functions/AssignmentHelpers/orderAssignmentsByStartDate";
 
 const { Title } = Typography;
 
