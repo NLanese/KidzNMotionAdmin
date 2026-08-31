@@ -26,10 +26,6 @@ class MyApp extends App {
     // If the user uses a keyboard then override the no outline styling
     window.addEventListener("keydown", this._handleKeydown);
 
-    console.log("ACTUAL DB URL:", process.env.DATABASE_URL);
-    console.log("PRISMA CLIENT VERSION:", require("@prisma/client/package.json").version);
-    console.log("PRISMA CLI VERSION:", require("prisma/package.json").version);
-
   }
 
   _handleKeydown(e) {
