@@ -25,6 +25,8 @@ class MyApp extends App {
 
     // If the user uses a keyboard then override the no outline styling
     window.addEventListener("keydown", this._handleKeydown);
+
+    console.log("ACTUAL DB URL:", process.env.DATABASE_URL);
   }
 
   _handleKeydown(e) {
