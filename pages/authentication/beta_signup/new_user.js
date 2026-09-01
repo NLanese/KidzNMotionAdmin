@@ -106,7 +106,6 @@ function NewBetaUser() {
             query: GET_USER,
         })
         .then(async (resolved) => {
-            console.log(resolved.data.getUser)
             setNewUser(resolved.data.getUser)
             setLoading(false)
         })

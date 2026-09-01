@@ -224,7 +224,6 @@
 
         useEffect(() => {
             if (selectedAssign && viewMode === "ASSIGN"){
-                console.log(patientAssigns)
                 setDateRangeStart( new Date(selectedAssign.dateStart) )
                 setDateRangeEnd( new Date(selectedAssign.dateDue) )
             }
@@ -270,11 +269,7 @@
 
             // Additional Async Prep to ensure proper rendering on state changes
             const stageContent = async (prepList) => {
-                console.log("PREP LIST")
-                console.log(prepList)
                 let fullList = prepList.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)); 
-                console.log("FULL LIST")
-                console.log(fullList)
                 return fullList
             }
 
@@ -292,9 +287,7 @@
                 if (input){
                     let datedComments = [...input].filter(comment => {
                         if (new Date(comment.createdAt) >= DateRangeStart){
-                            console.log(comment.createdAt , " is after ", DateRangeStart)
                             if (new Date(comment.createdAt) <= DateRangeEnd){
-                                console.log(comment.createdAt , " is before ", DateRangeEnd)
                                 return true
                             }
                         } 
@@ -304,8 +297,6 @@
                     return datedComments
                 }
                 else{
-                    console.log(comments)
-                    console.log("Looking for comments made on ", DateRangeStart)
                     let datedComments = [...comments].filter(comment => {
                         const isSameDate = new Date(comment.createdAt).toISOString().split("T")[0] === DateRangeStart.toISOString().split("T")[0];
                         if (isSameDate){

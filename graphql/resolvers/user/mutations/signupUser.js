@@ -43,7 +43,6 @@ try {
     if (IsConflictingEmails(email) === true) {
       throw new UserInputError("Email already exists.");
     }
-    console.log("Conflicts Check Complete")
 
   ////////////////////////////////////////////
   // CHECKS FOR MISSING OR INCORRECT FIELDS //
@@ -72,8 +71,6 @@ try {
       }
     } 
 
-    console.log("Role Check Complete")
-
 ///////////////////////////////////////////////////
 // CREATES BASE USER AND MAKES MODEL CONNECTIONS //
 
@@ -92,8 +89,6 @@ try {
       soloSubscriptionStatus: "Active",
     },
   });
-
-  console.log("Base User Creation Complete")
 
         //                             //
         // GUARDIAN Connections to ORG //
@@ -175,7 +170,6 @@ try {
         // Adds User to Org via Key //
         //                          //
         let organizationInvite;
-        console.log("Finding org key")
         if (organizationInviteKey) {
           organizationInvite = await prisma.organizationInviteKey.findMany({
             where: {
@@ -192,7 +186,6 @@ try {
         //                             //
         // Adds User to Org via Invite //
         //                             //
-        console.log("Adding to Org from ", organizationInvite)
         if (organizationInvite && organizationInvite[0]) {
           try{
             await prisma.organizationUser.create({
@@ -212,7 +205,6 @@ try {
             });
           }
           catch(err){
-            console.log("Failed at Org")
             throw new UserInputError("Failed while connecting to Org via KEY")
           }
 
@@ -349,8 +341,6 @@ try {
       /* 
         TOKEN RELATED FUNCTIONS
       */
-
-        console.log("Creating Tokens")
 
         // Creates Token
         const jwtTokenString = makeRandomString(60);
@@ -582,9 +572,6 @@ try {
         //     });
         // }
 
-        // Return the user object and jwt token for login
-        console.log("Safely Returning Value")
-        console.log(baseUser)
         return {
           user: baseUser,
           token: clientToken,

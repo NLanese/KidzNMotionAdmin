@@ -48,9 +48,6 @@ export default {
           }
         });
 
-        console.log("Found Users...")
-        console.log(potentialUsers)
-
         // If there was no user with the email, looks for one with the username
         if (!potentialUsers || potentialUsers.length === 0) {
           potentialUsers = await prisma.user.findMany({
@@ -268,10 +265,6 @@ export default {
 
           // Return token and truncated user object
           try {
-            console.log("Returning... ", {
-              token: clientToken,
-              user: userToLogin,
-            })
             return {
               token: clientToken,
               user: userToLogin,
