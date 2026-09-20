@@ -14,7 +14,7 @@ function SelectAccountType() {
   return (
     <>
       <Title level={5} style={{ margin: "0px" }}>
-        Guardian
+       Guardian
       </Title>
       <Text type="secondary">
         Select if you are signing up as a guardian to a child.
@@ -24,7 +24,23 @@ function SelectAccountType() {
           Sign Up As Guardian
         </Button>
       </BasicLink>
+
       <Divider />
+
+      <Title level={5} style={{ margin: "0px" }}>
+       Beta Tester
+      </Title>
+      <Text type="secondary">
+        Select if you are signing up as a Beta Tester
+      </Text>
+      <BasicLink href="/authentication/get-started?role=BETA">
+        <Button block type="primary">
+          Sign Up As Beta Tester
+        </Button>
+      </BasicLink>
+
+      <Divider />
+
       <Title level={5} style={{ margin: "0px" }}>
         Therapist
       </Title>
@@ -37,7 +53,9 @@ function SelectAccountType() {
           Sign Up As Therapist
         </Button>
       </BasicLink>
+
       <Divider />
+
       <Title level={5} style={{ margin: "0px" }}>
         School Admin
       </Title>

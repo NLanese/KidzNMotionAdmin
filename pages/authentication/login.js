@@ -31,12 +31,12 @@ function Login() {
           </BasicLink>
         </Text>
         <Divider style={{ margin: "15px" }} />
-        <Text type="primary">
+        {/* <Text type="primary">
           <p style={{fontWeight: 600, margin: 0}}>Want to sign up as a Beta Tester?{" "}</p>
           <BasicLink href="/authentication/beta_signup/new_user">
             <span style={{ textDecoration: "underline", color: 'grey'}}>Begin Testing Here</span>
           </BasicLink>
-        </Text>
+        </Text> */}
       </>
     </AuthCard>
   );

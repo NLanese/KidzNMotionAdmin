@@ -15,12 +15,21 @@ import { useMutation } from "@apollo/client";
 import client from "@utils/apolloClient";
 
 function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
+
+  ///////////////
+  // Constants //
+  ///////////////
+
   const [redirectLogin, setRedirectLogin] = useState(false);
   const setUser = useSetRecoilState(userState);
+  const betaFirstName = "BetaTestFirstName"
+  const betaLastName = "BetaTestLastName"
+  const betaOrgInvite = "a7c9cb52-a6ec-4d14-a5de-2da4c624e15d"
 
   // Mutations
   const [signUpUser, {}] = useMutation(USER_SIGN_UP);
 
+  // Handles Successful Signup
   const handleSignUpSuccess = async (userData) => {
     message.success("Successfully signed up");
 
@@ -33,6 +42,7 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
     window.location = "/";
   };
 
+  // Handles Unsuccessful Signup
   const handleSignUpFail = (error) => {
     error = `${error}`;
     if (error.includes("already")) {
@@ -47,6 +57,7 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
     }
   };
 
+  // Handles Sign Up Attempt Process
   const handleSignUp = async (formValues) => {
     if (role === "THERAPIST"){
       if (!formValues.organizationInviteKey && !formValues.organizationName){
@@ -60,17 +71,17 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
           password: formValues.password,
           firstName: formValues.firstName,
           lastName: formValues.lastName,
-          role: role,
+          role: (role === "BETA" ? "GUARDIAN" : role),
           phoneNumber: formValues.phoneNumber,
-          organizationInviteKey: formValues.organizationInviteKey,
+          organizationInviteKey: formValues.organizationInviteKey ?? "",
           
           // GUARDIAN
-          childFirstName: formValues.childFirstName,
-          childLastName: formValues.childLastName,
-          childDateOfBirth: formValues.childDateOfBirth,
+          childFirstName: (role === "BETA" ? betaFirstName : formValues.childFirstName),
+          childLastName: (role === "BETA" ? betaLastName : formValues.childLastName),
+          childDateOfBirth: (role === "BETA" ? "01/01/2020" : formValues.childDateOfBirth),
           
           // ADMIN or THERAPIST
-          title: formValues.title,
+          title: (role === "BETA" ? "Beta Tester" : formValues.title),
           organizationName: formValues.organizationName,
         },
       })
@@ -104,6 +115,11 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
       console.error(error)
     }
   };
+
+
+  /////////////////
+  // Main Return //
+  /////////////////
 
   return (
     <Spin spinning={redirectLogin}>
@@ -189,8 +205,11 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
               });
             }}
           >
+
             <legend>Sign Up Form</legend>
             <Row gutter={16}>
+
+              {/* First Name */}
               <Col xs={24} md={12}>
                 <Field
                   label="Your First Name"
@@ -202,6 +221,8 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
                   hideErrorText={false}
                 />
               </Col>
+
+              {/* Last Name */}
               <Col xs={24} md={12}>
                 <Field
                   label="Your Last Name"
@@ -213,6 +234,8 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
                   hideErrorText={false}
                 />
               </Col>
+
+              {/* Title (Therapist Only) */}
               {role === "THERAPIST" && (
                   <Col xs={24} md={24}>
                     <Field
@@ -225,7 +248,9 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
                       hideErrorText={false}
                     />
                   </Col>
-                )}
+              )}
+
+              {/* Email */}
               <Col xs={24} md={24}>
                 <Field
                   label="Your Email"
@@ -237,6 +262,8 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
                   hideErrorText={false}
                 />
               </Col>
+
+              {/* Phone Number */}
               <Col xs={24} md={24}>
                 <Field
                   label="Phone Number"
@@ -249,7 +276,10 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
                   hideErrorText={false}
                 />
               </Col>
+
               <Divider style={{ margin: "2px 0px 10px" }} />
+
+              {/* Password */}
               <Col xs={24} md={24}>
                 <Field
                   name="password"
@@ -265,6 +295,8 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
                   passwordValidationObject={passwordIsValid(values.password)}
                 />
               </Col>
+
+              {/* Conifrm Password */}
               <Col xs={24} md={24}>
                 <Field
                   name="confirmPassword"
@@ -337,7 +369,9 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
                 </>
               )}
               
-              <Col xs={24} md={24} style={role === "ADMIN" &&  {opacity: 0, height: 10}}>
+              {role !== "BETA" && (
+                <>
+                <Col xs={24} md={24} style={role === "ADMIN" &&  {opacity: 0, height: 10}}>
                 <Field
                   name="organizationInviteKey"
                   component={PlainTextField}
@@ -348,6 +382,8 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
                   hideErrorText={false}
                 />
               </Col>
+                </>
+              )}
             </Row>
 
             <Button

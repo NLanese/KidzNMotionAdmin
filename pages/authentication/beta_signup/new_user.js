@@ -211,7 +211,7 @@ function NewBetaUser() {
             return(
                 <div style={{display: 'flex', justifyContent: 'center', marginTop: 20}}>
                     <button onClick={() => createBetaUser()}>
-                        Create Beta Account
+                        
                     </button>
                 </div>
             ) 

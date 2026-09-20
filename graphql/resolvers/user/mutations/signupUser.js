@@ -48,7 +48,7 @@ try {
   // CHECKS FOR MISSING OR INCORRECT FIELDS //
 
     // Checks User Role
-    if (role !== "GUARDIAN" && role !== "THERAPIST" && role !== "ADMIN") {
+    if (role !== "GUARDIAN" && role !== "THERAPIST" && role !== "ADMIN" && role != "BETA") {
       throw new UserInputError("Role does not exist.");
     }
 
@@ -90,9 +90,7 @@ try {
     },
   });
 
-        //                             //
-        // GUARDIAN Connections to ORG //
-        //                             //
+        // Guardian
         if (role === "GUARDIAN") {
           
           // The guardian is signing up without an organization invite key, mark their account as solo
@@ -126,9 +124,7 @@ try {
           
         }
         
-        //                                    //
-        //  THERAPISTS and ADMINS Connections //
-        //                                    //
+        // Therapist or Admin
         else if (role === "THERAPIST" || role == "ADMIN") {
           // If they were not invited and do not have an invite link then create their own organization
           if (!organizationInviteKey) {
@@ -166,9 +162,7 @@ try {
           }
         }
 
-        //                          //
-        // Adds User to Org via Key //
-        //                          //
+        // Org Invite
         let organizationInvite;
         if (organizationInviteKey) {
           organizationInvite = await prisma.organizationInviteKey.findMany({
@@ -183,9 +177,7 @@ try {
           });
         }
 
-        //                             //
-        // Adds User to Org via Invite //
-        //                             //
+        // Add to Org
         if (organizationInvite && organizationInvite[0]) {
           try{
             await prisma.organizationUser.create({
@@ -523,55 +515,6 @@ try {
       }
       }
           
-/* 
-  CREATES BASE USER AND MAKES MODEL CONNECTIONS
-*/
-
-        // const msg2 = {
-        //   to: email, // Change to your recipient
-        //   from: "noreply@em9019.kidz-n-motion.app", // Change to your verified sender
-        //   subject: "Your free trial is officially active!",
-
-        //   html: `
-        //       <div style="text-align: center">
-        //       <img src="https://kids-in-motion.vercel.app/logos/Main.png"  width="110px"/>
-        //       </div>
-        //         <br />
-        //         <p>Hi ${firstName},</p>
-        //         <br />
-        //         <p>Welcome to Kidz-N-Motion! Your 7-day trial is officially active. You have access to some of the features and functions of the app as well as the website. We are delighted that you chose to enhance your physical therapy services.</p>
-        //         <br />
-        //         <p>
-        //           <b>Here’s what you need to know:</b>
-        //         </p>
-        //         <ol>
-        //           <li>
-        //           You will have 7 days to explore the features and functions of the app. You can cancel at anytime during the trial period.
-        //           </li>
-        //           <li>
-        //           If you don’t cancel within 7 days your paid subscription will automatically start on your selected plan.
-        //           </li>
-        //           <li>
-        //           You can access the website to learn more at: https://kidz-n-motion.app/
-        //           </li>
-        //         </ol>
-        //         <br />
-        //         <p>Thank you, </p>
-        //         <p>Team Kidz-N-Motion</p>
-  
-        //     `,
-        // };
-
-        // if (role === "THERAPIST" || role === "ADMIN") {
-        //   await sgMail
-        //     .send(msg2)
-        //     .then(() => {
-        //     })
-        //     .catch((error) => {
-        //       console.error(error.response.body);
-        //     });
-        // }
-
         return {
           user: baseUser,
           token: clientToken,
