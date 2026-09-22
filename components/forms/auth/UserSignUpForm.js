@@ -81,7 +81,7 @@ function UserSignUpForm({ role, organizationInviteKey, initialValues }) {
           childDateOfBirth: (role === "BETA" ? "01/01/2020" : formValues.childDateOfBirth),
           
           // ADMIN or THERAPIST
-          title: (role === "BETA" ? "Beta Tester" : formValues.title),
+          title: (role === "Beta Tester" ? "Beta Tester" : formValues.title),
           organizationName: formValues.organizationName,
         },
       })
