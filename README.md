@@ -32,7 +32,6 @@ Ask the project owner for the values. It needs:
 | `SEND_GRID_API_KEY` | Sending emails |
 | `FIREBASE_SERVICE_ACCOUNT` | Push notifications. The whole Firebase service-account JSON on one line |
 | `CLOUDINARY_PUBLIC`, `CLOUDINARY_PRIVATE` | Image uploads |
-| `freeEmail` ... `freeEmail10` | Email addresses that get the app for free |
 | `API_URL` | GraphQL URL the web portal's browser code calls |
 
 The same variables must be set in **Vercel → Project → Settings → Environment Variables**
@@ -50,12 +49,20 @@ yarn dev
 To point the mobile app at this local server, run `npm run start:local` in the
 mobile repo.
 
-## 3. Deploying
+## 3. Payments are switched off
+
+Kidz-N-Motion is currently **free for everyone**. On every login,
+`loginUser` marks the user and their organizations as `Active`, and the web
+portal no longer shows trial banners, subscription buttons or billing redirects.
+The Stripe code (`pages/api/billing/`, `pages/account/billing.js`) is still in
+the repo but nothing sends users there automatically.
+
+## 4. Deploying
 
 Merging into **`master`** deploys to the live site automatically (Vercel).
 Before merging, make sure any new environment variables are already in Vercel.
 
-## 4. Database changes
+## 5. Database changes
 
 Edit `prisma/schema.prisma`, then:
 
@@ -65,7 +72,7 @@ npx prisma migrate status    # see what's pending
 npx prisma migrate dev       # create + apply a migration (dev database only)
 ```
 
-## 5. Where things are
+## 6. Where things are
 
 | Folder | What's in it |
 | --- | --- |

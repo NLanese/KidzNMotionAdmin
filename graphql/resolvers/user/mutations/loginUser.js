@@ -5,6 +5,38 @@ import { makeRandomString, changeTimeZone } from "@helpers/common";
 
 var CryptoJS = require("crypto-js");
 
+// Kidz-N-Motion is currently free for everyone. On every login, make sure the
+// user and every organization they own or belong to are flagged "Active" so no
+// part of the app or website shows a payment/trial block.
+// A failure here is logged but never stops the login.
+const ACTIVE = "Active";
+async function markAccountActive(user) {
+  try {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { soloSubscriptionStatus: ACTIVE },
+    });
+
+    const orgIds = new Set();
+    if (user.ownedOrganization && user.ownedOrganization.id) {
+      orgIds.add(user.ownedOrganization.id);
+    }
+    (user.organizations || []).forEach((membership) => {
+      if (membership && membership.organization && membership.organization.id) {
+        orgIds.add(membership.organization.id);
+      }
+    });
+    if (orgIds.size > 0) {
+      await prisma.organization.updateMany({
+        where: { id: { in: [...orgIds] } },
+        data: { subscriptionStatus: ACTIVE },
+      });
+    }
+  } catch (err) {
+    console.error("Could not flag account as Active:", err.message);
+  }
+}
+
 export default {
   Mutation: {
     loginUser: async (_, { username, password }) => {
@@ -123,145 +155,11 @@ export default {
           ).toString();
 
 
-          ///////////////////////////////
-          // SUBSCRIPTION STATUS CHECK //
-          let subscriptionStatus = "free";
-          let daysLeft;
-
-
-          // IF //
-          // Organization Owner //
-          if (userToLogin.ownedOrganization) {
-
-              // IF //
-            //  No Subscription ID (no Payment) //
-            if (!userToLogin.ownedOrganization.stripeSubscriptionID) {
-
-              // Days since Org.CreateAt
-              daysLeft = parseInt(
-                8 -
-                  (new Date().getTime() -
-                    new Date(userToLogin.ownedOrganization.createdAt).getTime()) /
-                    (1000 * 3600 * 24)
-              )
-
-              if (daysLeft <= 0) {
-                subscriptionStatus = "free";
-              } 
-              else {
-                subscriptionStatus = "trial - owner";
-              }
-
-            } 
-            
-            // IF //
-            //  No Subscription ID (no Payment) //
-            else {
-              subscriptionStatus = "active";
-            }
-          } 
-          
-          // IF //
-          // Guardian User //      
-          else if (userToLogin.role === "GUARDIAN") {
-
-              // IF //
-            // User Paid //
-            if (userToLogin.soloStripeSubscriptionID) {
-              subscriptionStatus = "active";
-            } 
-
-              // IF //
-            // User Did not Pay //
-            else {
-              daysLeft = parseInt(
-                8 -
-                  (new Date().getTime() -
-                    new Date(userToLogin.createdAt).getTime()) /
-                    (1000 * 3600 * 24)
-              );
-              if (daysLeft <= 0) {
-                subscriptionStatus = "free";
-              } else {
-                subscriptionStatus = "trial - guardian";
-              }
-            }
-
-              // IF //
-            // Org Did Not Pay //
-            // if (!userToLogin.organizations[0].stripeSubscriptionID) {
-            //   daysLeft = parseInt(
-            //     8 -
-            //       (new Date().getTime() -
-            //         new Date(userToLogin.createdAt).getTime()) /
-            //         (1000 * 3600 * 24)
-            //   );
-            //   if (daysLeft <= 0) {
-            //     subscriptionStatus = "free";
-            //   } else {
-            //     subscriptionStatus = "trial - not owner";
-            //   }
-            // } 
-          } 
-          
-          // IF //
-          // Therapist User //
-          // else {
-          //   if (userToLogin.organizations) {
-          //     if (userToLogin.organizations[0]) {
-          //       const organization = userToLogin.organizations[0].organization;
-          //       if (!organization.stripeSubscriptionID) {
-          //         daysLeft = parseInt(
-          //           8 -
-          //             (new Date().getTime() -
-          //               new Date(organization.createdAt).getTime()) /
-          //               (1000 * 3600 * 24)
-          //         );
-          //         if (daysLeft <= 0) {
-          //           subscriptionStatus = "free";
-          //         } else {
-          //           subscriptionStatus = "trial - therapist";
-          //         }
-          //       } else {
-          //         subscriptionStatus = "active";
-          //       }
-          //     }
-          //     else {
-          //       daysLeft = parseInt(
-          //         8 -
-          //           (new Date().getTime() -
-          //             new Date(userToLogin.createdAt).getTime()) /
-          //             (1000 * 3600 * 24)
-          //       );
-          //       if (daysLeft <= 0) {
-          //         subscriptionStatus = "free";
-          //       } else {
-          //         subscriptionStatus = "trial - therapist";
-          //       }
-          //     }
-          //   }
-          // }
-
-          // IF //
-          // Test Account (Free Bypass)
-          if (
-            userToLogin.email.toLowerCase() === process.env.freeEmail ||
-            userToLogin.email.toLowerCase() === process.env.freeEmail2 ||
-            userToLogin.email.toLowerCase() === process.env.freeEmail3 ||
-            userToLogin.email.toLowerCase() === process.env.freeEmail4 ||
-            userToLogin.email.toLowerCase() === process.env.freeEmail5 ||
-            userToLogin.email.toLowerCase() === process.env.freeEmail6 ||
-            userToLogin.email.toLowerCase() === process.env.freeEmail7 || 
-            userToLogin.email.toLowerCase() === process.env.freeEmail8 || 
-            userToLogin.email.toLowerCase() === process.env.freeEmail9 || 
-            userToLogin.email.toLowerCase() === process.env.freeEmail10 
-          ){
-            subscriptionStatus = "active"
-          }
-
-
-
-          userToLogin = {...userToLogin, soloSubscriptionStatus:subscriptionStatus,  subscriptionStatus: subscriptionStatus}
+          // ACCESS: Kidz-N-Motion is currently free for everyone.
+          // Every login flags this account (and its organizations) as Active,
+          // so neither the app nor the website shows a trial/payment block.
+          await markAccountActive(userToLogin);
+          userToLogin = { ...userToLogin, soloSubscriptionStatus: "active", subscriptionStatus: "active" };
 
           // Return token and truncated user object
           try {
@@ -354,6 +252,8 @@ export default {
                     jwtTokenString,
                     process.env.JWT_SECRET_KEY
                   ).toString();
+
+                  await markAccountActive(childPasswordMatch);
 
                   // Return token and truncated user object
                   try {

@@ -7,19 +7,12 @@ import {
   Space,
   message,
   Divider,
-  Result,
-  Button,
 } from "antd";
 import ContentCard from "@common/content/ContentCard";
 import PageHeader from "@common/PageHeader";
 import { userState } from "@atoms";
 import { useRecoilValue } from "recoil";
 import LoadingBlock from "@common/LoadingBlock";
-import {
-  getCheckoutURL,
-  getBillingInformation,
-  updateOrganizationSubscription,
-} from "@helpers/billing";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { GET_VIDEO_LIBRARY } from "@graphql/operations";
 import client from "@utils/apolloClient";
@@ -64,10 +57,6 @@ function Index() {
   useEffect(() => {
     getVideos();
   }, []);
-  const checkout = async () => {
-    const session = await getCheckoutURL();
-    window.location = session.checkoutURL;
-  };
   const renderVideos = (level, renderHalfVideo) => {
     return videos.map((videoObject, index) => {
       if (renderHalfVideo && index > 4) return null;
@@ -121,69 +110,9 @@ function Index() {
       </>
     );
 
-    let halfVideoFeedOwnedOrg = (
-      <>
-        {!videos ? (
-          <LoadingBlock />
-        ) : (
-          <>
-            {renderVideoLevel(1, false)}
-            <Result
-              title="Activate your subscription to  view the full video library"
-              extra={
-                <Button
-                  onClick={() => checkout()}
-                  type="primary"
-                  key="console"
-                  size={"large"}
-                >
-                  Activate Subscription
-                </Button>
-              }
-            />
-          </>
-        )}
-      </>
-    );
-
-    let halfVideoOrgUser = (
-      <>
-        {!videos ? (
-          <LoadingBlock />
-        ) : (
-          <>
-            {renderVideoLevel(1, false)}
-            <Result title="The organization admin needs to activate their subscription to view the full video library" />
-          </>
-        )}
-      </>
-    );
-
+    // Kidz-N-Motion is currently free: therapists and admins always get the full library.
     if (user.role !== "GUARDIAN") {
-      // Check if the user organization subscriptino is active
-      let activeSubscription = false;
-
-      if (user.organizations[0]) {
-        if (user.organizations[0].organization) {
-          if (user.organizations[0].organization.stripeSubscriptionID) {
-            activeSubscription = true;
-          }
-        }
-      }
-
-      if (user.ownedOrganization) {
-        if (activeSubscription) {
-          return fullVideoFeed;
-        } else {
-          return halfVideoFeedOwnedOrg;
-        }
-      } else {
-        if (activeSubscription) {
-          return fullVideoFeed;
-        } else {
-          return halfVideoOrgUser;
-        }
-      }
+      return fullVideoFeed;
     } else {
       if (user.solo) {
         return fullVideoFeed;
