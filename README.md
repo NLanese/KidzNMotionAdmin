@@ -32,6 +32,7 @@ Ask the project owner for the values. It needs:
 | `SEND_GRID_API_KEY` | Sending emails |
 | `FIREBASE_SERVICE_ACCOUNT` | Push notifications. The whole Firebase service-account JSON on one line |
 | `CLOUDINARY_PUBLIC`, `CLOUDINARY_PRIVATE` | Image uploads |
+| `CRON_SECRET` | Any long random string. Vercel sends it to the daily job so outsiders can't trigger it |
 | `API_URL` | GraphQL URL the web portal's browser code calls |
 
 `.env.local` (optional) overrides `.env` for local development. Don't define the
@@ -60,12 +61,23 @@ portal no longer shows trial banners, subscription buttons or billing redirects.
 The Stripe code (`pages/api/billing/`, `pages/account/billing.js`) is still in
 the repo but nothing sends users there automatically.
 
-## 4. Deploying
+## 4. Assignment notifications for therapists
+
+Code: `functions/AssignmentHelpers/assignmentNotifications.js`
+
+- **Completed:** when a child finishes the last video in an assignment
+  (`setVideoCompleted`), the therapist gets a push + in-app notification, once.
+- **Missed:** a daily Vercel job (`/api/cron/missed-assignments`, scheduled in
+  `vercel.json` for 13:00 UTC = 7am Denver) notifies the therapist once for every
+  assignment whose due date has passed with videos unfinished. Assignments more
+  than 7 days overdue when first seen are flagged without a notification.
+
+## 5. Deploying
 
 Merging into **`master`** deploys to the live site automatically (Vercel).
 Before merging, make sure any new environment variables are already in Vercel.
 
-## 5. Database changes
+## 6. Database changes
 
 Edit `prisma/schema.prisma`, then:
 
@@ -75,7 +87,7 @@ npx prisma migrate status    # see what's pending
 npx prisma migrate dev       # create + apply a migration (dev database only)
 ```
 
-## 6. Where things are
+## 7. Where things are
 
 | Folder | What's in it |
 | --- | --- |

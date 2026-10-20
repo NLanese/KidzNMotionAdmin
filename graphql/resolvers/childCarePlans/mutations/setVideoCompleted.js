@@ -3,8 +3,7 @@ import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
 import { makeMedal } from "@helpers/medals";
 import VIDEOS from "@constants/videos";
-import determineAssignmentNewlyCompleted from "../../../../functions/AssignmentHelpers/determineAssignmentCompletion";
-import markAssignmentComplete from "../../../../functions/AssignmentHelpers/markAssignmentComplete";
+import { notifyAssignmentCompleted } from "../../../../functions/AssignmentHelpers/assignmentNotifications";
 
 export default {
   Mutation: {
@@ -93,31 +92,34 @@ export default {
           if (new Date(assignment.dateStart) < new Date()){
             assignment.videos.forEach(vid => {
               if (vid.contentfulID === video.id){
-                "ADDING VIDEO"
                 sameVideos.push(vid.id)
               }
             })
           }
         })          
 
-        // Runs the Mutation on each applicable 
-        sameVideos.forEach(async (vidID) => {
-          await prisma.video.update({
-            where: {
-              id: vidID
-            },
-            data: {
-              completed: true
-            }
-          })
-        })
+        // Marks each matching video instance complete (and waits for the writes)
+        await Promise.all(
+          sameVideos.map((vidID) =>
+            prisma.video.update({
+              where: { id: vidID },
+              data: { completed: true },
+            })
+          )
+        )
 
-        // Sees if Assignment is completed or not
-        foundAssignments.forEach(assignment => {
-          if (determineAssignmentNewlyCompleted(assignment)){
-            markAssignmentComplete(assignment, prisma)
+        // If this finished every video in an assignment, notify the therapist (once)
+        // (re-reads from the database so two videos finished at the same moment still count)
+        const justCompleted = new Set(sameVideos)
+        for (const assignment of foundAssignments) {
+          if (!assignment.videos.some((vid) => justCompleted.has(vid.id))) continue
+          const remaining = await prisma.video.count({
+            where: { completed: false, assignments: { some: { id: assignment.id } } },
+          })
+          if (remaining === 0) {
+            await notifyAssignmentCompleted(assignment.id)
           }
-        })
+        }
 
 
 
