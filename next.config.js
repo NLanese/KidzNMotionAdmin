@@ -1,5 +1,3 @@
-require('dotenv').config();
-const Dotenv = require('dotenv-webpack');
 const path = require('path');
 const webpack = require('webpack');
 const withAntdLess = require('next-plugin-antd-less');
@@ -8,13 +6,8 @@ const moduleExports = withAntdLess({
   webpack: (config, { isServer }) => {
     config.plugins = config.plugins || [];
 
-    config.plugins = [
-      ...config.plugins,
-      new Dotenv({
-        path: path.join(__dirname, '.env'),
-        systemvars: true
-      })
-    ];
+    // Note: Next.js loads .env / .env.local by itself. Server code reads
+    // process.env at runtime; never inject the env files into the browser bundle.
 
     // Set API_URL environment variable for local development
     if (!isServer) {
@@ -31,15 +24,6 @@ const moduleExports = withAntdLess({
         })
       );
     }
-
-    // Add the following lines to handle NEXT_RUNTIME
-    const nextRuntime = process.env.NEXT_RUNTIME || 'default_runtime_value';
-
-    config.plugins.push(
-      new webpack.DefinePlugin({
-        'process.env.NEXT_RUNTIME': JSON.stringify(nextRuntime),
-      })
-    );
 
     // ** Add the hashFunction configuration **
     config.output = {

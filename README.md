@@ -27,12 +27,15 @@ Ask the project owner for the values. It needs:
 | `DEV_DATABASE_URL`, `SHAWDOW_URL` | Dev database / Prisma shadow database |
 | `JWT_SECRET_KEY` | Signing login tokens |
 | `PASSWORD_SECRET_KEY` | Encrypting stored passwords |
-| `SUPER_USER_SECRET_KEY` | Extra key required for "super user" admin actions |
+| `SUPER_USER_SECRET_KEY` | Extra key required for "super user" admin actions. You type it into the box on `/superui/console`. Write any `$` in the value as `\$` |
 | `STRIPE_PRIVATE_KEY` | Billing / checkout |
 | `SEND_GRID_API_KEY` | Sending emails |
 | `FIREBASE_SERVICE_ACCOUNT` | Push notifications. The whole Firebase service-account JSON on one line |
 | `CLOUDINARY_PUBLIC`, `CLOUDINARY_PRIVATE` | Image uploads |
 | `API_URL` | GraphQL URL the web portal's browser code calls |
+
+`.env.local` (optional) overrides `.env` for local development. Don't define the
+same `$`-containing value in both files: Next.js will fail to load the env.
 
 The same variables must be set in **Vercel → Project → Settings → Environment Variables**
 for the live site.

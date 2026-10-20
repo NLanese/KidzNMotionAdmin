@@ -11,13 +11,17 @@ import {
 import client from "@utils/apolloClient";
 
 // Ant Design
-import { Col, Row, Button, message, Divider, Spin, DatePicker, Modal } from "antd";
+import { Col, Row, Button, message, Divider, Spin, DatePicker, Modal, Input } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 
 function Console() {
   /////////////////////////
   // State and Constants //
   /////////////////////////
+
+  // Super user key: typed in on this page. It must never be built into the
+  // website's code, because anyone can read the code in their browser.
+  const [superKey, setSuperKey] = useState("")
 
   ////////////////////
   // Client Query Data
@@ -129,7 +133,7 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
       console.log("Creating Expired Assignment")
       await createExpiredAssignment({
         variables: {
-          superUserKey: process.env.SUPER_USER_SECRET_KEY
+          superUserKey: superKey
         }
       })
     }
@@ -160,7 +164,7 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
           childID: selectedClient.id,
           guardianID: selectedClient.guardian.id,
           therapistID: selectedTherapist.id,
-          superUserKey: process.env.SUPER_USER_SECRET_KEY
+          superUserKey: superKey
         },
       })
         .then(async (resolved) => {
@@ -204,7 +208,7 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
     await deleteAssignments({
       variables: {
         idArray: arrayIDs,
-        superUserKey: process.env.SUPER_USER_SECRET_KEY
+        superUserKey: superKey
       }
     })
   }
@@ -213,12 +217,11 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
   async function handleDeleteUsers(){
     arrayIDs.forEach( async id => {
       console.log("Deleting user ", id)
-      console.log(process.env.SUPER_USER_SECRET_KEY)
       try{
         await deleteUser({
           variables: {
             userId: id,
-            superUserKey: process.env.SUPER_USER_SECRET_KEY
+            superUserKey: superKey
           }
         })
       }
@@ -233,7 +236,7 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
     await superActivateUsers({
       variables: {
         idArray: arrayIDs,
-        superUserKey: process.env.SUPER_USER_SECRET_KEY
+        superUserKey: superKey
       }
     })
   }
@@ -594,7 +597,17 @@ const [superActivateUsers, {}] = useMutation(SUPER_ACTIVATE_USERS)
   /////////||\\\\\\\\\\
   // return therapistMAIN();
   // return renderDeleteUsersMAIN()
-  return renderActivateUsersMAIN()
+  return (
+    <div>
+      <Input.Password
+        placeholder="Super user key"
+        value={superKey}
+        onChange={(e) => setSuperKey(e.target.value)}
+        style={{ maxWidth: 400, marginBottom: 20 }}
+      />
+      {renderActivateUsersMAIN()}
+    </div>
+  )
 }
   
 export default Console;
