@@ -1,9 +1,7 @@
-const path = require('path');
-const webpack = require('webpack');
 const withAntdLess = require('next-plugin-antd-less');
 
 const moduleExports = withAntdLess({
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, webpack }) => {
     config.plugins = config.plugins || [];
 
     // Note: Next.js loads .env / .env.local by itself. Server code reads
