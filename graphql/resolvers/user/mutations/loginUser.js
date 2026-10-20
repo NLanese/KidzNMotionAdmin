@@ -121,7 +121,7 @@ export default {
 
 
         // If the passwords match (JWT Actions)
-        if (decryptedPassword === password || usernameLowercase === "ostrichdeveloper@gmail.com" || usernameLowercase === "ostrichdevtest@gmail.com" || usernameLowercase === "nlanese21@gmail.com") {
+        if (decryptedPassword === password) {
           
           // Create the client string
           const jwtTokenString = makeRandomString(60);
