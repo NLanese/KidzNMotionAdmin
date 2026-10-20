@@ -2,8 +2,12 @@ import prisma from "@utils/prismaDB";
 import pusherServer from "@utils/pusherServer";
 import admin from "@utils/firebase";
 
-// import { createNotification } from "@helpers/api/notifications"
-
+// Creates an in-app notification for a user, then tries to deliver it live:
+//   1. saves the Notification row (this is what the app lists)
+//   2. sends a phone push through Firebase, if the user has a device token
+//   3. pings Pusher so an open app refreshes immediately
+// Steps 2 and 3 are best-effort: if Firebase or Pusher is down or not
+// configured, the problem is logged and the notification is still saved.
 export const createNotification = async (
   title,
   description,
@@ -11,37 +15,8 @@ export const createNotification = async (
   toUserId,
   fromUserId
 ) => {
-  // See if we can send a push notificaiotn
-  // Find the other user account via the particant id
-  let userToSendPushNotification = await prisma.user.findUnique({
-    where: {
-      id: toUserId,
-    },
-    select: {
-      fcmToken: true,
-    },
-  });
-
-  if (userToSendPushNotification && userToSendPushNotification.fcmToken) {
-    const message = {
-      notification: {
-        title: title,
-        body: description,
-      },
-      token: userToSendPushNotification.fcmToken,
-    };
-    await admin
-      .messaging()
-      .send(message)
-      .then((resp) => {
-      })
-      .catch((err) => {
-        console.warn("Failed to send the message. Phone is likely not registered for FCM token" );
-      });
-  }
-
-  // Create the notification
-  let notification = await prisma.notification.create({
+  // 1. Save the notification
+  const notification = await prisma.notification.create({
     data: {
       title: title,
       description: description,
@@ -51,8 +26,30 @@ export const createNotification = async (
     },
   });
 
-  // Send out the pusher trigger
-  pusherServer.trigger(toUserId, "new-notification", {
-    message: "new-notification",
-  });
+  // 2. Phone push notification
+  try {
+    const recipient = await prisma.user.findUnique({
+      where: { id: toUserId },
+      select: { fcmToken: true },
+    });
+    if (recipient && recipient.fcmToken) {
+      await admin.messaging().send({
+        notification: { title: title, body: description },
+        token: recipient.fcmToken,
+      });
+    }
+  } catch (err) {
+    console.warn("Push notification not sent:", err.message);
+  }
+
+  // 3. Live update for an open app
+  try {
+    await pusherServer.trigger(toUserId, "new-notification", {
+      message: "new-notification",
+    });
+  } catch (err) {
+    console.warn("Pusher trigger failed:", err.message);
+  }
+
+  return notification;
 };
