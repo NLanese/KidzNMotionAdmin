@@ -2,12 +2,16 @@
 //   - "completed": the child finished every video in an assignment
 //   - "missed":    the due date passed and not every video was finished
 //
+// Each alert goes out two ways: an email (therapists mostly use the website)
+// and a phone push / in-app record via createNotification.
+//
 // Both are sent at most once per assignment. The database flag is flipped
 // with a conditional update first (completed / notificationSent), so two
 // requests running at the same time can never both send the notification.
 
 import prisma from "@utils/prismaDB";
 import { createNotification } from "@helpers/api/notifications";
+import sendEmail from "../../graphql/prisma_functions/sendGrid/sendEmail";
 
 const MONTHS = {
   jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
@@ -64,10 +68,36 @@ const assignmentDetails = {
     select: {
       therapistId: true,
       active: true,
+      therapist: { select: { email: true, firstName: true } },
       child: { select: { id: true, firstName: true, lastName: true } },
     },
   },
 };
+
+const escapeHtml = (text) =>
+  String(text).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+// Sends one alert to the therapist: email + push/in-app. Never throws.
+async function alertTherapist(plan, type, title, body) {
+  try {
+    await createNotification(title, body, type, plan.therapistId, plan.child ? plan.child.id : null);
+  } catch (err) {
+    console.error("Therapist notification failed:", err.message);
+  }
+
+  const therapist = plan.therapist;
+  if (therapist && therapist.email) {
+    const greeting = therapist.firstName ? `Hi ${therapist.firstName},` : "Hi,";
+    const text = `${greeting}\n\n${body}\n\nLog in to Kidz-N-Motion to see the details.\n\n- Kidz-N-Motion`;
+    const html =
+      `<p>${escapeHtml(greeting)}</p>` +
+      `<p>${escapeHtml(body)}</p>` +
+      `<p>Log in to Kidz-N-Motion to see the details.</p>` +
+      `<p style="color:#888">- Kidz-N-Motion</p>`;
+    // sendEmail logs its own errors and does not throw
+    await sendEmail(true, text, html, therapist.email, title);
+  }
+}
 
 // Call when a video in this assignment was just completed and every video is
 // now done. Marks the assignment completed and notifies the therapist, once.
@@ -88,12 +118,11 @@ export async function notifyAssignmentCompleted(assignmentId) {
 
     const { first, full } = names(plan.child);
     const count = assignment.videos.length;
-    await createNotification(
-      `${first} completed an assignment!`,
-      `${full} finished all ${count} video${count === 1 ? "" : "s"} in "${assignment.title}".`,
+    await alertTherapist(
+      plan,
       "ASSIGNMENT_COMPLETED",
-      plan.therapistId,
-      plan.child ? plan.child.id : null
+      `${first} completed an assignment!`,
+      `${full} finished all ${count} video${count === 1 ? "" : "s"} in "${assignment.title}".`
     );
   } catch (err) {
     console.error("Assignment completed notification failed:", err.message);
@@ -147,18 +176,13 @@ export async function notifyMissedAssignments(now = new Date()) {
     const { first, full } = names(plan.child);
     const done = assignment.videos.filter((v) => v.completed).length;
     const total = assignment.videos.length;
-    try {
-      await createNotification(
-        `${first} missed an assignment`,
-        `${full} did not finish "${assignment.title}" by ${String(assignment.dateDue).trim()} (${done} of ${total} videos completed).`,
-        "ASSIGNMENT_MISSED",
-        plan.therapistId,
-        plan.child ? plan.child.id : null
-      );
-      summary.notified++;
-    } catch (err) {
-      console.error("Missed assignment notification failed:", assignment.id, err.message);
-    }
+    await alertTherapist(
+      plan,
+      "ASSIGNMENT_MISSED",
+      `${first} missed an assignment`,
+      `${full} did not finish "${assignment.title}" by ${String(assignment.dateDue).trim()} (${done} of ${total} videos completed).`
+    );
+    summary.notified++;
   }
 
   return summary;

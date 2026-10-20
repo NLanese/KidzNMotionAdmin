@@ -65,8 +65,11 @@ the repo but nothing sends users there automatically.
 
 Code: `functions/AssignmentHelpers/assignmentNotifications.js`
 
+Alerts go to the therapist by **email** (SendGrid, from
+`no-reply@dashboard.kidz-n-motion.app`) and as a **phone push** if they use the app.
+
 - **Completed:** when a child finishes the last video in an assignment
-  (`setVideoCompleted`), the therapist gets a push + in-app notification, once.
+  (`setVideoCompleted`), the therapist is alerted once.
 - **Missed:** a daily Vercel job (`/api/cron/missed-assignments`, scheduled in
   `vercel.json` for 13:00 UTC = 7am Denver) notifies the therapist once for every
   assignment whose due date has passed with videos unfinished. Assignments more
