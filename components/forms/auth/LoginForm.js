@@ -9,6 +9,24 @@ import { useMutation } from "@apollo/client";
 import { LOGIN_USER, GET_USER } from "@graphql/operations";
 import client from "@utils/apolloClient";
 
+// One shared key so repeated failed attempts replace the same message
+// instead of stacking up, and a successful login can clear it.
+const LOGIN_ERROR_KEY = "login-error";
+
+// Turns a failed login into a short, readable sentence,
+// e.g. "UserInputError: Email/Password are incorrect." -> "Email/Password are incorrect."
+function loginErrorText(error) {
+  const raw =
+    (error && error.graphQLErrors && error.graphQLErrors[0] && error.graphQLErrors[0].message) ||
+    (error && error.message) ||
+    "";
+  const cleaned = raw.replace(/^(\w*Error:\s*)+/, "").trim();
+  if (!cleaned || /network|failed to fetch/i.test(cleaned)) {
+    return "Could not log in. Please check your connection and try again.";
+  }
+  return cleaned;
+}
+
 function LoginForm() {
   const setUser = useSetRecoilState(userState);
   const [redirectLogin, setRedirectLogin] = useState(false);
@@ -24,6 +42,7 @@ function LoginForm() {
       },
     })
       .then(async (resolved) => {
+        message.destroy(LOGIN_ERROR_KEY);
         message.success("Successfully logged in");
 
         // Set the form spinner
@@ -46,7 +65,8 @@ function LoginForm() {
           });
       })
       .catch((error) => {
-        message.error("ERROR: ", error);
+        console.warn("Login failed:", error);
+        message.error({ content: loginErrorText(error), key: LOGIN_ERROR_KEY, duration: 4 });
       });
   };
 
