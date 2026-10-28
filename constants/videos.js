@@ -12,9 +12,7 @@ const VIDEOS = {
     description:
       "Bend over and touch your toes. For this exercise, try to keep your knees straight without bending them, and reach down as far as you can!",
     videoURL:
-      "https://res.cloudinary.com/king-willy-studios/video/upload/v1667887191/Kids-N-Motion%20Videos/Toe_Touches_jh5cdk.mp4",
-    previewPictureURL:
-      "https://video-stills.s3.us-east-2.amazonaws.com/02_squat.png",
+      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/17_toe_touches.mp4",
     medicalDescription: "(Gower’s Maneuver)",
   },
   squat: {
