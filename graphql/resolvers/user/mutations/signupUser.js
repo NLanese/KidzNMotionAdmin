@@ -1,7 +1,7 @@
 import prisma from "@utils/prismaDB"
 import { makeRandomString, changeTimeZone } from "@helpers/common";
 import { UserInputError } from "apollo-server-errors";
-import IsConflictingEmails from "../../../prisma_functions/user/checkForConflictingEmails";
+import { emailTaken, usernameTaken } from "../../../prisma_functions/user/findConflicts";
 import findMissingGuardianFields from "../../../prisma_functions/user/checkMissingGuardianFields";
 import claimPatient from "../../therapists/mutations/claimPatient";
 import claimPatientFor from "../../therapists/mutations/claimPatientFor";
@@ -42,8 +42,13 @@ try {
   // CHECKS FOR CONFLICTS //
 
     if (context.user) throw new UserInputError("Already logged in");
-    if (IsConflictingEmails(email) === true) {
+    // Before: this called an async check without awaiting it, so it never
+    // caught a duplicate email; duplicate usernames weren't checked at all.
+    if (await emailTaken(email)) {
       throw new UserInputError("Email already exists.");
+    }
+    if (username && await usernameTaken(username)) {
+      throw new UserInputError("Username already taken.");
     }
 
   ////////////////////////////////////////////

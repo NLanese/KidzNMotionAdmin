@@ -20,6 +20,7 @@ import editColorSettings from "./mutations/editColorSettings.js";
 import updatePhoneToken from "./mutations/updatePhoneToken.js";
 import createUserToUserNotification from "./mutations/createUserToUserNotification.js";
 import requestAccountDeletion from "./mutations/requestAccountDeletion.js";
+import deleteMyAccount from "./mutations/deleteMyAccount.js";
 
 export default {
   Query: {
@@ -44,6 +45,7 @@ export default {
     ...updatePhoneToken.Mutation,
     ...createUserToUserNotification.Mutation,
     ...requestAccountDeletion.Mutation,
+    ...deleteMyAccount.Mutation,
   },
   JSON: GraphQLJSON,
 };

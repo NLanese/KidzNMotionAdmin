@@ -309,6 +309,9 @@ const typeDefs = gql`
       superUserKey: String!
     ): Boolean
 
+    # Signed-in user deletes their own account (and a parent's children).
+    deleteMyAccount(password: String!): Boolean
+
     updatePhoneToken(token: String!): Boolean
 
     confirmPassword(password: String!): Boolean
