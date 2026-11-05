@@ -14,7 +14,7 @@ Hosting is on **Vercel**.
 ## 1. First-time setup
 
 ```sh
-nvm install 20 && nvm use 20
+nvm install 22 && nvm use 22
 yarn            # installs packages and runs `prisma generate`
 ```
 
