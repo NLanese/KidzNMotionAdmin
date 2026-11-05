@@ -9,22 +9,18 @@ const VIDEOS = {
     id: "toe_touches",
     level: 1,
     title: "Toe Touches",
-    description:
-      "Bend over and touch your toes. For this exercise, try to keep your knees straight without bending them, and reach down as far as you can!",
-    videoURL:
-      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/17_toe_touches.mp4",
+    description:"Bend over and touch your toes. For this exercise, try to keep your knees straight without bending them, and reach down as far as you can!",
+    videoURL:"https://workout-videos-knm.s3.us-east-2.amazonaws.com/17_toe_touches.mp4",
+    previewPictureURL: "",
     medicalDescription: "(Gower’s Maneuver)",
   },
   squat: {
     id: "squat",
     level: 1,
     title: "Squat",
-    description:
-      "For this exercise, plant your feet about shoulder width apart, and squat down while trying to keep your back straight. This should test your leg strength as well as your balance!",
-    videoURL:
-      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/02_squat.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948315/Kidz-N-Motion%20Thumbnails/squat_ujqj9j.png",
+    description: "For this exercise, plant your feet about shoulder width apart, and squat down while trying to keep your back straight. This should test your leg strength as well as your balance!",
+    videoURL: "https://workout-videos-knm.s3.us-east-2.amazonaws.com/02_squat.mp4",
+    previewPictureURL: "https://video-stills.s3.us-east-2.amazonaws.com/02_squat.png",
     medicalDescription: "(Gluteus maximus and quadriceps femoris strength)",
   },
 
@@ -170,15 +166,11 @@ const VIDEOS = {
   bear_crawl: {
     level: 2,
     title: "Bear Crawl",
-    description:
-      "In this exercise, we will want to get on all fours, with both our feet and our palms on the ground. Like this, continue to walk forwards without losing balance or standing up!",
-    videoURL:
-      "https://workout-videos-knm.s3.us-east-2.amazonaws.com/11_bear_crawl.mp4",
-    previewPictureURL:
-      "https://res.cloudinary.com/king-willy-studios/image/upload/v1663948312/Kidz-N-Motion%20Thumbnails/Bear_crawl_1_wymsmn.png",
+    description: "In this exercise, we will want to get on all fours, with both our feet and our palms on the ground. Like this, continue to walk forwards without losing balance or standing up!",
+    videoURL: "https://workout-videos-knm.s3.us-east-2.amazonaws.com/11_bear_crawl.mp4",
+    previewPictureURL: "https://video-stills.s3.us-east-2.amazonaws.com/11_bear_crawl.png",
     id: "bear_crawl",
-    medicalDescription:
-      "(Total body: Core strength, shoulder, chest, and leg strength)",
+    medicalDescription: "(Total body: Core strength, shoulder, chest, and leg strength)",
   },
 
   // bear_crawl_right: {
