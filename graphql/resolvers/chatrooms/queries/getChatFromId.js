@@ -1,5 +1,6 @@
 import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
+import { messageTime } from "./messageTime";
 
 export default {
   Query: {
@@ -43,7 +44,10 @@ export default {
         },
       });
 
-      return chatRooms.chatRooms[0];
+      const room = chatRooms.chatRooms[0];
+      if (!room) return room;
+      // The database sorted createdAt as text (so by weekday name); sort by real time.
+      return { ...room, messages: [...room.messages].sort((a, b) => messageTime(a) - messageTime(b)) };
     },
   },
 };

@@ -3,6 +3,7 @@ import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
 import { makeRandomString, changeTimeZone } from "@helpers/common";
 import { getUserObject } from "@helpers/api/auth";
+import { usernameTaken, friendlyUniqueError } from "../../../prisma_functions/user/findConflicts";
 
 export default {
   Mutation: {
@@ -16,14 +17,9 @@ export default {
       if (context.user.role !== "GUARDIAN")
         throw new UserInputError("Only guardians can add children");
 
-      let conflicting = prisma.user.findMany({
-        where: {
-          username: childUsername,
-        },
-      });
-
-      if (conflicting.length > 0) {
-        throw new Error("Username taken");
+      // Before: this lookup wasn't awaited, so it never caught a duplicate.
+      if (await usernameTaken(childUsername)) {
+        throw new UserInputError("Username already taken.");
       }
 
       // Create the child user
@@ -46,6 +42,8 @@ export default {
           },
         })
         .catch((err) => {
+          const friendly = friendlyUniqueError(err);
+          if (friendly) throw new UserInputError(friendly);
           throw new Error(err);
         });
 

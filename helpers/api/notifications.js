@@ -8,6 +8,17 @@ import admin from "@utils/firebase";
 //   3. pings Pusher so an open app refreshes immediately
 // Steps 2 and 3 are best-effort: if Firebase or Pusher is down or not
 // configured, the problem is logged and the notification is still saved.
+//
+// The phone push respects the user's Settings switches:
+//   muteAllMessages     -> no push for MESSAGE notifications
+//   muteAllAssignments  -> no push for assignment / meeting notifications
+// The in-app notification is always saved, so badges still show.
+const isMutedFor = (type, user) => {
+  const t = String(type || "").toUpperCase();
+  if (t === "MESSAGE") return !!user.muteAllMessages;
+  if (t.includes("ASSIGNMENT") || t.includes("MEETING")) return !!user.muteAllAssignments;
+  return false;
+};
 export const createNotification = async (
   title,
   description,
@@ -30,9 +41,9 @@ export const createNotification = async (
   try {
     const recipient = await prisma.user.findUnique({
       where: { id: toUserId },
-      select: { fcmToken: true },
+      select: { fcmToken: true, muteAllMessages: true, muteAllAssignments: true },
     });
-    if (recipient && recipient.fcmToken) {
+    if (recipient && recipient.fcmToken && !isMutedFor(type, recipient)) {
       await admin.messaging().send({
         notification: { title: title, body: description },
         token: recipient.fcmToken,

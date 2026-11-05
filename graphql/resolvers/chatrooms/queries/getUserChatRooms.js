@@ -1,5 +1,6 @@
 import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
+import { messageTime } from "./messageTime";
 
 export default {
   Query: {
@@ -18,13 +19,14 @@ export default {
             },
             select: {
               id: true,
+              // createdAt is stored as text ("Thu Nov 05 2026 ..."), so the
+              // database can't sort it by time. Load them and pick the newest below.
               messages: {
-                take: 1,
-                orderBy: {
-                  createdAt: "asc",
-                },
                 select: {
                   createdAt: true,
+                  content: true,
+                  sentBy: true,
+                  sentAt: true,
                 },
               },
               users: {
@@ -40,7 +42,11 @@ export default {
         },
       });
 
-      return chatRooms.chatRooms;
+      // Each room comes back with only its newest message (for the preview).
+      return chatRooms.chatRooms.map((room) => {
+        const newest = [...room.messages].sort((a, b) => messageTime(b) - messageTime(a))[0];
+        return { ...room, messages: newest ? [newest] : [] };
+      });
     },
   },
 };
