@@ -30,6 +30,8 @@ Ask the project owner for the values. It needs:
 | `SUPER_USER_SECRET_KEY` | Extra key required for "super user" admin actions. You type it into the box on `/superui/console`. Write any `$` in the value as `\$` |
 | `STRIPE_PRIVATE_KEY` | Billing / checkout |
 | `SEND_GRID_API_KEY` | Sending emails |
+| `SENDGRID_FROM_EMAIL` | Optional. Sender address for emails; must be on a domain verified in SendGrid. Defaults to `noreply@em9019.kidz-n-motion.app` |
+| `SITE_URL` | Optional. Website address used in password-reset links. Defaults to `https://dashboard.kidz-n-motion.app` |
 | `FIREBASE_SERVICE_ACCOUNT` | Push notifications. The whole Firebase service-account JSON on one line |
 | `CLOUDINARY_PUBLIC`, `CLOUDINARY_PRIVATE` | Image uploads |
 | `CRON_SECRET` | Any long random string. Vercel sends it to the daily job so outsiders can't trigger it |
