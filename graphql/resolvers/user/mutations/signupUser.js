@@ -7,10 +7,7 @@ import claimPatient from "../../therapists/mutations/claimPatient";
 import claimPatientFor from "../../therapists/mutations/claimPatientFor";
 
 var CryptoJS = require("crypto-js");
-var sgMail = require("@sendgrid/mail");
 var randomstring = require("randomstring");
-
-sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
 
 export default {
   Mutation: {

@@ -1,6 +1,6 @@
 import prisma from "@utils/prismaDB";
 import { UserInputError, ApolloError } from "apollo-server-errors";
-import sendEmail from "../../../prisma_functions/sendGrid/sendEmail";
+import sendEmail from "../../../prisma_functions/email/sendEmail";
 
 // Where the "reset your password" link points. Set SITE_URL in Vercel if the
 // website moves; it must serve /authentication/reset-password-from-key.
@@ -54,7 +54,7 @@ export default {
       const link = `${SITE_URL}/authentication/reset-password-from-key?key=${resetPasswordKey.id}`;
 
       // Must be awaited: on Vercel the function can be frozen as soon as it
-      // returns, which used to cut the SendGrid request off before it was sent.
+      // returns, which used to cut the email request off before it was sent.
       const sent = await sendEmail(
         true,
         `Reset your Kidz-N-Motion password by opening this link: ${link}\n\nIf you did not request this, you can ignore this email.`,

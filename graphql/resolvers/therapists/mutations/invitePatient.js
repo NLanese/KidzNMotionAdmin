@@ -2,8 +2,7 @@
 import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
 var CryptoJS = require("crypto-js");
-const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+import sendEmail from "../../../prisma_functions/email/sendEmail";
 import { makeRandomString, changeTimeZone } from "@helpers/common";
 // Used for a therpaist to create a
 export default {
@@ -183,8 +182,7 @@ export default {
       });
 
       const msg = {
-        to: baseUser.email, // Change to your recipient
-        from: "noreply@em9019.kidz-n-motion.app", // Change to your verified sender
+        to: baseUser.email, 
         subject: "Kidz-N-Motion Account Activation",
 
         html: `
@@ -203,13 +201,8 @@ export default {
             <strong>If you did not request this account account activation, you can ignore this message</strong>
         `,
       };
-      await sgMail
-        .send(msg)
-        .then(() => {
-        })
-        .catch((error) => {
-          console.error(error.response.body);
-        });
+      // sendEmail logs its own errors and does not throw
+  await sendEmail(true, null, msg.html, msg.to, msg.subject);
       // Return a stringn for th chjild user id or child care plan id
       return childUser.id;
     },

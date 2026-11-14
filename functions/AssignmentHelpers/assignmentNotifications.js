@@ -11,7 +11,7 @@
 
 import prisma from "@utils/prismaDB";
 import { createNotification } from "@helpers/api/notifications";
-import sendEmail from "../../graphql/prisma_functions/sendGrid/sendEmail";
+import sendEmail from "../../graphql/prisma_functions/email/sendEmail";
 
 const MONTHS = {
   jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,

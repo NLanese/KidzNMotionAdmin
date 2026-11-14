@@ -29,8 +29,10 @@ Ask the project owner for the values. It needs:
 | `PASSWORD_SECRET_KEY` | Encrypting stored passwords |
 | `SUPER_USER_SECRET_KEY` | Extra key required for "super user" admin actions. You type it into the box on `/superui/console`. Write any `$` in the value as `\$` |
 | `STRIPE_PRIVATE_KEY` | Billing / checkout |
-| `SEND_GRID_API_KEY` | Sending emails |
-| `SENDGRID_FROM_EMAIL` | Optional. Sender address for emails; must be on a domain verified in SendGrid. Defaults to `noreply@em9019.kidz-n-motion.app` |
+| `SES_AWS_ACCESS_KEY_ID`, `SES_AWS_SECRET_ACCESS_KEY` | Sending emails through Amazon SES. Keys for an IAM user allowed `ses:SendEmail` (Vercel reserves the plain `AWS_*` names, hence the `SES_` prefix) |
+| `SES_AWS_REGION` | Optional. AWS region where the domain is verified in SES. Defaults to `us-east-1` |
+| `EMAIL_FROM` | Optional. Sender address; must be on a domain verified in SES. Defaults to `noreply@kidz-n-motion.app` |
+| `SES_CONFIGURATION_SET` | Optional. SES configuration set name, if you want bounce/complaint tracking |
 | `SITE_URL` | Optional. Website address used in password-reset links. Defaults to `https://dashboard.kidz-n-motion.app` |
 | `FIREBASE_SERVICE_ACCOUNT` | Push notifications. The whole Firebase service-account JSON on one line |
 | `CLOUDINARY_PUBLIC`, `CLOUDINARY_PRIVATE` | Image uploads |
@@ -67,8 +69,7 @@ the repo but nothing sends users there automatically.
 
 Code: `functions/AssignmentHelpers/assignmentNotifications.js`
 
-Alerts go to the therapist by **email** (SendGrid, from
-`no-reply@dashboard.kidz-n-motion.app`) and as a **phone push** if they use the app.
+Alerts go to the therapist by **email** (Amazon SES, from `EMAIL_FROM`) and as a **phone push** if they use the app.
 
 - **Completed:** when a child finishes the last video in an assignment
   (`setVideoCompleted`), the therapist is alerted once.
@@ -110,3 +111,18 @@ npx prisma migrate dev       # create + apply a migration (dev database only)
 | `utils/` | Prisma client, Firebase, date/medal/user helpers |
 
 Imports like `@components/...` or `@helpers/...` are shortcuts defined in `.babelrc`.
+
+## Email (Amazon SES)
+
+All email goes through one helper: `graphql/prisma_functions/email/sendEmail.js`.
+It never throws; it returns `false` and logs `sendEmail:` in Vercel's function logs
+when something goes wrong.
+
+To check the setup from your machine:
+
+```
+node --env-file=.env scripts/test-email.mjs you@example.com
+```
+
+New SES accounts start in the **sandbox** and can only send to addresses you have
+verified in the SES console. Request production access in SES before going live.

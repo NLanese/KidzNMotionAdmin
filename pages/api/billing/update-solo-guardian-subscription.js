@@ -1,8 +1,7 @@
 import { handleAuth } from "@helpers/api/auth";
 import prisma from "@utils/prismaDB";
 
-const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+import sendEmail from "../../../graphql/prisma_functions/email/sendEmail";
 
 export default async function handler(req, res) {
   const body = req.body;
@@ -46,8 +45,7 @@ export default async function handler(req, res) {
     },
   });
   const msg = {
-    to: fullUserObject.email, // Change to your recipient
-    from: "noreply@em9019.kidz-n-motion.app", // Change to your verified sender
+    to: fullUserObject.email, 
     subject: "Welcome To Kidz-N-Motion 😊",
 
     html: `
@@ -63,12 +61,7 @@ export default async function handler(req, res) {
 
     `,
   };
-  await sgMail
-    .send(msg)
-    .then(() => {
-    })
-    .catch((error) => {
-      console.error(error.response.body);
-    });
+  // sendEmail logs its own errors and does not throw
+  await sendEmail(true, null, msg.html, msg.to, msg.subject);
   res.status(200).json({});
 }
