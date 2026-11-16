@@ -163,6 +163,8 @@ const VIDEOS = {
     medicalDescription: "(Balance and coordination)",
   },
 
+  
+
   bear_crawl: {
     level: 2,
     title: "Bear Crawl",
