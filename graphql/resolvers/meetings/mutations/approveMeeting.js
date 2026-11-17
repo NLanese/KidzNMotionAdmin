@@ -1,61 +1,39 @@
 /* eslint-disable import/no-anonymous-default-export */
 import prisma from "@utils/prismaDB";
 import { UserInputError } from "apollo-server-errors";
+import { createNotification } from "@helpers/api/notifications";
 
-// Used to to to edit the pateitn notification settings from the Thereapist
+// Someone invited to a meeting accepts (approveMeeting: true) or declines it.
+// Only invitees can answer, not the person who asked for it.
 export default {
   Mutation: {
-    approveMeeting: async (
-      _,
-      { meetingID, approveMeeting },
-      context
-    ) => {
+    approveMeeting: async (_, { meetingID, approveMeeting }, context) => {
       if (!context.user) throw new UserInputError("Login required");
-      if (context.user.role !== "THERAPIST" && context.user.role !== "GUARDIAN")
-        throw new UserInputError(
-          "Only therapists or guardians can create meetings"
-        );
 
-      // Find the meeting object to determine if the are under the account
-      let meetingToEdit = await prisma.meeting.findUnique({
-        where: {
-          id: meetingID,
-        },
+      const meeting = await prisma.meeting.findUnique({
+        where: { id: meetingID },
         select: {
-          meetingOwnerID: true,
           id: true,
-          meetingDateTime: true
+          title: true,
+          meetingOwnerID: true,
+          meetingDateTime: true,
+          canceled: true,
+          users: { select: { id: true } },
         },
       });
-
-      // If they are not, then return user input error
-      if (!meetingToEdit) {
-        throw new UserInputError("Meeting does not exist");
+      if (!meeting) throw new UserInputError("Meeting does not exist");
+      const invited = meeting.users.some((u) => u.id === context.user.id);
+      if (!invited || meeting.meetingOwnerID === context.user.id) {
+        throw new UserInputError("Only the people invited can answer this meeting request");
       }
-
-
-      // Check to make sure the meeting is not in the past
-      if (new Date(meetingToEdit.meetingDateTime) <= new Date()) {
+      if (meeting.canceled) throw new UserInputError("This meeting was canceled");
+      if (new Date(meeting.meetingDateTime) <= new Date()) {
         throw new UserInputError("Meetings can only be approved or not in the future");
       }
 
-      // Update the meetings approval or not
-      await prisma.meeting.update({
-        where: {
-          id: meetingID,
-        },
-        data: {
-          pendingApproval: false,
-          approved: approveMeeting,
-        },
-      });
-
-
-      // REturn the meeting object
-      let meeting = await prisma.meeting.findUnique({
-        where: {
-          id: meetingID,
-        },
+      const updated = await prisma.meeting.update({
+        where: { id: meetingID },
+        data: { pendingApproval: false, approved: !!approveMeeting },
         select: {
           id: true,
           createdAt: true,
@@ -66,12 +44,21 @@ export default {
           type: true,
           pendingApproval: true,
           approved: true,
-          users: true,
           meetingOwnerID: true,
+          users: { select: { id: true, firstName: true, lastName: true, role: true } },
         },
       });
 
-      return meeting;
+      if (meeting.meetingOwnerID) {
+        await createNotification(
+          `${context.user.firstName} ${approveMeeting ? "accepted" : "declined"} your meeting`,
+          meeting.title || "Meeting",
+          "MEETING_RESPONSE",
+          meeting.meetingOwnerID,
+          context.user.id
+        );
+      }
+      return updated;
     },
   },
 };

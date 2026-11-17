@@ -402,6 +402,8 @@ const typeDefs = gql`
     claimPatient(patientUserID: String!): Boolean
 
     deletePatient(patientUserID: String!): Boolean
+    # Stops working with a client without deleting anything.
+    removeClient(childCarePlanID: String!): Boolean
 
     changeUserNotifications(
       userID: String!

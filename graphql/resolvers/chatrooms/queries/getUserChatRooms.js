@@ -31,6 +31,7 @@ export default {
               },
               users: {
                 select: {
+                  profilePic: true,
                   firstName: true,
                   lastName: true,
                   role: true,

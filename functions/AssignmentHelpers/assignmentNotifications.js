@@ -69,7 +69,7 @@ const assignmentDetails = {
       therapistId: true,
       active: true,
       therapist: { select: { email: true, firstName: true } },
-      child: { select: { id: true, firstName: true, lastName: true } },
+      child: { select: { id: true, firstName: true, lastName: true, assignMuted: true } },
     },
   },
 };
@@ -84,6 +84,9 @@ async function alertTherapist(plan, type, title, body) {
   } catch (err) {
     console.error("Therapist notification failed:", err.message);
   }
+
+  // The therapist muted assignment alerts for this client: no email either.
+  if (plan.child && plan.child.assignMuted) return;
 
   const therapist = plan.therapist;
   if (therapist && therapist.email) {

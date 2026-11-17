@@ -283,6 +283,7 @@ export const getUserObject = async (user) => {
             active: true,
           },
           select: {
+            profilePic: true,
             id: true,
             role: true,
             firstName: true,
@@ -682,6 +683,10 @@ export const getUserObject = async (user) => {
                         guardianId: true,
                         children: {
                           select: {
+                            id: true,
+                            firstName: true,
+                            lastName: true,
+                            childDateOfBirth: true,
                             childCarePlans: {
                               where: {
                                 active: true,

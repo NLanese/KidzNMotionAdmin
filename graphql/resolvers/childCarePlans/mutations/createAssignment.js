@@ -67,6 +67,15 @@ export default {
       }
 
 
+      if (!childCarePlan || !childCarePlan.child) {
+
+
+        throw new UserInputError("Child care plan does not exist");
+
+
+      }
+
+
       let childUser = childCarePlan.child
       let carePlanGuardian = childCarePlan.child.guardian
 
@@ -78,7 +87,7 @@ export default {
 
       ///////////////////////////
       // Valid Care Plan Check //
-      if (childCarePlan.therapist.id !== context.user.id) {
+      if (!childCarePlan.therapist || childCarePlan.therapist.id !== context.user.id) {
         throw new UserInputError("Access denied, you do not appear to be this User's Therapist");
       }
 
@@ -143,13 +152,15 @@ export default {
         context.user.id
       );
 
-      await createNotification(
+      if (carePlanGuardian) {
+        await createNotification(
         `${childUser.firstName} has a New Assignment!`,
         `Due On ${dateFormat(dateDue, "m/dd")}`,
         "NEW_ASSIGNMENT",
         carePlanGuardian.id,
         context.user.id
       );
+      }
 
       return true;
     },
